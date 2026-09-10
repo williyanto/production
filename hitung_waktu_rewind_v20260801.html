@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estimasi Waktu Produksi Kabel v20260801</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="min-h-[100dvh] w-full flex items-center justify-center p-3 sm:p-4 bg-slate-950 text-slate-100 font-sans relative overflow-hidden select-none">
+
+  <!-- Ambient Background Glow -->
+  <div class="absolute -top-20 -left-20 w-72 h-72 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-20 -right-20 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Main Card Component -->
+  <div class="w-full max-w-md max-h-[calc(100dvh-1.5rem)] flex flex-col justify-between bg-slate-900/85 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-5 sm:p-6 shadow-2xl overflow-y-auto relative z-10">
+
+    <!-- Header Section -->
+    <div>
+      <div class="flex items-center justify-between mb-4 border-b border-slate-800/80 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 bg-indigo-500/10 rounded-xl text-indigo-400 border border-indigo-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-lg font-bold text-slate-100 leading-tight">Estimasi Waktu Rewind</h1>
+            <p class="text-xs text-slate-400">Produksi & Rewinding Kabel</p>
+          </div>
+        </div>
+        <span class="text-[10px] font-semibold tracking-wider text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">v20260801</span>
+      </div>
+
+      <!-- Form Inputs -->
+      <form id="kalkulatorForm" class="space-y-3 mb-3">
+        <!-- Panjang Kabel -->
+        <div class="group relative">
+          <label for="panjangKabel" class="block text-xs font-medium text-slate-300 mb-1">Panjang Total Kabel (meter)</label>
+          <div class="relative flex items-center">
+            <span class="absolute left-3 text-slate-400 group-focus-within:text-indigo-400 transition-colors duration-200">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              </svg>
+            </span>
+            <input type="text" inputmode="numeric" id="panjangKabel" placeholder="Contoh: 1.000" required class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 pl-9 pr-3 text-sm font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-200">
+          </div>
+        </div>
+
+        <!-- Kecepatan Mesin -->
+        <div class="group relative">
+          <label for="kecepatanMesin" class="block text-xs font-medium text-slate-300 mb-1">Kecepatan Mesin (m/menit)</label>
+          <div class="relative flex items-center">
+            <span class="absolute left-3 text-slate-400 group-focus-within:text-indigo-400 transition-colors duration-200">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </span>
+            <input type="text" inputmode="decimal" id="kecepatanMesin" placeholder="Contoh: 4,5" required class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 pl-9 pr-3 text-sm font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-200">
+          </div>
+        </div>
+
+        <!-- Switch Continuation -->
+        <div class="flex items-center justify-between p-3 bg-slate-950/40 border border-slate-800/80 rounded-xl cursor-pointer" onclick="toggleSwitchDirect(event)">
+          <span class="text-xs font-medium text-slate-200 select-none">Lanjutkan Produksi Berjalan?</span>
+          <input type="checkbox" id="lanjutkanSwitch" class="w-4 h-4 text-indigo-500 rounded border-slate-700 bg-slate-900 focus:ring-indigo-500 focus:ring-offset-slate-900 cursor-pointer">
+        </div>
+
+        <!-- Sudah Berjalan Input (Hidden by default) -->
+        <div id="lanjutanInputContainer" class="hidden group relative">
+          <label for="sudahBerjalan" class="block text-xs font-medium text-slate-300 mb-1">Sudah Berjalan (meter)</label>
+          <div class="relative flex items-center">
+            <span class="absolute left-3 text-slate-400 group-focus-within:text-indigo-400 transition-colors duration-200">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+              </svg>
+            </span>
+            <input type="text" inputmode="numeric" id="sudahBerjalan" placeholder="Contoh: 100" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 pl-9 pr-3 text-sm font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-200">
+          </div>
+        </div>
+      </form>
+
+      <!-- Output Results Display Card -->
+      <div id="hasilEstimasi" class="hidden"></div>
+    </div>
+
+    <!-- Bottom Actions & Footer -->
+    <div class="mt-4 pt-3 border-t border-slate-800/80">
+      <div class="grid grid-cols-3 gap-2 mb-3">
+        <button type="button" id="kembaliBtn" class="flex items-center justify-center gap-1 py-2.5 px-2 bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-slate-300 font-medium text-xs rounded-xl transition-all duration-150 border border-slate-700/50">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          Kembali
+        </button>
+        <button type="button" id="hapusBtn" class="flex items-center justify-center gap-1 py-2.5 px-2 bg-rose-950/40 hover:bg-rose-900/60 active:scale-95 text-rose-400 font-medium text-xs rounded-xl transition-all duration-150 border border-rose-500/30">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+          Reset
+        </button>
+        <a href="index.html" target="_top" class="flex items-center justify-center gap-1 py-2.5 px-2 bg-indigo-600/90 hover:bg-indigo-500 active:scale-95 text-white font-medium text-xs rounded-xl transition-all duration-150 shadow-lg shadow-indigo-600/20">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          Beranda
+        </a>
+      </div>
+
+      <footer class="text-center">
+        <p class="text-[11px] text-slate-500 font-medium">Williyanto Adi 2026 • v20260801</p>
+      </footer>
+    </div>
+
+  </div>
+
+  <script>
+    const inputPanjang = document.getElementById('panjangKabel');
+    const inputKecepatan = document.getElementById('kecepatanMesin');
+    const lanjutkanSwitch = document.getElementById('lanjutkanSwitch');
+    const lanjutanContainer = document.getElementById('lanjutanInputContainer');
+    const inputSudahBerjalan = document.getElementById('sudahBerjalan');
+    const hasilDiv = document.getElementById('hasilEstimasi');
+    const kembaliBtn = document.getElementById('kembaliBtn');
+    const hapusBtn = document.getElementById('hapusBtn');
+
+    function toggleSwitchDirect(evt) {
+      if (evt.target !== lanjutkanSwitch) {
+        lanjutkanSwitch.checked = !lanjutkanSwitch.checked;
+        lanjutkanSwitch.dispatchEvent(new Event('change'));
+      }
+    }
+
+    function formatAngkaInteger(inputElement) {
+      const start = inputElement.selectionStart;
+      const oldLen = inputElement.value.length;
+      let nilai = inputElement.value.replace(/\D/g, '');
+      inputElement.value = nilai ? Number(nilai).toLocaleString('id-ID') : '';
+      const newLen = inputElement.value.length;
+      const pos = Math.max(0, (start || 0) + (newLen - oldLen));
+      if (inputElement.setSelectionRange) {
+        try { inputElement.setSelectionRange(pos, pos); } catch(e) {}
+      }
+    }
+
+    function formatAngkaDesimal(inputElement) {
+      const start = inputElement.selectionStart;
+      const oldLen = inputElement.value.length;
+      let nilai = inputElement.value;
+      let filteredNilai = nilai.replace(/[^\d,]/g, '');
+      let parts = filteredNilai.split(',');
+      let integerPart = parts[0];
+      let decimalPart = parts.slice(1).join('');
+      let formattedIntegerPart = integerPart.replace(/\D/g, '');
+      if (formattedIntegerPart) {
+        formattedIntegerPart = Number(formattedIntegerPart).toLocaleString('id-ID');
+      } else if (nilai.startsWith(',')) {
+        formattedIntegerPart = '0';
+      }
+      let finalValue = formattedIntegerPart;
+      if (parts.length > 1) {
+        finalValue += ',' + decimalPart;
+      }
+      inputElement.value = finalValue;
+      const newLen = inputElement.value.length;
+      const pos = Math.max(0, (start || 0) + (newLen - oldLen));
+      if (inputElement.setSelectionRange) {
+        try { inputElement.setSelectionRange(pos, pos); } catch(e) {}
+      }
+    }
+
+    function hapusForm() {
+      inputPanjang.value = '';
+      inputKecepatan.value = '';
+      inputSudahBerjalan.value = '';
+      
+      if (lanjutkanSwitch.checked) {
+        lanjutkanSwitch.checked = false;
+        lanjutkanSwitch.dispatchEvent(new Event('change'));
+      }
+      
+      hasilDiv.classList.add('hidden');
+      inputPanjang.focus();
+    }
+
+    inputPanjang.addEventListener('input', () => { formatAngkaInteger(inputPanjang); hitungEstimasi(); });
+    inputKecepatan.addEventListener('input', () => { formatAngkaDesimal(inputKecepatan); hitungEstimasi(); });
+    inputSudahBerjalan.addEventListener('input', () => { formatAngkaInteger(inputSudahBerjalan); hitungEstimasi(); });
+    
+    lanjutkanSwitch.addEventListener('change', () => {
+      if (lanjutkanSwitch.checked) {
+        lanjutanContainer.classList.remove('hidden');
+      } else {
+        lanjutanContainer.classList.add('hidden');
+        inputSudahBerjalan.value = '';
+      }
+      hitungEstimasi();
+    });
+
+    kembaliBtn.addEventListener('click', () => {
+      if (window.top !== window.self && window.parent.closePreviewModal) {
+        window.parent.closePreviewModal();
+      } else {
+        history.back();
+      }
+    });
+    hapusBtn.addEventListener('click', hapusForm);
+
+    function hitungEstimasi() {
+      const panjangTotal = parseFloat(inputPanjang.value.replace(/\./g, '')) || 0;
+      const kecepatanMesin = parseFloat(inputKecepatan.value.replace(/\./g, '').replace(',', '.')) || 0;
+      const sudahBerjalan = parseFloat(inputSudahBerjalan.value.replace(/\./g, '')) || 0;
+
+      let panjangDihitung = panjangTotal;
+      if (lanjutkanSwitch.checked) {
+        panjangDihitung = panjangTotal - sudahBerjalan;
+      }
+
+      if (panjangTotal <= 0 || kecepatanMesin <= 0) {
+        hasilDiv.classList.add('hidden');
+        return;
+      }
+      
+      if (panjangDihitung < 0) {
+        hasilDiv.innerHTML = `<div class="p-3 bg-rose-950/50 border border-rose-500/40 rounded-xl text-center text-xs text-rose-300"><strong>Error:</strong> "Sudah Berjalan" tidak boleh lebih besar dari "Panjang Total Kabel".</div>`;
+        hasilDiv.classList.remove('hidden');
+        return;
+      }
+
+      const waktuMulai = new Date();
+      const totalMenit = panjangDihitung / kecepatanMesin;
+      const durasiMilidetik = totalMenit * 60 * 1000;
+      const waktuSelesai = new Date(waktuMulai.getTime() + durasiMilidetik);
+
+      const jamMulai = String(waktuMulai.getHours()).padStart(2, '0');
+      const menitMulai = String(waktuMulai.getMinutes()).padStart(2, '0');
+      const jamSelesai = String(waktuSelesai.getHours()).padStart(2, '0');
+      const menitSelesai = String(waktuSelesai.getMinutes()).padStart(2, '0');
+
+      const totalMenitRound = Math.round(totalMenit);
+      const jam = Math.floor(totalMenitRound / 60);
+      const sisaMenit = totalMenitRound % 60;
+
+      let hasilTextDurasi = '';
+      if (jam > 0) hasilTextDurasi += `<strong class="text-indigo-300 font-extrabold text-lg">${jam}</strong> jam `;
+      if (sisaMenit > 0) hasilTextDurasi += `<strong class="text-indigo-300 font-extrabold text-lg">${sisaMenit}</strong> menit`;
+      if (totalMenit > 0 && hasilTextDurasi === '') hasilTextDurasi = 'Kurang dari 1 menit.';
+      if (panjangDihitung <= 0 && panjangTotal > 0) hasilTextDurasi = '<strong class="text-emerald-400">Pekerjaan sudah selesai.</strong>';
+      
+      hasilDiv.innerHTML = `
+        <div class="bg-gradient-to-br from-indigo-950/60 via-slate-900 to-slate-950 border border-indigo-500/30 rounded-2xl p-3.5 text-center shadow-lg relative overflow-hidden space-y-2">
+          <span class="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider block">Estimasi Waktu Selesai</span>
+          <div class="text-sm text-slate-200">${hasilTextDurasi}</div>
+          
+          <div class="p-2 bg-slate-950/60 border border-slate-800/80 rounded-xl text-xs text-slate-300">
+            Mulai <strong class="text-indigo-400">${jamMulai}:${menitMulai}</strong> &rarr; Estimasi Selesai <strong class="text-emerald-400">${jamSelesai}:${menitSelesai}</strong>
+          </div>
+
+          <p class="text-[10px] text-slate-400 italic mb-0">(Estimasi sisa ${panjangDihitung.toLocaleString('id-ID')} m dari total ${panjangTotal.toLocaleString('id-ID')} m)</p>
+        </div>`;
+      hasilDiv.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

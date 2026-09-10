@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Generator Angka v20260910</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+</head>
+
+<body
+  class="min-h-[100dvh] w-full flex items-center justify-center p-3 sm:p-4 bg-slate-950 text-slate-100 font-sans relative overflow-hidden select-none">
+
+  <!-- Ambient Glow Background -->
+  <div class="absolute -top-20 -left-20 w-72 h-72 bg-violet-600/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-20 -right-20 w-72 h-72 bg-fuchsia-600/20 rounded-full blur-3xl pointer-events-none">
+  </div>
+
+  <!-- Main Card Component -->
+  <div
+    class="w-full max-w-md max-h-[calc(100dvh-1.5rem)] flex flex-col justify-between bg-slate-900/85 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-5 sm:p-6 shadow-2xl overflow-y-auto relative z-10">
+
+    <!-- Header Section -->
+    <div>
+      <div class="flex items-center justify-between mb-4 border-b border-slate-800/80 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 bg-violet-500/10 rounded-xl text-violet-400 border border-violet-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-lg font-bold text-slate-100 leading-tight">Generator Angka</h1>
+            <p class="text-xs text-slate-400">Random Numbers & Statistics</p>
+          </div>
+        </div>
+        <span
+          class="text-[10px] font-semibold tracking-wider text-violet-400 bg-violet-500/10 px-2.5 py-1 rounded-full border border-violet-500/20">v20260910</span>
+      </div>
+
+      <!-- Form Inputs Grid -->
+      <form id="generator-form" class="space-y-3 mb-4">
+        <div class="grid grid-cols-2 gap-2.5">
+          <div class="group relative">
+            <label for="nilaiTerkecil" class="block text-[11px] font-medium text-slate-300 mb-1">Batas Bawah</label>
+            <input type="text" inputmode="decimal" id="nilaiTerkecil" placeholder="Contoh: 1"
+              class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
+          </div>
+          <div class="group relative">
+            <label for="nilaiTerbesar" class="block text-[11px] font-medium text-slate-300 mb-1">Batas Atas</label>
+            <input type="text" inputmode="decimal" id="nilaiTerbesar" placeholder="Contoh: 100"
+              class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
+          </div>
+          <div class="group relative">
+            <label for="banyaknya" class="block text-[11px] font-medium text-slate-300 mb-1">Jumlah Angka</label>
+            <input type="text" inputmode="numeric" id="banyaknya" placeholder="Contoh: 50"
+              class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
+          </div>
+          <div class="group relative">
+            <label for="jumlahDigit" class="block text-[11px] font-medium text-slate-300 mb-1">Digit Desimal</label>
+            <input type="text" inputmode="numeric" id="jumlahDigit" placeholder="Contoh: 3"
+              class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
+          </div>
+        </div>
+
+        <div class="group relative">
+          <div class="flex items-center justify-between mb-1">
+            <label for="targetRataRata" class="block text-[11px] font-medium text-slate-300">Target Rata-Rata <span
+                class="text-slate-500 font-normal">(Opsional)</span></label>
+            <span class="text-[10px] text-violet-400 font-semibold">Auto Balance</span>
+          </div>
+          <input type="text" inputmode="decimal" id="targetRataRata"
+            placeholder="Contoh: 85.50 (Kosongkan jika acak murni)"
+            class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
+        </div>
+
+        <!-- Form Action Buttons -->
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button type="submit" id="tombolEksekusi"
+            class="w-full py-2.5 px-3 bg-violet-600 hover:bg-violet-500 active:scale-95 text-white font-semibold text-xs rounded-xl transition-all duration-150 shadow-lg shadow-violet-600/25 flex items-center justify-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Generate
+          </button>
+          <button type="button" id="tombolReset"
+            class="w-full py-2.5 px-3 bg-slate-800 hover:bg-rose-900/40 hover:text-rose-400 border border-slate-700/60 active:scale-95 text-slate-300 font-semibold text-xs rounded-xl transition-all duration-150 flex items-center justify-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Reset
+          </button>
+        </div>
+      </form>
+
+      <!-- Output & Results Section -->
+      <div id="hasilFooter" class="hidden space-y-3 pt-2 border-t border-slate-800/80">
+        <!-- Stats Summary Grid -->
+        <div class="grid grid-cols-3 gap-2 text-center bg-slate-950/50 p-2.5 rounded-xl border border-slate-800/80">
+          <div>
+            <span class="block text-[10px] text-slate-400 font-medium mb-0.5">Terkecil</span>
+            <span id="hasilMin" class="text-xs font-extrabold text-rose-400 block">---</span>
+          </div>
+          <div>
+            <span class="block text-[10px] text-slate-400 font-medium mb-0.5">Rata-Rata</span>
+            <span id="hasilRataRata" class="text-xs font-extrabold text-emerald-400 block">---</span>
+          </div>
+          <div>
+            <span class="block text-[10px] text-slate-400 font-medium mb-0.5">Terbesar</span>
+            <span id="hasilMax" class="text-xs font-extrabold text-sky-400 block">---</span>
+          </div>
+        </div>
+
+        <!-- List Toolbar -->
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-slate-300">Daftar Hasil:</span>
+          <div class="flex gap-1.5">
+            <button id="tombolSalin"
+              class="hidden py-1 px-2.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-medium text-[11px] rounded-lg transition-all border border-slate-700/60 flex items-center gap-1">
+              <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              Salin
+            </button>
+            <button id="tombolUnduh"
+              class="hidden py-1 px-2.5 bg-emerald-600/80 hover:bg-emerald-500 active:scale-95 text-white font-medium text-[11px] rounded-lg transition-all shadow-sm flex items-center gap-1">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Excel
+            </button>
+          </div>
+        </div>
+
+        <!-- Generated Numbers Container -->
+        <div id="hasilGenerator"
+          class="max-h-36 overflow-y-auto p-2 bg-slate-950/80 border border-slate-800/80 rounded-xl grid grid-cols-2 gap-1.5 text-xs font-mono">
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Actions & Footer -->
+    <div class="mt-4 pt-3 border-t border-slate-800/80">
+      <div class="grid grid-cols-2 gap-2 mb-3">
+        <button
+          onclick="if(window.top!==window.self&&window.parent.closePreviewModal){window.parent.closePreviewModal();}else{history.back();}"
+          class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-slate-300 font-medium text-xs rounded-xl transition-all duration-150 border border-slate-700/50">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Kembali
+        </button>
+        <a href="index.html" target="_top"
+          class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-violet-600/90 hover:bg-violet-500 active:scale-95 text-white font-medium text-xs rounded-xl transition-all duration-150 shadow-lg shadow-violet-600/20">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          Beranda
+        </a>
+      </div>
+
+      <footer class="text-center">
+        <p class="text-[11px] text-slate-500 font-medium">Williyanto Adi 2026 • v20260910</p>
+      </footer>
+    </div>
+
+  </div>
+
+  <script>
+    let generatedNumbers = [];
+
+    function validateDecimal(event) {
+      const input = event.target;
+      let value = input.value.replace(/,/g, '.').replace(/[^\d.]/g, '');
+      const parts = value.split('.');
+      if (parts.length > 2) {
+        value = parts[0] + '.' + parts.slice(1).join('');
+      }
+      input.value = value;
+    }
+
+    function validateInteger(event) {
+      const input = event.target;
+      input.value = input.value.replace(/[^\d]/g, '');
+    }
+
+    document.getElementById('nilaiTerkecil').addEventListener('input', validateDecimal);
+    document.getElementById('nilaiTerbesar').addEventListener('input', validateDecimal);
+    document.getElementById('targetRataRata').addEventListener('input', validateDecimal);
+    document.getElementById('banyaknya').addEventListener('input', validateInteger);
+    document.getElementById('jumlahDigit').addEventListener('input', validateInteger);
+
+    function copyToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+      } else {
+        let textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        return new Promise((res, rej) => {
+          document.execCommand('copy') ? res() : rej();
+          textArea.remove();
+        });
+      }
+    }
+
+    document.getElementById('generator-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const nilaiMin = parseFloat(document.getElementById('nilaiTerkecil').value);
+      const nilaiMax = parseFloat(document.getElementById('nilaiTerbesar').value);
+      const jumlahAngka = parseInt(document.getElementById('banyaknya').value);
+      const jumlahDigit = parseInt(document.getElementById('jumlahDigit').value);
+      const targetStr = document.getElementById('targetRataRata').value.trim();
+      const hasTarget = targetStr !== '';
+      const targetRataRata = parseFloat(targetStr);
+
+      const hasilContainer = document.getElementById('hasilGenerator');
+      const hasilRataRataContainer = document.getElementById('hasilRataRata');
+      const hasilMinContainer = document.getElementById('hasilMin');
+      const hasilMaxContainer = document.getElementById('hasilMax');
+      const hasilFooter = document.getElementById('hasilFooter');
+      const tombolSalin = document.getElementById('tombolSalin');
+      const tombolUnduh = document.getElementById('tombolUnduh');
+
+      tombolSalin.classList.add('hidden');
+      tombolUnduh.classList.add('hidden');
+
+      if (isNaN(nilaiMin) || isNaN(nilaiMax) || isNaN(jumlahAngka) || isNaN(jumlahDigit) || jumlahAngka <= 0 || nilaiMin >= nilaiMax || jumlahDigit < 0) {
+        hasilFooter.classList.remove('hidden');
+        hasilContainer.innerHTML = '<span class="text-rose-400 p-2 col-span-2 text-center text-xs">Input tidak valid! Periksa kembali angka dan digit.</span>';
+        hasilMinContainer.textContent = '---';
+        hasilRataRataContainer.textContent = '---';
+        hasilMaxContainer.textContent = '---';
+        generatedNumbers = [];
+        return;
+      }
+
+      if (hasTarget) {
+        if (isNaN(targetRataRata) || targetRataRata < nilaiMin || targetRataRata > nilaiMax) {
+          hasilFooter.classList.remove('hidden');
+          hasilContainer.innerHTML = `<span class="text-rose-400 p-2 col-span-2 text-center text-xs font-semibold">Target Rata-Rata (${isNaN(targetRataRata) ? targetStr : targetRataRata}) harus berada di antara Batas Bawah (${nilaiMin}) dan Batas Atas (${nilaiMax})!</span>`;
+          hasilMinContainer.textContent = '---';
+          hasilRataRataContainer.textContent = '---';
+          hasilMaxContainer.textContent = '---';
+          generatedNumbers = [];
+          return;
+        }
+      }
+
+      hasilFooter.classList.remove('hidden');
+
+      let hasilAngka = [];
+
+      if (!hasTarget) {
+        let totalAngka = 0;
+        for (let i = 0; i < jumlahAngka; i++) {
+          const angkaAcak = Math.random() * (nilaiMax - nilaiMin) + nilaiMin;
+          const valStr = angkaAcak.toFixed(jumlahDigit);
+          hasilAngka.push(valStr);
+          totalAngka += parseFloat(valStr);
+        }
+      } else {
+        // Targeted average algorithm with exact discrete rounding balance
+        let arr = [];
+        const spread = Math.min(targetRataRata - nilaiMin, nilaiMax - targetRataRata);
+        for (let i = 0; i < jumlahAngka; i++) {
+          const noise = (Math.random() * 2 - 1) * spread * 0.75;
+          let val = targetRataRata + noise;
+          val = Math.max(nilaiMin, Math.min(nilaiMax, val));
+          arr.push(val);
+        }
+
+        const targetSum = jumlahAngka * targetRataRata;
+        for (let iter = 0; iter < 200; iter++) {
+          const currentSum = arr.reduce((a, b) => a + b, 0);
+          const diff = targetSum - currentSum;
+          if (Math.abs(diff) < 1e-9) break;
+
+          const step = diff / jumlahAngka;
+          let possibleToAdjust = false;
+          for (let i = 0; i < jumlahAngka; i++) {
+            const oldVal = arr[i];
+            const newVal = Math.max(nilaiMin, Math.min(nilaiMax, oldVal + step));
+            if (newVal !== oldVal) possibleToAdjust = true;
+            arr[i] = newVal;
+          }
+          if (!possibleToAdjust) break;
+        }
+
+        let formatted = arr.map(v => parseFloat(v.toFixed(jumlahDigit)));
+
+        const factor = Math.pow(10, jumlahDigit);
+        const stepVal = 1 / factor;
+        const targetSumInt = Math.round(targetSum * factor);
+        let currentSumInt = Math.round(formatted.reduce((a, b) => a + b, 0) * factor);
+        let diffInt = targetSumInt - currentSumInt;
+
+        let indices = Array.from({ length: jumlahAngka }, (_, i) => i);
+        for (let i = indices.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [indices[i], indices[j]] = [indices[j], indices[i]];
+        }
+
+        let ptr = 0;
+        let maxAttempts = 10000;
+        while (diffInt !== 0 && maxAttempts > 0) {
+          maxAttempts--;
+          const idx = indices[ptr % jumlahAngka];
+          ptr++;
+          if (diffInt > 0) {
+            if (formatted[idx] + stepVal <= nilaiMax + 1e-9) {
+              formatted[idx] = parseFloat((formatted[idx] + stepVal).toFixed(jumlahDigit));
+              diffInt--;
+            }
+          } else if (diffInt < 0) {
+            if (formatted[idx] - stepVal >= nilaiMin - 1e-9) {
+              formatted[idx] = parseFloat((formatted[idx] - stepVal).toFixed(jumlahDigit));
+              diffInt++;
+            }
+          }
+        }
+
+        hasilAngka = formatted.map(v => v.toFixed(jumlahDigit));
+      }
+
+      generatedNumbers = [...hasilAngka];
+
+      const numericArr = hasilAngka.map(Number);
+      const totalSum = numericArr.reduce((a, b) => a + b, 0);
+      const rataRata = totalSum / jumlahAngka;
+
+      let nilaiMinHasil = numericArr[0];
+      let nilaiMaxHasil = numericArr[0];
+      for (let j = 1; j < numericArr.length; j++) {
+        if (numericArr[j] < nilaiMinHasil) nilaiMinHasil = numericArr[j];
+        if (numericArr[j] > nilaiMaxHasil) nilaiMaxHasil = numericArr[j];
+      }
+
+      hasilRataRataContainer.innerHTML = hasTarget ? `${rataRata.toFixed(jumlahDigit)} <span class="text-[9px] text-violet-400 font-bold bg-violet-500/20 px-1 py-0.5 rounded border border-violet-500/30">🎯 Target</span>` : rataRata.toFixed(jumlahDigit);
+      hasilMinContainer.textContent = nilaiMinHasil.toFixed(jumlahDigit);
+      hasilMaxContainer.textContent = nilaiMaxHasil.toFixed(jumlahDigit);
+
+      hasilContainer.innerHTML = '';
+      hasilAngka.forEach((angka, index) => {
+        const item = document.createElement('div');
+        item.className = 'flex items-center justify-between p-1.5 bg-slate-900/90 rounded border border-slate-800/60';
+        item.innerHTML = `<span class="text-slate-500 text-[10px]">${index + 1}.</span><span class="font-bold text-slate-200">${angka}</span>`;
+        hasilContainer.appendChild(item);
+      });
+
+      if (generatedNumbers.length > 0) {
+        tombolSalin.classList.remove('hidden');
+        tombolUnduh.classList.remove('hidden');
+      }
+    });
+
+    document.getElementById('tombolReset').addEventListener('click', function () {
+      document.getElementById('nilaiTerkecil').value = '';
+      document.getElementById('nilaiTerbesar').value = '';
+      document.getElementById('banyaknya').value = '';
+      document.getElementById('jumlahDigit').value = '';
+      document.getElementById('targetRataRata').value = '';
+      document.getElementById('hasilFooter').classList.add('hidden');
+      generatedNumbers = [];
+    });
+
+    document.getElementById('tombolSalin').addEventListener('click', function () {
+      if (generatedNumbers.length === 0) return;
+      const textToCopy = generatedNumbers.join('\n');
+      copyToClipboard(textToCopy).then(() => {
+        this.innerHTML = `Disalin!`;
+        this.classList.add('bg-emerald-600', 'text-white');
+        setTimeout(() => {
+          this.innerHTML = `<svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Salin`;
+          this.classList.remove('bg-emerald-600', 'text-white');
+        }, 2000);
+      }).catch(err => {
+        alert('Gagal menyalin teks.');
+      });
+    });
+
+    document.getElementById('tombolUnduh').addEventListener('click', function () {
+      if (generatedNumbers.length === 0) return;
+      const data = [
+        ["No", "Angka"],
+        ...generatedNumbers.map((angka, index) => [index + 1, parseFloat(angka)])
+      ];
+      const ws = XLSX.utils.aoa_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Hasil Angka");
+      XLSX.writeFile(wb, "HasilGenerateAngka.xlsx");
+    });
+  </script>
+</body>
+
+</html>

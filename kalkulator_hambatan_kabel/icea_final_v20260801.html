@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="id" class="transition-all duration-300">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Hambatan Konduktor ICEA</title>
+    <link rel="icon" type="image/png" href="../icons/logo_icea.png"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        select { background-image: none !important; }
+    </style>
+</head>
+<body class="bg-gradient-to-tr from-slate-100 via-green-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-center items-center py-2 px-3 overflow-x-hidden transition-colors duration-300">
+
+    <!-- Ambient Background -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
+        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-green-400 blur-[100px] animate-pulse"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-teal-400 blur-[100px] animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-5 transition-all duration-300 flex flex-col w-full max-h-[calc(100dvh-1rem)] my-auto overflow-hidden">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white shadow-md shadow-green-200 dark:shadow-none">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Kalkulator Hambatan</h1>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">ICEA S-66-524 Standard</p>
+                </div>
+            </div>
+            <button id="theme-toggle" type="button" class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">
+                <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Segmented Standard Switcher -->
+        <div class="grid grid-cols-4 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl my-2 border border-slate-200/20 dark:border-slate-700/20">
+            <a href="./iec_final_v20260801.html" class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-800/50">
+                IEC
+            </a>
+            <a href="./icea_final_v20260801.html" class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30">
+                ICEA
+            </a>
+            <a href="./as_final_v20260801.html" class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-800/50">
+                AS/NZS
+            </a>
+            <a href="./spln_final_v20260801.html" class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-800/50">
+                SPLN
+            </a>
+        </div>
+
+        <!-- Inputs container -->
+        <div class="space-y-3 flex-1 flex flex-col justify-between my-1 overflow-y-auto scrollbar-none">
+            
+            <!-- Mode Selector Toggle -->
+            <div class="flex p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl mb-1 border border-slate-200/20 dark:border-slate-700/20">
+                <button type="button" id="modeHambatanBtn" class="flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30">
+                    ⚡ Hitung Hambatan
+                </button>
+                <button type="button" id="modePanjangBtn" class="flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
+                    📏 Estimasi Panjang
+                </button>
+            </div>
+
+            <!-- Group 1: Parameter Pengukuran -->
+            <div>
+                <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-1.5">Parameter Pengukuran</span>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="relative group">
+                        <label for="pembacaanAlat" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pembacaan (mΩ)</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-green-500 transition-colors">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>
+                            </div>
+                            <input type="text" inputmode="decimal" name="pembacaanAlat" id="pembacaanAlat" class="pl-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold" placeholder="mili ohm">
+                        </div>
+                    </div>
+                    <div class="relative group">
+                        <label id="labelPanjang" for="panjang" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Panjang (feet)</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-green-500 transition-colors">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                            </div>
+                            <input type="text" inputmode="decimal" name="panjang" id="panjang" class="pl-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold" placeholder="feet">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group 2: Kondisi & Faktor Koreksi -->
+            <div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="relative group">
+                        <label for="suhu" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Suhu (°C)</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-green-500 transition-colors">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z" /></svg>
+                            </div>
+                            <input type="text" inputmode="decimal" name="suhu" id="suhu" class="pl-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold" placeholder="celsius">
+                        </div>
+                    </div>
+                    <div class="relative group">
+                        <label for="faktorKoreksi" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Faktor Koreksi</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                            </div>
+                            <input type="text" name="faktorKoreksi" id="faktorKoreksi" readonly class="pl-9 block w-full px-3 py-2 bg-slate-100/75 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 dark:text-slate-400 focus:outline-none transition-all font-mono text-xs font-bold" placeholder="-">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group 3: Spesifikasi Kabel -->
+            <div>
+                <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-1.5">Spesifikasi Kabel</span>
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="relative group">
+                        <label for="konduktor" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Penghantar</label>
+                        <div class="relative">
+                            <select id="konduktor" name="konduktor" class="appearance-none block w-full pl-3 pr-7 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-bold">
+                                <option>CU</option>
+                                <option>AL</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400 dark:text-slate-500">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <label for="penampang" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Penampang</label>
+                        <div class="relative">
+                            <select id="penampang" name="penampang" class="appearance-none block w-full pl-3 pr-7 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-bold">
+                                <option value="8">8 AWG</option>
+                                <option value="7">7 AWG</option>
+                                <option value="6">6 AWG</option>
+                                <option value="5">5 AWG</option>
+                                <option value="4">4 AWG</option>
+                                <option value="3">3 AWG</option>
+                                <option value="2">2 AWG</option>
+                                <option value="1">1 AWG</option>
+                                <option value="1/0">1/0 AWG</option>
+                                <option value="2/0">2/0 AWG</option>
+                                <option value="3/0">3/0 AWG</option>
+                                <option value="4/0">4/0 AWG</option>
+                                <option value="250">250 KCMIL</option>
+                                <option value="300">300 KCMIL</option>
+                                <option value="350">350 KCMIL</option>
+                                <option value="400">400 KCMIL</option>
+                                <option value="450">450 KCMIL</option>
+                                <option value="500">500 KCMIL</option>
+                                <option value="550">550 KCMIL</option>
+                                <option value="600">600 KCMIL</option>
+                                <option value="650">650 KCMIL</option>
+                                <option value="700">700 KCMIL</option>
+                                <option value="750">750 KCMIL</option>
+                                <option value="800">800 KCMIL</option>
+                                <option value="900">900 KCMIL</option>
+                                <option value="1000">1000 KCMIL</option>
+                                <option value="1100">1100 KCMIL</option>
+                                <option value="1200">1200 KCMIL</option>
+                                <option value="1250">1250 KCMIL</option>
+                                <option value="1300">1300 KCMIL</option>
+                                <option value="1400">1400 KCMIL</option>
+                                <option value="1500">1500 KCMIL</option>
+                                <option value="1600">1600 KCMIL</option>
+                                <option value="1700">1700 KCMIL</option>
+                                <option value="1750">1750 KCMIL</option>
+                                <option value="1800">1800 KCMIL</option>
+                                <option value="1900">1900 KCMIL</option>
+                                <option value="2000">2000 KCMIL</option>
+                                <option value="2500">2500 KCMIL</option>
+                                <option value="3000">3000 KCMIL</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400 dark:text-slate-500">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <label for="spekMax" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Spek. Maks</label>
+                        <input type="text" name="spekMax" id="spekMax" readonly class="block w-full px-2 py-2 bg-slate-100/70 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 dark:text-slate-400 focus:outline-none transition-all font-mono text-xs font-bold text-center" placeholder="-">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spek Tabel Info Banner -->
+            <div class="text-center text-[10px] text-slate-500 dark:text-slate-400 font-semibold bg-slate-100/60 dark:bg-slate-800/30 py-1 px-2 rounded-lg border border-slate-200/40 dark:border-slate-700/30">
+                Spek sesuai tabel: <span id="spekTabel" class="font-bold font-mono text-slate-700 dark:text-slate-200">-</span>
+            </div>
+
+            <!-- Dynamic Result Card -->
+            <div id="resultCard" class="transition-all duration-300 rounded-2xl p-4 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1">
+                <div class="absolute -right-10 -bottom-10 w-24 h-24 rounded-full bg-green-500/5 blur-xl pointer-events-none"></div>
+                
+                <div class="w-full flex items-center justify-between mb-1">
+                    <span id="resultTitle" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Hasil Kalkulasi</span>
+                    <div id="statusIcon" class="hidden"></div>
+                </div>
+                
+                <div class="my-auto py-1 w-full">
+                    <input type="text" name="hasilKalkulasi" id="hasilKalkulasi" readonly class="w-full text-center bg-transparent border-none focus:outline-none focus:ring-0 font-extrabold text-3xl sm:text-4xl text-slate-750 dark:text-slate-250 transition-colors duration-300 py-0" placeholder="---">
+                    <span id="resultUnit" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mt-1">Ohm / Kilo-Feet (Ω/kfeet)</span>
+                </div>
+                
+                <p id="pesanHasil" class="text-center text-xs font-semibold leading-snug min-h-[1.1rem] transition-colors duration-300 mt-auto"></p>
+            </div>
+            
+            <!-- Controls Menu -->
+            <div class="grid grid-cols-3 gap-3 pt-1">
+                <button type="button" onclick="history.back()" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                    Kembali
+                </button>
+                <button type="button" id="hapusBtn" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-transparent rounded-xl text-xs font-bold text-white bg-rose-500 hover:bg-rose-600 active:scale-95 transition-all shadow-md shadow-rose-100 dark:shadow-none">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    Hapus
+                </button>
+                <a href="../index.html" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                    Beranda
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-2 pt-2 border-t border-slate-100 dark:border-slate-800 font-medium">
+            Williyanto Adi 2025
+        </footer>
+
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // ICEA: suhu referensi 25°C
+        const correctionFactors = {
+            CU: {
+                "0": "1.107", "1": "1.102", "2": "1.098", "3": "1.093", "4": "1.089",
+                "5": "1.084", "6": "1.079", "7": "1.075", "8": "1.070", "9": "1.066",
+                "10": "1.061", "11": "1.057", "12": "1.053", "13": "1.048", "14": "1.044",
+                "15": "1.040", "16": "1.036", "17": "1.032", "18": "1.028", "19": "1.024",
+                "20": "1.020", "21": "1.016", "22": "1.012", "23": "1.008", "24": "1.004",
+                "25": "1.000", "26": "0.996", "27": "0.992", "28": "0.987", "29": "0.985",
+                "30": "0.981", "31": "0.977", "32": "0.974", "33": "0.970", "34": "0.967",
+                "35": "0.963", "36": "0.959", "37": "0.956", "38": "0.952", "39": "0.948",
+                "40": "0.944"
+            },
+            AL: {
+                "0": "1.110", "1": "1.105", "2": "1.100", "3": "1.095", "4": "1.090",
+                "5": "1.085", "6": "1.081", "7": "1.076", "8": "1.072", "9": "1.067",
+                "10": "1.063", "11": "1.059", "12": "1.054", "13": "1.050", "14": "1.045",
+                "15": "1.041", "16": "1.037", "17": "1.033", "18": "1.028", "19": "1.024",
+                "20": "1.020", "21": "1.016", "22": "1.012", "23": "1.018", "24": "1.014",
+                "25": "1.000", "26": "0.996", "27": "0.992", "28": "0.989", "29": "0.985",
+                "30": "0.981", "31": "0.977", "32": "0.973", "33": "0.970", "34": "0.966",
+                "35": "0.962", "36": "0.955", "37": "0.947", "38": "0.940", "39": "0.932",
+                "40": "0.925"
+            }
+        };
+
+        // Spek Maksimum (ICEA) basis Ω/kfeet
+        const specMaxValues = {
+            CU: {
+                "8": "0,66504", "7": "0,52938", "6": "0,41922", "5": "0,33150", "4": "0,26316", "3": "0,20910", "2": "0,16524", "1": "0,13158", "1/0": "0,10404", "2/0": "0,08262", "3/0": "0,06548", "4/0": "0,05202", "250": "0,04396", "300": "0,03672", "350": "0,03142", "400": "0,02744", "450": "0,02448", "500": "0,02203", "550": "0,01999", "600": "0,01836", "650": "0,01693", "700": "0,01571", "750": "0,01469", "800": "0,01377", "900": "0,01224", "1000": "0,01102", "1100": "0,01001", "1200": "0,00917", "1250": "0,00880", "1300": "0,00847", "1400": "0,00786", "1500": "0,00733", "1600": "0,00687", "1700": "0,00647", "1750": "0,00628", "1800": "0,00611", "1900": "0,00579", "2000": "0,00550", "2500": "0,00445", "3000": "0,00370"
+            },
+            AL: {
+                "8": "1,09140", "7": "0,86802", "6": "0,68850", "5": "0,54468", "4": "0,43248", "3": "0,34068", "2": "0,27132", "1": "0,21522", "1/0": "0,17136", "2/0": "0,13566", "3/0": "0,10710", "4/0": "0,08527", "250": "0,07211", "300": "0,06018", "350": "0,05151", "400": "0,04508", "450": "0,04009", "500": "0,03611", "550": "0,03274", "600": "0,03009", "650": "0,02774", "700": "0,02581", "750": "0,02407", "800": "0,02254", "900": "0,01999", "1000": "0,01805", "1100": "0,01642", "1200": "0,01499", "1250": "0,01438", "1300": "0,01387", "1400": "0,01285", "1500": "0,01204", "1600": "0,01132", "1700": "0,01061", "1750": "0,01030", "1800": "0,01002", "1900": "0,00950", "2000": "0,00903", "2500": "0,00729", "3000": "0,00608"
+            }
+        };
+
+        // Spek Sesuai Tabel (nilai tabel langsung)
+        const specSesuaiTabelValues = {
+            CU: {
+                "8": "0,652", "7": "0,519", "6": "0,411", "5": "0,325", "4": "0,258", "3": "0,205", "2": "0,162", "1": "0,129", "1/0": "0,102", "2/0": "0,0810", "3/0": "0,0642", "4/0": "0,0510", "250": "0,0431", "300": "0,0360", "350": "0,0308", "400": "0,0269", "450": "0,0240", "500": "0,0216", "550": "0,0196", "600": "0,0180", "650": "0,0166", "700": "0,0154", "750": "0,0144", "800": "0,0135", "900": "0,0120", "1000": "0,0108", "1100": "0,00981", "1200": "0,00899", "1250": "0,00863", "1300": "0,00830", "1400": "0,00771", "1500": "0,00719", "1600": "0,00674", "1700": "0,00634", "1750": "0,00616", "1800": "0,00599", "1900": "0,00568", "2000": "0,00539", "2500": "0,00436", "3000": "0,00363"
+            },
+            AL: {
+                "8": "1,07", "7": "0,851", "6": "0,675", "5": "0,534", "4": "0,424", "3": "0,334", "2": "0,266", "1": "0,211", "1/0": "0,168", "2/0": "0,133", "3/0": "0,105", "4/0": "0,0836", "250": "0,0707", "300": "0,0590", "350": "0,0505", "400": "0,0442", "450": "0,0393", "500": "0,0354", "550": "0,0321", "600": "0,0295", "650": "0,0272", "700": "0,0253", "750": "0,0236", "800": "0,0221", "900": "0,0196", "1000": "0,0177", "1100": "0,0161", "1200": "0,0147", "1250": "0,0141", "1300": "0,0136", "1400": "0,0126", "1500": "0,0118", "1600": "0,0111", "1700": "0,0104", "1750": "0,0101", "1800": "0,00982", "1900": "0,00931", "2000": "0,00885", "2500": "0,00715", "3000": "0,00596"
+            }
+        };
+
+        // DOM elements
+        const pembacaanAlatInput = document.getElementById('pembacaanAlat');
+        const panjangInput = document.getElementById('panjang');
+        const suhuInput = document.getElementById('suhu');
+        const faktorKoreksiInput = document.getElementById('faktorKoreksi');
+        const konduktorSelect = document.getElementById('konduktor');
+        const penampangSelect = document.getElementById('penampang');
+        const spekMaxInput = document.getElementById('spekMax');
+        const hasilKalkulasiInput = document.getElementById('hasilKalkulasi');
+        const pesanHasil = document.getElementById('pesanHasil');
+        const spekTabelSpan = document.getElementById('spekTabel');
+        const hapusBtn = document.getElementById('hapusBtn');
+
+        function validateNumericInput(event) {
+            let val = event.target.value.replace(/,/g, '.');
+            const parts = val.split('.');
+            if (parts.length > 2) val = parts[0] + '.' + parts.slice(1).join('');
+            event.target.value = val.replace(/[^0-9.]/g, '');
+        }
+
+        let currentMode = 'hambatan';
+
+        function hitungHasil() {
+            hasilKalkulasiInput.classList.remove('text-green-500', 'text-red-500', 'text-green-600', 'dark:text-green-400', 'text-slate-750', 'dark:text-slate-250');
+            pesanHasil.className = 'text-center text-xs font-semibold leading-snug min-h-[1.1rem] transition-colors duration-300 mt-auto';
+            pesanHasil.innerText = '';
+
+            if (currentMode === 'panjang') {
+                const pembacaan = parseFloat(pembacaanAlatInput.value.replace(',', '.'));
+                const acuan = parseFloat(panjangInput.value.replace(',', '.'));
+                const koreksi = parseFloat(faktorKoreksiInput.value.replace(',', '.'));
+                
+                if (!isNaN(pembacaan) && !isNaN(acuan) && !isNaN(koreksi) && acuan !== 0) {
+                    const estimasiFeet = (pembacaan * koreksi) / acuan;
+                    const estimasiMeter = estimasiFeet * 0.3048;
+                    hasilKalkulasiInput.value = estimasiFeet.toFixed(2);
+                    hasilKalkulasiInput.classList.add('text-green-600', 'dark:text-green-400');
+                    
+                    pesanHasil.innerText = `Setara dengan ${estimasiMeter.toFixed(2)} Meter (${(estimasiMeter/1000).toFixed(3)} km).`;
+                    pesanHasil.classList.add('text-emerald-600', 'dark:text-emerald-400');
+                } else {
+                    hasilKalkulasiInput.value = '';
+                    hasilKalkulasiInput.classList.add('text-slate-750', 'dark:text-slate-250');
+                }
+                updateResultCardVisuals();
+                return;
+            }
+
+            const pembacaan = parseFloat(pembacaanAlatInput.value.replace(',', '.'));
+            const panjang = parseFloat(panjangInput.value.replace(',', '.'));
+            const koreksi = parseFloat(faktorKoreksiInput.value.replace(',', '.'));
+
+            if (!isNaN(pembacaan) && !isNaN(panjang) && !isNaN(koreksi) && panjang !== 0) {
+                const hasil = (pembacaan / panjang) * koreksi;
+                hasilKalkulasiInput.value = hasil.toFixed(4);
+
+                const spekMaxRaw = spekMaxInput.value.trim();
+                const spekMax = parseFloat(spekMaxRaw.replace(',', '.'));
+
+                if (!isNaN(spekMax)) {
+                    if (hasil <= spekMax) {
+                        hasilKalkulasiInput.classList.add('text-green-500');
+                        pesanHasil.innerText = 'Hasil pengujian memenuhi spesifikasi standar.';
+                        pesanHasil.classList.add('text-green-600', 'dark:text-green-400');
+                    } else {
+                        hasilKalkulasiInput.classList.add('text-red-500');
+                        pesanHasil.innerText = 'Hasil pengujian tidak memenuhi spesifikasi standar.';
+                        pesanHasil.classList.add('text-rose-600', 'dark:text-rose-400');
+                    }
+                }
+            } else {
+                hasilKalkulasiInput.value = '';
+                hasilKalkulasiInput.classList.add('text-slate-750', 'dark:text-slate-250');
+            }
+            updateResultCardVisuals();
+        }
+
+        function updateFaktorKoreksi() {
+            const suhuValueRaw = suhuInput.value.replace(',', '.');
+            const suhuNumber = parseFloat(suhuValueRaw);
+            faktorKoreksiInput.value = '';
+            if (!isNaN(suhuNumber)) {
+                const suhuKey = String(Math.round(suhuNumber));
+                const konduktorValue = konduktorSelect.value;
+                const currentFactors = correctionFactors[konduktorValue];
+                if (currentFactors && currentFactors[suhuKey]) {
+                    faktorKoreksiInput.value = currentFactors[suhuKey];
+                } else {
+                    // Fallback formula ICEA: basis 25°C, alpha = 0.00393 (CU) / 0.00403 (AL)
+                    const alpha = (konduktorValue === 'AL') ? 0.00403 : 0.00393;
+                    const factor = (1 + alpha * 25) / (1 + alpha * suhuNumber);
+                    if (factor > 0) faktorKoreksiInput.value = factor.toFixed(4);
+                }
+            }
+            hitungHasil();
+        }
+
+        function updateSpekMax() {
+            const konduktorValue = konduktorSelect.value;
+            const penampangValue = penampangSelect.value;
+            const currentSpec = specMaxValues[konduktorValue];
+            if (currentSpec && currentSpec[penampangValue]) {
+                spekMaxInput.value = currentSpec[penampangValue];
+                if (currentMode === 'panjang') {
+                    panjangInput.value = currentSpec[penampangValue];
+                }
+            } else {
+                spekMaxInput.value = '';
+                if (currentMode === 'panjang') {
+                    panjangInput.value = '';
+                }
+            }
+            hitungHasil();
+        }
+
+        function updateSpekTabel() {
+            const konduktorValue = konduktorSelect.value;
+            const penampangValue = penampangSelect.value;
+            const currentData = specSesuaiTabelValues[konduktorValue];
+            if (currentData && currentData[penampangValue]) {
+                spekTabelSpan.innerText = currentData[penampangValue];
+            } else {
+                spekTabelSpan.innerText = '-';
+            }
+        }
+
+        function hapus() {
+            pembacaanAlatInput.value = '';
+            panjangInput.value = '';
+            suhuInput.value = '';
+            faktorKoreksiInput.value = '';
+            hasilKalkulasiInput.value = '';
+            pesanHasil.innerText = '';
+            updateFaktorKoreksi();
+            updateResultCardVisuals();
+        }
+
+        function updateResultCardVisuals() {
+            const card = document.getElementById('resultCard');
+            const statusIcon = document.getElementById('statusIcon');
+
+            if (currentMode === 'panjang' && hasilKalkulasiInput.value !== '') {
+                card.className = "transition-all duration-300 rounded-2xl p-4 bg-emerald-500/10 dark:bg-emerald-950/20 border border-emerald-500/30 dark:border-emerald-500/25 shadow-lg shadow-emerald-100/30 dark:shadow-none text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1";
+                statusIcon.innerHTML = `<svg class="w-5 h-5 text-emerald-500 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>`;
+                statusIcon.classList.remove('hidden');
+                return;
+            }
+
+            const hasPass = hasilKalkulasiInput.classList.contains('text-green-500');
+            const hasFail = hasilKalkulasiInput.classList.contains('text-red-500');
+            if (hasPass) {
+                card.className = "transition-all duration-300 rounded-2xl p-4 bg-emerald-500/10 dark:bg-emerald-950/20 border border-emerald-500/30 dark:border-emerald-500/25 shadow-lg shadow-emerald-100/30 dark:shadow-none text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1";
+                statusIcon.innerHTML = `<svg class="w-5 h-5 text-green-500 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+                statusIcon.classList.remove('hidden');
+            } else if (hasFail) {
+                card.className = "transition-all duration-300 rounded-2xl p-4 bg-rose-500/10 dark:bg-rose-950/20 border border-rose-500/30 dark:border-rose-500/25 shadow-lg shadow-rose-100/30 dark:shadow-none text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1";
+                statusIcon.innerHTML = `<svg class="w-5 h-5 text-rose-500 dark:text-rose-450" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+                statusIcon.classList.remove('hidden');
+            } else {
+                card.className = "transition-all duration-300 rounded-2xl p-4 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1";
+                statusIcon.innerHTML = '';
+                statusIcon.classList.add('hidden');
+            }
+        }
+
+        // Dark Mode
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+            if (localStorage.getItem('color-theme') === 'light') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            }
+        });
+
+        pembacaanAlatInput.addEventListener('input', validateNumericInput);
+        panjangInput.addEventListener('input', validateNumericInput);
+        suhuInput.addEventListener('input', validateNumericInput);
+        pembacaanAlatInput.addEventListener('input', hitungHasil);
+        panjangInput.addEventListener('input', hitungHasil);
+        suhuInput.addEventListener('input', updateFaktorKoreksi);
+        const modeHambatanBtn = document.getElementById('modeHambatanBtn');
+        const modePanjangBtn = document.getElementById('modePanjangBtn');
+        const labelPanjang = document.getElementById('labelPanjang');
+        const resultTitle = document.getElementById('resultTitle');
+        const resultUnit = document.getElementById('resultUnit');
+
+        modeHambatanBtn.addEventListener('click', () => {
+            currentMode = 'hambatan';
+            modeHambatanBtn.className = "flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30";
+            modePanjangBtn.className = "flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200";
+            labelPanjang.innerText = "Panjang (feet)";
+            panjangInput.placeholder = "feet";
+            panjangInput.value = "";
+            resultTitle.innerText = "Hasil Kalkulasi";
+            resultUnit.innerText = "Ohm / Kilo-Feet (Ω/kfeet)";
+            hitungHasil();
+        });
+
+        modePanjangBtn.addEventListener('click', () => {
+            currentMode = 'panjang';
+            modePanjangBtn.className = "flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30";
+            modeHambatanBtn.className = "flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200";
+            labelPanjang.innerText = "Acuan (Ω/kfeet)";
+            panjangInput.placeholder = "Ω/kfeet (Spek)";
+            panjangInput.value = spekMaxInput.value;
+            resultTitle.innerText = "Estimasi Panjang Kabel";
+            resultUnit.innerText = "Feet (ft)";
+            hitungHasil();
+        });
+
+        konduktorSelect.addEventListener('change', () => {
+            updateFaktorKoreksi();
+            updateSpekMax();
+            updateSpekTabel();
+        });
+        penampangSelect.addEventListener('change', () => {
+            updateSpekMax();
+            updateSpekTabel();
+        });
+        hapusBtn.addEventListener('click', () => {
+            hapus();
+            if (currentMode === 'panjang') {
+                panjangInput.value = spekMaxInput.value;
+            }
+            hitungHasil();
+        });
+
+        updateFaktorKoreksi();
+        updateSpekMax();
+        updateSpekTabel();
+        hitungHasil();
+    });
+    </script>
+
+</body>
+</html>

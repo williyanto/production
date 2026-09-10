@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalkulator Bending Test Mandrel v20260801</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="min-h-[100dvh] w-full flex items-center justify-center p-3 sm:p-4 bg-slate-950 text-slate-100 font-sans relative overflow-hidden select-none">
+
+  <!-- Ambient Glow Background -->
+  <div class="absolute -top-20 -left-20 w-72 h-72 bg-emerald-600/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-20 -right-20 w-72 h-72 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Main Card Component -->
+  <div class="w-full max-w-md max-h-[calc(100dvh-1.5rem)] flex flex-col justify-between bg-slate-900/85 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-5 sm:p-6 shadow-2xl overflow-y-auto relative z-10">
+
+    <!-- Header Section -->
+    <div>
+      <div class="flex items-center justify-between mb-4 border-b border-slate-800/80 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 bg-emerald-500/10 rounded-xl text-emerald-400 border border-emerald-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-lg font-bold text-slate-100 leading-tight">Diameter Mandrel Tekukan</h1>
+            <p class="text-xs text-slate-400">Pengujian Bending Test (IEC 60502-2)</p>
+          </div>
+        </div>
+        <span class="text-[10px] font-semibold tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">v20260801</span>
+      </div>
+
+      <!-- Inputs Grid -->
+      <div class="space-y-3 mb-4">
+        <div class="grid grid-cols-2 gap-2.5">
+          <div class="group relative">
+            <label for="tipeKabel" class="block text-xs font-medium text-slate-300 mb-1">Tipe Kabel</label>
+            <select id="tipeKabel" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-2.5 text-xs font-semibold text-slate-100 focus:outline-none focus:border-emerald-500 cursor-pointer">
+              <option value="lead" class="bg-slate-900">Lead Sheath / Logam</option>
+              <option value="lain" class="bg-slate-900">Kabel Lain</option>
+            </select>
+          </div>
+
+          <div class="group relative">
+            <label for="jumlahInti" class="block text-xs font-medium text-slate-300 mb-1">Jumlah Inti</label>
+            <select id="jumlahInti" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-2.5 text-xs font-semibold text-slate-100 focus:outline-none focus:border-emerald-500 cursor-pointer">
+              <option value="tunggal" class="bg-slate-900">Inti Tunggal</option>
+              <option value="tiga" class="bg-slate-900">Tiga Inti</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5">
+          <div class="group relative">
+            <label for="diameterKonduktor" class="block text-xs font-medium text-slate-300 mb-1">Ø Konduktor d (mm)</label>
+            <div class="relative flex items-center">
+              <span class="absolute left-2.5 text-slate-400 group-focus-within:text-emerald-400 transition-colors duration-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                </svg>
+              </span>
+              <input type="text" inputmode="decimal" id="diameterKonduktor" placeholder="d mm" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 pl-8 pr-2 text-xs font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-emerald-500 transition-all duration-200">
+            </div>
+          </div>
+
+          <div class="group relative">
+            <label for="diameterKabel" class="block text-xs font-medium text-slate-300 mb-1">Ø Kabel D (mm)</label>
+            <div class="relative flex items-center">
+              <span class="absolute left-2.5 text-slate-400 group-focus-within:text-emerald-400 transition-colors duration-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                </svg>
+              </span>
+              <input type="text" inputmode="decimal" id="diameterKabel" placeholder="D mm" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 pl-8 pr-2 text-xs font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-emerald-500 transition-all duration-200">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Grid (Min, Nom, Max) -->
+      <div class="grid grid-cols-3 gap-2 mb-3 text-center">
+        <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-2.5">
+          <span class="block text-[10px] text-slate-400 font-medium mb-1">Min Mandrel</span>
+          <input type="text" id="minRadius" readonly placeholder="---" class="w-full bg-transparent text-center font-extrabold text-xs text-rose-400 focus:outline-none cursor-default">
+        </div>
+        <div class="bg-emerald-950/40 border border-emerald-500/30 rounded-xl p-2.5">
+          <span class="block text-[10px] text-emerald-400 font-semibold mb-1">Nom Mandrel</span>
+          <input type="text" id="nomRadius" readonly placeholder="---" class="w-full bg-transparent text-center font-extrabold text-sm text-emerald-300 focus:outline-none cursor-default">
+        </div>
+        <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-2.5">
+          <span class="block text-[10px] text-slate-400 font-medium mb-1">Max Mandrel</span>
+          <input type="text" id="maxRadius" readonly placeholder="---" class="w-full bg-transparent text-center font-extrabold text-xs text-sky-400 focus:outline-none cursor-default">
+        </div>
+      </div>
+
+      <!-- Formula Info Display -->
+      <div class="p-2.5 bg-slate-950/40 border border-slate-800/60 rounded-xl text-[11px] text-slate-400 text-center font-mono italic">
+        Formula: <span id="formulaText" class="text-emerald-400 font-bold">---</span>
+      </div>
+    </div>
+
+    <!-- Bottom Actions & Footer -->
+    <div class="mt-4 pt-3 border-t border-slate-800/80">
+      <div class="grid grid-cols-2 gap-2 mb-3">
+        <button onclick="goBack()" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-slate-300 font-medium text-xs rounded-xl transition-all duration-150 border border-slate-700/50">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          Kembali
+        </button>
+        <a href="index.html" target="_top" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-emerald-600/90 hover:bg-emerald-500 active:scale-95 text-white font-medium text-xs rounded-xl transition-all duration-150 shadow-lg shadow-emerald-600/20">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          Beranda
+        </a>
+      </div>
+
+      <footer class="text-center">
+        <p class="text-[11px] text-slate-500 font-medium">Williyanto Adi 2026 • v20260801</p>
+      </footer>
+    </div>
+
+  </div>
+
+  <script>
+    const tipeKabel = document.getElementById("tipeKabel");
+    const jumlahInti = document.getElementById("jumlahInti");
+    const diameterKonduktor = document.getElementById("diameterKonduktor");
+    const diameterKabel = document.getElementById("diameterKabel");
+    const minRadius = document.getElementById("minRadius");
+    const maxRadius = document.getElementById("maxRadius");
+    const nomRadius = document.getElementById("nomRadius");
+    const formulaText = document.getElementById("formulaText");
+
+    function hitungRadius() {
+      let rawD = diameterKonduktor.value.replace(/,/g, '.');
+      let rawDkabel = diameterKabel.value.replace(/,/g, '.');
+
+      const d = parseFloat(rawD) || 0;
+      const D = parseFloat(rawDkabel) || 0;
+      const tipe = tipeKabel.value;
+      const inti = jumlahInti.value;
+
+      if (!d || !D) {
+        minRadius.value = "---";
+        maxRadius.value = "---";
+        nomRadius.value = "---";
+        formulaText.innerHTML = "---";
+        return;
+      }
+
+      let faktor = 0;
+      let formula = "";
+
+      if (tipe === "lead" && inti === "tunggal") {
+        faktor = 25;
+        formula = "25 (d + D) ± 5%";
+      } else if (tipe === "lead" && inti === "tiga") {
+        faktor = 20;
+        formula = "20 (d + D) ± 5%";
+      } else if (tipe === "lain" && inti === "tunggal") {
+        faktor = 20;
+        formula = "20 (d + D) ± 5%";
+      } else if (tipe === "lain" && inti === "tiga") {
+        faktor = 15;
+        formula = "15 (d + D) ± 5%";
+      }
+
+      const base = d + D;
+      const min = (base - 0.05 * base) * faktor;
+      const max = (base + 0.05 * base) * faktor;
+      const nom = (min + max) / 2;
+
+      minRadius.value = min.toFixed(0) + " mm";
+      maxRadius.value = max.toFixed(0) + " mm";
+      nomRadius.value = nom.toFixed(0) + " mm";
+      formulaText.innerHTML = formula;
+    }
+
+    tipeKabel.addEventListener("change", hitungRadius);
+    jumlahInti.addEventListener("change", hitungRadius);
+    diameterKonduktor.addEventListener("input", hitungRadius);
+    diameterKabel.addEventListener("input", hitungRadius);
+
+    function goBack() {
+      if (window.top !== window.self && window.parent.closePreviewModal) {
+        window.parent.closePreviewModal();
+      } else if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = "index.html";
+      }
+    }
+  </script>
+</body>
+</html>

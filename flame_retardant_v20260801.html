@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Kapasitas Rak Kabel v20260801</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="min-h-[100dvh] w-full flex items-center justify-center p-3 sm:p-4 bg-slate-950 text-slate-100 font-sans relative overflow-hidden select-none">
+
+  <!-- Ambient Background Glow -->
+  <div class="absolute -top-20 -left-20 w-72 h-72 bg-emerald-600/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-20 -right-20 w-72 h-72 bg-teal-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Main Card -->
+  <div class="w-full max-w-md max-h-[calc(100dvh-1.5rem)] flex flex-col justify-between bg-slate-900/85 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-5 sm:p-6 shadow-2xl overflow-y-auto relative z-10">
+
+    <!-- Header -->
+    <div>
+      <div class="flex items-center justify-between mb-4 border-b border-slate-800/80 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 bg-emerald-500/10 rounded-xl text-emerald-400 border border-emerald-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-lg font-bold text-slate-100 leading-tight">Kapasitas Rak Kabel</h1>
+            <p class="text-xs text-slate-400">Pengujian Flame Retardant</p>
+          </div>
+        </div>
+        <span class="text-[10px] font-semibold tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">v20260801</span>
+      </div>
+
+      <!-- Input Form -->
+      <div class="space-y-3 mb-4">
+        <!-- Tipe Rak -->
+        <div class="group relative">
+          <label for="tipeRak" class="block text-xs font-medium text-slate-300 mb-1">Tipe / Lebar Rak</label>
+          <select id="tipeRak" onchange="handleInputChange()" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-3 text-sm font-semibold text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all duration-200 cursor-pointer">
+            <option value="30" class="bg-slate-900">Rak Single Burner (30 cm)</option>
+            <option value="70" selected class="bg-slate-900">Rak Double Burner (70 cm)</option>
+            <option value="custom" class="bg-slate-900">Custom (Ukuran Lain)</option>
+          </select>
+        </div>
+
+        <!-- Custom Lebar (Hidden by default) -->
+        <div id="customInputDiv" class="hidden group relative">
+          <label for="lebarCustom" class="block text-xs font-medium text-slate-300 mb-1">Lebar Rak Custom (cm)</label>
+          <input type="text" inputmode="decimal" id="lebarCustom" placeholder="0" oninput="handleInputChange()" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-3 text-sm font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all duration-200">
+        </div>
+
+        <!-- Diameter Kabel -->
+        <div class="group relative">
+          <label for="diameterKabel" class="block text-xs font-medium text-slate-300 mb-1">Diameter Kabel (cm)</label>
+          <div class="relative flex items-center">
+            <span class="absolute left-3 text-slate-400 group-focus-within:text-emerald-400 transition-colors duration-200">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+              </svg>
+            </span>
+            <input type="text" inputmode="decimal" id="diameterKabel" value="5.5" oninput="handleInputChange()" placeholder="5.5" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 pl-9 pr-3 text-sm font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all duration-200">
+          </div>
+        </div>
+
+        <!-- Toggle Spasi Switch -->
+        <label for="pakaiSpasi" class="flex items-center justify-between p-3 bg-slate-950/40 border border-slate-800/80 rounded-xl cursor-pointer hover:bg-slate-950/60 transition-colors">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/>
+            </svg>
+            <span class="text-xs font-medium text-slate-200 select-none">Gunakan Jarak / Gap Antar Kabel</span>
+          </div>
+          <input type="checkbox" id="pakaiSpasi" onchange="handleInputChange()" class="w-4 h-4 text-emerald-500 rounded border-slate-700 bg-slate-900 focus:ring-emerald-500 focus:ring-offset-slate-900 cursor-pointer">
+        </label>
+
+        <!-- Spasi Input (Hidden by default) -->
+        <div id="spasiInputDiv" class="hidden group relative">
+          <label for="jarakKabel" class="block text-xs font-medium text-slate-300 mb-1">Jarak / Gap (cm)</label>
+          <input type="text" inputmode="decimal" id="jarakKabel" value="1.0" oninput="handleInputChange()" placeholder="1.0" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-3 text-sm font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all duration-200">
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div class="bg-gradient-to-br from-emerald-950/60 via-slate-900 to-teal-950/60 border border-emerald-500/30 rounded-2xl p-4 mb-3 text-center shadow-lg relative overflow-hidden">
+        <span class="text-xs font-semibold text-emerald-400 tracking-wider uppercase block mb-1">Kapasitas Maksimal</span>
+        <span id="jumlahKabel" class="text-4xl sm:text-5xl font-extrabold text-emerald-300 tracking-tight block my-1">0</span>
+        <span class="text-xs font-medium text-slate-300 uppercase tracking-widest block">Batang Kabel</span>
+        <p id="keterangan" class="text-[11px] text-slate-400 italic mt-2 border-t border-slate-800/80 pt-2">Masukkan data yang valid</p>
+      </div>
+    </div>
+
+    <!-- Actions & Footer -->
+    <div class="mt-4 pt-3 border-t border-slate-800/80">
+      <div class="grid grid-cols-2 gap-2 mb-3">
+        <button onclick="if(window.top!==window.self&&window.parent.closePreviewModal){window.parent.closePreviewModal();}else{history.back();}" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-slate-300 font-medium text-xs rounded-xl transition-all duration-150 border border-slate-700/50">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          Kembali
+        </button>
+        <a href="index.html" target="_top" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-emerald-600/90 hover:bg-emerald-500 active:scale-95 text-white font-medium text-xs rounded-xl transition-all duration-150 shadow-lg shadow-emerald-600/20">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          Beranda
+        </a>
+      </div>
+
+      <footer class="text-center">
+        <p class="text-[11px] text-slate-500 font-medium">Williyanto Adi 2026 • v20260801</p>
+      </footer>
+    </div>
+
+  </div>
+
+  <script>
+    function handleInputChange() {
+      const tipeRak = document.getElementById('tipeRak').value;
+      const customDiv = document.getElementById('customInputDiv');
+      const spasiDiv = document.getElementById('spasiInputDiv');
+      const pakaiSpasi = document.getElementById('pakaiSpasi').checked;
+
+      customDiv.classList.toggle('hidden', tipeRak !== 'custom');
+      spasiDiv.classList.toggle('hidden', !pakaiSpasi);
+
+      hitungKabel();
+    }
+
+    function hitungKabel() {
+      const tipeRakValue = document.getElementById('tipeRak').value;
+      let rawDia = document.getElementById('diameterKabel').value.replace(/,/g, '.');
+      const diameterKabel = parseFloat(rawDia);
+      const pakaiSpasi = document.getElementById('pakaiSpasi').checked;
+      
+      let rawJarak = document.getElementById('jarakKabel').value.replace(/,/g, '.');
+      const jarak = pakaiSpasi ? (parseFloat(rawJarak) || 0) : 0;
+      
+      let lebarRak;
+      if (tipeRakValue === 'custom') {
+        let rawCustom = document.getElementById('lebarCustom').value.replace(/,/g, '.');
+        lebarRak = parseFloat(rawCustom);
+      } else {
+        lebarRak = parseFloat(tipeRakValue);
+      }
+
+      if (lebarRak > 0 && diameterKabel > 0) {
+        let jumlah;
+        if (pakaiSpasi && jarak > 0) {
+          jumlah = Math.floor((lebarRak + jarak) / (diameterKabel + jarak));
+        } else {
+          jumlah = Math.floor(lebarRak / diameterKabel);
+        }
+
+        document.getElementById('jumlahKabel').innerText = (isNaN(jumlah) || jumlah < 0) ? "0" : jumlah;
+        document.getElementById('keterangan').innerText = `Rak ${lebarRak}cm, Cable Ø${diameterKabel}cm ${pakaiSpasi ? '(Gap '+jarak+'cm)' : '(Rapat)'}`;
+      } else {
+        document.getElementById('jumlahKabel').innerText = "0";
+        document.getElementById('keterangan').innerText = "Masukkan data yang valid";
+      }
+    }
+
+    window.onload = handleInputChange;
+  </script>
+</body>
+</html>
