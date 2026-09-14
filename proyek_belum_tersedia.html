@@ -53,13 +53,13 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            min-height: 100vh;
+            height: 100dvh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 1.5rem;
             position: relative;
-            overflow-x: hidden;
+            overflow: hidden;
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
@@ -460,9 +460,11 @@
 <body>
 
     <!-- Ambient Glowing Blobs -->
-    <div class="ambient-orb orb-1"></div>
-    <div class="ambient-orb orb-2"></div>
-    <div class="ambient-orb orb-3"></div>
+    <div style="position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;">
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+        <div class="ambient-orb orb-3"></div>
+    </div>
 
     <!-- Canvas for floating micro-particles -->
     <canvas id="particle-canvas"></canvas>
