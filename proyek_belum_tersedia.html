@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyek Sedang Dikembangkan - Williyanto Adi</title>
+    <link rel="icon" type="image/png" href="./icons/williyanto_logo.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-primary: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.25);
+            --badge-bg: rgba(56, 189, 248, 0.12);
+            --badge-text: #7dd3fc;
+            --warning-bg: rgba(245, 158, 11, 0.15);
+            --warning-text: #fbbf24;
+            --warning-border: rgba(245, 158, 11, 0.3);
+        }
+
+        body.light-mode {
+            --bg-color: #f1f5f9;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(226, 232, 240, 0.9);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent-primary: #0284c7;
+            --accent-glow: rgba(2, 132, 199, 0.2);
+            --badge-bg: #e0f2fe;
+            --badge-text: #0369a1;
+            --warning-bg: #fef3c7;
+            --warning-text: #b45309;
+            --warning-border: #fcd34d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* --- Ambient Glowing Orbs --- */
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 0;
+            animation: pulseOrb 8s infinite alternate ease-in-out;
+        }
+
+        .orb-1 {
+            top: -10%;
+            left: -10%;
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.35), transparent 70%);
+        }
+
+        .orb-2 {
+            bottom: -15%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.3), transparent 70%);
+            animation-delay: 3s;
+        }
+
+        .orb-3 {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.18), transparent 70%);
+            animation-delay: 5s;
+        }
+
+        @keyframes pulseOrb {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.7; }
+            100% { transform: scale(1.15) translate(30px, -20px); opacity: 1; }
+        }
+
+        /* --- Floating Particles Background Canvas --- */
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* --- Card Container --- */
+        .glass-card {
+            position: relative;
+            z-index: 10;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 2rem;
+            padding: 3rem 2.5rem;
+            max-width: 680px;
+            width: 100%;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3), 0 0 40px var(--accent-glow);
+            text-align: center;
+            animation: cardEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* --- Theme Toggle Button --- */
+        .theme-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.08);
+            border-color: var(--accent-primary);
+        }
+
+        /* --- Animated Icon Container --- */
+        .icon-stage {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-halo {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #38bdf8, #818cf8, #c084fc, #f59e0b, #38bdf8);
+            animation: rotateHalo 6s linear infinite;
+            filter: blur(12px);
+            opacity: 0.6;
+        }
+
+        @keyframes rotateHalo {
+            to { transform: rotate(360deg); }
+        }
+
+        .icon-circle {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .floating-icon {
+            font-size: 3.2rem;
+            animation: floatIcon 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatIcon {
+            0% { transform: translateY(5px) rotate(-3deg); }
+            100% { transform: translateY(-7px) rotate(4deg); }
+        }
+
+        /* Gear spinning accent */
+        .accent-gear {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            font-size: 1.5rem;
+            color: #f59e0b;
+            animation: spinGear 5s linear infinite;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+        }
+
+        @keyframes spinGear {
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- Concept Badge --- */
+        .concept-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--warning-bg);
+            color: var(--warning-text);
+            border: 1px solid var(--warning-border);
+            padding: 0.4rem 1.1rem;
+            border-radius: 9999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.25rem;
+            animation: pulseBadge 2.5s infinite ease-in-out;
+        }
+
+        @keyframes pulseBadge {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .concept-badge .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #f59e0b;
+            animation: blinkDot 1.2s infinite;
+        }
+
+        @keyframes blinkDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.6); }
+        }
+
+        /* --- Title & Description --- */
+        h1.project-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+        }
+
+        .project-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- Progress Roadmap Bar --- */
+        .roadmap-container {
+            background: rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--card-border);
+            border-radius: 1.25rem;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .roadmap-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+        }
+
+        .roadmap-title {
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .roadmap-percentage {
+            color: var(--accent-primary);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+        }
+
+        .progress-track {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            width: 45%;
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #f59e0b);
+            position: relative;
+            animation: fillShimmer 2s infinite linear;
+            background-size: 200% 100%;
+        }
+
+        @keyframes fillShimmer {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+
+        .roadmap-steps {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 0.6rem;
+            font-weight: 500;
+        }
+
+        .step-item.active {
+            color: var(--accent-primary);
+            font-weight: 700;
+        }
+
+        /* --- Action Buttons --- */
+        .btn-group-custom {
+            display: flex;
+            gap: 0.85rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary-glow {
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            color: #ffffff;
+            border: none;
+            padding: 0.75rem 1.6rem;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35);
+            transition: all 0.25s ease;
+        }
+
+        .btn-primary-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(2, 132, 199, 0.5);
+            color: #ffffff;
+        }
+
+        .btn-secondary-ghost {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 0.75rem 1.4rem;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary-ghost:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--text-muted);
+            color: var(--text-main);
+            transform: translateY(-2px);
+        }
+
+        /* --- Toast Notification --- */
+        #toast-notice {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #0f172a;
+            color: #ffffff;
+            border: 1px solid #38bdf8;
+            padding: 0.85rem 1.5rem;
+            border-radius: 999px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        #toast-notice.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 576px) {
+            .glass-card {
+                padding: 2.25rem 1.5rem;
+                border-radius: 1.5rem;
+            }
+            h1.project-title {
+                font-size: 1.55rem;
+            }
+            .btn-group-custom {
+                flex-direction: column;
+                width: 100%;
+            }
+            .btn-primary-glow, .btn-secondary-ghost {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Ambient Glowing Blobs -->
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+
+    <!-- Canvas for floating micro-particles -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Main Glassmorphism Card -->
+    <div class="glass-card">
+
+        <!-- Theme Toggle Button -->
+        <button id="themeToggle" class="theme-btn" title="Ubah Tema Gelap / Terang">
+            <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+        </button>
+
+        <!-- Animated Construction Stage -->
+        <div class="icon-stage">
+            <div class="icon-halo"></div>
+            <div class="icon-circle">
+                <span class="floating-icon">🚀</span>
+                <i class="bi bi-gear-fill accent-gear"></i>
+            </div>
+        </div>
+
+        <!-- Concept Status Badge -->
+        <div>
+            <span class="concept-badge">
+                <span class="pulse-dot"></span>
+                <span>Status: Konsep Eksklusif</span>
+            </span>
+        </div>
+
+        <!-- Project Title Header -->
+        <h1 class="project-title" id="pageProjectTitle">Proyek Sedang Dikembangkan</h1>
+
+        <!-- Project Description -->
+        <p class="project-description" id="pageProjectDesc">
+            Modul aplikasi ini saat ini sedang dalam tahap riset arsitektur, desain antarmuka (UI/UX), dan pengembangan sistem. Nantikan peluncuran rilis resminya segera!
+        </p>
+
+        <!-- Development Roadmap Progress -->
+        <div class="roadmap-container">
+            <div class="roadmap-header">
+                <span class="roadmap-title">
+                    <i class="bi bi-code-slash text-warning"></i>
+                    <span>Progres Pengembangan</span>
+                </span>
+                <span class="roadmap-percentage">45% Selesai</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="roadmap-steps">
+                <span>1. Riset & Spesifikasi ✅</span>
+                <span class="step-item active">2. Desain & Logika 🔄</span>
+                <span>3. Pengujian & Rilis ⏳</span>
+            </div>
+        </div>
+
+        <!-- Action Navigation Buttons -->
+        <div class="btn-group-custom">
+            <a href="./index.html" class="btn-primary-glow">
+                <i class="bi bi-arrow-left-circle"></i>
+                <span>Kembali ke Beranda</span>
+            </a>
+            <button id="notifyBtn" class="btn-secondary-ghost">
+                <i class="bi bi-bell"></i>
+                <span>Beri Notifikasi Rilis</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Floating Toast Notification -->
+    <div id="toast-notice">
+        <i class="bi bi-check-circle-fill text-info"></i>
+        <span>Pengingat tersimpan! Anda akan diberitahu saat proyek ini rilis.</span>
+    </div>
+
+    <script>
+        // --- 1. Dynamic Project Info via Query Parameters ---
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('id');
+            const projectTitleEl = document.getElementById('pageProjectTitle');
+            const projectDescEl = document.getElementById('pageProjectDesc');
+
+            if (projectId) {
+                projectTitleEl.textContent = `Proyek ${projectId}: Sedang Dikembangkan`;
+                document.title = `Proyek ${projectId} - Sedang Dikembangkan`;
+                projectDescEl.textContent = `Modul untuk Proyek ${projectId} saat ini sedang dalam tahap perancangan sistem dan pengujian fitur. Terima kasih atas ketertarikan Anda!`;
+            }
+
+            // --- 2. Theme Persistence (Sync with index.html) ---
+            const themeToggleBtn = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const savedTheme = localStorage.getItem('theme');
+
+            function applyTheme(isDark) {
+                if (isDark) {
+                    document.body.classList.remove('light-mode');
+                    themeIcon.className = 'bi bi-moon-stars-fill';
+                } else {
+                    document.body.classList.add('light-mode');
+                    themeIcon.className = 'bi bi-sun-fill text-warning';
+                }
+            }
+
+            // Default dark mode, unless light explicitly saved
+            applyTheme(savedTheme !== 'light');
+
+            themeToggleBtn.addEventListener('click', function () {
+                const isCurrentlyLight = document.body.classList.contains('light-mode');
+                const willBeDark = isCurrentlyLight;
+                applyTheme(willBeDark);
+                localStorage.setItem('theme', willBeDark ? 'dark' : 'light');
+            });
+
+            // --- 3. Interactive Notify Toast Button ---
+            const notifyBtn = document.getElementById('notifyBtn');
+            const toastNotice = document.getElementById('toast-notice');
+
+            notifyBtn.addEventListener('click', function () {
+                toastNotice.classList.add('show');
+                notifyBtn.innerHTML = '<i class="bi bi-check2 text-success"></i><span>Sudah Terdaftar</span>';
+                notifyBtn.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    toastNotice.classList.remove('show');
+                }, 3500);
+            });
+
+            // --- 4. Micro Particle Animation Background Canvas ---
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2.5 + 0.5;
+                    this.speedX = (Math.random() - 0.5) * 0.4;
+                    this.speedY = (Math.random() - 0.5) * 0.4;
+                    this.alpha = Math.random() * 0.5 + 0.2;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                    if (this.y > canvas.height) this.y = 0;
+                }
+                draw() {
+                    ctx.fillStyle = `rgba(56, 189, 248, ${this.alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < 45; i++) {
+                particles.push(new Particle());
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
+        });
+    </script>
+</body>
+
+</html>
