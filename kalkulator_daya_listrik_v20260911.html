@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="id" class="transition-all duration-300">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kalkulator Biaya Listrik Otomatis v20260911</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        select { background-image: none !important; }
+    </style>
+</head>
+<body class="bg-gradient-to-tr from-slate-100 via-green-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-center items-center py-6 px-3 overflow-x-hidden transition-colors duration-300">
+
+    <!-- Ambient Background -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
+        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-green-400 blur-[100px] animate-pulse"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-teal-400 blur-[100px] animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="w-full max-w-xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-6 transition-all duration-300 flex flex-col my-auto overflow-hidden">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white shadow-md shadow-green-200 dark:shadow-none">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-800 dark:text-slate-100 tracking-tight">Kalkulator Biaya Listrik</h1>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">Perhitungan Otomatis • v20260911</p>
+                </div>
+            </div>
+            <button id="theme-toggle" type="button" class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">
+                <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Form Body -->
+        <div class="space-y-4 my-4">
+            
+            <!-- Section 1: Tambah Alat Elektronik -->
+            <div class="bg-slate-50/60 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-200/60 dark:border-slate-800">
+                <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-3">1. Tambah Alat Elektronik</span>
+                <form id="form-alat" class="space-y-3">
+                    <div>
+                        <label for="nama-alat" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Nama Alat</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                            </div>
+                            <input type="text" id="nama-alat" class="pl-9 block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold" placeholder="Contoh: TV, Kulkas, AC" required>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label for="daya" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Daya (Watt)</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                </div>
+                                <input type="number" id="daya" class="pl-9 block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold" placeholder="Contoh: 100" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="durasi" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Durasi (Jam/Hari)</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <input type="number" id="durasi" class="pl-9 block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold" placeholder="Contoh: 8" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-2.5 px-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold text-xs rounded-xl shadow-md shadow-green-500/20 active:scale-95 transition-all flex items-center justify-center gap-2 mt-2">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                        Tambahkan ke Daftar
+                    </button>
+                </form>
+            </div>
+
+            <!-- Section 2: Daftar Alat & Rincian Biaya -->
+            <div>
+                <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-2">2. Daftar Alat & Rincian Biaya</span>
+                <div class="overflow-x-auto rounded-2xl border border-slate-200/60 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100/80 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 text-[10px] uppercase tracking-wider font-extrabold border-b border-slate-200/50 dark:border-slate-800">
+                                <th scope="col" class="px-3.5 py-2.5">Nama Alat</th>
+                                <th scope="col" class="px-3.5 py-2.5 text-right hidden sm:table-cell">Daya (W)</th>
+                                <th scope="col" class="px-3.5 py-2.5 text-right hidden sm:table-cell">Durasi (Jam)</th>
+                                <th scope="col" class="px-3.5 py-2.5 text-right">Est. Biaya / Bulan</th>
+                                <th scope="col" class="px-3.5 py-2.5 text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="daftar-alat" class="divide-y divide-slate-100 dark:divide-slate-800/50">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Section 3: Kalkulasi & Paramater -->
+            <div class="bg-slate-50/60 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-200/60 dark:border-slate-800 space-y-3">
+                <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">3. Parameter & Kalkulasi</span>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="tarif" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Tarif per kWh (Rp)</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-xs font-bold text-slate-400 dark:text-slate-500">
+                                Rp
+                            </div>
+                            <input type="number" id="tarif" value="1445" placeholder="Contoh: 1445" class="pl-9 block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="periode-hitung" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pilih Periode Total</label>
+                        <div class="relative">
+                            <select id="periode-hitung" class="appearance-none block w-full pl-3 pr-8 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-bold">
+                                <option value="harian">Harian</option>
+                                <option value="mingguan">Mingguan</option>
+                                <option value="bulanan" selected>Bulanan (30 Hari)</option>
+                                <option value="tahunan">Tahunan (365 Hari)</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-400 dark:text-slate-500">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="hitung-biaya" type="button" class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/20 active:scale-95 transition-all flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                    Hitung Ulang Manual
+                </button>
+            </div>
+
+            <!-- Controls Action Bar -->
+            <div class="grid grid-cols-3 gap-2.5 pt-1">
+                <button type="button" onclick="history.back()" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                    Kembali
+                </button>
+                <button type="button" id="tombol-hapus-semua" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-transparent rounded-xl text-xs font-bold text-white bg-rose-500 hover:bg-rose-600 active:scale-95 transition-all shadow-md shadow-rose-100 dark:shadow-none">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    Hapus
+                </button>
+                <a href="index.html" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                    Beranda
+                </a>
+            </div>
+
+            <!-- Dynamic Result Card -->
+            <div id="hasil-kalkulasi" class="mt-4" style="display: none;"></div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-2 pt-3 border-t border-slate-100 dark:border-slate-800 font-medium">
+            Williyanto Adi 2026
+        </footer>
+
+    </div>
+
+    <script>
+        const formAlat = document.getElementById('form-alat');
+        const daftarAlatBody = document.getElementById('daftar-alat');
+        const tombolHitung = document.getElementById('hitung-biaya');
+        const hasilDiv = document.getElementById('hasil-kalkulasi');
+        const tarifInput = document.getElementById('tarif');
+        const periodeSelect = document.getElementById('periode-hitung');
+        const tombolHapusSemua = document.getElementById('tombol-hapus-semua');
+        const formatRupiah = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
+
+        function simpanDataKeLocalStorage() {
+            const barisAlat = daftarAlatBody.getElementsByTagName('tr');
+            const dataAlat = [];
+            for (let i = 0; i < barisAlat.length; i++) {
+                if (barisAlat[i].querySelector('td[colspan="5"]')) continue;
+                const sel = barisAlat[i].getElementsByTagName('td');
+                const alat = {
+                    nama: sel[0].textContent,
+                    daya: sel[1].getAttribute('data-daya'),
+                    durasi: sel[2].getAttribute('data-durasi')
+                };
+                dataAlat.push(alat);
+            }
+            localStorage.setItem('daftarAlatListrik', JSON.stringify(dataAlat));
+        }
+
+        function muatDataDariLocalStorage() {
+            const dataTersimpan = localStorage.getItem('daftarAlatListrik');
+            if (dataTersimpan) {
+                const dataAlat = JSON.parse(dataTersimpan);
+                if (dataAlat && dataAlat.length > 0) {
+                    daftarAlatBody.innerHTML = '';
+                    dataAlat.forEach(alat => {
+                        tambahAlatKeTabel(alat.nama, alat.daya, alat.durasi);
+                    });
+                }
+            }
+            cekTabelKosong();
+        }
+        
+        function tambahAlatKeTabel(nama, daya, durasi) {
+            const placeholder = daftarAlatBody.querySelector('td[colspan="5"]');
+            if (placeholder) {
+                daftarAlatBody.innerHTML = '';
+            }
+            const barisBaru = document.createElement('tr');
+            barisBaru.className = "border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-100/40 dark:hover:bg-slate-800/40 transition-colors";
+            barisBaru.innerHTML = `
+                <td class="px-3.5 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-200">${nama}</td>
+                <td class="px-3.5 py-2.5 text-xs text-right font-medium text-slate-600 dark:text-slate-300 hidden sm:table-cell" data-daya="${daya}">
+                    <span class="inline-block px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 text-[11px] font-bold border border-emerald-200/50 dark:border-emerald-800/40">${daya} W</span>
+                </td>
+                <td class="px-3.5 py-2.5 text-xs text-right font-medium text-slate-600 dark:text-slate-300 hidden sm:table-cell" data-durasi="${durasi}">${durasi} jam</td>
+                <td class="px-3.5 py-2.5 text-xs text-right font-mono font-bold text-slate-800 dark:text-slate-100 biaya-alat">${formatRupiah.format(0)}</td>
+                <td class="px-3.5 py-2.5 text-center">
+                    <button type="button" class="p-1.5 rounded-lg text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/50 hover:text-rose-600 transition-colors btn-remove" title="Hapus">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    </button>
+                </td>
+            `;
+            daftarAlatBody.appendChild(barisBaru);
+        }
+
+        function cekTabelKosong() {
+            if (daftarAlatBody.children.length === 0) {
+                daftarAlatBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-xs text-slate-400 dark:text-slate-500 italic">Belum ada alat yang ditambahkan.</td></tr>';
+            }
+        }
+
+        function calculateAndDisplay() {
+            const tarifPerKwh = parseFloat(tarifInput.value);
+            const periode = periodeSelect.value;
+            const barisAlat = daftarAlatBody.getElementsByTagName('tr');
+            let totalKwhHarian = 0;
+            if (barisAlat.length === 0 || daftarAlatBody.querySelector('td[colspan="5"]') || isNaN(tarifPerKwh) || tarifPerKwh <= 0){
+                hasilDiv.style.display = 'none';
+                for (let i = 0; i < barisAlat.length; i++) {
+                    if (barisAlat[i].querySelector('.biaya-alat')) {
+                        barisAlat[i].querySelector('.biaya-alat').textContent = formatRupiah.format(0);
+                    }
+                }
+                return;
+            }
+            
+            for (let i = 0; i < barisAlat.length; i++) {
+                const sel = barisAlat[i].getElementsByTagName('td');
+                const daya = parseFloat(sel[1].getAttribute('data-daya'));
+                const durasi = parseFloat(sel[2].getAttribute('data-durasi'));
+                
+                const kwhHarianAlat = (daya * durasi) / 1000;
+                totalKwhHarian += kwhHarianAlat;
+                
+                const biayaBulananAlat = kwhHarianAlat * 30 * tarifPerKwh;
+                
+                barisAlat[i].querySelector('.biaya-alat').textContent = formatRupiah.format(biayaBulananAlat);
+            }
+            
+            let multiplier = 1, namaPeriode = 'satu hari', labelPeriode = 'Harian';
+            switch (periode) {
+                case 'mingguan': multiplier = 7; namaPeriode = 'satu minggu'; labelPeriode = 'Mingguan'; break;
+                case 'bulanan': multiplier = 30; namaPeriode = 'satu bulan'; labelPeriode = 'Bulanan (30 hari)'; break;
+                case 'tahunan': multiplier = 365; namaPeriode = 'satu tahun'; labelPeriode = 'Tahunan (365 hari)'; break;
+            }
+
+            const totalKwhPeriode = totalKwhHarian * multiplier;
+            const totalBiaya = totalKwhPeriode * tarifPerKwh;
+            hasilDiv.style.display = 'block';
+            hasilDiv.innerHTML = `
+                <div class="transition-all duration-300 rounded-2xl p-4 bg-gradient-to-br from-emerald-500/10 via-teal-500/10 to-emerald-500/5 dark:from-emerald-950/40 dark:to-slate-900/60 border border-emerald-500/30 dark:border-emerald-500/25 shadow-lg shadow-emerald-500/5 relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            Estimasi Total Biaya Anda
+                        </span>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/50 dark:border-emerald-800/40">${labelPeriode}</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 my-2 py-2 border-y border-emerald-500/20 dark:border-emerald-800/30 text-xs">
+                        <div>
+                            <span class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block uppercase">Pemakaian Harian</span>
+                            <span class="font-bold text-slate-800 dark:text-slate-200 text-sm font-mono">${totalKwhHarian.toFixed(2)} <span class="text-xs text-slate-500">kWh</span></span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block uppercase">Total Pemakaian (${labelPeriode})</span>
+                            <span class="font-bold text-slate-800 dark:text-slate-200 text-sm font-mono">${totalKwhPeriode.toFixed(2)} <span class="text-xs text-slate-500">kWh</span></span>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-center">
+                        <span class="text-[11px] font-semibold text-slate-600 dark:text-slate-300 block">Estimasi total biaya untuk ${namaPeriode}:</span>
+                        <span class="font-extrabold text-2xl sm:text-3xl text-emerald-600 dark:text-emerald-400 tracking-tight block mt-0.5">${formatRupiah.format(totalBiaya)}</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function hapusSemuaData() {
+            daftarAlatBody.innerHTML = '';
+            cekTabelKosong();
+            calculateAndDisplay();
+            localStorage.removeItem('daftarAlatListrik');
+        }
+
+        formAlat.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const nama = document.getElementById('nama-alat').value;
+            const daya = document.getElementById('daya').value;
+            const durasi = document.getElementById('durasi').value;
+
+            tambahAlatKeTabel(nama, daya, durasi);
+            
+            formAlat.reset();
+            setTimeout(() => {
+                calculateAndDisplay();
+                simpanDataKeLocalStorage();
+            }, 0);
+        });
+
+        daftarAlatBody.addEventListener('click', function(event) {
+            if (event.target.closest('.btn-remove')) {
+                event.target.closest('tr').remove();
+                cekTabelKosong();
+                calculateAndDisplay();
+                simpanDataKeLocalStorage();
+            }
+        });
+
+        tombolHitung.addEventListener('click', calculateAndDisplay);
+        tarifInput.addEventListener('input', calculateAndDisplay);
+        periodeSelect.addEventListener('change', calculateAndDisplay);
+        tombolHapusSemua.addEventListener('click', hapusSemuaData);
+
+        // Dark Mode Controller
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+            if (localStorage.getItem('color-theme') === 'light') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            muatDataDariLocalStorage();
+            calculateAndDisplay();
+        });
+    </script>
+</body>
+</html>

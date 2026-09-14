@@ -1,0 +1,2754 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AssetPro – Sistem Manajemen & Pendataan Aset Terpadu v20260911</title>
+  <meta name="description"
+    content="Aplikasi Manajemen & Pendataan Aset Terpadu dengan Barcode, QR Code, Grafik Tahunan, Ekspor PDF/Excel, dan Tema Modern karya Williyanto Adi.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- JsBarcode CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+  <!-- QRCode.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <!-- SheetJS CDN (XLSX Export) -->
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <!-- jsPDF & AutoTable CDN (PDF Export) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+  <style>
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(51, 65, 85, 0.8);
+      border-radius: 9999px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(71, 85, 105, 1);
+    }
+
+    /* Animation utilities */
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes toastOut {
+      from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      to {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+    }
+
+    .toast-anim {
+      animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+
+<body
+  class="min-h-[100dvh] w-full bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans relative overflow-x-hidden selection:bg-emerald-500/30 selection:text-emerald-200 transition-colors duration-300">
+
+  <!-- Ambient Glow Background Effects -->
+  <div
+    class="fixed top-0 left-1/4 -translate-x-1/2 w-96 h-96 bg-green-500/10 dark:bg-green-600/15 rounded-full blur-[120px] pointer-events-none z-0">
+  </div>
+  <div
+    class="fixed bottom-10 right-10 w-96 h-96 bg-teal-500/10 dark:bg-teal-600/15 rounded-full blur-[120px] pointer-events-none z-0">
+  </div>
+  <div
+    class="fixed top-1/2 right-1/4 w-80 h-80 bg-emerald-500/10 dark:bg-emerald-600/10 rounded-full blur-[120px] pointer-events-none z-0">
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="fixed top-20 right-4 sm:right-8 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+
+  <!-- Sticky Top Container (Header Navigation) -->
+  <div
+    class="sticky top-0 z-40 w-full bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80 shadow-md transition-all">
+
+    <!-- Top Navigation Header -->
+    <header class="w-full">
+      <div class="w-full px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+
+        <!-- Brand Logo & Title (Clickable - Scroll to Top) -->
+        <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'}); switchTab('data-aset'); return false;"
+          title="Kembali ke Halaman Utama" class="flex items-center gap-3 group">
+          <div
+            class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-green-500 via-emerald-400 to-teal-400 flex items-center justify-center shadow-lg shadow-green-500/20 group-hover:shadow-green-500/40 text-slate-950 font-black text-lg sm:text-xl tracking-tighter transition-all group-hover:scale-105">
+            📦
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1
+                class="text-base sm:text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                AssetPro</h1>
+              <span
+                class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 rounded-full">v20260911</span>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">Sistem Manajemen &amp; Pendataan Aset
+              Terpadu</p>
+          </div>
+        </a>
+
+        <!-- Action Buttons & Controls -->
+        <div class="flex items-center gap-2 flex-wrap">
+
+          <!-- Live Clock Badge -->
+          <div
+            class="hidden md:inline-flex items-center gap-2 px-3 py-1.5 bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-semibold text-emerald-700 dark:text-emerald-400 shadow-inner">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse shrink-0"></span>
+            <span id="headerClock">--:--:--</span>
+          </div>
+
+          <!-- Export Dropdown -->
+          <div class="relative inline-block text-left">
+            <button id="btnExportMenu" onclick="toggleDropdown('exportDropdown')"
+              class="px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all active:scale-95">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <span>Ekspor</span>
+              <svg class="w-3.5 h-3.5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div id="exportDropdown"
+              class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl z-50 overflow-hidden py-1">
+              <button onclick="exportXLSX(); closeAllDropdowns();"
+                class="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2">
+                <span class="text-emerald-500">📊</span> Ke Excel (.xlsx)
+              </button>
+              <button onclick="exportPDF(); closeAllDropdowns();"
+                class="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2">
+                <span class="text-rose-500">📄</span> Ke PDF (.pdf)
+              </button>
+              <button onclick="exportCSV(); closeAllDropdowns();"
+                class="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2">
+                <span class="text-blue-500">📝</span> Ke CSV (.csv)
+              </button>
+              <div class="border-t border-slate-200 dark:border-slate-800 my-1"></div>
+              <button onclick="exportJSON(); closeAllDropdowns();"
+                class="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2">
+                <span class="text-amber-500">💾</span> Cadangkan JSON (.json)
+              </button>
+            </div>
+          </div>
+
+          <!-- Import Button (JSON / CSV / Excel) -->
+          <button onclick="document.getElementById('importFileInput').click()"
+            title="Impor data dari file JSON, CSV, atau Excel (.xlsx)"
+            class="px-3 py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-300/80 dark:border-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all active:scale-95">
+            <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+            </svg>
+            <span class="hidden sm:inline">Impor JSON / CSV / Excel</span>
+          </button>
+          <input type="file" id="importFileInput" class="hidden" accept=".json,.csv,.xlsx,.xls"
+            onchange="importDataFile(event)">
+
+          <!-- Add Asset Button -->
+          <button onclick="openFormModal()"
+            class="px-3.5 py-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-emerald-500/25 transition-all active:scale-95">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+            </svg>
+            <span>Tambah Aset</span>
+          </button>
+
+          <!-- Delete All Assets Button -->
+          <button onclick="openDeleteAllModal()" title="Hapus Semua Aset"
+            class="p-2 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-600 dark:text-rose-400 rounded-xl transition-all active:scale-95"
+            id="btnDeleteAllAssets">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+
+          <!-- Theme Switcher Button -->
+          <button onclick="toggleTheme()" id="themeToggleBtn" title="Ubah Mode Gelap/Terang"
+            class="p-2 bg-slate-100 dark:bg-slate-900/80 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-300/80 dark:border-slate-800 rounded-xl text-slate-700 dark:text-slate-300 transition-all active:scale-95">
+            <svg id="themeMoonIcon" class="w-4 h-4 text-amber-500 dark:text-amber-400" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+            <svg id="themeSunIcon" class="w-4 h-4 text-amber-500 dark:text-amber-400 hidden" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </header>
+  </div>
+
+  <!-- Main Workspace Container -->
+  <main class="relative z-10 w-full mt-4">
+    <!-- Sticky Tab Navigation -->
+    <div
+      class="sticky top-[57px] z-30 w-full bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 shadow-sm px-3 sm:px-5 lg:px-8">
+      <div class="flex items-center gap-2 overflow-x-auto">
+        <button onclick="switchTab('data-aset')" id="tabBtnData"
+          class="px-4 sm:px-5 py-3 text-sm font-bold border-b-2 border-green-500 text-emerald-600 dark:text-emerald-400 flex items-center gap-2 transition-all whitespace-nowrap">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+          </svg>
+          <span>Semua Aset</span>
+        </button>
+
+        <button onclick="switchTab('status-aset')" id="tabBtnStatus"
+          class="px-4 sm:px-5 py-3 text-sm font-bold border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 flex items-center gap-2 transition-all whitespace-nowrap">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Status Aset</span>
+        </button>
+
+        <button onclick="switchTab('aset-bersama')" id="tabBtnShared"
+          class="px-4 sm:px-5 py-3 text-sm font-bold border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 flex items-center gap-2 transition-all whitespace-nowrap">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <span>Aset Bersama</span>
+        </button>
+
+        <button onclick="switchTab('grafik')" id="tabBtnGrafik"
+          class="px-4 sm:px-5 py-3 text-sm font-bold border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 flex items-center gap-2 transition-all whitespace-nowrap">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          <span>Grafik &amp; Analisis Tahunan</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tab Content Area -->
+    <div class="px-3 sm:px-5 lg:px-8 pt-6">
+
+      <!-- TAB 1: DATA ASET -->
+      <div id="tab-data-aset" class="space-y-6">
+
+        <!-- Category Filter Pills Bar -->
+        <div id="categoryPillsWrap" class="flex items-center gap-1.5 overflow-x-auto pb-2 scrollbar-none">
+          <!-- JS rendered category pills -->
+        </div>
+
+        <!-- Controls Row (Search, Filter Status, Sort, Items per page) -->
+        <div
+          class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3">
+
+          <!-- Search Input -->
+          <div class="relative w-full md:w-80">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <input type="text" id="searchInput" oninput="handleFilterChange()"
+              placeholder="Cari nama, ID, lokasi, detail..."
+              class="w-full pl-9 pr-3 py-2 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300/70 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/20 transition-all">
+          </div>
+
+          <!-- Filter & Sort Selectors -->
+          <div class="flex items-center gap-2 flex-wrap w-full md:w-auto justify-end">
+
+            <!-- Filter Status -->
+            <select id="filterStatus" onchange="handleFilterChange()"
+              class="px-3 py-2 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300/70 dark:border-slate-800 rounded-xl text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:border-green-500">
+              <option value="">Semua Status</option>
+              <option value="Aktif">Aktif / Kondisi Baik</option>
+              <option value="rusak-perbaikan">Rusak / Dalam Perbaikan</option>
+              <option value="Rusak">Kondisi Rusak</option>
+              <option value="Dalam Perbaikan">Dalam Perbaikan</option>
+              <option value="Dijual">Sudah Dijual</option>
+              <option value="Hilang">Hilang</option>
+              <option value="Dihibahkan">Dihibahkan</option>
+            </select>
+
+            <!-- Sort Select -->
+            <select id="sortSelect" onchange="handleFilterChange()"
+              class="px-3 py-2 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300/70 dark:border-slate-800 rounded-xl text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:border-green-500">
+              <option value="newest">Terbaru Ditambahkan</option>
+              <option value="oldest">Terlama Ditambahkan</option>
+              <option value="nama">Nama (A-Z)</option>
+              <option value="harga-desc">Harga Tertinggi</option>
+              <option value="harga-asc">Harga Terendah</option>
+              <option value="duration-desc">Durasi Pakai Terlama</option>
+            </select>
+
+            <!-- Items per page -->
+            <select id="itemsPerPageSelect" onchange="handleFilterChange()"
+              class="px-3 py-2 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300/70 dark:border-slate-800 rounded-xl text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:border-green-500">
+              <option value="10">10 per hal</option>
+              <option value="25">25 per hal</option>
+              <option value="50" selected>50 per hal</option>
+              <option value="100">100 per hal</option>
+            </select>
+
+          </div>
+
+        </div>
+
+        <!-- Assets Table Card -->
+        <div
+          class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr
+                  class="border-b border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-950/50 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">
+                  <th class="py-3.5 px-4 w-12 text-center">No</th>
+                  <th class="py-3.5 px-4">Nama Aset &amp; ID</th>
+                  <th class="py-3.5 px-4">Kategori</th>
+                  <th class="py-3.5 px-4 text-right">Harga</th>
+                  <th class="py-3.5 px-4">Tanggal Beli</th>
+                  <th class="py-3.5 px-4">Durasi Pemakaian</th>
+                  <th class="py-3.5 px-4">Lokasi Beli</th>
+                  <th class="py-3.5 px-4 text-center">Status</th>
+                  <th class="py-3.5 px-4 text-center w-28">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="assetTableBody" class="divide-y divide-slate-200/70 dark:divide-slate-800/70">
+                <!-- JS rendered rows -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Table Footer / Pagination -->
+          <div
+            class="px-4 py-3 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span>Menampilkan <strong id="pageRangeText" class="text-slate-900 dark:text-slate-100">0</strong> dari
+                <strong id="totalItemsText" class="text-slate-900 dark:text-slate-100">0</strong> aset</span>
+              <span id="filteredValueSummary"
+                class="ml-3 font-semibold text-emerald-600 dark:text-emerald-400 hidden sm:inline"></span>
+            </div>
+
+            <div id="paginationNav" class="flex items-center gap-1">
+              <button onclick="changePage(-1)" id="btnPrevPage"
+                class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-slate-700 dark:text-slate-300 disabled:opacity-40 disabled:pointer-events-none transition-all">Previous</button>
+              <span id="pageInfoText" class="px-3 py-1.5 font-semibold text-slate-700 dark:text-slate-300">Hal 1 dari
+                1</span>
+              <button onclick="changePage(1)" id="btnNextPage"
+                class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-slate-700 dark:text-slate-300 disabled:opacity-40 disabled:pointer-events-none transition-all">Next</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- TAB 2: STATUS ASET -->
+      <div id="tab-status-aset" class="hidden space-y-6">
+
+        <!-- Top Summary Stats Grid (Clickable to Filter Table) -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+
+          <!-- Total Aset -->
+          <div onclick="filterByStatusFromCard('')" title="Klik untuk melihat semua aset di tabel"
+            class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-sm flex items-center justify-between group hover:border-green-500 hover:shadow-md cursor-pointer transition-all active:scale-95">
+            <div>
+              <span class="text-xs text-slate-500 dark:text-slate-400 font-medium block">Total Aset</span>
+              <h3 id="statTotalAsset"
+                class="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight mt-0.5">0</h3>
+              <span
+                class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold group-hover:underline inline-flex items-center gap-0.5 mt-1">
+                <span>Lihat Semua</span> &rarr;
+              </span>
+            </div>
+            <div
+              class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg border border-emerald-500/20 shrink-0">
+              📦
+            </div>
+          </div>
+
+          <!-- Aset Aktif -->
+          <div onclick="filterByStatusFromCard('Aktif')" title="Klik untuk filter aset kondisi Baik / Aktif"
+            class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-sm flex items-center justify-between group hover:border-emerald-500 hover:shadow-md cursor-pointer transition-all active:scale-95">
+            <div>
+              <span class="text-xs text-slate-500 dark:text-slate-400 font-medium block">Aset Aktif / Baik</span>
+              <h3 id="statActiveAsset"
+                class="text-2xl font-black text-emerald-600 dark:text-emerald-400 tracking-tight mt-0.5">0</h3>
+              <span
+                class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold group-hover:underline inline-flex items-center gap-0.5 mt-1">
+                <span>Filter Aset Aktif</span> &rarr;
+              </span>
+            </div>
+            <div
+              class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg border border-emerald-500/20 shrink-0">
+              ✅
+            </div>
+          </div>
+
+          <!-- Rusak / Dalam Perbaikan -->
+          <div onclick="filterByStatusFromCard('rusak-perbaikan')"
+            title="Klik untuk filter aset Kondisi Rusak / Dalam Perbaikan"
+            class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-sm flex items-center justify-between group hover:border-rose-500 hover:shadow-md cursor-pointer transition-all active:scale-95">
+            <div>
+              <span class="text-xs text-slate-500 dark:text-slate-400 font-medium block">Rusak / Perbaikan</span>
+              <h3 id="statInactiveAsset"
+                class="text-2xl font-black text-rose-600 dark:text-rose-400 tracking-tight mt-0.5">0</h3>
+              <span
+                class="text-[10px] text-rose-600 dark:text-rose-400 font-bold group-hover:underline inline-flex items-center gap-0.5 mt-1">
+                <span>Filter Aset Rusak</span> &rarr;
+              </span>
+            </div>
+            <div
+              class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center text-lg border border-rose-500/20 shrink-0">
+              ⚠️
+            </div>
+          </div>
+
+          <!-- Total Nilai Aset -->
+          <div onclick="filterByStatusFromCard('', 'harga-desc')"
+            title="Klik untuk melihat daftar aset dari harga tertinggi"
+            class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-sm flex items-center justify-between group hover:border-amber-500 hover:shadow-md cursor-pointer transition-all active:scale-95">
+            <div>
+              <span class="text-xs text-slate-500 dark:text-slate-400 font-medium block">Total Nilai Aset</span>
+              <h3 id="statTotalValue"
+                class="text-xl sm:text-2xl font-black text-amber-600 dark:text-amber-400 tracking-tight mt-0.5">Rp0</h3>
+              <span
+                class="text-[10px] text-amber-600 dark:text-amber-400 font-bold group-hover:underline inline-flex items-center gap-0.5 mt-1">
+                <span>Urutkan Harga</span> &rarr;
+              </span>
+            </div>
+            <div
+              class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg border border-amber-500/20 shrink-0">
+              💰
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Detailed Status Breakdown Cards -->
+        <div
+          class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-extrabold text-slate-900 dark:text-slate-100">Rincian Status Aset Terkini</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Klik pada salah satu status di bawah ini untuk
+                menampilkan daftar barang sesuai status tersebut di tabel.</p>
+            </div>
+          </div>
+
+          <div id="statusBreakdownGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <!-- JS rendered status breakdown cards -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB 3: ASET BERSAMA -->
+      <div id="tab-aset-bersama" class="hidden space-y-6">
+
+        <!-- Top Header Banner & Actions -->
+        <div
+          class="bg-gradient-to-r from-green-600/10 via-emerald-600/10 to-teal-500/10 border border-emerald-500/30 rounded-2xl p-5 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-xl">🤝</span>
+              <h2 class="text-base font-extrabold text-slate-900 dark:text-slate-100">Manajemen Aset Bersama (Shared
+                Assets)</h2>
+              <span
+                class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 rounded-full">Fasilitas
+                Bersama</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300">Daftar perangkat, peralatan, dan barang operasional
+              yang digunakan secara bersama-sama oleh tim atau departemen.</p>
+          </div>
+
+          <button onclick="openFormModalWithShared()"
+            class="px-4 py-2.5 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white rounded-xl text-xs font-bold shadow-md hover:shadow-emerald-500/25 transition-all flex items-center gap-1.5 shrink-0 active:scale-95">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+            </svg>
+            <span>+ Tambah Aset Bersama</span>
+          </button>
+        </div>
+
+        <!-- Quick Summary Stats Grid for Aset Bersama -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+          <div
+            class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs text-slate-500 dark:text-slate-400 font-medium block">Total Aset Bersama</span>
+              <h3 id="statSharedCount"
+                class="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight mt-0.5">0</h3>
+            </div>
+            <div
+              class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg border border-emerald-500/20 shrink-0">
+              🤝</div>
+          </div>
+
+          <div
+            class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs text-slate-500 dark:text-slate-400 font-medium block">Kondisi Baik / Aktif</span>
+              <h3 id="statSharedActive"
+                class="text-2xl font-black text-emerald-600 dark:text-emerald-400 tracking-tight mt-0.5">0</h3>
+            </div>
+            <div
+              class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg border border-emerald-500/20 shrink-0">
+              ✅</div>
+          </div>
+
+          <div
+            class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs text-slate-500 dark:text-slate-400 font-medium block">Total Nilai Aset Bersama</span>
+              <h3 id="statSharedValue"
+                class="text-xl font-black text-amber-600 dark:text-amber-400 tracking-tight mt-0.5">Rp0</h3>
+            </div>
+            <div
+              class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg border border-amber-500/20 shrink-0">
+              💰</div>
+          </div>
+        </div>
+
+        <!-- Shared Assets Grid Card -->
+        <div
+          class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl shadow-sm p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                📋 Daftar Barang Penggunaan Bersama
+              </h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Klik tombol "Tandai / Lepas Status Aset Bersama"
+                untuk mengelola barang yang terdaftar.</p>
+            </div>
+            <div class="text-xs text-slate-500">
+              Terdaftar: <strong id="sharedItemsCountBadge"
+                class="font-black text-emerald-600 dark:text-emerald-400">0</strong> barang
+            </div>
+          </div>
+
+          <div id="sharedAssetsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- JS rendered shared asset cards -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB 4: GRAFIK & ANALISIS TAHUNAN -->
+      <div id="tab-grafik" class="hidden space-y-6">
+
+        <!-- Charts Controls Bar -->
+        <div
+          class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="text-sm font-bold text-slate-900 dark:text-slate-100">Analisis &amp; Grafik Distribusi Aset</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Ringkasan statistik pertumbuhan aset dan total
+              pengeluaran per tahun</p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <!-- Year Filter Chips -->
+            <div id="yearChipsWrap" class="flex items-center gap-1"></div>
+
+            <!-- Category Chart Filter -->
+            <select id="chartCatSelect" onchange="renderCharts()"
+              class="px-3 py-1.5 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300/70 dark:border-slate-800 rounded-xl text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:border-green-500">
+              <option value="">Semua Kategori</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Charts Grid 1: Bar & Line Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          <!-- Chart 1: Jumlah Aset Baru per Tahun -->
+          <div
+            class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-sm">
+            <h3
+              class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-4 flex items-center justify-between">
+              <span>📊 Jumlah Aset Baru per Tahun</span>
+            </h3>
+            <div class="relative h-72 w-full">
+              <canvas id="chartCountYear"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 2: Total Pengeluaran per Tahun -->
+          <div
+            class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-sm">
+            <h3
+              class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-4 flex items-center justify-between">
+              <span>📈 Total Pengeluaran / Nilai Aset per Tahun (Rp)</span>
+            </h3>
+            <div class="relative h-72 w-full">
+              <canvas id="chartPriceYear"></canvas>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Charts Grid 2: Doughnut & Status Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          <!-- Chart 3: Doughnut Kategori -->
+          <div
+            class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-sm">
+            <h3 class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-4">
+              🍩 Distribusi Berdasarkan Kategori
+            </h3>
+            <div class="relative h-72 w-full">
+              <canvas id="chartCategoryDoughnut"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 4: Status Bar -->
+          <div
+            class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-sm">
+            <h3 class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-4">
+              🏷️ Distribusi Berdasarkan Status
+            </h3>
+            <div class="relative h-72 w-full">
+              <canvas id="chartStatusDistribution"></canvas>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Annual Summary Table -->
+        <div
+          class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-5 shadow-sm">
+          <h3 class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-3">
+            📋 Tabel Rincian Pembelian Aset per Tahun
+          </h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr
+                  class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">
+                  <th class="py-2.5 px-3">Tahun</th>
+                  <th class="py-2.5 px-3">Jumlah Aset</th>
+                  <th class="py-2.5 px-3 text-right">Total Nilai (Rp)</th>
+                  <th class="py-2.5 px-3 text-right">Rata-rata Nilai / Aset</th>
+                  <th class="py-2.5 px-3">Top Kategori</th>
+                </tr>
+              </thead>
+              <tbody id="yearSummaryTbody"
+                class="divide-y divide-slate-200/70 dark:divide-slate-800/70 text-slate-800 dark:text-slate-200">
+                <!-- JS rendered year summary rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+  </main>
+
+  <!-- Footer Section -->
+  <footer
+    class="mt-12 border-t border-slate-200/80 dark:border-slate-800/80 py-6 text-center text-xs text-slate-500 dark:text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div>&copy; 2026 <strong>Williyanto Adi</strong>. All rights reserved.</div>
+      <div id="footerTimestampText" class="text-slate-400 dark:text-slate-500"></div>
+    </div>
+  </footer>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- 1. MODAL TAMBAH / EDIT ASET -->
+  <div id="formModal"
+    class="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4 overflow-hidden"
+    onclick="if(event.target===this) closeFormModal()">
+    <div
+      class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-2xl shadow-2xl relative max-h-[90vh] flex flex-col overflow-hidden">
+
+      <!-- Modal Close Button -->
+      <button onclick="closeFormModal()"
+        class="absolute top-4 right-4 z-30 p-2 bg-slate-100 dark:bg-slate-800 hover:bg-rose-500 hover:text-white text-slate-400 dark:text-slate-300 rounded-full transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Form Container -->
+      <div class="p-6 overflow-y-auto max-h-[90vh] custom-scrollbar space-y-4">
+        <!-- Form Header -->
+        <div>
+          <h3 id="formModalTitle" class="text-lg font-extrabold text-slate-900 dark:text-slate-100">Tambah Aset Baru
+          </h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Isi formulir di bawah ini untuk mendata barang/aset
+            perusahaan</p>
+        </div>
+
+        <!-- Form Inputs Grid -->
+        <form id="assetForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+          <input type="hidden" id="formAssetId">
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            <!-- Nama Barang -->
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Nama Barang / Aset
+                <span class="text-rose-500">*</span></label>
+              <input type="text" id="fNamaBarang" required placeholder="Contoh: Laptop Dell XPS 15 9530"
+                class="w-full px-3.5 py-2.5 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-green-500">
+            </div>
+
+            <!-- Kategori -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Kategori <span
+                  class="text-rose-500">*</span></label>
+              <select id="fKategori" required onchange="handleCategorySelectChange()"
+                class="w-full px-3.5 py-2.5 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-green-500">
+                <option value="" disabled selected>Pilih Kategori</option>
+                <option value="Elektronik">Elektronik</option>
+                <option value="Furnitur">Furnitur</option>
+                <option value="Kendaraan">Kendaraan</option>
+                <option value="Peralatan Kantor">Peralatan Kantor</option>
+                <option value="Properti">Properti</option>
+                <option value="Perangkat Lunak">Perangkat Lunak</option>
+                <option value="Jaringan">Jaringan</option>
+                <option value="Lainnya">Lainnya</option>
+                <option value="custom">+ Kategori Kustom...</option>
+              </select>
+            </div>
+
+            <!-- Custom Category Input Wrapper -->
+            <div id="customCategoryWrapper" class="hidden">
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Nama Kategori
+                Baru</label>
+              <input type="text" id="fCustomKategori" placeholder="Kategori kustom..."
+                class="w-full px-3.5 py-2.5 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-green-500">
+            </div>
+
+            <!-- Harga Aset -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Harga Aset (Rp) <span
+                  class="text-rose-500">*</span></label>
+              <input type="text" id="fHargaAset" required placeholder="15.000.000" oninput="formatCurrencyInput(this)"
+                class="w-full px-3.5 py-2.5 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-green-500 font-semibold">
+            </div>
+
+            <!-- Tanggal Beli -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Tanggal Beli <span
+                  class="text-rose-500">*</span></label>
+              <input type="date" id="fTanggalBeli" required onchange="calcFormDuration()"
+                class="w-full px-3.5 py-2.5 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-green-500">
+            </div>
+
+            <!-- Durasi Pemakaian (Auto Readonly) -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Durasi Pemakaian
+                (Otomatis)</label>
+              <input type="text" id="fDurasiPakai" readonly placeholder="Hitung otomatis..."
+                class="w-full px-3.5 py-2.5 bg-slate-200/50 dark:bg-slate-900/50 border border-slate-300/50 dark:border-slate-800/50 rounded-xl text-xs text-slate-500 dark:text-slate-400 font-medium">
+            </div>
+
+            <!-- Lokasi / Toko Beli -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Lokasi / Toko Pembelian
+                <span class="text-rose-500">*</span></label>
+              <input type="text" id="fLokasiBeli" required placeholder="Tokopedia Official / iBox Senayan"
+                class="w-full px-3.5 py-2.5 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-green-500">
+            </div>
+
+            <!-- Status Aset -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Status Aset <span
+                  class="text-rose-500">*</span></label>
+              <select id="fStatusAset" required onchange="handleStatusSelectChange()"
+                class="w-full px-3.5 py-2.5 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-green-500">
+                <option value="Aktif">Aktif / Kondisi Baik</option>
+                <option value="Rusak">Kondisi Rusak</option>
+                <option value="Dalam Perbaikan">Dalam Perbaikan</option>
+                <option value="Dijual">Sudah Dijual</option>
+                <option value="Hilang">Hilang</option>
+                <option value="Dihibahkan">Dihibahkan</option>
+                <option value="custom">+ Status Kustom...</option>
+              </select>
+            </div>
+
+            <!-- Custom Status Input Wrapper -->
+            <div id="customStatusWrapper" class="hidden">
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Nama Status
+                Baru</label>
+              <input type="text" id="fCustomStatus" placeholder="Status kustom..."
+                class="w-full px-3.5 py-2.5 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-green-500">
+            </div>
+
+            <!-- Upload Foto & URL Gambar -->
+            <div class="sm:col-span-2 space-y-2">
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">Foto / Gambar Aset
+                (Opsional)</label>
+
+              <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <!-- Upload File Button -->
+                <label
+                  class="cursor-pointer px-4 py-2.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all shrink-0">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span>Upload dari Perangkat</span>
+                  <input type="file" id="fGambarFile" accept="image/*" onchange="handleImageUpload(event)"
+                    class="hidden">
+                </label>
+
+                <span class="text-xs text-slate-400 font-medium text-center sm:text-left">atau masukan URL:</span>
+
+                <!-- URL Input -->
+                <input type="url" id="fGambarUrl" oninput="handleUrlImageInput(this.value)"
+                  placeholder="https://domain.com/foto_aset.jpg"
+                  class="flex-1 px-3.5 py-2.5 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-green-500">
+              </div>
+
+              <!-- Image Preview Box -->
+              <div id="imagePreviewBox"
+                class="hidden relative inline-block mt-2 rounded-2xl overflow-hidden border border-slate-300 dark:border-slate-800 shadow-sm max-w-xs group">
+                <img id="imagePreviewImg" src="" alt="Pratinjau Foto" class="h-32 w-auto object-cover rounded-2xl">
+                <button type="button" onclick="removeFormImage()" title="Hapus Gambar"
+                  class="absolute top-2 right-2 bg-rose-600 text-white rounded-full p-1.5 shadow-md hover:bg-rose-700 transition-all active:scale-95">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Tandai sebagai Aset Bersama (Shared Asset) -->
+            <div
+              class="sm:col-span-2 bg-emerald-500/10 dark:bg-emerald-500/15 p-3 rounded-2xl border border-emerald-500/30 flex items-center justify-between">
+              <div>
+                <label for="fIsShared"
+                  class="text-xs font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 cursor-pointer">
+                  <span>🤝</span> Tandai Sebagai Aset Bersama (Shared Asset)
+                </label>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">Aset ini digunakan bersama antar
+                  departemen/tim dan akan ditampilkan di tab Aset Bersama.</p>
+              </div>
+              <input type="checkbox" id="fIsShared"
+                class="w-4.5 h-4.5 text-emerald-600 rounded-lg border-slate-300 focus:ring-green-500/20 cursor-pointer accent-emerald-500">
+            </div>
+
+            <!-- Detail Tambahan / Specs -->
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Detail Tambahan /
+                Spesifikasi / No. Seri</label>
+              <textarea id="fDetailAset" rows="3"
+                placeholder="Tuliskan nomor seri, warna, kondisi spesifik, atau garansi..."
+                class="w-full px-3.5 py-2.5 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:border-green-500 resize-none"></textarea>
+            </div>
+
+          </div>
+
+          <!-- Form Action Buttons -->
+          <div class="flex items-center justify-end gap-2 pt-4 border-t border-slate-200 dark:border-slate-800">
+            <button type="button" onclick="closeFormModal()"
+              class="px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-semibold transition-all">Batal</button>
+            <button type="submit" id="btnSaveAsset"
+              class="px-6 py-2.5 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-emerald-500/25 transition-all">Simpan
+              Aset</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div> <!-- end .px-3 tab content wrapper -->
+  <div class="h-6"></div>
+  </main>
+
+  <!-- 2. MODAL DETAIL ASET & LABEL QR CODE -->
+  <div id="detailModal"
+    class="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4 overflow-hidden"
+    onclick="if(event.target===this) closeDetailModal()">
+    <div
+      class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-xl shadow-2xl relative max-h-[90vh] flex flex-col overflow-hidden">
+
+      <!-- Close button (Always visible at top-right with high z-index & styling) -->
+      <button onclick="closeDetailModal()" title="Tutup Modal"
+        class="absolute top-3.5 right-3.5 z-30 p-2 bg-slate-100/90 dark:bg-slate-800/90 hover:bg-rose-500 hover:text-white text-slate-500 dark:text-slate-300 rounded-full shadow-md backdrop-blur-md transition-all active:scale-95 flex items-center justify-center">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Modal Body Content -->
+      <div id="detailModalContent" class="flex flex-col h-full max-h-[90vh] overflow-hidden">
+        <!-- JS rendered detail view -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3. MODAL HAPUS KONFIRMASI -->
+  <div id="deleteModal"
+    class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div
+      class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-md p-6 shadow-2xl relative text-center">
+      <div
+        class="w-12 h-12 rounded-2xl bg-rose-500/10 text-rose-500 flex items-center justify-center text-2xl mx-auto mb-3 border border-rose-500/20">
+        🗑️
+      </div>
+      <h3 class="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">Konfirmasi Hapus Aset</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Apakah Anda yakin ingin menghapus <strong
+          id="deleteAssetTitle" class="text-slate-800 dark:text-slate-200"></strong>? Tindakan ini tidak dapat
+        dibatalkan.</p>
+
+      <div class="flex items-center justify-center gap-2">
+        <button onclick="closeDeleteModal()"
+          class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-semibold">Batal</button>
+        <button onclick="confirmDeleteAsset()"
+          class="px-5 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-rose-600/25">Hapus
+          Aset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. MODAL HAPUS SEMUA ASET -->
+  <div id="deleteAllModal"
+    class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div
+      class="bg-white dark:bg-slate-900 border border-rose-500/30 rounded-3xl w-full max-w-md p-6 shadow-2xl relative">
+      <div class="text-center mb-5">
+        <div
+          class="w-14 h-14 rounded-2xl bg-rose-500/10 text-rose-500 flex items-center justify-center text-3xl mx-auto mb-4 border border-rose-500/20 shadow-lg shadow-rose-500/10">
+          ⚠️
+        </div>
+        <h3 class="text-base font-extrabold text-slate-900 dark:text-slate-100 mb-1">Hapus Semua Aset</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Tindakan ini akan <strong
+            class="text-rose-600 dark:text-rose-400">menghapus seluruh</strong> data aset secara permanen dan tidak
+          dapat dikembalikan.</p>
+      </div>
+
+      <div class="bg-rose-500/5 border border-rose-500/20 rounded-2xl p-4 mb-5">
+        <p class="text-xs text-slate-700 dark:text-slate-300 mb-2 font-semibold">Ketik <span
+            class="font-black text-rose-600 dark:text-rose-400 bg-rose-500/10 px-1.5 py-0.5 rounded-md">Ya Hapus</span>
+          untuk melanjutkan:</p>
+        <input type="text" id="deleteAllConfirmInput" placeholder="Ketik: Ya Hapus" oninput="checkDeleteAllConfirm()"
+          autocomplete="off"
+          class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-950 border-2 border-slate-300 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-rose-500 transition-all font-mono">
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="closeDeleteAllModal()"
+          class="flex-1 px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-semibold transition-all">Batal</button>
+        <button id="btnConfirmDeleteAll" onclick="confirmDeleteAllAssets()" disabled
+          class="flex-1 px-4 py-2.5 bg-rose-600 hover:bg-rose-500 disabled:bg-slate-300 dark:disabled:bg-slate-800 disabled:text-slate-400 dark:disabled:text-slate-600 disabled:cursor-not-allowed text-white rounded-xl text-xs font-bold shadow-lg shadow-rose-600/25 disabled:shadow-none transition-all">
+          🗑️ Hapus Semua
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <script>
+    // --- STATE MANAGEMENT ---
+    let assets = JSON.parse(localStorage.getItem('assets_v2026')) || [];
+    let currentFilteredAssets = [];
+    let activeCategoryFilter = '';
+    let currentPage = 1;
+    let itemsPerPage = 50;
+    let assetToDeleteId = null;
+    let currentDetailId = null;
+    let labelMode = 'barcode'; // 'barcode' | 'qr'
+
+    // Chart instances
+    let chartCountInstance = null;
+    let chartPriceInstance = null;
+    let chartCategoryInstance = null;
+    let chartStatusInstance = null;
+    let selectedChartYear = 'all';
+
+    // --- THEME MANAGEMENT ---
+    function initTheme() {
+      const savedTheme = localStorage.getItem('assetpro_theme') || 'dark';
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.getElementById('themeMoonIcon').classList.remove('hidden');
+        document.getElementById('themeSunIcon').classList.add('hidden');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.getElementById('themeMoonIcon').classList.add('hidden');
+        document.getElementById('themeSunIcon').classList.remove('hidden');
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('assetpro_theme', isDark ? 'dark' : 'light');
+      document.getElementById('themeMoonIcon').classList.toggle('hidden', !isDark);
+      document.getElementById('themeSunIcon').classList.toggle('hidden', isDark);
+      if (!document.getElementById('tab-grafik').classList.contains('hidden')) {
+        renderCharts();
+      }
+    }
+
+    // --- REALTIME CLOCK ---
+    function updateClock() {
+      const now = new Date();
+      const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+      const dayName = days[now.getDay()];
+      const dayNum = now.getDate();
+      const monthName = months[now.getMonth()];
+      const year = now.getFullYear();
+
+      const hours = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      const secs = String(now.getSeconds()).padStart(2, '0');
+
+      const formatted = `${dayName}, ${dayNum} ${monthName} ${year} - ${hours}.${mins}.${secs}`;
+      const clockEl = document.getElementById('headerClock');
+      if (clockEl) clockEl.textContent = formatted;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // --- TOAST SYSTEM ---
+    function toast(message, type = 'success') {
+      const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+      const colors = {
+        success: 'bg-emerald-500/90 text-white border-emerald-400',
+        error: 'bg-rose-500/90 text-white border-rose-400',
+        info: 'bg-emerald-500/90 text-white border-emerald-400'
+      };
+
+      const el = document.createElement('div');
+      el.className = `toast-anim pointer-events-auto flex items-center gap-2 px-4 py-2.5 rounded-2xl border backdrop-blur-lg shadow-xl text-xs font-semibold ${colors[type] || colors.info}`;
+      el.innerHTML = `<span>${icons[type] || 'ℹ️'}</span><span>${message}</span>`;
+
+      const container = document.getElementById('toastContainer');
+      container.appendChild(el);
+
+      setTimeout(() => {
+        el.style.animation = 'toastOut 0.3s ease forwards';
+        setTimeout(() => el.remove(), 300);
+      }, 3000);
+    }
+
+    // --- DROPDOWN CONTROL ---
+    function toggleDropdown(id) {
+      const dropdown = document.getElementById(id);
+      dropdown.classList.toggle('hidden');
+    }
+    function closeAllDropdowns() {
+      document.querySelectorAll('#exportDropdown').forEach(d => d.classList.add('hidden'));
+    }
+    window.addEventListener('click', (e) => {
+      if (!e.target.closest('#btnExportMenu')) {
+        closeAllDropdowns();
+      }
+    });
+
+    // --- UTILITIES ---
+    function generateUniqueId() {
+      return 'AST-' + Math.floor(10000 + Math.random() * 90000);
+    }
+
+    function saveData() {
+      const now = new Date().toISOString();
+      localStorage.setItem('assets_v2026', JSON.stringify(assets));
+      localStorage.setItem('assets_v2026_last_updated', now);
+      localStorage.setItem('assets_v2026_initialized', 'true');
+
+      // Directly update footer timestamp in real-time
+      const tsEl = document.getElementById('footerTimestampText');
+      if (tsEl) tsEl.textContent = `Terakhir diperbarui: ${formatDateTimeFull(now)}`;
+
+      updateStats();
+      renderCategoryPills();
+    }
+
+    function formatRupiah(number) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(number || 0);
+    }
+
+    function parseRupiah(str) {
+      return parseInt(String(str).replace(/\D/g, ''), 10) || 0;
+    }
+
+    function normalizeToISODate(inputStr) {
+      if (!inputStr) return new Date().toISOString().slice(0, 10);
+      const str = String(inputStr).trim();
+      if (!str) return new Date().toISOString().slice(0, 10);
+
+      // If already YYYY-MM-DD
+      if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+        return str;
+      }
+
+      // If YYYY-MM-DDTHH:mm:ss...
+      if (/^\d{4}-\d{2}-\d{2}T/.test(str)) {
+        return str.slice(0, 10);
+      }
+
+      // Handle DD/MM/YYYY or DD-MM-YYYY or MM/DD/YYYY or YYYY/MM/DD
+      const parts = str.split(/[\/\-\.]/);
+      if (parts.length === 3) {
+        let p1 = parseInt(parts[0], 10);
+        let p2 = parseInt(parts[1], 10);
+        let p3 = parseInt(parts[2], 10);
+
+        if (!isNaN(p1) && !isNaN(p2) && !isNaN(p3)) {
+          let year, month, day;
+
+          if (parts[0].length === 4) {
+            // YYYY/MM/DD
+            year = p1;
+            month = p2;
+            day = p3;
+          } else if (parts[2].length === 4) {
+            // DD/MM/YYYY or MM/DD/YYYY
+            year = p3;
+            if (p1 > 12) {
+              day = p1;
+              month = p2;
+            } else if (p2 > 12) {
+              day = p2;
+              month = p1;
+            } else {
+              // Indonesian standard format in Excel: DD/MM/YYYY
+              day = p1;
+              month = p2;
+            }
+          } else if (parts[2].length === 2) {
+            // YY format (e.g. 09/09/19)
+            year = p3 < 50 ? 2000 + p3 : 1900 + p3;
+            day = p1;
+            month = p2;
+          }
+
+          if (year && month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+            const yStr = String(year).padStart(4, '0');
+            const mStr = String(month).padStart(2, '0');
+            const dStr = String(day).padStart(2, '0');
+            return `${yStr}-${mStr}-${dStr}`;
+          }
+        }
+      }
+
+      // Fallback native Date parse
+      const d = new Date(str);
+      if (!isNaN(d.getTime())) {
+        const yStr = d.getFullYear();
+        const mStr = String(d.getMonth() + 1).padStart(2, '0');
+        const dStr = String(d.getDate()).padStart(2, '0');
+        return `${yStr}-${mStr}-${dStr}`;
+      }
+
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '-';
+      const iso = normalizeToISODate(dateStr);
+      const dt = new Date(iso + 'T00:00:00');
+      if (isNaN(dt.getTime())) return dateStr;
+      return dt.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    function formatDateTimeFull(dateISOStr) {
+      if (!dateISOStr) return '-';
+      const dt = new Date(dateISOStr);
+      if (isNaN(dt.getTime())) return dateISOStr;
+
+      const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+      const dayNum = String(dt.getDate()).padStart(2, '0');
+      const monthName = monthNames[dt.getMonth()];
+      const year = dt.getFullYear();
+
+      const hours = String(dt.getHours()).padStart(2, '0');
+      const mins = String(dt.getMinutes()).padStart(2, '0');
+      const secs = String(dt.getSeconds()).padStart(2, '0');
+
+      return `Jam ${hours}.${mins}.${secs}, Tanggal ${dayNum} ${monthName} ${year}`;
+    }
+
+    function updateStatusDropdownOptions() {
+      const statusSelect = document.getElementById('filterStatus');
+      if (!statusSelect) return;
+
+      const currentVal = statusSelect.value;
+      const staticOptions = [
+        { value: '', label: 'Semua Status' },
+        { value: 'Aktif', label: 'Aktif / Kondisi Baik' },
+        { value: 'rusak-perbaikan', label: 'Rusak / Dalam Perbaikan' },
+        { value: 'Rusak', label: 'Kondisi Rusak' },
+        { value: 'Dalam Perbaikan', label: 'Dalam Perbaikan' },
+        { value: 'Dijual', label: 'Sudah Dijual' },
+        { value: 'Hilang', label: 'Hilang' },
+        { value: 'Dihibahkan', label: 'Dihibahkan' }
+      ];
+
+      const staticValues = staticOptions.map(o => o.value);
+      const uniqueCustomStatuses = [...new Set(assets.map(a => a.status).filter(Boolean))].filter(st => !staticValues.includes(st));
+
+      let html = staticOptions.map(o => `<option value="${o.value}" ${o.value === currentVal ? 'selected' : ''}>${o.label}</option>`).join('');
+
+      uniqueCustomStatuses.forEach(st => {
+        html += `<option value="${st}" ${st === currentVal ? 'selected' : ''}>${st} (Kustom)</option>`;
+      });
+
+      statusSelect.innerHTML = html;
+    }
+
+    function calculateDuration(dateStr) {
+      if (!dateStr) return { text: '-', days: 0 };
+      const iso = normalizeToISODate(dateStr);
+      const start = new Date(iso + 'T00:00:00');
+      const end = new Date();
+      if (isNaN(start.getTime())) return { text: '-', days: 0 };
+      start.setHours(0, 0, 0, 0);
+      end.setHours(0, 0, 0, 0);
+
+      const diffTime = end - start;
+      if (diffTime < 0) return { text: 'Belum masa pemakaian', days: 0 };
+
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const years = Math.floor(diffDays / 365);
+      const remainingDays = diffDays % 365;
+      const months = Math.floor(remainingDays / 30);
+      const days = remainingDays % 30;
+
+      const parts = [];
+      if (years > 0) parts.push(`${years} Thn`);
+      if (months > 0) parts.push(`${months} Bln`);
+      if (days > 0 || parts.length === 0) parts.push(`${days} Hr`);
+
+      return { text: parts.join(' '), days: diffDays };
+    }
+
+    function getCategoryEmoji(cat) {
+      const map = {
+        'Elektronik': '💻',
+        'Furnitur': '🪑',
+        'Kendaraan': '🚗',
+        'Peralatan Kantor': '🔧',
+        'Properti': '🏢',
+        'Perangkat Lunak': '💽',
+        'Jaringan': '🌐',
+        'Lainnya': '📦'
+      };
+      return map[cat] || '📦';
+    }
+
+    function getStatusBadgeHTML(status) {
+      const styles = {
+        'Aktif': 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
+        'Rusak': 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-500/30',
+        'Dalam Perbaikan': 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30',
+        'Dijual': 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/30',
+        'Hilang': 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-500/30',
+        'Dihibahkan': 'bg-slate-500/15 text-slate-600 dark:text-slate-400 border-slate-500/30'
+      };
+      const cls = styles[status] || 'bg-slate-500/15 text-slate-600 dark:text-slate-400 border-slate-500/30';
+      return `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${cls}">${status}</span>`;
+    }
+
+    // --- TAB SWITCHING ---
+    function switchTab(tabId) {
+      document.getElementById('tab-data-aset').classList.toggle('hidden', tabId !== 'data-aset');
+      document.getElementById('tab-status-aset').classList.toggle('hidden', tabId !== 'status-aset');
+      document.getElementById('tab-aset-bersama').classList.toggle('hidden', tabId !== 'aset-bersama');
+      document.getElementById('tab-grafik').classList.toggle('hidden', tabId !== 'grafik');
+
+      const btnData = document.getElementById('tabBtnData');
+      const btnStatus = document.getElementById('tabBtnStatus');
+      const btnShared = document.getElementById('tabBtnShared');
+      const btnGrafik = document.getElementById('tabBtnGrafik');
+
+      const activeCls = "px-4 sm:px-5 py-3 text-sm font-bold border-b-2 border-green-500 text-emerald-600 dark:text-emerald-400 flex items-center gap-2 transition-all whitespace-nowrap";
+      const inactiveCls = "px-4 sm:px-5 py-3 text-sm font-bold border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 flex items-center gap-2 transition-all whitespace-nowrap";
+
+      if (btnData) btnData.className = (tabId === 'data-aset') ? activeCls : inactiveCls;
+      if (btnStatus) btnStatus.className = (tabId === 'status-aset') ? activeCls : inactiveCls;
+      if (btnShared) btnShared.className = (tabId === 'aset-bersama') ? activeCls : inactiveCls;
+      if (btnGrafik) btnGrafik.className = (tabId === 'grafik') ? activeCls : inactiveCls;
+
+      if (tabId === 'status-aset') {
+        renderStatusBreakdown();
+      } else if (tabId === 'aset-bersama') {
+        renderSharedAssets();
+      } else if (tabId === 'grafik') {
+        renderCharts();
+      }
+    }
+
+    function renderStatusBreakdown() {
+      const container = document.getElementById('statusBreakdownGrid');
+      if (!container) return;
+
+      const total = assets.length || 1;
+      const statusCounts = {};
+
+      assets.forEach(a => {
+        const s = a.status || 'Lainnya';
+        statusCounts[s] = (statusCounts[s] || 0) + 1;
+      });
+
+      const allStatuses = ['Aktif', 'Rusak', 'Dalam Perbaikan', 'Dijual', 'Hilang', 'Dihibahkan'];
+      Object.keys(statusCounts).forEach(s => {
+        if (!allStatuses.includes(s)) allStatuses.push(s);
+      });
+
+      let html = '';
+      allStatuses.forEach(st => {
+        const count = statusCounts[st] || 0;
+        const pct = Math.round((count / total) * 100);
+
+        let colorCls = 'emerald';
+        let icon = '🏷️';
+        let filterVal = st;
+        if (st === 'Aktif') { colorCls = 'emerald'; icon = '✅'; }
+        else if (st === 'Rusak') { colorCls = 'rose'; icon = '❌'; }
+        else if (st === 'Dalam Perbaikan') { colorCls = 'amber'; icon = '🛠️'; }
+        else if (st === 'Dijual') { colorCls = 'purple'; icon = '🏷️'; }
+        else if (st === 'Hilang') { colorCls = 'slate'; icon = '❓'; }
+        else if (st === 'Dihibahkan') { colorCls = 'blue'; icon = '🎁'; }
+
+        html += `
+          <div onclick="filterByStatusFromCard('${filterVal}')" title="Klik untuk lihat aset berstatus '${st}'" class="p-3.5 bg-slate-100/70 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-${colorCls}-500 hover:shadow-md cursor-pointer transition-all active:scale-95 group">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-lg">${icon}</span>
+                <span class="text-xs font-bold text-slate-800 dark:text-slate-200">${st}</span>
+              </div>
+              <span class="text-xs font-black text-slate-900 dark:text-slate-100">${count} Aset</span>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
+              <span>Persentase Total</span>
+              <span class="font-bold text-emerald-600 dark:text-emerald-400">${pct}%</span>
+            </div>
+            <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+              <div class="bg-${colorCls}-500 h-1.5 rounded-full transition-all" style="width: ${pct}%"></div>
+            </div>
+            <div class="mt-2 text-[10px] text-right font-semibold text-emerald-600 dark:text-emerald-400 group-hover:underline">
+              Tampilkan di Tabel &rarr;
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function openFormModalWithShared() {
+      openFormModal();
+      const chk = document.getElementById('fIsShared');
+      if (chk) chk.checked = true;
+    }
+
+    function toggleSharedStatus(assetId) {
+      const idx = assets.findIndex(a => a.id === assetId);
+      if (idx !== -1) {
+        assets[idx].isShared = !assets[idx].isShared;
+        saveData();
+        renderTable();
+        renderSharedAssets();
+        if (assets[idx].isShared) {
+          toast(`'${assets[idx].nama}' ditandai sebagai Aset Bersama 🤝`, 'success');
+        } else {
+          toast(`'${assets[idx].nama}' dilepas dari Aset Bersama`, 'info');
+        }
+      }
+    }
+
+    function renderSharedAssets() {
+      const sharedList = assets.filter(a => a.isShared);
+      const totalCount = sharedList.length;
+      const activeCount = sharedList.filter(a => a.status === 'Aktif').length;
+      const totalVal = sharedList.reduce((sum, a) => sum + (a.harga || 0), 0);
+
+      const elCount = document.getElementById('statSharedCount');
+      const elActive = document.getElementById('statSharedActive');
+      const elVal = document.getElementById('statSharedValue');
+      const elBadge = document.getElementById('sharedItemsCountBadge');
+
+      if (elCount) elCount.textContent = totalCount.toLocaleString('id-ID');
+      if (elActive) elActive.textContent = activeCount.toLocaleString('id-ID');
+      if (elVal) elVal.textContent = formatRupiah(totalVal);
+      if (elBadge) elBadge.textContent = totalCount;
+
+      const grid = document.getElementById('sharedAssetsGrid');
+      if (!grid) return;
+
+      if (sharedList.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 text-center bg-slate-100/50 dark:bg-slate-950/40 rounded-2xl border border-dashed border-slate-300 dark:border-slate-800">
+            <div class="text-4xl mb-3">🤝</div>
+            <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-1">Belum Ada Aset Bersama</h4>
+            <p class="text-xs text-slate-500 max-w-md mx-auto mb-4">Anda belum menandai barang sebagai Aset Bersama. Tandai barang di tabel utama atau klik tombol di bawah untuk menambah baru.</p>
+            <button onclick="openFormModalWithShared()" class="px-4 py-2 bg-emerald-500 text-slate-950 rounded-xl text-xs font-bold shadow-md hover:bg-emerald-400 transition-all">
+              + Tambah Aset Bersama Sekarang
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = sharedList.map(a => {
+        const duration = calculateDuration(a.tanggal);
+        return `
+          <div class="bg-slate-100/80 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex flex-col justify-between group hover:border-emerald-500/50 transition-all">
+            <div>
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-xl">${getCategoryEmoji(a.kategori)}</span>
+                  <div>
+                    <h4 class="text-xs font-bold text-slate-900 dark:text-slate-100 line-clamp-1">${a.nama}</h4>
+                    <span class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">${a.id}</span>
+                  </div>
+                </div>
+                ${getStatusBadgeHTML(a.status)}
+              </div>
+
+              ${a.imageUrl ? `
+                <div class="rounded-xl overflow-hidden mb-3 border border-slate-200 dark:border-slate-800 h-28 flex justify-center bg-slate-950/40">
+                  <img src="${a.imageUrl}" alt="${a.nama}" class="h-28 object-contain w-full" onerror="this.parentElement.style.display='none'">
+                </div>
+              ` : ''}
+
+              <div class="space-y-1.5 text-[11px] text-slate-600 dark:text-slate-400 mb-3 bg-white/60 dark:bg-slate-900/60 p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800/60">
+                <div class="flex justify-between">
+                  <span class="text-slate-400">Harga:</span>
+                  <span class="font-bold text-emerald-600 dark:text-emerald-400">${formatRupiah(a.harga)}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-400">Lokasi Bersama:</span>
+                  <span class="font-bold text-slate-800 dark:text-slate-200 truncate max-w-[140px]">📍 ${a.lokasi || '-'}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-400">Durasi Pakai:</span>
+                  <span class="font-semibold text-slate-700 dark:text-slate-300">⏱️ ${duration.text}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-200 dark:border-slate-800 text-xs">
+              <button onclick="openDetailModal('${a.id}')" class="text-emerald-600 dark:text-emerald-400 font-bold hover:underline text-[11px]">
+                Lihat Detail &rarr;
+              </button>
+              <button onclick="toggleSharedStatus('${a.id}')" title="Lepas Status Bersama" class="px-2.5 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30 rounded-lg text-[10px] font-bold transition-all">
+                Hapus dari Bersama
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // --- DATA RENDERING & FILTERING ---
+    function updateStats() {
+      const total = assets.length;
+      const active = assets.filter(a => a.status === 'Aktif').length;
+      const inactive = assets.filter(a => a.status === 'Rusak' || a.status === 'Dalam Perbaikan').length;
+      const totalVal = assets.reduce((sum, a) => sum + (a.harga || 0), 0);
+
+      const elTotal = document.getElementById('statTotalAsset');
+      const elActive = document.getElementById('statActiveAsset');
+      const elInactive = document.getElementById('statInactiveAsset');
+      const elVal = document.getElementById('statTotalValue');
+
+      if (elTotal) elTotal.textContent = total.toLocaleString('id-ID');
+      if (elActive) elActive.textContent = active.toLocaleString('id-ID');
+      if (elInactive) elInactive.textContent = inactive.toLocaleString('id-ID');
+      if (elVal) elVal.textContent = formatRupiah(totalVal);
+
+      updateStatusDropdownOptions();
+      renderStatusBreakdown();
+      renderSharedAssets();
+
+      const lastUpdated = localStorage.getItem('assets_v2026_last_updated');
+      const tsEl = document.getElementById('footerTimestampText');
+      if (lastUpdated && tsEl) {
+        tsEl.textContent = `Terakhir diperbarui: ${formatDateTimeFull(lastUpdated)}`;
+      }
+    }
+
+    function renderCategoryPills() {
+      const container = document.getElementById('categoryPillsWrap');
+      const categories = [...new Set(assets.map(a => a.kategori))].sort();
+
+      if (activeCategoryFilter && !categories.includes(activeCategoryFilter)) {
+        activeCategoryFilter = '';
+      }
+
+      const counts = {};
+      assets.forEach(a => counts[a.kategori] = (counts[a.kategori] || 0) + 1);
+
+      let html = `
+        <button onclick="setCategoryFilter('')" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${activeCategoryFilter === '' ? 'bg-emerald-500 text-slate-950 shadow-md shadow-green-500/20' : 'bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'}">
+          <span>Semua Aset</span>
+          <span class="px-1.5 py-0.2 rounded-full text-[10px] ${activeCategoryFilter === '' ? 'bg-slate-950/20 text-slate-950 font-bold' : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400'}">${assets.length}</span>
+        </button>
+      `;
+
+      categories.forEach(cat => {
+        const isActive = activeCategoryFilter === cat;
+        html += `
+          <button onclick="setCategoryFilter('${cat}')" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${isActive ? 'bg-emerald-500 text-slate-950 shadow-md shadow-green-500/20' : 'bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'}">
+            <span>${getCategoryEmoji(cat)} ${cat}</span>
+            <span class="px-1.5 py-0.2 rounded-full text-[10px] ${isActive ? 'bg-slate-950/20 text-slate-950 font-bold' : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400'}">${counts[cat] || 0}</span>
+          </button>
+        `;
+      });
+
+      container.innerHTML = html;
+
+      // Update chart category filter dropdown options
+      const chartSelect = document.getElementById('chartCatSelect');
+      const curChartVal = chartSelect.value;
+      chartSelect.innerHTML = '<option value="">Semua Kategori</option>' + categories.map(c => `<option value="${c}" ${c === curChartVal ? 'selected' : ''}>${c}</option>`).join('');
+    }
+
+    function setCategoryFilter(cat) {
+      activeCategoryFilter = cat;
+      currentPage = 1;
+      renderCategoryPills();
+      renderTable();
+    }
+
+    function filterByStatusFromCard(statusVal, sortVal = null) {
+      switchTab('data-aset');
+
+      updateStatusDropdownOptions();
+      const statusSelect = document.getElementById('filterStatus');
+      if (statusSelect) {
+        let exists = Array.from(statusSelect.options).some(opt => opt.value === statusVal);
+        if (!exists && statusVal) {
+          const opt = document.createElement('option');
+          opt.value = statusVal;
+          opt.textContent = `${statusVal} (Kustom)`;
+          statusSelect.appendChild(opt);
+        }
+        statusSelect.value = statusVal;
+      }
+
+      if (sortVal) {
+        const sortSelect = document.getElementById('sortSelect');
+        if (sortSelect) sortSelect.value = sortVal;
+      }
+
+      activeCategoryFilter = '';
+      renderCategoryPills();
+
+      currentPage = 1;
+      renderTable();
+
+      const dataTab = document.getElementById('tab-data-aset');
+      if (dataTab) {
+        dataTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      if (statusVal === 'Aktif') {
+        toast('Menampilkan aset dengan kondisi Baik / Aktif', 'info');
+      } else if (statusVal === 'rusak-perbaikan') {
+        toast('Menampilkan aset Kondisi Rusak & Dalam Perbaikan ⚠️', 'warning');
+      } else if (sortVal === 'harga-desc') {
+        toast('Menampilkan aset dari Harga Tertinggi 💰', 'info');
+      } else {
+        toast('Menampilkan seluruh data aset 📦', 'info');
+      }
+    }
+
+    function handleFilterChange() {
+      currentPage = 1;
+      renderTable();
+    }
+
+    function getFilteredAssets() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      const statusFilter = document.getElementById('filterStatus').value;
+      const sortVal = document.getElementById('sortSelect').value;
+
+      let list = [...assets];
+
+      if (activeCategoryFilter) {
+        list = list.filter(a => a.kategori === activeCategoryFilter);
+      }
+      if (statusFilter === 'rusak-perbaikan') {
+        list = list.filter(a => a.status === 'Rusak' || a.status === 'Dalam Perbaikan');
+      } else if (statusFilter) {
+        list = list.filter(a => a.status === statusFilter);
+      }
+      if (q) {
+        list = list.filter(a =>
+          (a.nama + ' ' + a.id + ' ' + (a.lokasi || '') + ' ' + (a.detail || '') + ' ' + a.kategori).toLowerCase().includes(q)
+        );
+      }
+
+      // Sorting
+      if (sortVal === 'newest') {
+        list.sort((a, b) => new Date(b.createdAt || b.tanggal) - new Date(a.createdAt || a.tanggal));
+      } else if (sortVal === 'oldest') {
+        list.sort((a, b) => new Date(a.createdAt || a.tanggal) - new Date(b.createdAt || b.tanggal));
+      } else if (sortVal === 'nama') {
+        list.sort((a, b) => a.nama.localeCompare(b.nama));
+      } else if (sortVal === 'harga-desc') {
+        list.sort((a, b) => b.harga - a.harga);
+      } else if (sortVal === 'harga-asc') {
+        list.sort((a, b) => a.harga - b.harga);
+      } else if (sortVal === 'duration-desc') {
+        list.sort((a, b) => calculateDuration(b.tanggal).days - calculateDuration(a.tanggal).days);
+      }
+
+      return list;
+    }
+
+    function renderTable() {
+      currentFilteredAssets = getFilteredAssets();
+      itemsPerPage = parseInt(document.getElementById('itemsPerPageSelect').value, 10) || 50;
+
+      const totalItems = currentFilteredAssets.length;
+      const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const paginatedAssets = currentFilteredAssets.slice(startIndex, startIndex + itemsPerPage);
+
+      const tbody = document.getElementById('assetTableBody');
+      tbody.innerHTML = '';
+
+      if (paginatedAssets.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" class="py-12 text-center text-slate-400 dark:text-slate-500">
+              <div class="text-3xl mb-2">📭</div>
+              <p class="font-medium">Tidak ada data aset yang cocok.</p>
+            </td>
+          </tr>
+        `;
+      } else {
+        paginatedAssets.forEach((asset, idx) => {
+          const rowNum = startIndex + idx + 1;
+          const duration = calculateDuration(asset.tanggal);
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-100/60 dark:hover:bg-slate-800/50 transition-colors cursor-pointer";
+          tr.onclick = (e) => {
+            if (e.target.closest('button')) return;
+            openDetailModal(asset.id);
+          };
+
+          tr.innerHTML = `
+            <td class="py-3 px-4 text-center font-medium text-slate-400">${rowNum}</td>
+            <td class="py-3 px-4">
+              <div class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 flex-wrap">
+                <span>${asset.nama}</span>
+                ${asset.isShared ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wide bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md shadow-green-500/20 rounded-full border border-cyan-300/30">🤝 Aset Bersama</span>` : ''}
+              </div>
+              <div class="text-[10px] font-mono text-slate-400 dark:text-slate-500">${asset.id}</div>
+            </td>
+            <td class="py-3 px-4 whitespace-nowrap">
+              <span class="inline-flex items-center gap-1 font-medium text-slate-700 dark:text-slate-300">
+                <span>${getCategoryEmoji(asset.kategori)}</span>
+                <span>${asset.kategori}</span>
+              </span>
+            </td>
+            <td class="py-3 px-4 text-right font-bold text-emerald-600 dark:text-emerald-400 whitespace-nowrap">${formatRupiah(asset.harga)}</td>
+            <td class="py-3 px-4 whitespace-nowrap text-slate-600 dark:text-slate-400">${formatDate(asset.tanggal)}</td>
+            <td class="py-3 px-4 whitespace-nowrap text-slate-600 dark:text-slate-400">${duration.text}</td>
+            <td class="py-3 px-4 whitespace-nowrap text-slate-600 dark:text-slate-400">${asset.lokasi || '-'}</td>
+            <td class="py-3 px-4 text-center whitespace-nowrap">${getStatusBadgeHTML(asset.status)}</td>
+            <td class="py-3 px-4 text-center whitespace-nowrap" onclick="event.stopPropagation()">
+              <div class="flex items-center justify-center gap-1">
+                <button onclick="toggleSharedStatus('${asset.id}')" title="${asset.isShared ? 'Lepas Status Aset Bersama' : 'Tandai Sebagai Aset Bersama'}" class="${asset.isShared ? 'px-2.5 py-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-extrabold shadow-md shadow-emerald-500/30 border border-cyan-300/40 hover:opacity-90 flex items-center gap-1' : 'p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-400 hover:text-emerald-500 opacity-70 hover:opacity-100'} rounded-lg transition-all text-xs">
+                  ${asset.isShared ? '<span>🤝</span><span class="text-[10px] font-black tracking-wide">Aset Bersama ✓</span>' : '<span class="text-base">🤝</span>'}
+                </button>
+                <button onclick="openFormModal('${asset.id}')" title="Edit" class="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-emerald-600 dark:text-emerald-400 transition-colors">
+                  ✏️
+                </button>
+                <button onclick="openDetailModal('${asset.id}')" title="Barcode / QR Label" class="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-emerald-600 dark:text-emerald-400 transition-colors">
+                  🏷️
+                </button>
+                <button onclick="openDeleteModal('${asset.id}')" title="Hapus" class="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-rose-600 dark:text-rose-400 transition-colors">
+                  🗑️
+                </button>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      // Update pagination info
+      document.getElementById('totalItemsText').textContent = totalItems.toLocaleString('id-ID');
+      document.getElementById('pageRangeText').textContent = totalItems === 0 ? '0' : `${startIndex + 1}-${Math.min(startIndex + itemsPerPage, totalItems)}`;
+      document.getElementById('pageInfoText').textContent = `Hal ${currentPage} dari ${totalPages}`;
+      document.getElementById('btnPrevPage').disabled = (currentPage <= 1);
+      document.getElementById('btnNextPage').disabled = (currentPage >= totalPages);
+
+      // Update total calculated value summary of current filter
+      const filteredTotalVal = currentFilteredAssets.reduce((s, a) => s + (a.harga || 0), 0);
+      document.getElementById('filteredValueSummary').textContent = `(Total Filtered: ${formatRupiah(filteredTotalVal)})`;
+    }
+
+    function changePage(direction) {
+      currentPage += direction;
+      renderTable();
+    }
+
+    // --- IMAGE UPLOAD & PREVIEW HANDLERS ---
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (file.size > 5 * 1024 * 1024) {
+        toast("Ukuran file gambar maksimal 5MB", "error");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const dataUrl = e.target.result;
+        document.getElementById('fGambarUrl').value = dataUrl;
+        showImagePreview(dataUrl);
+        toast("Foto berhasil diunggah!", "success");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleUrlImageInput(url) {
+      if (url && url.trim().length > 5) {
+        showImagePreview(url.trim());
+      } else {
+        showImagePreview('');
+      }
+    }
+
+    function showImagePreview(url) {
+      const previewBox = document.getElementById('imagePreviewBox');
+      const previewImg = document.getElementById('imagePreviewImg');
+      if (!previewBox || !previewImg) return;
+
+      if (url) {
+        previewImg.src = url;
+        previewBox.classList.remove('hidden');
+      } else {
+        previewImg.src = '';
+        previewBox.classList.add('hidden');
+      }
+    }
+
+    function removeFormImage() {
+      document.getElementById('fGambarUrl').value = '';
+      const fileInput = document.getElementById('fGambarFile');
+      if (fileInput) fileInput.value = '';
+      showImagePreview('');
+      toast("Foto dihapus", "info");
+    }
+
+    // --- FORM MODAL (ADD / EDIT) ---
+    function openFormModal(assetId = null) {
+      const modal = document.getElementById('formModal');
+      const form = document.getElementById('assetForm');
+      form.reset();
+
+      document.getElementById('customCategoryWrapper').classList.add('hidden');
+      document.getElementById('customStatusWrapper').classList.add('hidden');
+      showImagePreview('');
+
+      if (assetId) {
+        const asset = assets.find(a => a.id === assetId);
+        if (!asset) return;
+
+        document.getElementById('formModalTitle').textContent = "Edit Data Aset";
+        document.getElementById('btnSaveAsset').textContent = "Update Aset";
+        document.getElementById('formAssetId').value = asset.id;
+        document.getElementById('fNamaBarang').value = asset.nama;
+        document.getElementById('fHargaAset').value = asset.harga ? asset.harga.toLocaleString('id-ID') : '';
+        document.getElementById('fTanggalBeli').value = asset.tanggal;
+        document.getElementById('fLokasiBeli').value = asset.lokasi || '';
+        document.getElementById('fGambarUrl').value = asset.imageUrl || '';
+        document.getElementById('fDetailAset').value = asset.detail || '';
+        document.getElementById('fIsShared').checked = !!asset.isShared;
+
+        if (asset.imageUrl) {
+          showImagePreview(asset.imageUrl);
+        }
+
+        // Category Select
+        const catSelect = document.getElementById('fKategori');
+        const catOptions = Array.from(catSelect.options).map(o => o.value);
+        if (catOptions.includes(asset.kategori)) {
+          catSelect.value = asset.kategori;
+        } else {
+          catSelect.value = 'custom';
+          document.getElementById('customCategoryWrapper').classList.remove('hidden');
+          document.getElementById('fCustomKategori').value = asset.kategori;
+        }
+
+        // Status Select
+        const statusSelect = document.getElementById('fStatusAset');
+        const statusOptions = Array.from(statusSelect.options).map(o => o.value);
+        if (statusOptions.includes(asset.status)) {
+          statusSelect.value = asset.status;
+        } else {
+          statusSelect.value = 'custom';
+          document.getElementById('customStatusWrapper').classList.remove('hidden');
+          document.getElementById('fCustomStatus').value = asset.status;
+        }
+
+      } else {
+        document.getElementById('formModalTitle').textContent = "Tambah Aset Baru";
+        document.getElementById('btnSaveAsset').textContent = "Simpan Aset";
+        document.getElementById('formAssetId').value = '';
+        document.getElementById('fTanggalBeli').value = new Date().toISOString().split('T')[0];
+        document.getElementById('fIsShared').checked = false;
+      }
+
+      calcFormDuration();
+      modal.classList.remove('hidden');
+    }
+
+    function closeFormModal() {
+      document.getElementById('formModal').classList.add('hidden');
+    }
+
+    function handleCategorySelectChange() {
+      const val = document.getElementById('fKategori').value;
+      document.getElementById('customCategoryWrapper').classList.toggle('hidden', val !== 'custom');
+    }
+
+    function handleStatusSelectChange() {
+      const val = document.getElementById('fStatusAset').value;
+      document.getElementById('customStatusWrapper').classList.toggle('hidden', val !== 'custom');
+    }
+
+    function formatCurrencyInput(input) {
+      let raw = parseRupiah(input.value);
+      input.value = raw > 0 ? raw.toLocaleString('id-ID') : '';
+    }
+
+    function calcFormDuration() {
+      const dateVal = document.getElementById('fTanggalBeli').value;
+      const dur = calculateDuration(dateVal);
+      document.getElementById('fDurasiPakai').value = dur.text;
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+
+      const id = document.getElementById('formAssetId').value;
+      const nama = document.getElementById('fNamaBarang').value.trim();
+      let kategori = document.getElementById('fKategori').value;
+      if (kategori === 'custom') {
+        kategori = document.getElementById('fCustomKategori').value.trim();
+        if (!kategori) { toast('Kategori kustom tidak boleh kosong', 'error'); return; }
+      }
+
+      const harga = parseRupiah(document.getElementById('fHargaAset').value);
+      const tanggal = document.getElementById('fTanggalBeli').value;
+      const lokasi = document.getElementById('fLokasiBeli').value.trim();
+
+      let status = document.getElementById('fStatusAset').value;
+      if (status === 'custom') {
+        status = document.getElementById('fCustomStatus').value.trim();
+        if (!status) { toast('Status kustom tidak boleh kosong', 'error'); return; }
+      }
+
+      const imageUrl = document.getElementById('fGambarUrl').value.trim();
+      const detail = document.getElementById('fDetailAset').value.trim();
+      const isShared = document.getElementById('fIsShared').checked;
+      const now = new Date().toISOString();
+
+      if (id) {
+        // Update
+        const idx = assets.findIndex(a => a.id === id);
+        if (idx !== -1) {
+          assets[idx] = {
+            ...assets[idx],
+            nama, kategori, harga, tanggal, lokasi, status, imageUrl, detail, isShared,
+            updatedAt: now
+          };
+          toast('Aset berhasil diperbarui ✨', 'success');
+        }
+      } else {
+        // Create
+        const newAsset = {
+          id: generateUniqueId(),
+          nama, kategori, harga, tanggal, lokasi, status, imageUrl, detail, isShared,
+          createdAt: now, updatedAt: now
+        };
+        assets.unshift(newAsset);
+        toast('Aset baru berhasil ditambahkan 🎉', 'success');
+      }
+
+      saveData();
+      renderTable();
+      closeFormModal();
+    }
+
+    // --- DELETE MODAL ---
+    function openDeleteModal(assetId) {
+      const asset = assets.find(a => a.id === assetId);
+      if (!asset) return;
+      assetToDeleteId = assetId;
+      document.getElementById('deleteAssetTitle').textContent = asset.nama;
+      document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.add('hidden');
+      assetToDeleteId = null;
+    }
+
+    function confirmDeleteAsset() {
+      if (!assetToDeleteId) return;
+      assets = assets.filter(a => a.id !== assetToDeleteId);
+      saveData();
+      renderTable();
+      toast('Aset telah dihapus', 'info');
+      closeDeleteModal();
+    }
+
+    // --- HAPUS SEMUA ASET MODAL ---
+    function openDeleteAllModal() {
+      if (assets.length === 0) {
+        toast('Tidak ada aset yang perlu dihapus', 'info');
+        return;
+      }
+      const input = document.getElementById('deleteAllConfirmInput');
+      if (input) input.value = '';
+      const btn = document.getElementById('btnConfirmDeleteAll');
+      if (btn) btn.disabled = true;
+      document.getElementById('deleteAllModal').classList.remove('hidden');
+      setTimeout(() => { if (input) input.focus(); }, 100);
+    }
+
+    function closeDeleteAllModal() {
+      document.getElementById('deleteAllModal').classList.add('hidden');
+      const input = document.getElementById('deleteAllConfirmInput');
+      if (input) input.value = '';
+      const btn = document.getElementById('btnConfirmDeleteAll');
+      if (btn) btn.disabled = true;
+    }
+
+    function checkDeleteAllConfirm() {
+      const input = document.getElementById('deleteAllConfirmInput');
+      const btn = document.getElementById('btnConfirmDeleteAll');
+      if (!input || !btn) return;
+      const val = input.value.trim();
+      const isMatch = val === 'Ya Hapus';
+      btn.disabled = !isMatch;
+      if (isMatch) {
+        input.classList.add('border-rose-500');
+        input.classList.remove('border-slate-300', 'dark:border-slate-700');
+      } else {
+        input.classList.remove('border-rose-500');
+      }
+    }
+
+    function confirmDeleteAllAssets() {
+      const input = document.getElementById('deleteAllConfirmInput');
+      if (!input || input.value.trim() !== 'Ya Hapus') {
+        toast('Konfirmasi tidak sesuai', 'error');
+        return;
+      }
+      const count = assets.length;
+      assets = [];
+      saveData();
+      renderTable();
+      renderSharedAssets();
+      closeDeleteAllModal();
+      toast(`${count} aset berhasil dihapus seluruhnya 🗑️`, 'info');
+    }
+
+    // --- DETAIL & QR CODE MODAL ---
+    function openDetailModal(assetId) {
+      const asset = assets.find(a => a.id === assetId);
+      if (!asset) return;
+      currentDetailId = assetId;
+
+      const duration = calculateDuration(asset.tanggal);
+      const container = document.getElementById('detailModalContent');
+
+      // Visual duration progress
+      const durationPct = Math.min(100, Math.round((duration.days / (365 * 5)) * 100));
+
+      container.innerHTML = `
+        <!-- Fixed Header at top of modal -->
+        <div class="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0 flex items-center gap-3 pr-14 rounded-t-3xl">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl border border-emerald-500/20 shrink-0">
+            ${getCategoryEmoji(asset.kategori)}
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="text-base font-extrabold text-slate-900 dark:text-slate-100 truncate">${asset.nama}</h3>
+            <div class="flex items-center gap-2 mt-0.5 flex-wrap">
+              <span class="text-xs font-mono font-semibold text-emerald-600 dark:text-emerald-400">${asset.id}</span>
+              ${getStatusBadgeHTML(asset.status)}
+              ${asset.isShared ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wide bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-sm shadow-emerald-500/30 rounded-full border border-cyan-300/30">🤝 Aset Bersama</span>` : ''}
+            </div>
+          </div>
+        </div>
+
+        <!-- Scrollable Body Content -->
+        <div class="p-4 sm:p-5 overflow-y-auto space-y-3.5 flex-1 custom-scrollbar">
+
+          ${asset.imageUrl ? `
+            <div class="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 max-h-40 flex justify-center bg-slate-950/40 relative shadow-sm">
+              <img src="${asset.imageUrl}" alt="${asset.nama}" class="object-contain w-full h-40 max-h-40 rounded-2xl" onerror="this.parentElement.style.display='none'">
+            </div>
+          ` : ''}
+
+          <div class="grid grid-cols-2 gap-2.5 text-xs">
+            <div class="bg-slate-100/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/80 p-2.5 rounded-xl">
+              <span class="text-slate-400 font-medium block text-[10px]">Harga Aset</span>
+              <span class="text-sm font-black text-emerald-600 dark:text-emerald-400">${formatRupiah(asset.harga)}</span>
+            </div>
+            <div class="bg-slate-100/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/80 p-2.5 rounded-xl">
+              <span class="text-slate-400 font-medium block text-[10px]">Kategori</span>
+              <span class="font-bold text-slate-800 dark:text-slate-200 truncate block">${getCategoryEmoji(asset.kategori)} ${asset.kategori}</span>
+            </div>
+            <div class="bg-slate-100/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/80 p-2.5 rounded-xl">
+              <span class="text-slate-400 font-medium block text-[10px]">Tanggal Pembelian</span>
+              <span class="font-bold text-slate-800 dark:text-slate-200">📅 ${formatDate(asset.tanggal)}</span>
+            </div>
+            <div class="bg-slate-100/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/80 p-2.5 rounded-xl">
+              <span class="text-slate-400 font-medium block text-[10px]">Lokasi Pembelian</span>
+              <span class="font-bold text-slate-800 dark:text-slate-200 truncate block">📍 ${asset.lokasi || '-'}</span>
+            </div>
+          </div>
+
+          <div class="bg-slate-100/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/80 p-3 rounded-xl text-xs">
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-slate-400 font-medium text-[11px]">Durasi Pakai (Hingga Hari ini)</span>
+              <span class="font-bold text-emerald-600 dark:text-emerald-400 text-[11px]">⏱️ ${duration.text}</span>
+            </div>
+            <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+              <div class="bg-gradient-to-r from-cyan-500 to-emerald-400 h-2 rounded-full transition-all" style="width: ${durationPct}%"></div>
+            </div>
+          </div>
+
+          ${asset.detail ? `
+            <div class="bg-slate-100/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/80 p-3 rounded-xl text-xs">
+              <span class="text-slate-400 font-medium block mb-1 text-[11px]">Detail / Spesifikasi:</span>
+              <p class="text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line text-[11px]">${asset.detail}</p>
+            </div>
+          ` : ''}
+
+          <!-- Label Barcode QR Code Section -->
+          <div class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-3.5 rounded-2xl text-center shadow-inner">
+            <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider flex items-center justify-center gap-1">
+              <span>📱 Kode QR Aset</span>
+            </div>
+            
+            <div id="qrDisplayArea" class="flex flex-col justify-center items-center p-2 bg-white rounded-xl min-h-[150px]">
+              <span class="text-xs text-slate-400">Memuat Kode QR...</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Fixed Footer Actions at bottom of modal -->
+        <div class="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0 flex flex-wrap items-center justify-between gap-2 rounded-b-3xl">
+          <div class="flex items-center gap-2">
+            <button onclick="closeDetailModal(); openFormModal('${asset.id}')" class="px-3.5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-semibold flex items-center gap-1">
+              ✏️ Edit
+            </button>
+            <button onclick="closeDetailModal(); openDeleteModal('${asset.id}')" class="px-3.5 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 rounded-xl text-xs font-semibold flex items-center gap-1">
+              🗑️ Hapus
+            </button>
+            <button onclick="closeDetailModal()" class="px-3.5 py-2 bg-slate-200/80 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-semibold">
+              Tutup
+            </button>
+          </div>
+          
+          <button onclick="printLabel('${asset.id}')" class="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-emerald-500/25 flex items-center gap-1.5">
+            🖨️ Cetak Label QR Code
+          </button>
+        </div>
+      `;
+
+      document.getElementById('detailModal').classList.remove('hidden');
+      setTimeout(() => renderQRCode(asset.id), 50);
+    }
+
+    function closeDetailModal() {
+      document.getElementById('detailModal').classList.add('hidden');
+      currentDetailId = null;
+    }
+
+    function renderQRCode(assetId) {
+      const area = document.getElementById('qrDisplayArea');
+      if (!area) return;
+
+      function renderFallback() {
+        const fallbackUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(assetId)}`;
+        area.innerHTML = `
+          <img src="${fallbackUrl}" alt="QR Code ${assetId}" class="w-32 h-32 object-contain" />
+          <div class="text-[11px] font-mono font-bold text-slate-900 mt-1">${assetId}</div>
+        `;
+      }
+
+      try {
+        if (window.QRCode) {
+          if (typeof QRCode.toDataURL === 'function') {
+            QRCode.toDataURL(assetId, { width: 140, margin: 1 }, function (err, url) {
+              if (err || !url) {
+                renderFallback();
+              } else {
+                area.innerHTML = `
+                  <img src="${url}" alt="QR Code ${assetId}" class="w-32 h-32 object-contain" />
+                  <div class="text-[11px] font-mono font-bold text-slate-900 mt-1">${assetId}</div>
+                `;
+              }
+            });
+          } else if (typeof QRCode.toCanvas === 'function') {
+            const canvas = document.createElement('canvas');
+            QRCode.toCanvas(canvas, assetId, { width: 140, margin: 1 }, function (err) {
+              if (err) {
+                renderFallback();
+              } else {
+                area.innerHTML = '';
+                area.appendChild(canvas);
+                const txt = document.createElement('div');
+                txt.className = "text-[11px] font-mono font-bold text-slate-900 mt-1";
+                txt.textContent = assetId;
+                area.appendChild(txt);
+              }
+            });
+          } else {
+            renderFallback();
+          }
+        } else {
+          renderFallback();
+        }
+      } catch (e) {
+        console.warn('QR Code generation error:', e);
+        renderFallback();
+      }
+    }
+
+    // --- PRINT LABEL POPUP WINDOW (QR CODE ONLY) ---
+    function printLabel(assetId) {
+      const asset = assets.find(a => a.id === assetId);
+      if (!asset) return;
+
+      function doPrint(codeImgSrc) {
+        const win = window.open('', '_blank', 'width=450,height=600');
+        win.document.write(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8"/>
+            <title>Label QR Aset - ${asset.id}</title>
+            <style>
+              * { box-sizing: border-box; margin: 0; padding: 0; }
+              body { font-family: 'Inter', sans-serif; background: #f1f5f9; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+              .label-card { background: #fff; border-radius: 12px; border: 1px solid #cbd5e1; padding: 16px; width: 320px; text-align: center; font-size: 12px; color: #0f172a; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+              .label-header { border-bottom: 2px solid #0f172a; padding-bottom: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+              .label-title { font-weight: 900; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+              .label-id { font-family: monospace; font-weight: 700; color: #0284c7; }
+              .label-name { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+              .label-cat { font-size: 11px; color: #475569; margin-bottom: 8px; }
+              .label-code { display: flex; justify-content: center; margin: 10px 0; }
+              .label-code img { max-width: 140px; max-height: 140px; }
+              .label-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; text-align: left; font-size: 10px; border-top: 1px dashed #cbd5e1; margin-top: 8px; padding-top: 8px; }
+              .lg-lbl { color: #64748b; font-weight: 600; text-transform: uppercase; }
+              .lg-val { font-weight: 700; color: #0f172a; }
+              @media print {
+                body { background: white; }
+                .label-card { box-shadow: none; border: 1px solid #000; }
+              }
+            </style>
+          </head>
+          <body>
+            <div class="label-card">
+              <div class="label-header">
+                <span class="label-title">ASSET LABEL</span>
+                <span class="label-id">${asset.id}</span>
+              </div>
+              <div class="label-name">${asset.nama}</div>
+              <div class="label-cat">${asset.kategori} &bull; ${asset.status}</div>
+              <div class="label-code">
+                <img src="${codeImgSrc}"/>
+              </div>
+              <div class="label-grid">
+                <div><span class="lg-lbl">Harga:</span> <span class="lg-val">${formatRupiah(asset.harga)}</span></div>
+                <div><span class="lg-lbl">Tanggal Beli:</span> <span class="lg-val">${formatDate(asset.tanggal)}</span></div>
+                <div><span class="lg-lbl">Lokasi:</span> <span class="lg-val">${asset.lokasi || '-'}</span></div>
+                <div><span class="lg-lbl">Owner:</span> <span class="lg-val">Williyanto Adi</span></div>
+              </div>
+            </div>
+            <script>
+              window.onload = function() { window.print(); }
+            <\/script>
+          </body>
+          </html>
+        `);
+        win.document.close();
+      }
+
+      if (window.QRCode && typeof QRCode.toDataURL === 'function') {
+        QRCode.toDataURL(asset.id, { width: 200, margin: 1 }, function (err, url) {
+          if (err || !url) {
+            doPrint(`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(asset.id)}`);
+          } else {
+            doPrint(url);
+          }
+        });
+      } else {
+        doPrint(`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(asset.id)}`);
+      }
+    }
+
+    // --- CHARTS & ANALYTICS ---
+    function renderCharts() {
+      const catFilter = document.getElementById('chartCatSelect').value;
+      let list = catFilter ? assets.filter(a => a.kategori === catFilter) : [...assets];
+
+      const yrMap = {};
+      list.forEach(a => {
+        const yr = a.tanggal ? a.tanggal.split('-')[0] : 'Lainnya';
+        if (!yrMap[yr]) yrMap[yr] = { count: 0, total: 0, cats: {} };
+        yrMap[yr].count++;
+        yrMap[yr].total += (a.harga || 0);
+        yrMap[yr].cats[a.kategori] = (yrMap[yr].cats[a.kategori] || 0) + 1;
+      });
+
+      const years = Object.keys(yrMap).filter(y => y !== 'Lainnya').sort();
+
+      // Render Year Chips Filter
+      const yearWrap = document.getElementById('yearChipsWrap');
+      let chipsHtml = `
+        <button onclick="setChartYear('all')" class="px-2.5 py-1 text-xs font-semibold rounded-lg transition-all ${selectedChartYear === 'all' ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'}">Semua</button>
+      `;
+      years.forEach(y => {
+        chipsHtml += `<button onclick="setChartYear('${y}')" class="px-2.5 py-1 text-xs font-semibold rounded-lg transition-all ${selectedChartYear === y ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'}">${y}</button>`;
+      });
+      yearWrap.innerHTML = chipsHtml;
+
+      const isDark = document.documentElement.classList.contains('dark');
+      const textColor = isDark ? '#94a3b8' : '#64748b';
+      const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+
+      // 1. Chart Count per Year
+      const ctxCount = document.getElementById('chartCountYear').getContext('2d');
+      if (chartCountInstance) chartCountInstance.destroy();
+      chartCountInstance = new Chart(ctxCount, {
+        type: 'bar',
+        data: {
+          labels: years,
+          datasets: [{
+            label: 'Jumlah Aset Baru',
+            data: years.map(y => yrMap[y].count),
+            backgroundColor: 'rgba(16, 185, 129, 0.7)',
+            borderColor: '#10b981',
+            borderWidth: 1.5,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: textColor }, grid: { color: gridColor } },
+            y: { ticks: { color: textColor }, grid: { color: gridColor }, beginAtZero: true }
+          }
+        }
+      });
+
+      // 2. Chart Price per Year
+      const ctxPrice = document.getElementById('chartPriceYear').getContext('2d');
+      if (chartPriceInstance) chartPriceInstance.destroy();
+      chartPriceInstance = new Chart(ctxPrice, {
+        type: 'line',
+        data: {
+          labels: years,
+          datasets: [{
+            label: 'Total Pengeluaran (Rp)',
+            data: years.map(y => yrMap[y].total),
+            backgroundColor: 'rgba(16, 185, 129, 0.15)',
+            borderColor: '#10b981',
+            borderWidth: 2.5,
+            fill: true,
+            tension: 0.35,
+            pointBackgroundColor: '#10b981'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: { label: ctx => ' Rp ' + ctx.parsed.y.toLocaleString('id-ID') }
+            }
+          },
+          scales: {
+            x: { ticks: { color: textColor }, grid: { color: gridColor } },
+            y: {
+              ticks: {
+                color: textColor,
+                callback: function (v) {
+                  if (v >= 1000000000) return 'Rp ' + (v / 1000000000).toFixed(1) + 'M';
+                  if (v >= 1000000) return 'Rp ' + (v / 1000000).toFixed(0) + 'Jt';
+                  return 'Rp ' + v;
+                }
+              },
+              grid: { color: gridColor },
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+      // 3. Doughnut Chart Category
+      const filteredForPie = selectedChartYear === 'all' ? list : list.filter(a => a.tanggal && a.tanggal.startsWith(selectedChartYear));
+      const catCount = {};
+      filteredForPie.forEach(a => catCount[a.kategori] = (catCount[a.kategori] || 0) + 1);
+      const pieLabels = Object.keys(catCount);
+      const pieColors = ['#10b981', '#059669', '#34d399', '#14b8a6', '#0f766e', '#84cc16', '#f59e0b', '#64748b'];
+
+      const ctxCat = document.getElementById('chartCategoryDoughnut').getContext('2d');
+      if (chartCategoryInstance) chartCategoryInstance.destroy();
+      chartCategoryInstance = new Chart(ctxCat, {
+        type: 'doughnut',
+        data: {
+          labels: pieLabels,
+          datasets: [{
+            data: pieLabels.map(k => catCount[k]),
+            backgroundColor: pieColors.slice(0, pieLabels.length),
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'right', labels: { color: textColor, font: { size: 11 } } }
+          }
+        }
+      });
+
+      // 4. Bar Chart Status
+      const statusCount = {};
+      filteredForPie.forEach(a => statusCount[a.status] = (statusCount[a.status] || 0) + 1);
+      const statusLabels = Object.keys(statusCount);
+      const statusColors = {
+        'Aktif': '#10b981',
+        'Rusak': '#ef4444',
+        'Dalam Perbaikan': '#f59e0b',
+        'Dijual': '#8b5cf6',
+        'Hilang': '#3b82f6',
+        'Dihibahkan': '#64748b'
+      };
+
+      const ctxStat = document.getElementById('chartStatusDistribution').getContext('2d');
+      if (chartStatusInstance) chartStatusInstance.destroy();
+      chartStatusInstance = new Chart(ctxStat, {
+        type: 'bar',
+        data: {
+          labels: statusLabels,
+          datasets: [{
+            label: 'Jumlah Aset',
+            data: statusLabels.map(s => statusCount[s]),
+            backgroundColor: statusLabels.map(s => (statusColors[s] || '#10b981') + 'b3'),
+            borderColor: statusLabels.map(s => statusColors[s] || '#10b981'),
+            borderWidth: 1.5,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: textColor }, grid: { color: gridColor } },
+            y: { ticks: { color: textColor }, grid: { color: gridColor }, beginAtZero: true }
+          }
+        }
+      });
+
+      // Annual Table Summary
+      const summaryTbody = document.getElementById('yearSummaryTbody');
+      const activeYears = (selectedChartYear === 'all' ? years : [selectedChartYear]);
+
+      if (!activeYears.length) {
+        summaryTbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-400">Tidak ada data tahunan.</td></tr>`;
+      } else {
+        summaryTbody.innerHTML = activeYears.map(y => {
+          const d = yrMap[y];
+          if (!d) return '';
+          const avg = d.count > 0 ? Math.round(d.total / d.count) : 0;
+          const topCat = Object.entries(d.cats).sort((a, b) => b[1] - a[1])[0];
+          return `
+            <tr>
+              <td class="py-2.5 px-3 font-bold">${y}</td>
+              <td class="py-2.5 px-3">${d.count} aset</td>
+              <td class="py-2.5 px-3 text-right font-bold text-emerald-600 dark:text-emerald-400">${formatRupiah(d.total)}</td>
+              <td class="py-2.5 px-3 text-right">${formatRupiah(avg)}</td>
+              <td class="py-2.5 px-3">${topCat ? getCategoryEmoji(topCat[0]) + ' ' + topCat[0] + ' (' + topCat[1] + ')' : '-'}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+    }
+
+    function setChartYear(yr) {
+      selectedChartYear = yr;
+      renderCharts();
+    }
+
+    // --- EXPORT & IMPORT DATA ---
+    function exportXLSX() {
+      if (assets.length === 0) { toast("Tidak ada data untuk diekspor", "info"); return; }
+
+      const exportData = assets.map((a, i) => ({
+        "No": i + 1,
+        "ID Aset": a.id,
+        "Nama Aset": a.nama,
+        "Kategori": a.kategori,
+        "Harga (Rp)": a.harga,
+        "Tanggal Beli": formatDate(a.tanggal),
+        "Durasi Pakai": calculateDuration(a.tanggal).text,
+        "Lokasi Beli": a.lokasi || '-',
+        "Status": a.status,
+        "URL Gambar": a.imageUrl || '',
+        "Detail / Specs": a.detail || ''
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Daftar Aset");
+      XLSX.writeFile(workbook, `Manajemen_Aset_WilliyantoAdi_${new Date().toISOString().slice(0, 10)}.xlsx`);
+      toast("Data berhasil diekspor ke Excel!", "success");
+    }
+
+    function exportPDF() {
+      if (assets.length === 0) { toast("Tidak ada data untuk diekspor", "info"); return; }
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'landscape' });
+
+      const head = [['No', 'ID Aset', 'Nama Aset', 'Kategori', 'Harga', 'Tanggal Beli', 'Durasi Pakai', 'Lokasi', 'Status']];
+      const body = assets.map((a, i) => [
+        i + 1,
+        a.id,
+        a.nama,
+        a.kategori,
+        formatRupiah(a.harga),
+        formatDate(a.tanggal),
+        calculateDuration(a.tanggal).text,
+        a.lokasi || '-',
+        a.status
+      ]);
+
+      doc.text("Laporan Data Manajemen Aset", 14, 15);
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      doc.text(`Total: ${assets.length} Aset | Dicetak: ${new Date().toLocaleDateString('id-ID')}`, 14, 22);
+
+      doc.autoTable({
+        startY: 26,
+        head: head,
+        body: body,
+        headStyles: { fillColor: [6, 182, 212] },
+        didDrawPage: (data) => {
+          const h = doc.internal.pageSize.getHeight();
+          const w = doc.internal.pageSize.getWidth();
+          doc.setFontSize(8);
+          doc.setTextColor(150);
+          doc.text("AssetPro by Williyanto Adi 2026", w / 2, h - 8, { align: 'center' });
+        }
+      });
+
+      doc.save(`Laporan_Aset_${new Date().toISOString().slice(0, 10)}.pdf`);
+      toast("Laporan PDF berhasil diunduh!", "success");
+    }
+
+    function exportJSON() {
+      if (assets.length === 0) { toast("Tidak ada data untuk dicadangkan", "info"); return; }
+      const dataStr = JSON.stringify(assets, null, 2);
+      const blob = new Blob([dataStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `backup_aset_${new Date().toISOString().slice(0, 10)}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+      toast("Backup JSON berhasil diunduh!", "success");
+    }
+
+    function exportCSV() {
+      if (assets.length === 0) { toast("Tidak ada data untuk diekspor", "info"); return; }
+
+      const headers = ["ID Aset", "Nama Aset", "Kategori", "Harga (Rp)", "Tanggal Beli", "Durasi Pemakaian", "Lokasi Beli", "Status", "Aset Bersama", "URL Gambar", "Detail / Specs"];
+      const rows = assets.map(a => [
+        `"${a.id}"`,
+        `"${(a.nama || '').replace(/"/g, '""')}"`,
+        `"${(a.kategori || '').replace(/"/g, '""')}"`,
+        a.harga || 0,
+        `"${a.tanggal || ''}"`,
+        `"${calculateDuration(a.tanggal).text}"`,
+        `"${(a.lokasi || '').replace(/"/g, '""')}"`,
+        `"${(a.status || '').replace(/"/g, '""')}"`,
+        a.isShared ? "TRUE" : "FALSE",
+        `"${(a.imageUrl || '').replace(/"/g, '""')}"`,
+        `"${(a.detail || '').replace(/"/g, '""')}"`
+      ]);
+
+      const csvContent = "\uFEFF" + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `Export_Aset_${new Date().toISOString().slice(0, 10)}.csv`;
+      link.click();
+      URL.revokeObjectURL(url);
+      toast("Data berhasil diekspor ke file CSV! 📝", "success");
+    }
+
+    function parseCSVText(csvText) {
+      const lines = csvText.split(/\r?\n/).filter(line => line.trim() !== '');
+      if (lines.length < 2) throw new Error("File CSV kosong atau tidak memiliki baris data.");
+
+      function splitCSVLine(line) {
+        const result = [];
+        let cur = '';
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+          const char = line[i];
+          if (char === '"') {
+            inQuotes = !inQuotes;
+          } else if ((char === ',' || char === ';') && !inQuotes) {
+            result.push(cur.trim().replace(/^"|"$/g, ''));
+            cur = '';
+          } else {
+            cur += char;
+          }
+        }
+        result.push(cur.trim().replace(/^"|"$/g, ''));
+        return result;
+      }
+
+      const headers = splitCSVLine(lines[0]).map(h => h.toLowerCase().trim());
+      const rows = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const values = splitCSVLine(lines[i]);
+        if (values.length === 0 || (values.length === 1 && values[0] === '')) continue;
+
+        const rowObj = {};
+        headers.forEach((h, idx) => {
+          rowObj[h] = values[idx] || '';
+        });
+        rows.push(rowObj);
+      }
+
+      return rows.map(r => {
+        const idRaw = r['id aset'] || r['id'] || r['asset id'] || '';
+        const id = (idRaw && idRaw.trim() !== '') ? idRaw.trim() : generateUniqueId();
+        const nama = r['nama aset'] || r['nama'] || r['name'] || r['asset name'] || 'Tanpa Nama';
+        const kategori = r['kategori'] || r['category'] || 'Lainnya';
+        const hargaRaw = r['harga (rp)'] || r['harga'] || r['price'] || '0';
+        const harga = parseRupiah(hargaRaw);
+        const rawTanggal = r['tanggal beli'] || r['tanggal'] || r['tgl beli'] || r['date'] || '';
+        const tanggal = normalizeToISODate(rawTanggal);
+        const lokasi = r['lokasi beli'] || r['lokasi'] || r['location'] || '-';
+        const status = r['status'] || 'Aktif';
+        const detail = r['detail / specs'] || r['detail'] || r['details'] || '';
+        const sharedRaw = (r['aset bersama'] || r['shared'] || r['is_shared'] || '').toString().toLowerCase();
+        const isShared = sharedRaw === 'true' || sharedRaw === '1' || sharedRaw === 'ya';
+
+        return {
+          id,
+          nama,
+          kategori,
+          harga,
+          tanggal,
+          lokasi,
+          status,
+          imageUrl: r['url gambar'] || r['imageurl'] || '',
+          detail,
+          isShared,
+          createdAt: new Date().toISOString()
+        };
+      });
+    }
+
+    function parseXLSXRows(rows) {
+      if (!Array.isArray(rows) || rows.length === 0) throw new Error("File Excel kosong atau tidak memiliki baris data.");
+      return rows.map(r => {
+        const getVal = (keys) => {
+          const foundKey = Object.keys(r).find(k => keys.includes(k.toLowerCase().trim()));
+          return foundKey ? r[foundKey] : '';
+        };
+
+        const idRaw = String(getVal(['id aset', 'id', 'asset id'])).trim();
+        const id = (idRaw && idRaw !== '') ? idRaw : generateUniqueId();
+        const nama = getVal(['nama aset', 'nama', 'name', 'asset name']) || 'Tanpa Nama';
+        const kategori = getVal(['kategori', 'category']) || 'Lainnya';
+        const hargaRaw = getVal(['harga (rp)', 'harga', 'price']) || '0';
+        const harga = parseRupiah(hargaRaw);
+        const rawTanggal = getVal(['tanggal beli', 'tanggal', 'tgl beli', 'date']);
+        const tanggal = normalizeToISODate(rawTanggal);
+        const lokasi = getVal(['lokasi beli', 'lokasi', 'location']) || '-';
+        const status = getVal(['status']) || 'Aktif';
+        const detail = getVal(['detail / specs', 'detail', 'details', 'spesifikasi']) || '';
+        const sharedRaw = String(getVal(['aset bersama', 'shared', 'is_shared'])).toLowerCase();
+        const isShared = sharedRaw === 'true' || sharedRaw === '1' || sharedRaw === 'ya';
+
+        return {
+          id,
+          nama: String(nama),
+          kategori: String(kategori),
+          harga,
+          tanggal,
+          lokasi: String(lokasi),
+          status: String(status),
+          imageUrl: String(getVal(['url gambar', 'imageurl', 'gambar']) || ''),
+          detail: String(detail),
+          isShared,
+          createdAt: new Date().toISOString()
+        };
+      });
+    }
+
+    function importDataFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (!confirm(`Mengimpor file '${file.name}' akan memperbarui data saat ini. Lanjutkan?`)) {
+        event.target.value = null;
+        return;
+      }
+
+      const isXLSX = file.name.toLowerCase().endsWith('.xlsx') || file.name.toLowerCase().endsWith('.xls');
+      const isCSV = file.name.toLowerCase().endsWith('.csv');
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        try {
+          let imported = [];
+
+          if (isXLSX) {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+            const jsonRows = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+            imported = parseXLSXRows(jsonRows);
+          } else {
+            const content = e.target.result;
+            if (isCSV) {
+              imported = parseCSVText(content);
+            } else {
+              let jsonParsed = JSON.parse(content);
+              if (!Array.isArray(jsonParsed)) throw new Error("Format JSON harus berupa Array data.");
+
+              imported = jsonParsed.map(a => ({
+                id: a.id || generateUniqueId(),
+                nama: a.nama || a.name || 'Tanpa Nama',
+                kategori: a.kategori || a.category || 'Lainnya',
+                harga: typeof a.harga === 'number' ? a.harga : (typeof a.price === 'number' ? a.price : parseRupiah(a.harga || a.price)),
+                tanggal: normalizeToISODate(a.tanggal || a.date),
+                lokasi: a.lokasi || a.location || '-',
+                status: a.status || 'Aktif',
+                imageUrl: a.imageUrl || a.image || '',
+                detail: a.detail || a.details || '',
+                isShared: !!a.isShared,
+                createdAt: a.createdAt || new Date().toISOString()
+              }));
+            }
+          }
+
+          if (imported.length === 0) throw new Error("Tidak ada data aset yang valid dalam file.");
+
+          assets = imported;
+          saveData();
+          renderTable();
+          const fileTypeStr = isXLSX ? 'Excel' : (isCSV ? 'CSV' : 'JSON');
+          toast(`Berhasil mengimpor ${imported.length} data aset dari ${fileTypeStr}! 🎉`, "success");
+        } catch (err) {
+          toast("Gagal mengimpor file: " + err.message, "error");
+        } finally {
+          event.target.value = null;
+        }
+      };
+
+      if (isXLSX) {
+        reader.readAsArrayBuffer(file);
+      } else {
+        reader.readAsText(file);
+      }
+    }
+
+    // --- DATA INITIALIZER ---
+    function initSeedData() {
+      if (assets.length > 0 || localStorage.getItem('assets_v2026_initialized') === 'true' || localStorage.getItem('assets_v2026') !== null) return;
+      // Start a clean, empty session for new users when hosted/published
+      assets = [];
+      saveData();
+    }
+
+    // --- INITIALIZATION ON DOM READY ---
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      initSeedData();
+      updateStats();
+      renderCategoryPills();
+      renderTable();
+    });
+  </script>
+</body>
+
+</html>

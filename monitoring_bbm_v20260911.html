@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="id" class="transition-all duration-300">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Pengisian BBM v20260911</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        select { background-image: none !important; }
+    </style>
+</head>
+<body class="bg-gradient-to-tr from-slate-100 via-green-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-center items-center py-6 px-3 overflow-x-hidden transition-colors duration-300">
+
+    <!-- Ambient Background Orbs -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
+        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-green-400 blur-[100px] animate-pulse"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-teal-400 blur-[100px] animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="w-full max-w-2xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-6 transition-all duration-300 flex flex-col my-auto overflow-hidden">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white shadow-md shadow-green-200 dark:shadow-none">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-800 dark:text-slate-100 tracking-tight">Monitoring Pengisian BBM</h1>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">Pencatatan & Analisis Konsumsi BBM • v20260911</p>
+                </div>
+            </div>
+            <button id="theme-toggle" type="button" class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">
+                <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Body Content -->
+        <div class="space-y-4 my-4">
+            
+            <!-- Section 1: Form Input Pengisian -->
+            <div class="bg-slate-50/60 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-200/60 dark:border-slate-800 space-y-3">
+                <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Input Pengisian BBM</span>
+                
+                <!-- Row 1: Kendaraan & Odometer -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Jenis Kendaraan</label>
+                        <div class="relative">
+                            <select id="jenisKendaraan" class="appearance-none block w-full pl-3 pr-8 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-bold">
+                                <option>Motor</option>
+                                <option>Mobil</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-400 dark:text-slate-500">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Odometer Sekarang (Km)</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                            </div>
+                            <input type="number" id="odoMeterSekarang" step="1" class="pl-9 block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold" placeholder="Contoh: 15000">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: SPBU, Jenis BBM, Tanggal -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">SPBU</label>
+                        <div class="relative">
+                            <select id="spbu" class="appearance-none block w-full pl-3 pr-8 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-bold">
+                                <option>Pertamina</option>
+                                <option>Shell</option>
+                                <option>BP AKR</option>
+                                <option>Vivo</option>
+                                <option>Exxon Mobil</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-400 dark:text-slate-500">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Jenis BBM</label>
+                        <div class="relative">
+                            <select id="jenisBBM" class="appearance-none block w-full pl-3 pr-8 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-bold">
+                                <option>RON 89</option>
+                                <option>RON 90</option>
+                                <option>RON 92</option>
+                                <option>RON 95</option>
+                                <option>RON 98</option>
+                                <option>Solar</option>
+                                <option>Bio Solar</option>
+                                <option>Dexlite</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-400 dark:text-slate-500">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Tanggal Pengisian</label>
+                        <input type="date" id="tanggalPengisian" class="block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold">
+                    </div>
+                </div>
+
+                <!-- Row 3: Jumlah BBM, Harga per Liter, Total Harga -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Jumlah BBM (Liter)</label>
+                        <input type="number" id="jumlahBBM" step="0.01" oninput="hitungTotalHarga()" class="block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Harga per Liter (IDR)</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-xs font-bold text-slate-400 dark:text-slate-500">Rp</div>
+                            <input type="text" id="hargaPerLiter" oninput="formatHarga(this); hitungTotalHarga()" class="pl-9 block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold" placeholder="Contoh: 13.500">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Total Harga (IDR)</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-xs font-bold text-slate-400 dark:text-slate-500">Rp</div>
+                            <input type="text" id="totalHarga" readonly class="pl-9 block w-full px-3 py-2 bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 rounded-xl text-slate-800 dark:text-slate-100 font-bold text-xs cursor-not-allowed">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Checkbox Switch -->
+                <div class="flex items-center gap-2 pt-1">
+                    <input class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500 dark:focus:ring-emerald-600 dark:ring-offset-slate-800 focus:ring-2 dark:bg-slate-700 dark:border-slate-600 accent-emerald-500 cursor-pointer" type="checkbox" id="tangkiPenuh">
+                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 cursor-pointer" for="tangkiPenuh">Tangki Penuh?</label>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="space-y-2 pt-2">
+                    <button type="button" class="w-full py-2.5 px-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold text-xs rounded-xl shadow-md shadow-green-500/20 active:scale-95 transition-all flex items-center justify-center gap-2" onclick="tambahPengisian()">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                        Tambahkan
+                    </button>
+                    <button type="button" class="w-full py-2 px-4 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-600 dark:text-rose-400 font-bold text-xs rounded-xl active:scale-95 transition-all flex items-center justify-center gap-2" onclick="hapusRiwayat()">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        Hapus Semua Riwayat
+                    </button>
+                </div>
+            </div>
+
+            <!-- Section 2: Riwayat Pengisian -->
+            <div>
+                <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-2">Riwayat Pengisian</span>
+                <div id="riwayatList" class="space-y-2"></div>
+            </div>
+
+            <!-- Section 3: Laporan Summaries -->
+            <div>
+                <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-2">Laporan Pengisian BBM</span>
+                <div class="laporan transition-all duration-300 rounded-2xl p-4 bg-gradient-to-br from-emerald-500/10 via-teal-500/10 to-emerald-500/5 dark:from-emerald-950/40 dark:to-slate-900/60 border border-emerald-500/30 dark:border-emerald-500/25 shadow-lg shadow-emerald-500/5">
+                    <div id="laporan"></div>
+                </div>
+            </div>
+
+            <!-- Section 4: Tombol Ekspor -->
+            <div class="grid grid-cols-2 gap-3 pt-1">
+                <button type="button" class="py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/20 active:scale-95 transition-all flex items-center justify-center gap-2" onclick="eksporKeExcel()">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    Ekspor ke Excel
+                </button>
+                <button type="button" class="py-2.5 px-4 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow-md shadow-amber-500/20 active:scale-95 transition-all flex items-center justify-center gap-2" onclick="eksporKePDF()">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                    Ekspor ke PDF
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-2 pt-3 border-t border-slate-100 dark:border-slate-800 font-medium">
+            Copyright &copy; Williyanto Adi 2026 | Versi Aplikasi v20260911
+        </footer>
+
+    </div>
+
+    <!-- JavaScript Code -->
+    <script>
+        // Ambil data dari Local Storage atau inisialisasi array kosong
+        let riwayat = JSON.parse(localStorage.getItem('riwayatPengisian')) || [];
+
+        // Set tanggal pengisian secara otomatis saat halaman dimuat
+        document.addEventListener("DOMContentLoaded", function() {
+            let now = new Date();
+            let formattedDate = now.toISOString().slice(0, 10); // Format YYYY-MM-DD
+            document.getElementById('tanggalPengisian').value = formattedDate;
+            tampilkanRiwayat(); // Tampilkan riwayat yang tersimpan
+            tampilkanLaporan(); // Tampilkan laporan
+        });
+
+        // Format harga per liter (misal: 15000 -> 15.000)
+        function formatHarga(input) {
+            let value = input.value.replace(/\D/g, '');
+            input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // Hitung total harga berdasarkan jumlah BBM dan harga per liter
+        function hitungTotalHarga() {
+            let jumlahBBM = parseFloat(document.getElementById('jumlahBBM').value) || 0;
+            let hargaPerLiter = parseFloat(document.getElementById('hargaPerLiter').value.replace(/\./g, '')) || 0;
+            let totalHarga = jumlahBBM * hargaPerLiter;
+            document.getElementById('totalHarga').value = totalHarga.toLocaleString('id-ID');
+        }
+
+        // Validasi input sebelum menambahkan data
+        function validasiInput() {
+            let odoMeter = document.getElementById('odoMeterSekarang').value;
+            let jumlahBBM = document.getElementById('jumlahBBM').value;
+            let hargaPerLiter = document.getElementById('hargaPerLiter').value;
+            if (!odoMeter || !jumlahBBM || !hargaPerLiter) {
+                alert("Harap isi semua field!");
+                return false;
+            }
+            return true;
+        }
+
+        // Reset form setelah data ditambahkan
+        function resetForm() {
+            document.getElementById('odoMeterSekarang').value = '';
+            document.getElementById('jumlahBBM').value = '';
+            document.getElementById('hargaPerLiter').value = '';
+            document.getElementById('totalHarga').value = '';
+            document.getElementById('tangkiPenuh').checked = false;
+        }
+
+        // Format tanggal ke DD-MM-YYYY
+        function formatTanggal(tanggal) {
+            let [tahun, bulan, hari] = tanggal.split('-');
+            return `${hari}-${bulan}-${tahun}`;
+        }
+
+        // Tambahkan data pengisian ke riwayat dan simpan ke Local Storage
+        function tambahPengisian() {
+            if (!validasiInput()) return;
+
+            let data = {
+                tanggal: formatTanggal(document.getElementById('tanggalPengisian').value),
+                jenisKendaraan: document.getElementById('jenisKendaraan').value,
+                odoMeter: document.getElementById('odoMeterSekarang').value,
+                spbu: document.getElementById('spbu').value,
+                jenisBBM: document.getElementById('jenisBBM').value,
+                jumlahBBM: document.getElementById('jumlahBBM').value,
+                hargaPerLiter: document.getElementById('hargaPerLiter').value,
+                totalHarga: document.getElementById('totalHarga').value,
+                tangkiPenuh: document.getElementById('tangkiPenuh').checked ? "Ya" : "Tidak"
+            };
+
+            riwayat.push(data);
+            localStorage.setItem('riwayatPengisian', JSON.stringify(riwayat));
+            tampilkanRiwayat();
+            tampilkanLaporan();
+            resetForm();
+        }
+
+        // Tampilkan riwayat pengisian dari Local Storage
+        function tampilkanRiwayat() {
+            let riwayatList = document.getElementById('riwayatList');
+            riwayatList.innerHTML = '';
+            if (riwayat.length === 0) {
+                riwayatList.innerHTML = '<div class="p-4 text-center text-xs text-slate-400 dark:text-slate-500 italic bg-slate-50/50 dark:bg-slate-800/20 rounded-2xl border border-slate-200/50 dark:border-slate-800">Belum ada riwayat pengisian BBM.</div>';
+                return;
+            }
+            riwayat.forEach((data, index) => {
+                let riwayatItem = document.createElement('div');
+                riwayatItem.className = 'riwayat-item bg-white dark:bg-slate-800/80 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-700/70 shadow-sm space-y-1.5 transition-all hover:border-emerald-500/40';
+                riwayatItem.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/50 pb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 text-[11px] font-bold border border-emerald-200/50 dark:border-emerald-800/40">${data.jenisKendaraan}</span>
+                            <span class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-[11px] font-semibold">${data.spbu} - ${data.jenisBBM}</span>
+                        </div>
+                        <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500">${data.tanggal}</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs py-1">
+                        <div><span class="text-[10px] text-slate-400 block uppercase">Odometer</span><span class="font-bold text-slate-700 dark:text-slate-200">${data.odoMeter} Km</span></div>
+                        <div><span class="text-[10px] text-slate-400 block uppercase">Jumlah BBM</span><span class="font-bold text-slate-700 dark:text-slate-200">${data.jumlahBBM} L</span></div>
+                        <div><span class="text-[10px] text-slate-400 block uppercase">Harga / L</span><span class="font-bold text-slate-700 dark:text-slate-200">Rp ${data.hargaPerLiter}</span></div>
+                        <div><span class="text-[10px] text-slate-400 block uppercase">Tangki Penuh</span><span class="font-bold ${data.tangkiPenuh === 'Ya' ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}">${data.tangkiPenuh}</span></div>
+                    </div>
+                    <div class="flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50 pt-2">
+                        <div>
+                            <span class="text-[10px] text-slate-400 uppercase font-semibold">Total Harga: </span>
+                            <span class="font-extrabold text-sm text-emerald-600 dark:text-emerald-400">Rp ${data.totalHarga}</span>
+                        </div>
+                        <button class="px-2.5 py-1 text-xs font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-lg transition-colors" onclick="hapusRiwayatItem(${index})">Hapus</button>
+                    </div>
+                `;
+                riwayatList.appendChild(riwayatItem);
+            });
+        }
+
+        // Tampilkan laporan pengisian BBM
+        function tampilkanLaporan() {
+            let laporan = document.getElementById('laporan');
+            let totalBBM = 0;
+            let totalHarga = 0;
+            let totalJarak = 0;
+
+            riwayat.forEach((data, index) => {
+                totalBBM += parseFloat(data.jumlahBBM) || 0;
+                totalHarga += parseFloat(data.totalHarga.replace(/\./g, '')) || 0;
+
+                if (index > 0) {
+                    let jarak = (parseFloat(data.odoMeter) || 0) - (parseFloat(riwayat[index - 1].odoMeter) || 0);
+                    if (jarak > 0) totalJarak += jarak;
+                }
+            });
+
+            let konsumsiBBM = totalBBM > 0 ? (totalJarak / totalBBM).toFixed(2) : "0.00";
+            let rataRataKonsumsi = konsumsiBBM;
+
+            laporan.innerHTML = `
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                    <div class="bg-white/60 dark:bg-slate-900/40 p-2.5 rounded-xl border border-emerald-500/20">
+                        <span class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block uppercase">Total Jumlah BBM</span>
+                        <span class="font-extrabold text-sm text-slate-800 dark:text-slate-100 font-mono">${totalBBM.toFixed(2)} <span class="text-xs text-slate-500">Liter</span></span>
+                    </div>
+                    <div class="bg-white/60 dark:bg-slate-900/40 p-2.5 rounded-xl border border-emerald-500/20">
+                        <span class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block uppercase">Total Pengeluaran</span>
+                        <span class="font-extrabold text-sm text-emerald-600 dark:text-emerald-400 font-mono">Rp ${totalHarga.toLocaleString('id-ID')}</span>
+                    </div>
+                    <div class="bg-white/60 dark:bg-slate-900/40 p-2.5 rounded-xl border border-emerald-500/20">
+                        <span class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block uppercase">Konsumsi BBM</span>
+                        <span class="font-extrabold text-sm text-slate-800 dark:text-slate-100 font-mono">${konsumsiBBM} <span class="text-xs text-slate-500">km/L</span></span>
+                    </div>
+                    <div class="bg-white/60 dark:bg-slate-900/40 p-2.5 rounded-xl border border-emerald-500/20">
+                        <span class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block uppercase">Rata-rata Konsumsi</span>
+                        <span class="font-extrabold text-sm text-slate-800 dark:text-slate-100 font-mono">${rataRataKonsumsi} <span class="text-xs text-slate-500">km/L</span></span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Hapus semua riwayat dari Local Storage
+        function hapusRiwayat() {
+            if (riwayat.length === 0) return;
+            if (confirm("Apakah Anda yakin ingin menghapus semua riwayat pengisian BBM?")) {
+                localStorage.removeItem('riwayatPengisian');
+                riwayat = [];
+                tampilkanRiwayat();
+                tampilkanLaporan();
+            }
+        }
+
+        // Hapus satu item riwayat berdasarkan index
+        function hapusRiwayatItem(index) {
+            riwayat.splice(index, 1);
+            localStorage.setItem('riwayatPengisian', JSON.stringify(riwayat));
+            tampilkanRiwayat();
+            tampilkanLaporan();
+        }
+
+        // Ekspor data ke Excel
+        function eksporKeExcel() {
+            if (riwayat.length === 0) {
+                alert("Belum ada data riwayat untuk diekspor!");
+                return;
+            }
+            const data = riwayat.map(item => ({
+                Tanggal: item.tanggal,
+                "Jenis Kendaraan": item.jenisKendaraan,
+                "Odometer (Km)": item.odoMeter,
+                SPBU: item.spbu,
+                "Jenis BBM": item.jenisBBM,
+                "Jumlah BBM (L)": item.jumlahBBM,
+                "Harga per Liter (IDR)": item.hargaPerLiter,
+                "Total Harga (IDR)": item.totalHarga,
+                "Tangki Penuh": item.tangkiPenuh
+            }));
+
+            const worksheet = XLSX.utils.json_to_sheet(data);
+            const range = XLSX.utils.decode_range(worksheet["!ref"]);
+            const startCell = XLSX.utils.encode_cell({ r: range.s.r, c: range.s.c });
+            const endCell = XLSX.utils.encode_cell({ r: range.e.r, c: range.e.c });
+
+            worksheet["!autofilter"] = null;
+            worksheet["!table"] = {
+                ref: `${startCell}:${endCell}`,
+                displayName: "RiwayatPengisian",
+                name: "RiwayatPengisian",
+                columns: [
+                    { name: "Tanggal" },
+                    { name: "Jenis Kendaraan" },
+                    { name: "Odometer (Km)" },
+                    { name: "SPBU" },
+                    { name: "Jenis BBM" },
+                    { name: "Jumlah BBM (L)" },
+                    { name: "Harga per Liter (IDR)" },
+                    { name: "Total Harga (IDR)" },
+                    { name: "Tangki Penuh" }
+                ],
+                style: {
+                    theme: "TableStyleMedium2",
+                    showFirstColumn: false,
+                    showLastColumn: false,
+                    showRowStripes: true,
+                    showColumnStripes: false
+                }
+            };
+
+            for (let C = range.s.c; C <= range.e.c; C++) {
+                let maxWidth = 0;
+                for (let R = range.s.r; R <= range.e.r; R++) {
+                    const cell = worksheet[XLSX.utils.encode_cell({ r: R, c: C })];
+                    if (cell && cell.v) {
+                        const cellWidth = cell.v.toString().length;
+                        if (cellWidth > maxWidth) maxWidth = cellWidth;
+                    }
+                }
+                worksheet["!cols"] = worksheet["!cols"] || [];
+                worksheet["!cols"][C] = { wch: maxWidth + 2 };
+            }
+
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "RiwayatPengisian");
+            workbook.Props = {
+                Title: "Riwayat Pengisian BBM",
+                Author: "Williyanto Adi",
+                CreatedDate: new Date()
+            };
+
+            XLSX.writeFile(workbook, "Riwayat_Pengisian_BBM_v20260911.xlsx");
+        }
+
+        // Ekspor data ke PDF
+        function eksporKePDF() {
+            if (riwayat.length === 0) {
+                alert("Belum ada data riwayat untuk diekspor!");
+                return;
+            }
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(18);
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor(40, 40, 40);
+            doc.text("Laporan Pengisian BBM", 10, 10);
+
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(100, 100, 100);
+            doc.text("Berikut adalah riwayat pengisian BBM kendaraan Anda.", 10, 20);
+
+            const columns = [
+                { title: "Tanggal", dataKey: "tanggal" },
+                { title: "Jenis Kendaraan", dataKey: "jenisKendaraan" },
+                { title: "Odometer (Km)", dataKey: "odoMeter" },
+                { title: "SPBU", dataKey: "spbu" },
+                { title: "Jenis BBM", dataKey: "jenisBBM" },
+                { title: "Jumlah BBM (L)", dataKey: "jumlahBBM" },
+                { title: "Harga per Liter (IDR)", dataKey: "hargaPerLiter" },
+                { title: "Total Harga (IDR)", dataKey: "totalHarga" },
+                { title: "Tangki Penuh", dataKey: "tangkiPenuh" }
+            ];
+
+            const rows = riwayat.map(item => ({
+                tanggal: item.tanggal,
+                jenisKendaraan: item.jenisKendaraan,
+                odoMeter: item.odoMeter,
+                spbu: item.spbu,
+                jenisBBM: item.jenisBBM,
+                jumlahBBM: item.jumlahBBM,
+                hargaPerLiter: item.hargaPerLiter,
+                totalHarga: item.totalHarga,
+                tangkiPenuh: item.tangkiPenuh
+            }));
+
+            doc.autoTable({
+                head: [columns.map(col => col.title)],
+                body: rows.map(row => columns.map(col => row[col.dataKey])),
+                startY: 30,
+                theme: "striped",
+                styles: {
+                    fontSize: 10,
+                    cellPadding: 2,
+                    halign: "center",
+                    valign: "middle"
+                },
+                headStyles: {
+                    fillColor: [16, 185, 129],
+                    textColor: [255, 255, 255],
+                    fontStyle: "bold"
+                },
+                columnStyles: {
+                    0: { halign: "left" },
+                    1: { halign: "left" },
+                    6: { halign: "right" },
+                    7: { halign: "right" }
+                }
+            });
+
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Williyanto Adi 2026", 10, doc.internal.pageSize.height - 10);
+
+            doc.save("Laporan_Pengisian_BBM_v20260911.pdf");
+        }
+
+        // Dark Mode Controller
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+            if (localStorage.getItem('color-theme') === 'light') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            }
+        });
+    </script>
+</body>
+</html>

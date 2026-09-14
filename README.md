@@ -48,7 +48,7 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 | **Faktor Koreksi Suhu** | Penghitung faktor koreksi suhu untuk penyesuaian nilai hambatan konduktor pada berbagai temperatur acuan. | [`faktor_koreksi_suhu_v20260801.html`](./faktor_koreksi_suhu_v20260801.html) | `Aktif` |
 | **Kalkulator Uji Tegangan** | Alat bantu perhitungan parameter pengujian tegangan listrik (*Voltage Test*). | `20.uji_tegangan/uji_tegangan.html` | `Aktif` |
 | **Kalkulator Resistor** | Alat hitung nilai resistansi resistor 4/5/6 gelang warna dan kalkulasi nilai SMD. | `10.kalkulator_resistor/kalkulator_resistor.html` | `Aktif` |
-| **Kalkulator Daya Listrik** | Perhitungan konsumsi daya (Watt, VA, kWh) dan daya listrik rumah/industri. | `21.kalkulator_daya_listrik/kalkulator_dayalistrik.html` | `Aktif` |
+| **Kalkulator Biaya Listrik Otomatis** | Perhitungan konsumsi daya alat elektronik & estimasi tagihan listrik PLN (harian, bulanan). | [`kalkulator_daya_listrik_v20260911.html`](./kalkulator_daya_listrik_v20260911.html) | `Aktif` |
 
 </details>
 
@@ -83,6 +83,7 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 | **Generator Angka Acak** | Penghasil angka acak (*Random Number Generator*) dengan kustomisasi rentang & statistik. | [`generator_angka_v20260910.html`](./generator_angka_v20260910.html) | `Aktif` |
 | **Konverter Panjang** | Konversi presisi antar satuan panjang (Meter, Feet, Inch, Yard, mm, cm, KM, Mile). | [`konverter_panjang_v20260801.html`](./konverter_panjang_v20260801.html) | `Aktif` |
 | **Kalkulator Persentase Pro** | Alat hitung persentase cepat untuk diskon, kenaikan/penurunan harga, dan rasio. | [`hitung_persen_v20260801.html`](./hitung_persen_v20260801.html) | `Aktif` |
+| **Monitoring Pengisian BBM** | Pencatatan & analisis konsumsi bahan bakar minyak (BBM), rasio km/liter, dan ekspor PDF/Excel. | [`monitoring_bbm_v20260911.html`](./monitoring_bbm_v20260911.html) | `Aktif` |
 | **Kalkulator Dimensi** | Aplikasi perhitungan dimensi objek geometris dan pengukuran area. | `4.kalkulator_dimensi/kalkulator_dimensi.html` | `Aktif` |
 | **Android KW UI** | Web app simulasi antarmuka gaya Android untuk kegunaan harian. | `11.android_kw/android_kw.html` | `Aktif` |
 
@@ -93,11 +94,12 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 
 | Proyek | Deskripsi | File Utama | Status |
 | :--- | :--- | :--- | :---: |
+| **AssetPro – Manajemen Aset** | Sistem pendataan aset terpadu dengan Barcode, QR Code, statistik tahunan, & ekspor PDF/Excel. | [`manajemen_aset_v20260911.html`](./manajemen_aset_v20260911.html) | `Aktif` |
+| **TripBudget & RoadTrip Studio** | Perencanaan anggaran perjalanan road trip, estimasi rute/jarak, konsumsi BBM, & rincian biaya. | [`trip_planner_v20260911.html`](./trip_planner_v20260911.html) | `Aktif` |
 | **Kalkulator Alokasi Gaji** | Pengatur dan perencana alokasi keuangan gaji (Metode 50/30/20 & Kustom). | `17.alokasi_gaji/kalkulator_alokasigaji.html` | `Aktif` |
 | **Pengatur Keuangan** | Modul pencatatan pemasukan, pengeluaran, dan manajemen anggaran bulanan. | `23.Pengatur_Uang/pengatur_uang.html` | `Aktif` |
 | **Kalkulator Jam Lembur** | Penghitung jam kerja lembur dan kalkulasi estimasi upah lembur. | `30.hitung_jamlembur/hitungjamlembur.html` | `Aktif` |
 | **Analisis Kripto** | Dashboard pemantau tren & kalkulator investasi aset kripto. | `26.analisis kripto/analisis_kripto_v1.html` | `Aktif` |
-| **Manajemen Aset** | Sistem pencatatan inventaris dan pengelolaan aset entitas/perusahaan. | `24.manajemen_aset/manajemen_aset.html` | `Aktif` |
 
 </details>
 
