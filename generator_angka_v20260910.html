@@ -21,11 +21,19 @@
         },
       },
     }
-  </script>
+  <style>
+    .scrollbar-none::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-none {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
 </head>
 
 <body
-  class="min-h-[100dvh] w-full flex items-center justify-center p-3 sm:p-4 bg-slate-950 text-slate-100 font-sans relative overflow-hidden select-none">
+  class="min-h-[100dvh] w-full flex items-center justify-center p-2 sm:p-4 bg-slate-950 text-slate-100 font-sans relative overflow-hidden select-none">
 
   <!-- Ambient Glow Background -->
   <div class="absolute -top-20 -left-20 w-72 h-72 bg-violet-600/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -34,11 +42,11 @@
 
   <!-- Main Card Component -->
   <div
-    class="w-full max-w-md max-h-[calc(100dvh-1.5rem)] flex flex-col justify-between bg-slate-900/85 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-5 sm:p-6 shadow-2xl overflow-y-auto relative z-10">
+    class="w-full max-w-md max-h-[calc(100dvh-1rem)] my-auto flex flex-col justify-between bg-slate-900/85 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-4 sm:p-5 shadow-2xl overflow-hidden relative z-10">
 
-    <!-- Header Section -->
-    <div>
-      <div class="flex items-center justify-between mb-4 border-b border-slate-800/80 pb-3">
+    <!-- Header Section (Shrink-0) -->
+    <div class="shrink-0">
+      <div class="flex items-center justify-between mb-3 border-b border-slate-800/80 pb-2.5">
         <div class="flex items-center gap-2.5">
           <div class="p-2 bg-violet-500/10 rounded-xl text-violet-400 border border-violet-500/20">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,8 +62,10 @@
         <span
           class="text-[10px] font-semibold tracking-wider text-violet-400 bg-violet-500/10 px-2.5 py-1 rounded-full border border-violet-500/20">v20260910</span>
       </div>
+    </div>
 
-      <!-- Form Inputs Grid -->
+    <!-- Scrollable Form & Content Area -->
+    <div class="flex-1 overflow-y-auto scrollbar-none py-1 space-y-3">
       <form id="generator-form" class="space-y-3 mb-4">
         <div class="grid grid-cols-2 gap-2.5">
           <div class="group relative">
@@ -162,8 +172,8 @@
       </div>
     </div>
 
-    <!-- Bottom Actions & Footer -->
-    <div class="mt-4 pt-3 border-t border-slate-800/80">
+    <!-- Bottom Actions & Footer (Shrink-0) -->
+    <div class="shrink-0 mt-2 pt-2 border-t border-slate-800/80">
       <div class="grid grid-cols-2 gap-2 mb-3">
         <button
           onclick="if(window.top!==window.self&&window.parent.closePreviewModal){window.parent.closePreviewModal();}else{history.back();}"
