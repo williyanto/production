@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="id" class="dark transition-all duration-300 w-full max-w-[100vw] overflow-x-hidden">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text Case Reformer</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      html,
+      body {
+        height: 100vh;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-tr from-slate-100 via-green-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 text-slate-900 dark:text-slate-200 max-w-[100vw] font-sans flex items-center justify-center p-4 antialiased selection:bg-indigo-500/30 selection:text-indigo-200"
+  >
+    <div
+      class="w-full max-w-5xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-800 rounded-2xl p-6 shadow-2xl flex flex-col justify-between h-[90vh]"
+    >
+      <div
+        class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800/60 pb-4"
+      >
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
+            <i data-lucide="type" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h1 class="text-xl font-bold tracking-tight text-white">
+              Text Case Reformer
+            </h1>
+            <p class="text-xs text-slate-400">
+              Atur format, transformasi, dan pembersihan teks secara instan
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="flex flex-wrap bg-slate-50 dark:bg-slate-800/50 p-1 rounded-xl border border-slate-800 text-xs font-medium gap-1 lg:gap-0"
+        >
+          <button
+            id="modeProper"
+            onclick="setMode('proper')"
+            class="px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center gap-1.5 bg-indigo-600 text-white shadow"
+          >
+            <i data-lucide="align-left" class="w-3.5 h-3.5"></i>
+            <span>Per Kalimat</span>
+          </button>
+          <button
+            id="modeTitle"
+            onclick="setMode('title')"
+            class="px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center gap-1.5 text-slate-400 hover:text-slate-200"
+          >
+            <i data-lucide="heading" class="w-3.5 h-3.5"></i>
+            <span>Per Kata</span>
+          </button>
+          <button
+            id="modeSplit"
+            onclick="setMode('split')"
+            class="px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center gap-1.5 text-slate-400 hover:text-slate-200"
+          >
+            <i data-lucide="scissors" class="w-3.5 h-3.5"></i>
+            <span>Pecah Kata</span>
+          </button>
+          <button
+            id="modeChaos"
+            onclick="setMode('chaos')"
+            class="px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center gap-1.5 text-slate-400 hover:text-slate-200"
+          >
+            <i data-lucide="zap-off" class="w-3.5 h-3.5"></i>
+            <span>Berantakan</span>
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="bg-slate-50 dark:bg-slate-800/50 border border-slate-800/80 rounded-xl p-3 mt-4 flex flex-col sm:flex-row sm:items-center gap-3"
+      >
+        <div
+          class="flex items-center gap-2 text-xs font-semibold text-rose-400 uppercase tracking-wider min-w-[160px]"
+        >
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+          <span>Hilangkan Kata :</span>
+        </div>
+        <input
+          id="excludeWords"
+          type="text"
+          placeholder="Masukkan kata yang ingin dibuang, pisahkan dengan koma atau titik (Contoh: dolor, elit, et)"
+          class="flex-1 bg-white/95 dark:bg-slate-900/95 border border-slate-800 rounded-lg px-3 py-1.5 text-sm text-slate-300 placeholder-slate-600 focus:outline-none focus:border-rose-500/50 transition-colors"
+        />
+      </div>
+
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 flex-1 overflow-hidden"
+      >
+        <div
+          class="flex flex-col h-full bg-slate-50 dark:bg-slate-800/50 border border-slate-800/80 rounded-xl p-4"
+        >
+          <label
+            class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5"
+          >
+            <i
+              data-lucide="arrow-right-left"
+              class="w-3.5 h-3.5 text-indigo-400"
+            ></i>
+            Sumber Teks
+          </label>
+          <textarea
+            id="inputText"
+            placeholder="Masukkan atau tempel teks di sini..."
+            class="w-full flex-1 bg-transparent border-0 resize-none text-slate-300 placeholder-slate-600 focus:outline-none text-sm leading-relaxed"
+          ></textarea>
+        </div>
+
+        <div
+          class="flex flex-col h-full bg-slate-50 dark:bg-slate-800/50 border border-slate-800/80 rounded-xl p-4 relative group"
+        >
+          <label
+            id="outputLabel"
+            class="text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-emerald-400"
+          >
+            <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Hasil
+            Format
+          </label>
+          <textarea
+            id="outputText"
+            readonly
+            placeholder="Hasil akan muncul di sini..."
+            class="w-full flex-1 bg-transparent border-0 resize-none placeholder-slate-600 focus:outline-none text-sm leading-relaxed font-medium text-emerald-400"
+          ></textarea>
+
+          <button
+            id="btnCopy"
+            onclick="copyToClipboard()"
+            class="absolute bottom-4 right-4 bg-slate-800 hover:bg-indigo-600 border border-slate-700 text-slate-300 hover:text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 shadow-md active:scale-95 cursor-pointer"
+          >
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+            <span>Salin</span>
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-800/40 text-xs text-slate-500 relative"
+      >
+        <div
+          class="flex gap-4 items-center w-full sm:w-auto justify-center sm:justify-start"
+        >
+          <span id="charCount">Karakter: 0</span>
+          <span id="wordCount">Kata: 0</span>
+          <div
+            id="removedBadge"
+            class="hidden items-center gap-1 bg-rose-500/10 border border-rose-500/20 text-rose-400 px-2 py-0.5 rounded-md text-[11px] font-medium transition-all"
+          >
+            <i data-lucide="file-minus" class="w-3 h-3"></i>
+            <span id="removedCount">Dihilangkan: 0 kata</span>
+          </div>
+        </div>
+
+        <div
+          class="sm:absolute sm:left-1/2 sm:-translate-x-1/2 text-slate-500 font-medium tracking-wide bg-slate-800/30 px-4 py-1 rounded-md border border-slate-800 select-none order-first sm:order-none"
+        >
+          Williyanto Adi
+        </div>
+
+        <div class="hidden sm:block text-[10px] text-slate-600 tracking-wider">
+          v1.1 Stable
+        </div>
+      </div>
+    </div>
+
+    <script>
+      lucide.createIcons();
+
+      const inputText = document.getElementById("inputText");
+      const excludeWords = document.getElementById("excludeWords");
+      const outputText = document.getElementById("outputText");
+      const charCount = document.getElementById("charCount");
+      const wordCount = document.getElementById("wordCount");
+      const removedCount = document.getElementById("removedCount");
+      const removedBadge = document.getElementById("removedBadge");
+      const btnCopy = document.getElementById("btnCopy");
+      const outputLabel = document.getElementById("outputLabel");
+
+      const modeProper = document.getElementById("modeProper");
+      const modeTitle = document.getElementById("modeTitle");
+      const modeSplit = document.getElementById("modeSplit");
+      const modeChaos = document.getElementById("modeChaos");
+
+      let currentMode = "proper";
+
+      // Fungsi Hitung Kata
+      function countWords(text) {
+        const trimmed = text.trim();
+        if (trimmed === "") return 0;
+        return trimmed.split(/\s+/).length;
+      }
+
+      // Fungsi Filter Hilangkan Kata (Sudah Diperbaiki Dari Bug Regex & Spasi Menggantung)
+      function filterExcludedWords(text, statsCallback) {
+        const filterValue = excludeWords.value.trim();
+        const originalWordCount = countWords(text);
+
+        if (!filterValue || !text.trim()) {
+          if (statsCallback) statsCallback(0);
+          return text;
+        }
+
+        // PERBAIKAN BUG 1: Validasi ketat membuang element kosong hasil split tak sengaja
+        const wordsToRemove = filterValue
+          .split(/[.,]/)
+          .map((w) => w.trim())
+          .filter((w) => w.length > 0);
+
+        if (wordsToRemove.length === 0) {
+          if (statsCallback) statsCallback(0);
+          return text;
+        }
+
+        let filteredText = text;
+        wordsToRemove.forEach((word) => {
+          const mapEscaped = word.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+          const regex = new RegExp("\\b" + mapEscaped + "\\b", "gi");
+          filteredText = filteredText.replace(regex, "");
+        });
+
+        // PERBAIKAN BUG 2: Melakukan .trim() di akhir agar tidak merusak kapitalisasi awal kalimat
+        filteredText = filteredText
+          .replace(/\s+/g, " ")
+          .replace(/\s+([.,!?])/g, "$1")
+          .trim();
+
+        const finalWordCount = countWords(filteredText);
+        const diff = originalWordCount - finalWordCount;
+        if (statsCallback) statsCallback(diff > 0 ? diff : 0);
+
+        return filteredText;
+      }
+
+      // 1. Mode Huruf Besar di Awal Kalimat saja
+      function convertToProperCase(text) {
+        if (!text) return "";
+        let lower = text.toLowerCase();
+        return lower.replace(
+          /(^\s*|[.!?]\s+)([a-z])/g,
+          function (match, separator, char) {
+            return separator + char.toUpperCase();
+          },
+        );
+      }
+
+      // 2. Mode Huruf Besar di Setiap Awalan Kata
+      function convertToTitleCase(text) {
+        if (!text) return "";
+        return text.toLowerCase().replace(/\b\w/g, function (char) {
+          return char.toUpperCase();
+        });
+      }
+
+      // 3. Mode Split Teks Menjadi Baris Per Kata
+      function convertToSplitLines(text) {
+        if (!text) return "";
+        return text.trim().split(/\s+/).join("\n");
+      }
+
+      // 4. Mode Berantakan (Random Case)
+      function convertToChaosCase(text) {
+        if (!text) return "";
+        return text
+          .split("")
+          .map((char) => {
+            return Math.random() > 0.5
+              ? char.toUpperCase()
+              : char.toLowerCase();
+          })
+          .join("");
+      }
+
+      // Jalankan pemrosesan teks utama
+      function processText() {
+        let deletedWordsTotal = 0;
+
+        const cleanedText = filterExcludedWords(inputText.value, (count) => {
+          deletedWordsTotal = count;
+        });
+
+        outputText.className = outputText.className
+          .replace("text-amber-400", "text-emerald-400")
+          .replace("text-cyan-400", "text-emerald-400");
+        outputLabel.className =
+          "text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-emerald-400";
+
+        if (currentMode === "proper") {
+          outputText.value = convertToProperCase(cleanedText);
+          outputLabel.innerHTML = `<i data-lucide="align-left" class="w-3.5 h-3.5"></i> Hasil: Format Kalimat`;
+        } else if (currentMode === "title") {
+          outputText.value = convertToTitleCase(cleanedText);
+          outputLabel.innerHTML = `<i data-lucide="heading" class="w-3.5 h-3.5"></i> Hasil: Format Awalan Kata`;
+        } else if (currentMode === "split") {
+          outputText.value = convertToSplitLines(cleanedText);
+          outputText.className = outputText.className.replace(
+            "text-emerald-400",
+            "text-cyan-400",
+          );
+          outputLabel.className =
+            "text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-cyan-400";
+          outputLabel.innerHTML = `<i data-lucide="scissors" class="w-3.5 h-3.5"></i> Hasil: Pecah Per Kata`;
+        } else if (currentMode === "chaos") {
+          outputText.value = convertToChaosCase(cleanedText);
+          outputText.className = outputText.className.replace(
+            "text-emerald-400",
+            "text-amber-400",
+          );
+          outputLabel.className =
+            "text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-amber-400";
+          outputLabel.innerHTML = `<i data-lucide="zap-off" class="w-3.5 h-3.5"></i> Hasil: Berantakan`;
+        }
+
+        const rawText = inputText.value;
+        charCount.textContent = `Karakter: ${rawText.length}`;
+        wordCount.textContent = `Kata: ${countWords(rawText)}`;
+
+        if (deletedWordsTotal > 0 && excludeWords.value.trim() !== "") {
+          removedCount.textContent = `Dihilangkan: ${deletedWordsTotal} kata`;
+          removedBadge.style.display = "inline-flex";
+        } else {
+          removedBadge.style.display = "none";
+        }
+
+        lucide.createIcons();
+      }
+
+      function setMode(mode) {
+        currentMode = mode;
+        const buttons = [
+          { el: modeProper, key: "proper" },
+          { el: modeTitle, key: "title" },
+          { el: modeSplit, key: "split" },
+          { el: modeChaos, key: "chaos" },
+        ];
+
+        buttons.forEach((btn) => {
+          if (btn.key === currentMode) {
+            btn.el.className =
+              "px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center gap-1.5 bg-indigo-600 text-white shadow";
+          } else {
+            btn.el.className =
+              "px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center gap-1.5 text-slate-400 hover:text-slate-200";
+          }
+        });
+
+        processText();
+      }
+
+      inputText.addEventListener("input", processText);
+      excludeWords.addEventListener("input", processText);
+
+      function copyToClipboard() {
+        if (!outputText.value) return;
+
+        navigator.clipboard
+          .writeText(outputText.value)
+          .then(() => {
+            const originalContent = btnCopy.innerHTML;
+            btnCopy.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> <span class="text-emerald-400">Tersalin!</span>`;
+            btnCopy.classList.add("border-emerald-500/30", "bg-emerald-500/10");
+            lucide.createIcons();
+
+            setTimeout(() => {
+              btnCopy.innerHTML = originalContent;
+              btnCopy.classList.remove(
+                "border-emerald-500/30",
+                "bg-emerald-500/10",
+              );
+              lucide.createIcons();
+            }, 2000);
+          })
+          .catch((err) => console.error(err));
+      }
+    </script>
+  </body>
+</html>
+
