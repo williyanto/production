@@ -439,19 +439,47 @@
 
         @media (max-width: 576px) {
             .glass-card {
-                padding: 2.25rem 1.5rem;
+                padding: 1.75rem 1.25rem;
                 border-radius: 1.5rem;
+                max-height: calc(100dvh - 2rem);
+                overflow-y: auto;
+                scrollbar-width: none;
+            }
+            .glass-card::-webkit-scrollbar {
+                display: none;
+            }
+            .icon-stage {
+                width: 90px;
+                height: 90px;
+                margin-bottom: 1rem;
+            }
+            .concept-badge {
+                margin-bottom: 0.85rem;
+                padding: 0.3rem 0.8rem;
+                font-size: 0.75rem;
             }
             h1.project-title {
-                font-size: 1.55rem;
+                font-size: 1.4rem;
+                margin-bottom: 0.75rem;
+            }
+            .project-description {
+                font-size: 0.9rem;
+                margin-bottom: 1.25rem;
+            }
+            .roadmap-container {
+                padding: 1rem;
+                margin-bottom: 1.5rem;
             }
             .btn-group-custom {
                 flex-direction: column;
                 width: 100%;
+                gap: 0.6rem;
             }
             .btn-primary-glow, .btn-secondary-ghost {
                 width: 100%;
                 justify-content: center;
+                padding: 0.65rem 1rem;
+                font-size: 0.9rem;
             }
         }
     </style>
