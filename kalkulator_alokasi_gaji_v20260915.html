@@ -48,7 +48,7 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-tr from-slate-100 via-green-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] w-full max-w-[100vw] flex flex-col justify-center items-center py-6 px-3 overflow-x-hidden overflow-y-auto transition-colors duration-300">
+<body class="bg-gradient-to-tr from-slate-100 via-blue-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] w-full max-w-[100vw] flex flex-col justify-center items-center py-6 px-3 overflow-x-hidden overflow-y-auto transition-colors duration-300">
 
     <!-- Ambient Glowing Orbs Background -->
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
@@ -126,7 +126,7 @@
                     <div id="allocation-container" class="space-y-2"></div>
                 </div>
 
-                <button type="button" id="add-allocation-btn" class="w-full py-2.5 rounded-xl border border-dashed border-green-500/50 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all text-xs font-bold flex items-center justify-center gap-2">
+                <button type="button" id="add-allocation-btn" class="w-full py-2.5 rounded-xl border border-dashed border-green-500/50 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-green-900/20 transition-all text-xs font-bold flex items-center justify-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                     Tambah Alokasi
                 </button>
@@ -142,7 +142,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-                    <button id="hitungBtn" class="py-2.5 rounded-xl text-xs font-bold bg-green-500 hover:bg-green-600 text-white shadow-lg shadow-green-200 dark:shadow-none transition-all flex items-center justify-center gap-2">
+                    <button id="hitungBtn" class="py-2.5 rounded-xl text-xs font-bold bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-green-200 dark:shadow-none transition-all flex items-center justify-center gap-2">
                         <span>📊</span> Buat Grafik & Simpan
                     </button>
                     <button id="resetBtn" class="py-2.5 rounded-xl text-xs font-bold bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-200 dark:hover:bg-red-900/50 transition-all">
@@ -176,7 +176,7 @@
                     </div>
                     <div>
                         <span class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase block mb-1">Sisa</span>
-                        <div id="summary-sisa" class="text-xs font-bold text-green-600 dark:text-green-500 truncate">Rp 0</div>
+                        <div id="summary-sisa" class="text-xs font-bold text-blue-600 dark:text-blue-500 truncate">Rp 0</div>
                     </div>
                 </div>
 
@@ -195,14 +195,14 @@
         </div>
         
         <!-- Toast Notification (Custom Tailwind) -->
-        <div id="save-toast" class="fixed bottom-4 right-4 translate-y-20 opacity-0 bg-green-500 text-white px-4 py-3 rounded-xl shadow-lg shadow-green-500/20 flex items-center gap-3 transition-all duration-300 z-50 pointer-events-none">
+        <div id="save-toast" class="fixed bottom-4 right-4 translate-y-20 opacity-0 bg-blue-500 text-white px-4 py-3 rounded-xl shadow-lg shadow-blue-500/20 flex items-center gap-3 transition-all duration-300 z-50 pointer-events-none">
             <span>✅</span>
             <span class="text-sm font-bold">Data berhasil disimpan!</span>
         </div>
 
         <div class="no-print pt-4 flex gap-2 w-full mt-6 border-t border-slate-100 dark:border-slate-800">
             <button type="button" onclick="history.back()" class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors"><svg class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg> Kembali</button>
-            <a href="/" class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors flex items-center justify-center"><svg class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Beranda</a>
+            <a href="/" class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors flex items-center justify-center"><svg class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Beranda</a>
         </div>
 
         <!-- Footer -->
@@ -354,9 +354,9 @@
             
             if (sisa < 0) {
                 sisaGajiInput.classList.add('text-red-600', 'dark:text-red-400');
-                sisaGajiInput.classList.remove('text-green-600', 'dark:text-green-400', 'text-slate-800', 'dark:text-slate-100');
+                sisaGajiInput.classList.remove('text-blue-600', 'dark:text-blue-400', 'text-slate-800', 'dark:text-slate-100');
             } else {
-                sisaGajiInput.classList.add('text-green-600', 'dark:text-green-400');
+                sisaGajiInput.classList.add('text-blue-600', 'dark:text-blue-400');
                 sisaGajiInput.classList.remove('text-red-600', 'dark:text-red-400', 'text-slate-800', 'dark:text-slate-100');
             }
 
@@ -420,13 +420,13 @@
             
             let hasilHTML = `<div class="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden shadow-sm">`;
             dataAlokasi.forEach(item => {
-                let badgeClass = item.nama === 'Sisa Gaji' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300'; 
+                let badgeClass = item.nama === 'Sisa Gaji' ? 'bg-blue-100 text-green-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300'; 
                 hasilHTML += `<div class="flex justify-between items-center p-3 border-b border-slate-100 dark:border-slate-700/50 last:border-0">
                                 <span class="text-xs font-bold text-slate-600 dark:text-slate-300">${item.nama}</span> 
                                 <span class="px-2 py-1 rounded-md text-[10px] font-bold ${badgeClass}">${formatRupiah(item.jumlah)}</span>
                               </div>`;
             });
-            hasilHTML += `<div class="flex justify-between items-center p-3 bg-green-500 text-white">
+            hasilHTML += `<div class="flex justify-between items-center p-3 bg-blue-500 text-white">
                             <span class="text-xs font-extrabold uppercase">Total Gaji</span> 
                             <span class="text-sm font-extrabold">${formatRupiah(totalGaji)}</span>
                           </div></div>`;

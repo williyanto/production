@@ -32,12 +32,12 @@
         select { background-image: none !important; }
     </style>
 </head>
-<body class="bg-gradient-to-tr from-slate-100 via-green-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-center items-center py-6 px-3 overflow-x-hidden transition-colors duration-300">
+<body class="bg-gradient-to-tr from-slate-100 via-rose-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-center items-center py-6 px-3 overflow-x-hidden transition-colors duration-300">
 
     <!-- Ambient Background Orbs -->
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
-        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-green-400 blur-[100px] animate-pulse"></div>
-        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-teal-400 blur-[100px] animate-pulse" style="animation-delay: 2s;"></div>
+        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-rose-400 blur-[100px] animate-pulse"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-fuchsia-400 blur-[100px] animate-pulse" style="animation-delay: 2s;"></div>
     </div>
 
     <!-- Main Container -->
@@ -46,7 +46,7 @@
         <!-- Header -->
         <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white shadow-md shadow-green-200 dark:shadow-none">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center text-white shadow-md shadow-rose-200 dark:shadow-none">
                     <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                     </svg>
@@ -74,11 +74,11 @@
                 <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Input Pengisian BBM</span>
                 
                 <!-- Row 1: Kendaraan & Odometer -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Jenis Kendaraan</label>
                         <div class="relative">
-                            <select id="jenisKendaraan" class="appearance-none block w-full pl-3 pr-8 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-bold">
+                            <select id="jenisKendaraan" class="appearance-none block w-full pl-3 pr-8 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all text-xs font-bold">
                                 <option>Motor</option>
                                 <option>Mobil</option>
                             </select>
@@ -88,27 +88,24 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Odometer Sekarang (Km)</label>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Odometer (Km)</label>
                         <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                            </div>
-                            <input type="number" id="odoMeterSekarang" step="1" class="pl-9 block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold" placeholder="Contoh: 15000">
+                            <input type="number" id="odoMeterSekarang" step="1" class="block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all text-xs font-semibold" placeholder="15000">
                         </div>
                     </div>
                 </div>
 
-                <!-- Row 2: SPBU, Jenis BBM, Tanggal -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <!-- Row 2: SPBU, Jenis BBM -->
+                <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">SPBU</label>
                         <div class="relative">
-                            <select id="spbu" class="appearance-none block w-full pl-3 pr-8 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-bold">
+                            <select id="spbu" class="appearance-none block w-full pl-3 pr-8 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all text-xs font-bold">
                                 <option>Pertamina</option>
                                 <option>Shell</option>
                                 <option>BP AKR</option>
                                 <option>Vivo</option>
-                                <option>Exxon Mobil</option>
+                                <option>Exxon</option>
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-400 dark:text-slate-500">
                                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
@@ -118,7 +115,7 @@
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Jenis BBM</label>
                         <div class="relative">
-                            <select id="jenisBBM" class="appearance-none block w-full pl-3 pr-8 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-bold">
+                            <select id="jenisBBM" class="appearance-none block w-full pl-3 pr-8 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all text-xs font-bold">
                                 <option>RON 89</option>
                                 <option>RON 90</option>
                                 <option>RON 92</option>
@@ -133,43 +130,45 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Row 3: Tanggal & Jumlah BBM -->
+                <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Tanggal Pengisian</label>
-                        <input type="date" id="tanggalPengisian" class="block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold">
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Tanggal</label>
+                        <input type="date" id="tanggalPengisian" class="block w-full px-2 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all text-xs font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Jumlah (Liter)</label>
+                        <input type="number" id="jumlahBBM" step="0.01" oninput="hitungTotalHarga()" class="block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all text-xs font-semibold" placeholder="0.00">
                     </div>
                 </div>
 
-                <!-- Row 3: Jumlah BBM, Harga per Liter, Total Harga -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <!-- Row 4: Harga/L & Total -->
+                <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Jumlah BBM (Liter)</label>
-                        <input type="number" id="jumlahBBM" step="0.01" oninput="hitungTotalHarga()" class="block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold" placeholder="0.00">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Harga per Liter (IDR)</label>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Harga/L (Rp)</label>
                         <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-xs font-bold text-slate-400 dark:text-slate-500">Rp</div>
-                            <input type="text" id="hargaPerLiter" oninput="formatHarga(this); hitungTotalHarga()" class="pl-9 block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-semibold" placeholder="Contoh: 13.500">
+                            <input type="text" id="hargaPerLiter" oninput="formatHarga(this); hitungTotalHarga()" class="block w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all text-xs font-semibold" placeholder="10.000">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Total Harga (IDR)</label>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Total (Rp)</label>
                         <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-xs font-bold text-slate-400 dark:text-slate-500">Rp</div>
-                            <input type="text" id="totalHarga" readonly class="pl-9 block w-full px-3 py-2 bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 rounded-xl text-slate-800 dark:text-slate-100 font-bold text-xs cursor-not-allowed">
+                            <input type="text" id="totalHarga" readonly class="block w-full px-3 py-2 bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 rounded-xl text-slate-800 dark:text-slate-100 font-bold text-xs cursor-not-allowed" placeholder="0">
                         </div>
                     </div>
                 </div>
 
                 <!-- Checkbox Switch -->
                 <div class="flex items-center gap-2 pt-1">
-                    <input class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500 dark:focus:ring-emerald-600 dark:ring-offset-slate-800 focus:ring-2 dark:bg-slate-700 dark:border-slate-600 accent-emerald-500 cursor-pointer" type="checkbox" id="tangkiPenuh">
+                    <input class="w-4 h-4 text-rose-600 rounded border-slate-300 focus:ring-rose-500 dark:focus:ring-rose-600 dark:ring-offset-slate-800 focus:ring-2 dark:bg-slate-700 dark:border-slate-600 accent-rose-500 cursor-pointer" type="checkbox" id="tangkiPenuh">
                     <label class="text-xs font-bold text-slate-700 dark:text-slate-300 cursor-pointer" for="tangkiPenuh">Tangki Penuh?</label>
                 </div>
 
                 <!-- Action Buttons -->
                 <div class="space-y-2 pt-2">
-                    <button type="button" class="w-full py-2.5 px-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold text-xs rounded-xl shadow-md shadow-green-500/20 active:scale-95 transition-all flex items-center justify-center gap-2" onclick="tambahPengisian()">
+                    <button type="button" class="w-full py-2.5 px-4 bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-600 hover:to-red-700 text-white font-bold text-xs rounded-xl shadow-md shadow-rose-500/20 active:scale-95 transition-all flex items-center justify-center gap-2" onclick="tambahPengisian()">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
                         Tambahkan
                     </button>
@@ -189,14 +188,14 @@
             <!-- Section 3: Laporan Summaries -->
             <div>
                 <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-2">Laporan Pengisian BBM</span>
-                <div class="laporan transition-all duration-300 rounded-2xl p-4 bg-gradient-to-br from-emerald-500/10 via-teal-500/10 to-emerald-500/5 dark:from-emerald-950/40 dark:to-slate-900/60 border border-emerald-500/30 dark:border-emerald-500/25 shadow-lg shadow-emerald-500/5">
+                <div class="laporan transition-all duration-300 rounded-2xl p-4 bg-gradient-to-br from-rose-500/10 via-fuchsia-500/10 to-rose-500/5 dark:from-rose-950/40 dark:to-slate-900/60 border border-rose-500/30 dark:border-rose-500/25 shadow-lg shadow-rose-500/5">
                     <div id="laporan"></div>
                 </div>
             </div>
 
             <!-- Section 4: Tombol Ekspor -->
             <div class="grid grid-cols-2 gap-3 pt-1">
-                <button type="button" class="py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/20 active:scale-95 transition-all flex items-center justify-center gap-2" onclick="eksporKeExcel()">
+                <button type="button" class="py-2.5 px-4 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-md shadow-rose-600/20 active:scale-95 transition-all flex items-center justify-center gap-2" onclick="eksporKeExcel()">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                     Ekspor ke Excel
                 </button>
@@ -207,12 +206,16 @@
             </div>
 
             <!-- Section 5: Navigasi -->
-            <div class="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800/80">
-                <button type="button" onclick="window.history.back()" class="py-2.5 px-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200/80 dark:hover:bg-slate-750 active:scale-95 text-slate-600 dark:text-slate-300 font-bold text-xs rounded-xl transition-all shadow-sm flex items-center justify-center gap-2">
+            <div class="grid grid-cols-3 gap-3 mt-4">
+                <button type="button" onclick="window.history.back()" class="py-2.5 px-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200/80 dark:hover:bg-slate-750 active:scale-95 text-slate-600 dark:text-slate-300 font-bold text-xs rounded-xl transition-all shadow-sm flex items-center justify-center gap-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                     Kembali
                 </button>
-                <a href="index.html" class="py-2.5 px-4 bg-blue-600/90 hover:bg-blue-500 active:scale-95 text-white font-bold text-xs rounded-xl transition-all shadow-sm shadow-blue-600/20 flex items-center justify-center gap-2">
+                <button type="button" onclick="resetForm()" class="py-2.5 px-2 bg-rose-500/90 hover:bg-rose-600 active:scale-95 text-white font-bold text-xs rounded-xl transition-all shadow-sm flex items-center justify-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    Hapus
+                </button>
+                <a href="index.html" class="py-2.5 px-2 bg-rose-600/90 hover:bg-rose-500 active:scale-95 text-white font-bold text-xs rounded-xl transition-all shadow-sm shadow-rose-600/20 flex items-center justify-center gap-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                     Beranda
                 </a>
@@ -319,7 +322,7 @@
                 riwayatItem.innerHTML = `
                     <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/50 pb-2">
                         <div class="flex items-center gap-2">
-                            <span class="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 text-[11px] font-bold border border-emerald-200/50 dark:border-emerald-800/40">${data.jenisKendaraan}</span>
+                            <span class="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-rose-600 dark:text-emerald-400 text-[11px] font-bold border border-emerald-200/50 dark:border-emerald-800/40">${data.jenisKendaraan}</span>
                             <span class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-[11px] font-semibold">${data.spbu} - ${data.jenisBBM}</span>
                         </div>
                         <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500">${data.tanggal}</span>
@@ -328,12 +331,12 @@
                         <div><span class="text-[10px] text-slate-400 block uppercase">Odometer</span><span class="font-bold text-slate-700 dark:text-slate-200">${data.odoMeter} Km</span></div>
                         <div><span class="text-[10px] text-slate-400 block uppercase">Jumlah BBM</span><span class="font-bold text-slate-700 dark:text-slate-200">${data.jumlahBBM} L</span></div>
                         <div><span class="text-[10px] text-slate-400 block uppercase">Harga / L</span><span class="font-bold text-slate-700 dark:text-slate-200">Rp ${data.hargaPerLiter}</span></div>
-                        <div><span class="text-[10px] text-slate-400 block uppercase">Tangki Penuh</span><span class="font-bold ${data.tangkiPenuh === 'Ya' ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}">${data.tangkiPenuh}</span></div>
+                        <div><span class="text-[10px] text-slate-400 block uppercase">Tangki Penuh</span><span class="font-bold ${data.tangkiPenuh === 'Ya' ? 'text-rose-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}">${data.tangkiPenuh}</span></div>
                     </div>
                     <div class="flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50 pt-2">
                         <div>
                             <span class="text-[10px] text-slate-400 uppercase font-semibold">Total Harga: </span>
-                            <span class="font-extrabold text-sm text-emerald-600 dark:text-emerald-400">Rp ${data.totalHarga}</span>
+                            <span class="font-extrabold text-sm text-rose-600 dark:text-emerald-400">Rp ${data.totalHarga}</span>
                         </div>
                         <button class="px-2.5 py-1 text-xs font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-lg transition-colors" onclick="hapusRiwayatItem(${index})"><svg class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg> Hapus</button>
                     </div>
@@ -370,7 +373,7 @@
                     </div>
                     <div class="bg-white/60 dark:bg-slate-900/40 p-2.5 rounded-xl border border-emerald-500/20">
                         <span class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block uppercase">Total Pengeluaran</span>
-                        <span class="font-extrabold text-sm text-emerald-600 dark:text-emerald-400 font-mono">Rp ${totalHarga.toLocaleString('id-ID')}</span>
+                        <span class="font-extrabold text-sm text-rose-600 dark:text-emerald-400 font-mono">Rp ${totalHarga.toLocaleString('id-ID')}</span>
                     </div>
                     <div class="bg-white/60 dark:bg-slate-900/40 p-2.5 rounded-xl border border-emerald-500/20">
                         <span class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block uppercase">Konsumsi BBM</span>
