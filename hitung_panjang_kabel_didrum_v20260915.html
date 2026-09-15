@@ -196,6 +196,15 @@
             </div>
 
             <!-- Papan Hasil Reaktif (Dynamic Output Cards) -->
+            
+            <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-100 dark:border-slate-800/60 no-print">
+                <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400">Mode Satuan Hasil:</span>
+                <select id="outputMode" class="text-xs py-1 px-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-bold text-slate-700 dark:text-slate-300 focus:outline-none">
+                    <option value="meter" selected>Meter (m)</option>
+                    <option value="feet">Feet (ft)</option>
+                </select>
+            </div>
+
             <div id="hasil" class="space-y-2 pt-1 transition-all duration-300"></div>
 
         </div>
@@ -243,6 +252,15 @@
         const btnReset = document.getElementById('btnReset');
 
         // Fungsi parsing input dengan penukaran tanda koma (',') menjadi titik ('.')
+        
+        function formatOutput(meters) {
+            const mode = document.getElementById('outputMode') ? document.getElementById('outputMode').value : 'meter';
+            let val = mode === 'feet' ? meters * 3.28084 : meters;
+            let unit = mode === 'feet' ? 'feet' : 'meter';
+            let formattedStr = val.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            return formattedStr + ' ' + unit;
+        }
+
         function parseVal(inputElement) {
             if (!inputElement || !inputElement.value) return NaN;
             const cleaned = inputElement.value.replace(/,/g, '.').trim();
@@ -350,7 +368,7 @@
                         panjangKabelTanda += Math.PI * diameterLilitan;
                     }
                     const layerAkhir = Math.ceil(lilitanVal / jumlahLilitanPerLayer);
-                    hasilDiv.innerHTML += makeAlert('info', `Panjang Hingga Lilitan Ke-${lilitanVal}`, `Perkiraan panjang ${lilitanVal} lilitan (mencapai <strong class="text-blue-700 dark:text-blue-300">Layer ke-${layerAkhir}</strong>) sekitar <span class="font-black text-sm text-blue-600 dark:text-blue-400 underline decoration-2">${panjangKabelTanda.toFixed(2)} meter</span>.`);
+                    hasilDiv.innerHTML += makeAlert('info', `Panjang Hingga Lilitan Ke-${lilitanVal}`, `Perkiraan panjang ${lilitanVal} lilitan (mencapai <strong class="text-blue-700 dark:text-blue-300">Layer ke-${layerAkhir}</strong>) sekitar <span class="font-black text-sm text-blue-600 dark:text-blue-400 underline decoration-2">${formatOutput(panjangKabelTanda)}</span>.`);
                     hasOutput = true;
                 } else {
                     hasilDiv.innerHTML += makeAlert('warning', 'Peringatan Lilitan', 'Nilai lilitan yang terisi tidak valid (harus angka positif).');
@@ -366,7 +384,7 @@
                         const panjangLayer = jumlahLilitanPerLayer * (Math.PI * diameterLayer);
                         panjangTotalKabel += panjangLayer;
                     }
-                    hasilDiv.innerHTML += makeAlert('success', `Estimasi ${layerVal} Layer Penuh`, `Total kapasitas kabel untuk ${layerVal} layer (±${jumlahLilitanPerLayer} lilitan/layer) sekitar <span class="font-black text-sm text-emerald-600 dark:text-emerald-400 underline decoration-2">${panjangTotalKabel.toFixed(2)} meter</span>.`);
+                    hasilDiv.innerHTML += makeAlert('success', `Estimasi ${layerVal} Layer Penuh`, `Total kapasitas kabel untuk ${layerVal} layer (±${jumlahLilitanPerLayer} lilitan/layer) sekitar <span class="font-black text-sm text-emerald-600 dark:text-emerald-400 underline decoration-2">${formatOutput(panjangTotalKabel)}</span>.`);
                     hasOutput = true;
                 } else {
                     hasilDiv.innerHTML += makeAlert('warning', 'Peringatan Layer', 'Jumlah layer yang dimasukkan tidak valid.');
@@ -377,7 +395,7 @@
             if (!hasOutput && !lilitanTandaInput.value && !jumlahLayerInput.value) {
                 const diameterLayer1 = diameterDrum + diameterKabelMeter;
                 const panjangSatuLayer = jumlahLilitanPerLayer * (Math.PI * diameterLayer1);
-                hasilDiv.innerHTML = makeAlert('info', 'Estimasi Default (1 Layer Penuh)', `Kapasitas 1 layer drum (±${jumlahLilitanPerLayer} lilitan sejajar horizontal) menampung sekitar <span class="font-black text-sm text-blue-600 dark:text-blue-400 underline decoration-2">${panjangSatuLayer.toFixed(2)} meter</span> kabel.`);
+                hasilDiv.innerHTML = makeAlert('info', 'Estimasi Default (1 Layer Penuh)', `Kapasitas 1 layer drum (±${jumlahLilitanPerLayer} lilitan sejajar horizontal) menampung sekitar <span class="font-black text-sm text-blue-600 dark:text-blue-400 underline decoration-2">${formatOutput(panjangSatuLayer)}</span> kabel.`);
             }
         }
 
@@ -390,6 +408,9 @@
         });
 
         // Reset Tombol
+        const outputMode = document.getElementById('outputMode');
+        if (outputMode) outputMode.addEventListener('change', hitungPanjang);
+
         btnReset.addEventListener('click', () => {
             [diameterDrumInput, kelilingDrumInput, lebarDrumInput, nilaiDiameterKabelInput, lilitanTandaInput, jumlahLayerInput].forEach(el => el.value = '');
             satuanLebarDrum.value = 'm';
