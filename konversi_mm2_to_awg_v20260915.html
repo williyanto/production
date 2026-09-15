@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="id" class="transition-all duration-300 w-full max-w-full overflow-x-hidden">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Konversi Kabel: mm² ⇄ AWG / kcmil v20260915</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -24,16 +26,19 @@
             }
         }
     </script>
-    
+
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        
-        /* Hilangkan panah spinner bawaan input number */
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
+
+        /* Hilangkan panah spinner bawaan input number */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
         input[type=number] {
             -moz-appearance: textfield;
         }
@@ -44,83 +49,91 @@
             transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
             opacity: 0;
         }
+
         .accordion-content.expanded {
-            max-height: 500px; /* Cukup besar untuk muat rumus */
+            max-height: 500px;
+            /* Cukup besar untuk muat rumus */
             opacity: 1;
         }
     </style>
 </head>
-<body class="bg-gradient-to-tr from-slate-100 via-emerald-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] w-full max-w-full flex flex-col justify-center items-center py-6 px-3 overflow-x-hidden overflow-y-auto transition-colors duration-300">
+
+<body
+    class="bg-gradient-to-tr from-slate-100 via-emerald-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] w-full max-w-full flex flex-col justify-center items-center py-6 px-3 overflow-x-hidden overflow-y-auto transition-colors duration-300">
 
     <!-- Ambient Glowing Orbs Background -->
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
         <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-emerald-400 blur-[100px] animate-pulse"></div>
-        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-teal-400 blur-[100px] animate-pulse" style="animation-delay: 2s;"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-teal-400 blur-[100px] animate-pulse"
+            style="animation-delay: 2s;"></div>
     </div>
 
     <!-- Main Container -->
-    <div class="w-full max-w-2xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-6 transition-all duration-300 flex flex-col my-auto overflow-hidden">
-        
+    <div
+        class="w-full max-w-2xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-6 transition-all duration-300 flex flex-col my-auto overflow-hidden">
+
         <!-- Header -->
         <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-md shadow-emerald-200 dark:shadow-none font-bold text-xl">
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-md shadow-emerald-200 dark:shadow-none font-bold text-xl">
                     ⚡
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold text-slate-800 dark:text-slate-100 tracking-tight">Kalkulator Konversi Kabel</h1>
-                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">IEC 60228 & ASTM B258 • v20260915</p>
+                    <h1 class="text-lg font-bold text-slate-800 dark:text-slate-100 tracking-tight">Kalkulator Konversi
+                        Kabel</h1>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">IEC
+                        60228 & ASTM B258 • v20260915</p>
                 </div>
             </div>
-            <button id="theme-toggle" type="button" class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">
-                <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            <button id="theme-toggle" type="button"
+                class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">
+                <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
-                <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
                 </svg>
             </button>
         </div>
 
         <!-- Body Content -->
         <div class="space-y-4 my-4">
-            
+
             <!-- Tab Switcher (Compact) -->
-            <div class="bg-slate-100 dark:bg-slate-800/50 p-1 rounded-xl flex w-full border border-slate-200/60 dark:border-slate-700/50">
-                <button
-                    id="tab-to-awg"
-                    onclick="switchTab('to-awg')"
-                    class="flex-1 py-1.5 px-3 text-[12px] font-bold rounded-lg transition-all duration-200 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-400 shadow-sm border border-slate-200 dark:border-slate-600 flex items-center justify-center gap-1.5"
-                >
+            <div
+                class="bg-slate-100 dark:bg-slate-800/50 p-1 rounded-xl flex w-full border border-slate-200/60 dark:border-slate-700/50">
+                <button id="tab-to-awg" onclick="switchTab('to-awg')"
+                    class="flex-1 py-1.5 px-3 text-[12px] font-bold rounded-lg transition-all duration-200 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-400 shadow-sm border border-slate-200 dark:border-slate-600 flex items-center justify-center gap-1.5">
                     <span>📏</span> mm² → AWG / kcmil
                 </button>
-                <button
-                    id="tab-from-awg"
-                    onclick="switchTab('from-awg')"
-                    class="flex-1 py-1.5 px-3 text-[12px] font-semibold rounded-lg transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 flex items-center justify-center gap-1.5"
-                >
+                <button id="tab-from-awg" onclick="switchTab('from-awg')"
+                    class="flex-1 py-1.5 px-3 text-[12px] font-semibold rounded-lg transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 flex items-center justify-center gap-1.5">
                     <span>🔄</span> AWG / kcmil → mm²
                 </button>
             </div>
 
             <!-- TAB 1: mm2 ke AWG/kcmil -->
-            <div id="panel-to-awg" class="bg-slate-50/60 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-200/60 dark:border-slate-800 space-y-4 transition-all duration-300 block">
-                <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-2">Konversi Penampang (Standar IEC)</span>
-                
+            <div id="panel-to-awg"
+                class="bg-slate-50/60 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-200/60 dark:border-slate-800 space-y-4 transition-all duration-300 block">
+                <span
+                    class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-2">Konversi
+                    Penampang (Standar IEC)</span>
+
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Luas Penampang Kabel (mm²)</label>
+                    <label
+                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Luas
+                        Penampang Kabel (mm²)</label>
                     <div class="relative">
-                        <input
-                            type="number"
-                            id="input-mm2"
-                            min="0.5"
-                            max="2500"
-                            step="any"
-                            placeholder="Contoh: 2.5"
+                        <input type="number" id="input-mm2" min="0.5" max="2500" step="any" placeholder="Contoh: 2.5"
                             oninput="calculateToAwg()"
-                            class="block w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600"
-                        />
-                        <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 text-xs font-bold">
+                            class="block w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <div
+                            class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 text-xs font-bold">
                             mm²
                         </div>
                     </div>
@@ -128,62 +141,87 @@
 
                 <!-- Presets IEC -->
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Ukuran Umum (mm²)</label>
+                    <label
+                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Ukuran
+                        Umum (mm²)</label>
                     <div class="flex flex-wrap gap-1.5">
-                        <button onclick="setMm2Preset(0.5)" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">0.5</button>
-                        <button onclick="setMm2Preset(0.75)" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">0.75</button>
-                        <button onclick="setMm2Preset(1.0)" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">1.0</button>
-                        <button onclick="setMm2Preset(1.5)" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">1.5</button>
-                        <button onclick="setMm2Preset(2.5)" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">2.5</button>
-                        
-                        <button onclick="setMm2Preset(1400)" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">1400</button>
-                        <button onclick="setMm2Preset(1600)" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">1600</button>
-                        <button onclick="setMm2Preset(1800)" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">1800</button>
-                        <button onclick="setMm2Preset(2000)" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">2000</button>
-                        <button onclick="setMm2Preset(2500)" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">2500</button>
+                        <button onclick="setMm2Preset(0.5)"
+                            class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">0.5</button>
+                        <button onclick="setMm2Preset(0.75)"
+                            class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">0.75</button>
+                        <button onclick="setMm2Preset(1.0)"
+                            class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">1.0</button>
+                        <button onclick="setMm2Preset(1.5)"
+                            class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">1.5</button>
+                        <button onclick="setMm2Preset(2.5)"
+                            class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">2.5</button>
+
+                        <button onclick="setMm2Preset(1400)"
+                            class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">1400</button>
+                        <button onclick="setMm2Preset(1600)"
+                            class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">1600</button>
+                        <button onclick="setMm2Preset(1800)"
+                            class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">1800</button>
+                        <button onclick="setMm2Preset(2000)"
+                            class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">2000</button>
+                        <button onclick="setMm2Preset(2500)"
+                            class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">2500</button>
                     </div>
                 </div>
 
-                <div id="diameter-info-mm2" class="hidden text-xs text-slate-500 dark:text-slate-400 bg-white/50 dark:bg-slate-900/50 p-2 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center gap-2">
+                <div id="diameter-info-mm2"
+                    class="hidden text-xs text-slate-500 dark:text-slate-400 bg-white/50 dark:bg-slate-900/50 p-2 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center gap-2">
                     <span class="text-emerald-500 dark:text-emerald-400">⌀</span> <span id="diameter-mm2-text"></span>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 ">
-                    <div class="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <span class="text-[10px] text-slate-400 uppercase font-semibold block mb-1">Hasil AWG (Eksak)</span>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <span class="text-[10px] text-slate-400 uppercase font-semibold block mb-1">Hasil AWG
+                            (Eksak)</span>
                         <div class="text-xl font-bold text-slate-800 dark:text-slate-100 font-mono" id="res-awg">-</div>
-                        <span class="text-[9px] text-slate-400 dark:text-slate-500 font-medium leading-tight mt-1 block" id="res-awg-note"></span>
+                        <span class="text-[9px] text-slate-400 dark:text-slate-500 font-medium leading-tight mt-1 block"
+                            id="res-awg-note"></span>
                     </div>
-                    <div class="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <span class="text-[10px] text-slate-400 uppercase font-semibold block mb-1">Hasil kcmil (MCM)</span>
-                        <div class="text-xl font-bold text-slate-800 dark:text-slate-100 font-mono" id="res-kcmil">-</div>
-                        <span class="text-[9px] text-emerald-600 dark:text-emerald-500 font-semibold leading-tight mt-1 block bg-emerald-50 dark:bg-emerald-900/20 px-1.5 py-0.5 rounded inline-block">ASTM Standard</span>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <span class="text-[10px] text-slate-400 uppercase font-semibold block mb-1">Hasil kcmil
+                            (MCM)</span>
+                        <div class="text-xl font-bold text-slate-800 dark:text-slate-100 font-mono" id="res-kcmil">-
+                        </div>
+                        <span
+                            class="text-[9px] text-emerald-600 dark:text-emerald-500 font-semibold leading-tight mt-1 block bg-emerald-50 dark:bg-emerald-900/20 px-1.5 py-0.5 rounded inline-block">ASTM
+                            Standard</span>
                     </div>
                 </div>
             </div>
 
             <!-- TAB 2: AWG / kcmil ke mm2 -->
-            <div id="panel-from-awg" class="bg-slate-50/60 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-200/60 dark:border-slate-800 space-y-4 transition-all duration-300 hidden">
+            <div id="panel-from-awg"
+                class="bg-slate-50/60 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-200/60 dark:border-slate-800 space-y-4 transition-all duration-300 hidden">
                 <input type="hidden" id="select-type" value="awg" />
                 <input type="hidden" id="input-awg" value="" />
                 <input type="hidden" id="input-kcmil" value="" />
 
                 <div class="flex justify-between items-end mb-2">
-                    <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Konversi Imperial</span>
-                    <span class="text-[9px] bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded uppercase font-bold" id="mode-badge-status">Auto Detect</span>
+                    <span
+                        class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Konversi
+                        Imperial</span>
+                    <span
+                        class="text-[9px] bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded uppercase font-bold"
+                        id="mode-badge-status">Auto Detect</span>
                 </div>
-                
+
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Masukkan Nilai AWG atau kcmil</label>
+                    <label
+                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Masukkan
+                        Nilai AWG atau kcmil</label>
                     <div class="relative">
-                        <input
-                            type="text"
-                            id="input-smart"
-                            placeholder="Contoh: 4 AWG atau 250 kcmil"
+                        <input type="text" id="input-smart" placeholder="Contoh: 4 AWG atau 250 kcmil"
                             oninput="handleSmartAwgInput()"
-                            class="block w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600"
-                        />
-                        <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 text-xs font-bold" id="unit-badge">
+                            class="block w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 text-xs font-bold"
+                            id="unit-badge">
                             -
                         </div>
                     </div>
@@ -192,72 +230,101 @@
                 <!-- Presets AWG & kcmil -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">AWG Umum</label>
+                        <label
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">AWG
+                            Umum</label>
                         <div class="flex flex-wrap gap-1.5">
-                            <button onclick="setSmartPreset('14', 'awg')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">14</button>
-                            <button onclick="setSmartPreset('12', 'awg')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">12</button>
-                            <button onclick="setSmartPreset('10', 'awg')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">10</button>
-                            <button onclick="setSmartPreset('8', 'awg')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">8</button>
-                            <button onclick="setSmartPreset('6', 'awg')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">6</button>
+                            <button onclick="setSmartPreset('14', 'awg')"
+                                class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">14</button>
+                            <button onclick="setSmartPreset('12', 'awg')"
+                                class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">12</button>
+                            <button onclick="setSmartPreset('10', 'awg')"
+                                class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">10</button>
+                            <button onclick="setSmartPreset('8', 'awg')"
+                                class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">8</button>
+                            <button onclick="setSmartPreset('6', 'awg')"
+                                class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">6</button>
                         </div>
                     </div>
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">kcmil Umum</label>
+                        <label
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">kcmil
+                            Umum</label>
                         <div class="flex flex-wrap gap-1.5">
-                            <button onclick="setSmartPreset('1800', 'kcmil')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">1800</button>
-                            <button onclick="setSmartPreset('1900', 'kcmil')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">1900</button>
-                            <button onclick="setSmartPreset('2000', 'kcmil')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">2000</button>
-                            <button onclick="setSmartPreset('2500', 'kcmil')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">2500</button>
-                            <button onclick="setSmartPreset('3000', 'kcmil')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">3000</button>
+                            <button onclick="setSmartPreset('1800', 'kcmil')"
+                                class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">1800</button>
+                            <button onclick="setSmartPreset('1900', 'kcmil')"
+                                class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">1900</button>
+                            <button onclick="setSmartPreset('2000', 'kcmil')"
+                                class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">2000</button>
+                            <button onclick="setSmartPreset('2500', 'kcmil')"
+                                class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">2500</button>
+                            <button onclick="setSmartPreset('3000', 'kcmil')"
+                                class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-emerald-500 hover:text-emerald-600 transition-all">3000</button>
                         </div>
                     </div>
                 </div>
 
-                <div id="diameter-info-awg" class="hidden text-xs text-slate-500 dark:text-slate-400 bg-white/50 dark:bg-slate-900/50 p-2 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center gap-2">
+                <div id="diameter-info-awg"
+                    class="hidden text-xs text-slate-500 dark:text-slate-400 bg-white/50 dark:bg-slate-900/50 p-2 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center gap-2">
                     <span class="text-emerald-500 dark:text-emerald-400">⌀</span> <span id="diameter-awg-text"></span>
                 </div>
 
                 <div class="pt-2 ">
-                    <div class="bg-emerald-50/50 dark:bg-slate-900 p-3 rounded-xl border border-emerald-200/50 dark:border-slate-700 shadow-sm">
-                        <span class="text-[10px] text-slate-400 uppercase font-semibold block mb-1">Hasil Luas Penampang Metrik</span>
-                        <div class="text-xl font-bold text-slate-800 dark:text-slate-100 font-mono" id="res-mm2">- <span class="text-sm font-medium text-slate-400">mm²</span></div>
+                    <div
+                        class="bg-emerald-50/50 dark:bg-slate-900 p-3 rounded-xl border border-emerald-200/50 dark:border-slate-700 shadow-sm">
+                        <span class="text-[10px] text-slate-400 uppercase font-semibold block mb-1">Hasil Luas Penampang
+                            Metrik</span>
+                        <div class="text-xl font-bold text-slate-800 dark:text-slate-100 font-mono" id="res-mm2">- <span
+                                class="text-sm font-medium text-slate-400">mm²</span></div>
                     </div>
                 </div>
             </div>
 
             <!-- Catatan Lapangan (Field Notes) -->
-            <div class="bg-amber-50 dark:bg-amber-950/20 p-3 rounded-xl border border-amber-200 dark:border-amber-900/50 flex items-start gap-2.5">
+            <div
+                class="bg-amber-50 dark:bg-amber-950/20 p-3 rounded-xl border border-amber-200 dark:border-amber-900/50 flex items-start gap-2.5">
                 <span class="text-amber-500 text-sm mt-0.5">⚠️</span>
                 <div>
-                    <span class="text-[11px] font-bold text-amber-700 dark:text-amber-500 uppercase tracking-wider block mb-0.5">Catatan Lapangan (Ampacity)</span>
+                    <span
+                        class="text-[11px] font-bold text-amber-700 dark:text-amber-500 uppercase tracking-wider block mb-0.5">Catatan
+                        Lapangan (Ampacity)</span>
                     <p class="text-xs text-amber-800/80 dark:text-amber-400/80 leading-relaxed">
-                        Saat konversi kabel IEC ke ASTM (atau sebaliknya), jika ukuran eksak tidak tersedia, pilih ukuran satu tingkat di atasnya (<em>oversize</em>) demi menjamin kapasitas hantar arus yang aman.
+                        Saat konversi kabel IEC ke ASTM (atau sebaliknya), jika ukuran eksak tidak tersedia, pilih
+                        ukuran satu tingkat di atasnya (<em>oversize</em>) demi menjamin kapasitas hantar arus yang
+                        aman.
                     </p>
                 </div>
             </div>
 
             <!-- Referensi Rumus (Accordion) -->
             <div>
-                <button onclick="toggleRumus()" class="w-full flex items-center justify-between p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-left text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors focus:outline-none">
+                <button onclick="toggleRumus()"
+                    class="w-full flex items-center justify-between p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-left text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors focus:outline-none">
                     <div class="flex items-center gap-2">
                         <span class="text-emerald-500">📖</span> Referensi & Asal-Usul Rumus
                     </div>
-                    <svg id="rumus-icon" class="w-4 h-4 text-slate-400 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <svg id="rumus-icon" class="w-4 h-4 text-slate-400 transform transition-transform duration-300"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
-                <div id="rumus-content" class="accordion-content mt-2 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 px-4">
+                <div id="rumus-content"
+                    class="accordion-content mt-2 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 px-4">
                     <div class="py-4 space-y-3">
                         <!-- Rumus Tab 1: mm2 ke AWG -->
                         <div id="rumus-to-awg" class="space-y-3 block">
                             <div class="text-xs">
                                 <strong class="text-slate-800 dark:text-slate-200 block mb-1">1. mm² ke kcmil</strong>
-                                <code class="block bg-slate-200 dark:bg-slate-900 p-2 rounded text-slate-700 dark:text-slate-300 mb-1 overflow-x-auto whitespace-nowrap text-[11px]">kcmil = mm² / 0.5067075</code>
+                                <code
+                                    class="block bg-slate-200 dark:bg-slate-900 p-2 rounded text-slate-700 dark:text-slate-300 mb-1 overflow-x-auto whitespace-nowrap text-[11px]">kcmil = mm² / 0.5067075</code>
                                 <span class="text-[10px] text-slate-500">1 kcmil = 0.5067075 mm²</span>
                             </div>
                             <div class="text-xs">
-                                <strong class="text-slate-800 dark:text-slate-200 block mb-1">2. mm² ke AWG (Logaritma)</strong>
-                                <code class="block bg-slate-200 dark:bg-slate-900 p-2 rounded text-slate-700 dark:text-slate-300 mb-1 overflow-x-auto whitespace-nowrap text-[11px]">AWG = -8.6249 × ln(d / 0.127) + 36</code>
+                                <strong class="text-slate-800 dark:text-slate-200 block mb-1">2. mm² ke AWG
+                                    (Logaritma)</strong>
+                                <code
+                                    class="block bg-slate-200 dark:bg-slate-900 p-2 rounded text-slate-700 dark:text-slate-300 mb-1 overflow-x-auto whitespace-nowrap text-[11px]">AWG = -8.6249 × ln(d / 0.127) + 36</code>
                                 <span class="text-[10px] text-slate-500">d = √(4 × mm² / π)</span>
                             </div>
                         </div>
@@ -265,13 +332,16 @@
                         <!-- Rumus Tab 2: AWG ke mm2 -->
                         <div id="rumus-from-awg" class="space-y-3 hidden">
                             <div class="text-xs">
-                                <strong class="text-slate-800 dark:text-slate-200 block mb-1">1. AWG ke mm² (Basis 92)</strong>
-                                <code class="block bg-slate-200 dark:bg-slate-900 p-2 rounded text-slate-700 dark:text-slate-300 mb-1 overflow-x-auto whitespace-nowrap text-[11px]">mm² = 0.012668 × 92^((36 - AWG) / 19.5)</code>
+                                <strong class="text-slate-800 dark:text-slate-200 block mb-1">1. AWG ke mm² (Basis
+                                    92)</strong>
+                                <code
+                                    class="block bg-slate-200 dark:bg-slate-900 p-2 rounded text-slate-700 dark:text-slate-300 mb-1 overflow-x-auto whitespace-nowrap text-[11px]">mm² = 0.012668 × 92^((36 - AWG) / 19.5)</code>
                                 <span class="text-[10px] text-slate-500">d = 0.127 × 92^((36 - AWG) / 39)</span>
                             </div>
                             <div class="text-xs">
                                 <strong class="text-slate-800 dark:text-slate-200 block mb-1">2. kcmil ke mm²</strong>
-                                <code class="block bg-slate-200 dark:bg-slate-900 p-2 rounded text-slate-700 dark:text-slate-300 mb-1 overflow-x-auto whitespace-nowrap text-[11px]">mm² = kcmil × 0.5067075</code>
+                                <code
+                                    class="block bg-slate-200 dark:bg-slate-900 p-2 rounded text-slate-700 dark:text-slate-300 mb-1 overflow-x-auto whitespace-nowrap text-[11px]">mm² = kcmil × 0.5067075</code>
                             </div>
                         </div>
                     </div>
@@ -283,24 +353,35 @@
         <div class="pt-2 flex gap-2 w-full mt-auto mb-2">
             <button type="button" onclick="history.back()"
                 class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors flex justify-center items-center gap-1">
-                <svg class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg> Kembali
+                <svg class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="m12 19-7-7 7-7" />
+                    <path d="M19 12H5" />
+                </svg> Kembali
             </button>
-            <a href="/"
+            <a href="index.html"
                 class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors flex items-center justify-center gap-1">
-                <svg class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Beranda
+                <svg class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg> Beranda
             </a>
         </div>
 
         <!-- Footer -->
-        
 
-    
+
+
         <!-- Footer -->
-        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-4 pt-3 pb-2 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
+        <footer
+            class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-4 pt-3 pb-2 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
             Williyanto Adi 2026
         </footer>
 
-</div>
+    </div>
 
     <!-- JavaScript Code -->
     <script>
@@ -316,7 +397,7 @@
             themeToggleDarkIcon.classList.remove('hidden');
         }
 
-        themeToggleBtn.addEventListener('click', function() {
+        themeToggleBtn.addEventListener('click', function () {
             themeToggleDarkIcon.classList.toggle('hidden');
             themeToggleLightIcon.classList.toggle('hidden');
             if (localStorage.getItem('color-theme') === 'light') {
@@ -351,7 +432,7 @@
             const btnFrom = document.getElementById("tab-from-awg");
             const panelTo = document.getElementById("panel-to-awg");
             const panelFrom = document.getElementById("panel-from-awg");
-            
+
             const rumusTo = document.getElementById("rumus-to-awg");
             const rumusFrom = document.getElementById("rumus-from-awg");
 
@@ -362,8 +443,8 @@
                 panelTo.classList.add("block");
                 panelFrom.classList.add("hidden");
                 panelFrom.classList.remove("block");
-                
-                if(rumusTo) {
+
+                if (rumusTo) {
                     rumusTo.classList.remove("hidden");
                     rumusTo.classList.add("block");
                     rumusFrom.classList.add("hidden");
@@ -376,8 +457,8 @@
                 panelFrom.classList.add("block");
                 panelTo.classList.add("hidden");
                 panelTo.classList.remove("block");
-                
-                if(rumusFrom) {
+
+                if (rumusFrom) {
                     rumusFrom.classList.remove("hidden");
                     rumusFrom.classList.add("block");
                     rumusTo.classList.add("hidden");
@@ -525,4 +606,5 @@
         }
     </script>
 </body>
+
 </html>

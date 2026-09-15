@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="id" class="transition-all duration-300 w-full max-w-[100vw] overflow-x-hidden">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Alokasi Gaji v20260915</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -24,58 +26,85 @@
             }
         }
     </script>
-    
+
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
         input[type=number] {
             -moz-appearance: textfield;
         }
 
         @media print {
-            body { background: white !important; }
-            .no-print { display: none !important; }
-            #print-footer { display: block !important; }
-            .main-card { box-shadow: none !important; border: 1px solid #ccc !important; }
+            body {
+                background: white !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            #print-footer {
+                display: block !important;
+            }
+
+            .main-card {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+            }
         }
     </style>
 </head>
-<body class="bg-gradient-to-tr from-slate-100 via-blue-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] w-full max-w-[100vw] flex flex-col justify-center items-center py-6 px-3 overflow-x-hidden overflow-y-auto transition-colors duration-300">
+
+<body
+    class="bg-gradient-to-tr from-slate-100 via-blue-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] w-full max-w-[100vw] flex flex-col justify-center items-center py-6 px-3 overflow-x-hidden overflow-y-auto transition-colors duration-300">
 
     <!-- Ambient Glowing Orbs Background -->
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
         <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-green-400 blur-[100px] animate-pulse"></div>
-        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-teal-400 blur-[100px] animate-pulse" style="animation-delay: 2s;"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-teal-400 blur-[100px] animate-pulse"
+            style="animation-delay: 2s;"></div>
     </div>
 
     <!-- Main Container -->
-    <div class="main-card w-full max-w-4xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-6 transition-all duration-300 flex flex-col overflow-hidden">
-        
+    <div
+        class="main-card w-full max-w-4xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-6 transition-all duration-300 flex flex-col overflow-hidden">
+
         <!-- Header -->
         <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 no-print">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white shadow-md shadow-green-200 dark:shadow-none">
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white shadow-md shadow-green-200 dark:shadow-none">
                     <span class="font-bold text-lg">💰</span>
                 </div>
                 <div>
-                    <h1 class="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100 tracking-tight">Kalkulator Alokasi Gaji</h1>
-                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">Perencanaan Finansial • v20260915</p>
+                    <h1 class="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100 tracking-tight">
+                        Kalkulator Alokasi Gaji</h1>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">
+                        Perencanaan Finansial • v20260915</p>
                 </div>
             </div>
-            <button id="theme-toggle" type="button" class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">
-                <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            <button id="theme-toggle" type="button"
+                class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">
+                <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
-                <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
                 </svg>
             </button>
         </div>
@@ -86,21 +115,26 @@
                 <h5 class="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                     <span>📝</span> Masukkan Data Anda
                 </h5>
-                
+
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Total Gaji Bulanan (Rp)</label>
+                    <label
+                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Total
+                        Gaji Bulanan (Rp)</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <span class="text-slate-400 dark:text-slate-500 text-sm font-bold">Rp</span>
                         </div>
-                        <input type="text" inputmode="numeric" id="gajiBulanan" placeholder="Dalam Rupiah" class="block w-full pl-9 pr-3 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <input type="text" inputmode="numeric" id="gajiBulanan" placeholder="Dalam Rupiah"
+                            class="block w-full pl-9 pr-3 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Bulan</label>
-                        <select id="bulan" class="block w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold">
+                        <label
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Bulan</label>
+                        <select id="bulan"
+                            class="block w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold">
                             <option value="0">Januari</option>
                             <option value="1">Februari</option>
                             <option value="2">Maret</option>
@@ -116,106 +150,149 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Tahun</label>
-                        <select id="tahun" class="block w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold"></select>
+                        <label
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Tahun</label>
+                        <select id="tahun"
+                            class="block w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold"></select>
                     </div>
                 </div>
 
                 <div class=" pt-4 mt-2">
-                    <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Alokasi Anggaran (Rp)</p>
+                    <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+                        Alokasi Anggaran (Rp)</p>
                     <div id="allocation-container" class="space-y-2"></div>
                 </div>
 
-                <button type="button" id="add-allocation-btn" class="w-full py-2.5 rounded-xl border border-dashed border-green-500/50 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-green-900/20 transition-all text-xs font-bold flex items-center justify-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                <button type="button" id="add-allocation-btn"
+                    class="w-full py-2.5 rounded-xl border border-dashed border-green-500/50 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-green-900/20 transition-all text-xs font-bold flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
                     Tambah Alokasi
                 </button>
 
                 <div class="mt-4">
-                    <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Sisa Gaji</label>
+                    <label
+                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Sisa
+                        Gaji</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <span class="text-slate-400 dark:text-slate-500 text-sm font-bold">Rp</span>
                         </div>
-                        <input type="text" id="sisaGaji" readonly class="block w-full pl-9 pr-3 py-2.5 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 transition-all text-sm font-bold" />
+                        <input type="text" id="sisaGaji" readonly
+                            class="block w-full pl-9 pr-3 py-2.5 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 transition-all text-sm font-bold" />
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-                    <button id="hitungBtn" class="py-2.5 rounded-xl text-xs font-bold bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-green-200 dark:shadow-none transition-all flex items-center justify-center gap-2">
+                    <button id="hitungBtn"
+                        class="py-2.5 rounded-xl text-xs font-bold bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-green-200 dark:shadow-none transition-all flex items-center justify-center gap-2">
                         <span>📊</span> Buat Grafik & Simpan
                     </button>
-                    
+
                 </div>
 
-                <div id="alert-total" class="hidden mt-3 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-xl text-xs text-red-600 dark:text-red-400 font-bold"></div>
+                <div id="alert-total"
+                    class="hidden mt-3 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-xl text-xs text-red-600 dark:text-red-400 font-bold">
+                </div>
             </div>
 
             <!-- Kolom Kanan: Hasil & Grafik -->
             <div class="space-y-4">
                 <div class="flex items-center justify-between">
-                    <h5 id="hasil-alokasi-title" class="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                    <h5 id="hasil-alokasi-title"
+                        class="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                         <span>📈</span> Hasil Alokasi
                     </h5>
-                    <button id="printBtn" class="no-print p-1.5 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-750 transition-all text-[10px] font-bold uppercase tracking-wider border border-slate-200 dark:border-slate-700">
+                    <button id="printBtn"
+                        class="no-print p-1.5 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-750 transition-all text-[10px] font-bold uppercase tracking-wider border border-slate-200 dark:border-slate-700">
                         🖨️ Cetak
                     </button>
                 </div>
 
                 <!-- Summary Cards -->
-                <div class="grid grid-cols-3 gap-2 p-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/80 rounded-xl text-center">
+                <div
+                    class="grid grid-cols-3 gap-2 p-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/80 rounded-xl text-center">
                     <div>
-                        <span class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase block mb-1">Total Gaji</span>
-                        <div id="summary-gaji" class="text-xs font-bold text-slate-700 dark:text-slate-200 truncate">Rp 0</div>
+                        <span
+                            class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase block mb-1">Total
+                            Gaji</span>
+                        <div id="summary-gaji" class="text-xs font-bold text-slate-700 dark:text-slate-200 truncate">Rp
+                            0</div>
                     </div>
                     <div>
-                        <span class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase block mb-1">Total Alokasi</span>
-                        <div id="summary-alokasi" class="text-xs font-bold text-amber-600 dark:text-amber-500 truncate">Rp 0</div>
+                        <span
+                            class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase block mb-1">Total
+                            Alokasi</span>
+                        <div id="summary-alokasi" class="text-xs font-bold text-amber-600 dark:text-amber-500 truncate">
+                            Rp 0</div>
                     </div>
                     <div>
-                        <span class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase block mb-1">Sisa</span>
-                        <div id="summary-sisa" class="text-xs font-bold text-blue-600 dark:text-blue-500 truncate">Rp 0</div>
+                        <span
+                            class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase block mb-1">Sisa</span>
+                        <div id="summary-sisa" class="text-xs font-bold text-blue-600 dark:text-blue-500 truncate">Rp 0
+                        </div>
                     </div>
                 </div>
 
-                <div id="empty-state-container" class="flex flex-col items-center justify-center p-8 text-center bg-slate-50/50 dark:bg-slate-900/50 border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl h-64">
+                <div id="empty-state-container"
+                    class="flex flex-col items-center justify-center p-8 text-center bg-slate-50/50 dark:bg-slate-900/50 border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl h-64">
                     <span class="text-4xl mb-3 opacity-50">📂</span>
-                    <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Hasil alokasi belum tersedia.</p>
-                    <p class="text-[10px] text-slate-400 dark:text-slate-500">Isi data dan klik "Buat Grafik & Simpan".</p>
+                    <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Hasil alokasi belum tersedia.
+                    </p>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500">Isi data dan klik "Buat Grafik & Simpan".
+                    </p>
                 </div>
 
-                <div id="chart-container" class="hidden relative h-64 w-full flex items-center justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800/80 p-2">
+                <div id="chart-container"
+                    class="hidden relative h-64 w-full flex items-center justify-center bg-slate-50/50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800/80 p-2">
                     <canvas id="chartAlokasi"></canvas>
                 </div>
 
                 <div id="hasilAlokasi" class="hidden mt-4 space-y-2"></div>
             </div>
         </div>
-        
+
         <!-- Toast Notification (Custom Tailwind) -->
-        <div id="save-toast" class="fixed bottom-4 right-4 translate-y-20 opacity-0 bg-blue-500 text-white px-4 py-3 rounded-xl shadow-lg shadow-blue-500/20 flex items-center gap-3 transition-all duration-300 z-50 pointer-events-none">
+        <div id="save-toast"
+            class="fixed bottom-4 right-4 translate-y-20 opacity-0 bg-blue-500 text-white px-4 py-3 rounded-xl shadow-lg shadow-blue-500/20 flex items-center gap-3 transition-all duration-300 z-50 pointer-events-none">
             <span>✅</span>
             <span class="text-sm font-bold">Data berhasil disimpan!</span>
         </div>
 
         <div class="no-print pt-4 flex gap-2 w-full mt-6 ">
-            <button type="button" onclick="history.back()" class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors"><svg class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg> Kembali</button>
-            <a href="/" class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors flex items-center justify-center"><svg class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Beranda</a>
+            <button type="button" onclick="history.back()"
+                class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors"><svg
+                    class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="m12 19-7-7 7-7" />
+                    <path d="M19 12H5" />
+                </svg> Kembali</button>
+            <a href="index.html"
+                class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors flex items-center justify-center"><svg
+                    class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg> Beranda</a>
         </div>
 
         <!-- Footer -->
-        
+
 
         <div id="print-footer" class="hidden text-center text-slate-500 text-[10px] mt-8 pt-4 font-bold">
             Dicetak melalui Kalkulator Alokasi Gaji v20260915 &copy; Williyanto Adi
         </div>
-    
+
         <!-- Footer -->
-        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-4 pt-3 pb-2 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
+        <footer
+            class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-4 pt-3 pb-2 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
             Williyanto Adi 2026
         </footer>
 
-</div>
+    </div>
 
     <!-- JavaScript Code -->
     <script>
@@ -231,7 +308,7 @@
             themeToggleDarkIcon.classList.remove('hidden');
         }
 
-        themeToggleBtn.addEventListener('click', function() {
+        themeToggleBtn.addEventListener('click', function () {
             themeToggleDarkIcon.classList.toggle('hidden');
             themeToggleLightIcon.classList.toggle('hidden');
             if (localStorage.getItem('color-theme') === 'light') {
@@ -241,7 +318,7 @@
                 document.documentElement.classList.remove('dark');
                 localStorage.setItem('color-theme', 'light');
             }
-            if(alokasiChart) calculateAndDisplay(); // redraw chart to match theme font colors
+            if (alokasiChart) calculateAndDisplay(); // redraw chart to match theme font colors
         });
 
         // ----------------- Logika Kalkulator -----------------
@@ -274,16 +351,16 @@
             }, 3000);
         }
 
-        function formatCurrency(value) { 
-            let numStr = String(value).replace(/[^,\d]/g, '').toString(); 
-            return new Intl.NumberFormat('id-ID').format(numStr); 
+        function formatCurrency(value) {
+            let numStr = String(value).replace(/[^,\d]/g, '').toString();
+            return new Intl.NumberFormat('id-ID').format(numStr);
         }
-        function parseCurrency(value) { 
-            return parseFloat(String(value).replace(/\./g, '')) || 0; 
+        function parseCurrency(value) {
+            return parseFloat(String(value).replace(/\./g, '')) || 0;
         }
 
         function showEmptyState(show) {
-            if(show) {
+            if (show) {
                 chartContainer.classList.add('hidden');
                 hasilDiv.classList.add('hidden');
                 emptyStateContainer.classList.remove('hidden');
@@ -295,7 +372,7 @@
                 emptyStateContainer.classList.remove('flex');
             }
         }
-        
+
         function updateHasilTitle() {
             const selectedMonthText = bulanSelect.options[bulanSelect.selectedIndex].text;
             const selectedYearText = tahunSelect.options[tahunSelect.selectedIndex].text;
@@ -324,11 +401,11 @@
                 </button>
             `;
             allocationContainer.appendChild(div);
-            
+
             const categoryInput = div.querySelector('.category-name-input');
             const newCurrencyInput = div.querySelector('.allocation-amount');
             const removeBtn = div.querySelector('.remove-allocation-btn');
-            
+
             categoryInput.value = name;
             newCurrencyInput.value = formattedValue;
             newCurrencyInput.addEventListener('input', (e) => {
@@ -340,7 +417,7 @@
                 updateSisa();
             });
         }
-        
+
         function formatRupiah(angka) {
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
         }
@@ -353,7 +430,7 @@
             const sisa = totalGaji - totalAlokasi;
 
             sisaGajiInput.value = new Intl.NumberFormat('id-ID').format(sisa);
-            
+
             if (sisa < 0) {
                 sisaGajiInput.classList.add('text-red-600', 'dark:text-red-400');
                 sisaGajiInput.classList.remove('text-blue-600', 'dark:text-blue-400', 'text-slate-800', 'dark:text-slate-100');
@@ -370,7 +447,7 @@
         function calculateAndDisplay() {
             const totalGaji = parseCurrency(gajiInput.value);
             if (totalGaji <= 0) {
-                if(alokasiChart) alokasiChart.destroy();
+                if (alokasiChart) alokasiChart.destroy();
                 showEmptyState(true);
                 return;
             };
@@ -401,9 +478,9 @@
 
             const sisa = totalGaji - totalAlokasi;
             if (sisa > 0.01) dataAlokasi.push({ nama: 'Sisa Gaji', jumlah: sisa });
-            
+
             if (dataAlokasi.length === 0 && sisa <= 0.01) {
-                 if(alokasiChart) alokasiChart.destroy();
+                if (alokasiChart) alokasiChart.destroy();
                 showEmptyState(true);
                 return;
             }
@@ -411,7 +488,7 @@
             const labels = [], dataValues = [], finalColors = [];
             const vibrantColors = ['#38bdf8', '#f472b6', '#fbbf24', '#c084fc', '#4ade80', '#fb923c', '#94a3b8', '#818cf8', '#2dd4bf', '#f87171'];
             const sisaColor = '#10b981';
-            
+
             dataAlokasi.forEach((item, index) => {
                 const persen = (item.jumlah / totalGaji) * 100;
                 labels.push(`${item.nama} (${persen.toFixed(1)}%)`);
@@ -419,10 +496,10 @@
                 if (item.nama === 'Sisa Gaji') finalColors.push(sisaColor);
                 else finalColors.push(vibrantColors[index % vibrantColors.length]);
             });
-            
+
             let hasilHTML = `<div class="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden shadow-sm">`;
             dataAlokasi.forEach(item => {
-                let badgeClass = item.nama === 'Sisa Gaji' ? 'bg-blue-100 text-green-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300'; 
+                let badgeClass = item.nama === 'Sisa Gaji' ? 'bg-blue-100 text-green-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300';
                 hasilHTML += `<div class="flex justify-between items-center p-3 border-b border-slate-100 dark:border-slate-700/50 last:border-0">
                                 <span class="text-xs font-bold text-slate-600 dark:text-slate-300">${item.nama}</span> 
                                 <span class="px-2 py-1 rounded-md text-[10px] font-bold ${badgeClass}">${formatRupiah(item.jumlah)}</span>
@@ -433,7 +510,7 @@
                             <span class="text-sm font-extrabold">${formatRupiah(totalGaji)}</span>
                           </div></div>`;
             hasilDiv.innerHTML = hasilHTML;
-            
+
             updateChart(labels, dataValues, finalColors);
             saveData();
         }
@@ -448,18 +525,18 @@
                 type: 'doughnut',
                 data: {
                     labels: labels,
-                    datasets: [{ 
-                        data: data, 
-                        backgroundColor: colors, 
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colors,
                         borderWidth: 2,
                         borderColor: isDark ? '#1e293b' : '#ffffff'
                     }]
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    plugins: { 
-                        legend: { 
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
                             position: 'bottom',
                             labels: {
                                 color: textColor,
@@ -471,20 +548,20 @@
                                 padding: 15,
                                 usePointStyle: true,
                             }
-                        }, 
-                        tooltip: { 
-                            callbacks: { label: (c) => ` ${c.parsed.toFixed(2)}%` } 
-                        } 
+                        },
+                        tooltip: {
+                            callbacks: { label: (c) => ` ${c.parsed.toFixed(2)}%` }
+                        }
                     },
                     cutout: '65%'
                 }
             });
         }
-        
+
         function createDefaultRows() {
             for (let i = 1; i <= 5; i++) createAllocationRow();
         }
-        
+
         function resetAllocations() {
             allocationContainer.innerHTML = '';
             createDefaultRows();
@@ -501,7 +578,7 @@
             document.querySelectorAll('.allocation-row').forEach(row => {
                 const name = row.querySelector('.category-name-input').value.trim();
                 const amount = parseCurrency(row.querySelector('.allocation-amount').value);
-                if(name || amount > 0) {
+                if (name || amount > 0) {
                     allocations.push({ name, amount });
                 }
             });
@@ -569,4 +646,5 @@
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </body>
+
 </html>

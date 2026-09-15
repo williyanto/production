@@ -1144,6 +1144,14 @@
     <div class="bottom-right-controls">
         <button class="btn btn-secondary btn-floating" id="theme-toggle" title="Ubah Tema Gelap/Terang">🌓</button>
         
+    
+    <!-- Floating Search Container -->
+    <div id="floating-search-container" style="position: fixed; bottom: 80px; right: 24px; z-index: 1000; transform: scale(0); opacity: 0; transition: all 0.3s ease; transform-origin: bottom right; background: var(--card-bg-color); border-radius: 50px; padding: 5px 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; align-items: center; border: 1px solid var(--border-color);">
+        <i class="bi bi-search text-muted me-2"></i>
+        <input type="text" id="floating-search-input" placeholder="Cari proyek..." style="border: none; outline: none; background: transparent; color: var(--text-color); width: 200px;">
+        <button id="close-floating-search" style="background: none; border: none; color: var(--muted-text-color); margin-left: 5px; cursor: pointer;"><i class="bi bi-x-lg"></i></button>
+    </div>
+
     <!-- Floating Search Button -->
     <button id="floating-search-btn" class="btn btn-primary btn-floating" style="transform: translateY(100px); opacity: 0; transition: all 0.3s;" title="Cari Proyek">
         <i class="bi bi-search"></i>
@@ -1330,11 +1338,59 @@
                 filterProjects();
             });
 
-            // --- 7. FITUR TOMBOL KEMBALI KE ATAS ---
+            // --- 7. FITUR TOMBOL KEMBALI KE ATAS & FLOATING SEARCH ---
             window.onscroll = function () {
                 const show = document.body.scrollTop > 250 || document.documentElement.scrollTop > 250;
-                backToTopButton.classList.toggle('show', show);
+                if (backToTopButton) {
+                    backToTopButton.classList.toggle('show', show);
+                }
+                const floatingSearchBtn = document.getElementById('floating-search-btn');
+                if (floatingSearchBtn) {
+                    if (show) {
+                        floatingSearchBtn.style.transform = 'translateY(0)';
+                        floatingSearchBtn.style.opacity = '1';
+                    } else {
+                        floatingSearchBtn.style.transform = 'translateY(100px)';
+                        floatingSearchBtn.style.opacity = '0';
+                    }
+                }
             };
+            
+            // Floating Search Container Logic
+            const floatingSearchBtn = document.getElementById('floating-search-btn');
+            const floatingSearchContainer = document.getElementById('floating-search-container');
+            const floatingSearchInput = document.getElementById('floating-search-input');
+            const closeFloatingSearch = document.getElementById('close-floating-search');
+            
+            if(floatingSearchBtn) {
+                floatingSearchBtn.addEventListener('click', () => {
+                    floatingSearchContainer.style.transform = 'scale(1)';
+                    floatingSearchContainer.style.opacity = '1';
+                    floatingSearchInput.focus();
+                });
+            }
+            if(closeFloatingSearch) {
+                closeFloatingSearch.addEventListener('click', () => {
+                    floatingSearchContainer.style.transform = 'scale(0)';
+                    floatingSearchContainer.style.opacity = '0';
+                    floatingSearchInput.value = '';
+                    const mainSearch = document.getElementById('search-input');
+                    if (mainSearch) {
+                        mainSearch.value = '';
+                        mainSearch.dispatchEvent(new Event('input'));
+                    }
+                });
+            }
+            if(floatingSearchInput) {
+                floatingSearchInput.addEventListener('input', (e) => {
+                    const mainSearch = document.getElementById('search-input');
+                    if (mainSearch) {
+                        mainSearch.value = e.target.value;
+                        mainSearch.dispatchEvent(new Event('input'));
+                    }
+                });
+            }
+    
             backToTopButton.addEventListener('click', function (e) {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
