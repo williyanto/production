@@ -197,7 +197,7 @@
                 class="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2">
                 <span class="text-blue-500">📝</span> Ke CSV (.csv)
               </button>
-              <div class="border-t border-slate-200 dark:border-slate-800 my-1"></div>
+              <div class=" my-1"></div>
               <button onclick="exportJSON(); closeAllDropdowns();"
                 class="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2">
                 <span class="text-amber-500">💾</span> Cadangkan JSON (.json)
@@ -395,7 +395,7 @@
 
           <!-- Table Footer / Pagination -->
           <div
-            class="px-4 py-3 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+            class="px-4 py-3  flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
             <div class="flex items-center gap-2 flex-wrap">
               <span>Menampilkan <strong id="pageRangeText" class="text-slate-900 dark:text-slate-100">0</strong> dari
                 <strong id="totalItemsText" class="text-slate-900 dark:text-slate-100">0</strong> aset</span>
@@ -735,14 +735,14 @@
     </a>
   </div>
 
+        <!-- Footer -->
+        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-4 pt-3 pb-2 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
+            Williyanto Adi 2026
+        </footer>
+
+
   <!-- Footer Section -->
-  <footer
-    class="border-t border-slate-200/80 dark:border-slate-800/80 py-6 text-center text-xs text-slate-500 dark:text-slate-400">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <div>Williyanto Adi 2026</div>
-      <div id="footerTimestampText" class="text-slate-400 dark:text-slate-500"></div>
-    </div>
-  </footer>
+  
 
   <!-- ==================== MODALS ==================== -->
 
@@ -934,7 +934,7 @@
           </div>
 
           <!-- Form Action Buttons -->
-          <div class="flex items-center justify-end gap-2 pt-4 border-t border-slate-200 dark:border-slate-800">
+          <div class="flex items-center justify-end gap-2 pt-4 ">
             <button type="button" onclick="closeFormModal()"
               class="px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-semibold transition-all">Batal</button>
             <button type="submit" id="btnSaveAsset"
@@ -1583,7 +1583,7 @@
               </div>
             </div>
 
-            <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-200 dark:border-slate-800 text-xs">
+            <div class="flex items-center justify-between gap-2 pt-2  text-xs">
               <button onclick="openDetailModal('${a.id}')" class="text-emerald-600 dark:text-emerald-400 font-bold hover:underline text-[11px]">
                 Lihat Detail &rarr;
               </button>
@@ -2199,7 +2199,7 @@
         </div>
 
         <!-- Fixed Footer Actions at bottom of modal -->
-        <div class="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0 flex flex-wrap items-center justify-between gap-2 rounded-b-3xl">
+        <div class="p-4 sm:p-5  bg-white dark:bg-slate-900 shrink-0 flex flex-wrap items-center justify-between gap-2 rounded-b-3xl">
           <div class="flex items-center gap-2">
             <button onclick="closeDetailModal(); openFormModal('${asset.id}')" class="px-3.5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-semibold flex items-center gap-1">
               ✏️ Edit
@@ -2328,7 +2328,8 @@
                 <div><span class="lg-lbl">Lokasi:</span> <span class="lg-val">${asset.lokasi || '-'}</span></div>
                 <div><span class="lg-lbl">Owner:</span> <span class="lg-val">Williyanto Adi</span></div>
               </div>
-            </div>
+            
+</div>
             <script>
               window.onload = function() { window.print(); }
             <\/script>
