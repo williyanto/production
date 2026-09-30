@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="id">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Generator Angka v20260915</title>
+  <title>Generator Angka v20260930</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -26,16 +26,27 @@
     .scrollbar-none::-webkit-scrollbar {
       display: none;
     }
-
     .scrollbar-none {
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+    *, *::before, *::after {
+      transition-property: background-color, border-color, color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 300ms;
+    }
   </style>
+  <script>
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+  </script>
 </head>
 
 <body
-  class="h-[100dvh] w-full flex flex-col justify-center items-center py-2 px-3 bg-slate-950 text-slate-100 font-sans relative overflow-hidden select-none">
+  class="h-[100dvh] w-full flex flex-col justify-center items-center py-2 px-3 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans relative overflow-hidden select-none">
 
   <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
     <!-- Ambient Glow Background -->
@@ -48,11 +59,11 @@
 
   <!-- Main Card Component -->
   <div
-    class="w-full max-w-md max-h-[calc(100dvh-1rem)] mx-auto flex flex-col my-auto bg-slate-900/85 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-3 sm:p-4 shadow-2xl overflow-hidden relative z-10">
+    class="w-full max-w-md max-h-[calc(100dvh-1rem)] mx-auto flex flex-col my-auto bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-3 sm:p-4 shadow-2xl overflow-hidden relative z-10">
 
     <!-- Header Section (Shrink-0) -->
     <div class="shrink-0">
-      <div class="flex items-center justify-between mb-3 border-b border-slate-800/80 pb-2.5">
+      <div class="flex items-center justify-between mb-3 border-b-2 border-slate-200 dark:border-slate-800/80 pb-2.5">
         <div class="flex items-center gap-2.5">
           <div class="p-2 bg-violet-500/10 rounded-xl text-violet-400 border border-violet-500/20">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,12 +72,23 @@
             </svg>
           </div>
           <div>
-            <h1 class="text-lg font-bold text-slate-100 leading-tight">Generator Angka</h1>
-            <p class="text-xs text-slate-400">Random Numbers & Statistics</p>
+            <h1 class="text-lg font-bold text-slate-800 dark:text-slate-100 leading-tight">Generator Angka</h1>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Random Numbers & Statistics</p>
           </div>
         </div>
-        <span
-          class="text-[10px] font-semibold tracking-wider text-violet-400 bg-violet-500/10 px-2.5 py-1 rounded-full border border-violet-500/20">v20260915</span>
+        <button id="theme-toggle" type="button"
+          class="p-2 rounded-xl bg-slate-50 dark:bg-slate-200 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-300/60 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-300 dark:hover:bg-slate-700 active:scale-95 transition-all">
+          <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-500 dark:text-slate-400 block dark:hidden" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+          <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden dark:block" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -75,42 +97,42 @@
       <form id="generator-form" class="space-y-3 mb-4">
         <div class="grid grid-cols-2 gap-2.5">
           <div class="group relative">
-            <label for="nilaiTerkecil" class="block text-[11px] font-medium text-slate-300 mb-1">Batas Bawah</label>
+            <label for="nilaiTerkecil" class="block text-[11px] font-medium text-slate-600 dark:text-slate-300 mb-1">Batas Bawah</label>
             <input type="text" inputmode="decimal" id="nilaiTerkecil" placeholder="Contoh: 1"
-              class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
+              class="w-full bg-slate-100/60 dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-800 dark:text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
           </div>
           <div class="group relative">
-            <label for="nilaiTerbesar" class="block text-[11px] font-medium text-slate-300 mb-1">Batas Atas</label>
+            <label for="nilaiTerbesar" class="block text-[11px] font-medium text-slate-600 dark:text-slate-300 mb-1">Batas Atas</label>
             <input type="text" inputmode="decimal" id="nilaiTerbesar" placeholder="Contoh: 100"
-              class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
+              class="w-full bg-slate-100/60 dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-800 dark:text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
           </div>
           <div class="group relative">
-            <label for="banyaknya" class="block text-[11px] font-medium text-slate-300 mb-1">Jumlah Angka</label>
+            <label for="banyaknya" class="block text-[11px] font-medium text-slate-600 dark:text-slate-300 mb-1">Jumlah Angka</label>
             <input type="text" inputmode="numeric" id="banyaknya" placeholder="Contoh: 50"
-              class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
+              class="w-full bg-slate-100/60 dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-800 dark:text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
           </div>
           <div class="group relative">
-            <label for="jumlahDigit" class="block text-[11px] font-medium text-slate-300 mb-1">Digit Desimal</label>
+            <label for="jumlahDigit" class="block text-[11px] font-medium text-slate-600 dark:text-slate-300 mb-1">Digit Desimal</label>
             <input type="text" inputmode="numeric" id="jumlahDigit" placeholder="Contoh: 3"
-              class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
+              class="w-full bg-slate-100/60 dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-800 dark:text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
           </div>
         </div>
 
         <div class="group relative">
           <div class="flex items-center justify-between mb-1">
-            <label for="targetRataRata" class="block text-[11px] font-medium text-slate-300">Target Rata-Rata <span
+            <label for="targetRataRata" class="block text-[11px] font-medium text-slate-600 dark:text-slate-300">Target Rata-Rata <span
                 class="text-slate-500 font-normal">(Opsional)</span></label>
             <span class="text-[10px] text-violet-400 font-semibold">Auto Balance</span>
           </div>
           <input type="text" inputmode="decimal" id="targetRataRata"
             placeholder="Contoh: 85.50 (Kosongkan jika acak murni)"
-            class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
+            class="w-full bg-slate-100/60 dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl py-2 px-3 text-xs font-semibold text-slate-800 dark:text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200">
         </div>
 
         <!-- Form Action Buttons -->
-        <div class="grid grid-cols-2 gap-2 pt-1">
+        <div class="flex justify-center pt-1">
           <button type="submit" id="tombolEksekusi"
-            class="w-full py-2.5 px-3 bg-violet-600 hover:bg-violet-500 active:scale-95 text-white font-semibold text-xs rounded-xl transition-all duration-150 shadow-lg shadow-violet-600/25 flex items-center justify-center gap-1.5">
+            class="w-full max-w-[200px] py-2.5 px-3 bg-violet-600 hover:bg-violet-500 active:scale-95 text-white font-semibold text-xs rounded-xl transition-all duration-150 shadow-lg shadow-violet-600/25 flex items-center justify-center gap-1.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
@@ -119,42 +141,34 @@
             </svg>
             Generate
           </button>
-          <button type="button" id="tombolReset"
-            class="w-full py-2.5 px-3 bg-slate-800 hover:bg-rose-900/40 hover:text-rose-400 border border-slate-700/60 active:scale-95 text-slate-300 font-semibold text-xs rounded-xl transition-all duration-150 flex items-center justify-center gap-1.5">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-            Reset
-          </button>
         </div>
       </form>
 
       <!-- Output & Results Section -->
-      <div id="hasilFooter" class="hidden space-y-3 pt-2 border-t border-slate-800/80">
+      <div id="hasilFooter" class="hidden space-y-3 pt-2 border-t border-slate-200/80 dark:border-slate-800/80">
         <!-- Stats Summary Grid -->
-        <div class="grid grid-cols-3 gap-2 text-center bg-slate-950/50 p-2.5 rounded-xl border border-slate-800/80">
+        <div class="grid grid-cols-3 gap-2 text-center bg-slate-100/50 dark:bg-slate-950/50 p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-800/80">
           <div>
-            <span class="block text-[10px] text-slate-400 font-medium mb-0.5">Terkecil</span>
+            <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-medium mb-0.5">Terkecil</span>
             <span id="hasilMin" class="text-xs font-extrabold text-rose-400 block">---</span>
           </div>
           <div>
-            <span class="block text-[10px] text-slate-400 font-medium mb-0.5">Rata-Rata</span>
+            <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-medium mb-0.5">Rata-Rata</span>
             <span id="hasilRataRata" class="text-xs font-extrabold text-emerald-400 block">---</span>
           </div>
           <div>
-            <span class="block text-[10px] text-slate-400 font-medium mb-0.5">Terbesar</span>
+            <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-medium mb-0.5">Terbesar</span>
             <span id="hasilMax" class="text-xs font-extrabold text-sky-400 block">---</span>
           </div>
         </div>
 
         <!-- List Toolbar -->
         <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold text-slate-300">Daftar Hasil:</span>
+          <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">Daftar Hasil:</span>
           <div class="flex gap-1.5">
             <button id="tombolSalin"
-              class="hidden py-1 px-2.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-medium text-[11px] rounded-lg transition-all border border-slate-700/60 flex items-center gap-1">
-              <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              class="hidden py-1 px-2.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 active:scale-95 text-slate-700 dark:text-slate-200 font-medium text-[11px] rounded-lg transition-all border border-slate-300/60 dark:border-slate-700/60 flex items-center gap-1">
+              <svg class="w-3 h-3 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
@@ -173,21 +187,29 @@
 
         <!-- Generated Numbers Container -->
         <div id="hasilGenerator"
-          class="max-h-36 overflow-y-auto p-2 bg-slate-950/80 border border-slate-800/80 rounded-xl grid grid-cols-2 gap-1.5 text-xs font-mono">
+          class="max-h-36 overflow-y-auto p-2 bg-slate-100/80 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800/80 rounded-xl grid grid-cols-2 gap-1.5 text-xs font-mono">
         </div>
       </div>
     </div>
 
     <!-- Bottom Actions & Footer (Shrink-0) -->
-    <div class="shrink-0 mt-2 pt-2 border-t border-slate-800/80">
-      <div class="grid grid-cols-2 gap-2 mb-3">
+    <div class="shrink-0 mt-2 pt-3.5 border-t-2 border-slate-200 dark:border-slate-800/80">
+      <div class="grid grid-cols-3 gap-2 mb-3.5">
         <button
           onclick="if(window.top!==window.self&&window.parent.closePreviewModal){window.parent.closePreviewModal();}else{history.back();}"
-          class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-slate-800/80 hover:bg-slate-700 active:scale-95 text-slate-300 font-medium text-xs rounded-xl transition-all duration-150 border border-slate-700/50">
+          class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-slate-200/80 dark:bg-slate-800/80 hover:bg-slate-300 dark:hover:bg-slate-700 active:scale-95 text-slate-600 dark:text-slate-300 font-medium text-xs rounded-xl transition-all duration-150 border border-slate-300/50 dark:border-slate-700/50">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
           Kembali
+        </button>
+        <button type="button" id="tombolReset"
+            class="flex items-center justify-center gap-1.5 py-2 px-3 bg-rose-50 dark:bg-rose-900/20 hover:bg-rose-100 dark:hover:bg-rose-900/40 active:scale-95 text-rose-600 dark:text-rose-400 font-medium text-xs rounded-xl border border-rose-200 dark:border-rose-800/50 transition-all">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Reset
         </button>
         <a href="index.html" target="_top"
           class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-violet-600/90 hover:bg-violet-500 active:scale-95 text-white font-medium text-xs rounded-xl transition-all duration-150 shadow-lg shadow-violet-600/20">
@@ -204,7 +226,7 @@
 
   
         <!-- Footer -->
-        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-4 pt-3 pb-2 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
+        <footer class="text-center text-slate-500 dark:text-slate-400 dark:text-slate-600 text-[10px] mt-4 pt-3 pb-2 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
             Williyanto Adi 2026
         </footer>
 
@@ -393,8 +415,8 @@
       hasilContainer.innerHTML = '';
       hasilAngka.forEach((angka, index) => {
         const item = document.createElement('div');
-        item.className = 'flex items-center justify-between p-1.5 bg-slate-900/90 rounded border border-slate-800/60';
-        item.innerHTML = `<span class="text-slate-500 text-[10px]">${index + 1}.</span><span class="font-bold text-slate-200">${angka}</span>`;
+        item.className = 'flex items-center justify-between p-1.5 bg-white/90 dark:bg-slate-900/90 rounded border border-slate-300 dark:border-slate-800/60';
+        item.innerHTML = `<span class="text-slate-500 text-[10px]">${index + 1}.</span><span class="font-bold text-slate-700 dark:text-slate-200">${angka}</span>`;
         hasilContainer.appendChild(item);
       });
 
@@ -421,7 +443,7 @@
         this.innerHTML = `Disalin!`;
         this.classList.add('bg-emerald-600', 'text-white');
         setTimeout(() => {
-          this.innerHTML = `<svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Salin`;
+          this.innerHTML = `<svg class="w-3 h-3 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Salin`;
           this.classList.remove('bg-emerald-600', 'text-white');
         }, 2000);
       }).catch(err => {
@@ -440,6 +462,20 @@
       XLSX.utils.book_append_sheet(wb, ws, "Hasil Angka");
       XLSX.writeFile(wb, "HasilGenerateAngka.xlsx");
     });
+
+    // Dark Mode
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      if(themeToggleBtn) {
+          themeToggleBtn.addEventListener('click', function () {
+              if (document.documentElement.classList.contains('dark')) {
+                  document.documentElement.classList.remove('dark');
+                  localStorage.setItem('color-theme', 'light');
+              } else {
+                  document.documentElement.classList.add('dark');
+                  localStorage.setItem('color-theme', 'dark');
+              }
+          });
+      }
   </script>
 </body>
 

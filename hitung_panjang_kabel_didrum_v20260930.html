@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id" class="transition-all duration-300">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Panjang Kabel dalam Drum - CableMetrics</title>
+    <title>Kalkulator Panjang Kabel dalam Drum v20260930</title>
     <link rel="icon" type="image/png" href="../icons/williyanto_logo_rounded.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,6 +48,27 @@
             background-image: none !important;
         }
     </style>
+  <style>
+    .scrollbar-none::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-none {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    *, *::before, *::after {
+      transition-property: background-color, border-color, color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 300ms;
+    }
+  </style>
+  <script>
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+  </script>
 </head>
 <body class="bg-gradient-to-tr from-slate-100 via-blue-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/80 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-center items-center py-2 px-3 overflow-x-hidden transition-colors duration-300">
 
@@ -61,7 +82,7 @@
     <div class="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/90 backdrop-blur-xl rounded-3xl border border-slate-200/60 dark:border-slate-800/80 shadow-2xl shadow-blue-500/5 dark:shadow-none p-4 sm:p-5 transition-all duration-300 flex flex-col max-h-[calc(100dvh-1rem)] my-auto overflow-hidden">
         
         <!-- Header Section (Locked at top) -->
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 shrink-0">
+        <div class="flex items-center justify-between mb-3 pb-2.5 border-b-2 border-slate-200 dark:border-slate-800/80 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25 dark:shadow-none">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
@@ -125,41 +146,43 @@
                     </div>
                 </div>
 
-                <!-- Lebar Drum + Satuan -->
-                <div class="relative group">
-                    <label for="lebarDrum" class="block text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1">Lebar Drum</label>
-                    <div class="flex gap-2">
-                        <div class="relative flex-1">
-                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- Lebar Drum + Satuan -->
+                    <div class="relative group">
+                        <label for="lebarDrum" class="block text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1">Lebar Drum</label>
+                        <div class="flex">
+                            <div class="relative flex-1">
+                                <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+                                </div>
+                                <input type="text" inputmode="decimal" id="lebarDrum" class="pl-8 block w-full px-2 py-2.5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-l-xl rounded-r-none border-r-0 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-xs font-bold" placeholder="Cth: 0.85">
                             </div>
-                            <input type="text" inputmode="decimal" id="lebarDrum" class="pl-10 block w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-xs font-bold" placeholder="Contoh: 0.85">
+                            <select id="satuanLebarDrum" class="w-16 px-1.5 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-r-xl rounded-l-none text-slate-800 dark:text-slate-200 text-xs font-bold text-center focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer">
+                                <option value="m" selected>m</option>
+                                <option value="cm">cm</option>
+                                <option value="mm">mm</option>
+                                <option value="ft">ft</option>
+                            </select>
                         </div>
-                        <select id="satuanLebarDrum" class="w-24 px-3 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 text-xs font-bold text-center focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer">
-                            <option value="m" selected>meter</option>
-                            <option value="cm">cm</option>
-                            <option value="mm">mm</option>
-                            <option value="ft">feet (kaki)</option>
-                        </select>
                     </div>
-                </div>
 
-                <!-- Diameter Kabel + Satuan -->
-                <div class="relative group">
-                    <label for="nilaiDiameterKabel" class="block text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1">Diameter Kabel</label>
-                    <div class="flex gap-2">
-                        <div class="relative flex-1">
-                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    <!-- Diameter Kabel + Satuan -->
+                    <div class="relative group">
+                        <label for="nilaiDiameterKabel" class="block text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1">Diameter Kabel</label>
+                        <div class="flex">
+                            <div class="relative flex-1">
+                                <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                </div>
+                                <input type="text" inputmode="decimal" id="nilaiDiameterKabel" class="pl-8 block w-full px-2 py-2.5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-l-xl rounded-r-none border-r-0 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-xs font-bold" placeholder="Cth: 25">
                             </div>
-                            <input type="text" inputmode="decimal" id="nilaiDiameterKabel" class="pl-10 block w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-xs font-bold" placeholder="Contoh: 25">
+                            <select id="satuanDiameterKabel" class="w-16 px-1.5 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-r-xl rounded-l-none text-slate-800 dark:text-slate-200 text-xs font-bold text-center focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer">
+                                <option value="mm" selected>mm</option>
+                                <option value="cm">cm</option>
+                                <option value="m">m</option>
+                                <option value="ft">ft</option>
+                            </select>
                         </div>
-                        <select id="satuanDiameterKabel" class="w-24 px-3 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 text-xs font-bold text-center focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer">
-                            <option value="mm" selected>mm</option>
-                            <option value="cm">cm</option>
-                            <option value="m">m</option>
-                            <option value="ft">feet (kaki)</option>
-                        </select>
                     </div>
                 </div>
             </div>
@@ -197,7 +220,7 @@
 
             <!-- Papan Hasil Reaktif (Dynamic Output Cards) -->
             
-            <div class="flex items-center justify-between mt-2 pt-2  no-print">
+            <div class="flex items-center justify-center gap-2 mt-2 pt-2 no-print">
                 <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400">Mode Satuan Hasil:</span>
                 <select id="outputMode" class="text-xs py-1 px-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-bold text-slate-700 dark:text-slate-300 focus:outline-none">
                     <option value="meter" selected>Meter (m)</option>
@@ -210,17 +233,19 @@
         </div>
 
                 <!-- Menu Tombol & Footer (Fixed at Bottom inside main container) -->
-        <div class="pt-2 shrink-0 space-y-2.5 text-center">
-            <div class="grid grid-cols-3 gap-2 pb-1">
-                <button type="button" onclick="window.history.back()" class="flex items-center justify-center gap-1 py-2.5 px-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200/80 dark:hover:bg-slate-750 active:scale-95 text-slate-600 dark:text-slate-300 font-bold text-xs rounded-xl transition-all shadow-sm">
+        <div class="pt-3.5 shrink-0 space-y-2.5 text-center mt-2 border-t-2 border-slate-200 dark:border-slate-800/80">
+            <div class="grid grid-cols-3 gap-2 pb-0 mb-3.5">
+                <button type="button" onclick="window.history.back()" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-slate-200/80 dark:bg-slate-800/80 hover:bg-slate-300 dark:hover:bg-slate-700 active:scale-95 text-slate-600 dark:text-slate-300 font-medium text-xs rounded-xl transition-all duration-150 border border-slate-300/50 dark:border-slate-700/50 shadow-sm">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                     Kembali
                 </button>
-                <button type="button" id="btnReset" class="flex items-center justify-center gap-1 py-2.5 px-2 bg-rose-100/50 dark:bg-rose-950/40 hover:bg-rose-200/50 dark:hover:bg-rose-900/60 active:scale-95 text-rose-600 dark:text-rose-400 font-bold text-xs rounded-xl transition-all shadow-sm border border-rose-200 dark:border-rose-500/30">
-                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                    Hapus
+                <button type="button" id="btnReset" class="flex items-center justify-center gap-1.5 py-2 px-3 bg-rose-50 dark:bg-rose-900/20 hover:bg-rose-100 dark:hover:bg-rose-900/40 active:scale-95 text-rose-600 dark:text-rose-400 font-medium text-xs rounded-xl border border-rose-200 dark:border-rose-800/50 transition-all shadow-sm">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Reset
                 </button>
-                <a href="index.html" class="flex items-center justify-center gap-1 py-2.5 px-2 bg-blue-600/90 hover:bg-blue-500 active:scale-95 text-white font-bold text-xs rounded-xl transition-all shadow-sm shadow-blue-600/20">
+                <a href="index.html" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-blue-600/90 hover:bg-blue-500 active:scale-95 text-white font-medium text-xs rounded-xl transition-all duration-150 shadow-lg shadow-blue-600/20">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                     Beranda
                 </a>
@@ -230,7 +255,7 @@
 
     
         <!-- Footer -->
-        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-4 pt-3 pb-2 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
+        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-0 pt-3 pb-2 border-t-2 border-slate-200 dark:border-slate-800/80 font-medium no-print">
             Williyanto Adi 2026
         </footer>
 
