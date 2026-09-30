@@ -33,11 +33,12 @@
         }
 
         /* Hide arrows in number inputs */
-        input[type="number"]::-webkit-inner-spin-button, 
-        input[type="number"]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
+
         input[type="number"] {
             -moz-appearance: textfield;
         }
@@ -155,12 +156,15 @@
                     </div>
                     <div class="relative group col-span-2">
                         <label for="panjangPerLayer"
-                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Potongan Tiap Layer (cm)</label>
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Potongan
+                            Tiap Layer (cm)</label>
                         <div class="relative">
                             <div
                                 class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-blue-500 transition-colors">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </div>
                             <input type="number" step="0.1" name="panjangPerLayer" id="panjangPerLayer"
@@ -205,7 +209,8 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
-                <span>Perhatian: Ada layer yang terlalu pendek (< 1 cm). Ini mungkin akan sulit untuk diklem/diuji.</span>
+                <span>Perhatian: Ada layer yang terlalu pendek (< 1 cm). Ini mungkin akan sulit untuk
+                        diklem/diuji.</span>
             </div>
 
 
@@ -214,7 +219,8 @@
 
         <!-- Controls Menu -->
         <div class="grid grid-cols-3 gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
-            <button type="button" onclick="history.back()" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+            <button type="button" onclick="history.back()"
+                class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
@@ -228,16 +234,19 @@
                 </svg>
                 Reset
             </button>
-            <a href="../index.html" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+            <a href="./index.html"
+                class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
                 Beranda
             </a>
         </div>
 
         <!-- Footer -->
-        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-3 pt-2 border-t border-slate-200 dark:border-slate-800 font-medium">
+        <footer
+            class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-3 pt-2 border-t border-slate-200 dark:border-slate-800 font-medium">
             Williyanto Adi 2026
         </footer>
 
@@ -274,7 +283,7 @@
                 document.querySelectorAll('.layer-name').forEach(input => oldNames.push(input.value));
 
                 layerList.innerHTML = '';
-                
+
                 const globalValRaw = parseFloat(panjangPerLayerInput.value);
                 const globalVal = !isNaN(globalValRaw) ? globalValRaw : null;
 
@@ -289,7 +298,7 @@
 
                     const div = document.createElement('div');
                     div.className = "flex gap-2 items-center bg-slate-50/50 dark:bg-slate-800/30 p-1.5 rounded-xl border border-slate-200/50 dark:border-slate-700/50";
-                    
+
                     div.innerHTML = `
                         <div class="flex-shrink-0 w-6 h-6 rounded bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-600 dark:text-slate-300">
                             ${i + 1}
@@ -302,131 +311,131 @@
                     layerList.appendChild(div);
                 }
 
-            attachInputListeners();
-            calculateRemaining();
-        }
+                attachInputListeners();
+                calculateRemaining();
+            }
 
-        function attachInputListeners() {
-            document.querySelectorAll('.layer-input').forEach((input, index, arr) => {
-                if (index !== arr.length - 1) { // Skip last element
-                    input.addEventListener('input', calculateRemaining);
+            function attachInputListeners() {
+                document.querySelectorAll('.layer-input').forEach((input, index, arr) => {
+                    if (index !== arr.length - 1) { // Skip last element
+                        input.addEventListener('input', calculateRemaining);
+                    }
+                });
+            }
+
+            function calculateRemaining() {
+                const totalStr = panjangTotalInput.value;
+                const total = parseFloat(totalStr) || 0;
+                const inputs = document.querySelectorAll('.layer-input');
+
+                if (inputs.length === 0) return;
+
+                let sum = 0;
+                let hasThinLayer = false;
+
+                for (let i = 0; i < inputs.length - 1; i++) {
+                    const val = parseFloat(inputs[i].value) || 0;
+                    sum += val;
+                    if (val > 0 && val < 1.0) hasThinLayer = true;
+                }
+
+                const remaining = total - sum;
+                const lastInput = inputs[inputs.length - 1];
+
+                if (!totalStr || total <= 0) {
+                    lastInput.value = '';
+                    lastInput.classList.remove('text-rose-500', 'dark:text-rose-400', 'border-rose-300', 'dark:border-rose-700');
+                    sisaPanjangLabel.innerText = `Sisa: - cm`;
+                    sisaPanjangLabel.className = "text-[10px] font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700";
+                    warningAlert.classList.add('hidden');
+                    warningAlert.classList.remove('flex');
+                    thinLayerAlert.classList.add('hidden');
+                    thinLayerAlert.classList.remove('flex');
+                    return;
+                }
+
+                if (remaining >= 0 && remaining < 1.0 && total > 0) hasThinLayer = true;
+
+                if (remaining < 0) {
+                    lastInput.value = '0';
+                    lastInput.classList.add('text-rose-500', 'dark:text-rose-400', 'border-rose-300', 'dark:border-rose-700');
+                    sisaPanjangLabel.innerText = `Sisa: ${Number(remaining.toFixed(2))} cm`;
+                    sisaPanjangLabel.className = "text-[10px] font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/30 px-2 py-0.5 rounded border border-rose-100 dark:border-rose-800/50";
+                    warningAlert.classList.remove('hidden');
+                    warningAlert.classList.add('flex');
+                } else {
+                    lastInput.value = total > 0 ? Number(remaining.toFixed(2)) : '';
+                    lastInput.classList.remove('text-rose-500', 'dark:text-rose-400', 'border-rose-300', 'dark:border-rose-700');
+                    sisaPanjangLabel.innerText = `Sisa: ${Number(remaining.toFixed(2))} cm`;
+                    sisaPanjangLabel.className = "text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded border border-blue-100 dark:border-blue-800/50";
+                    warningAlert.classList.add('hidden');
+                    warningAlert.classList.remove('flex');
+                }
+
+                // Validasi thin layer
+                if (hasThinLayer && remaining >= 0) {
+                    thinLayerAlert.classList.remove('hidden');
+                    thinLayerAlert.classList.add('flex');
+                } else {
+                    thinLayerAlert.classList.add('hidden');
+                    thinLayerAlert.classList.remove('flex');
+                }
+            }
+
+            jumlahLayerInput.addEventListener('input', generateLayerInputs);
+            panjangTotalInput.addEventListener('input', calculateRemaining);
+
+            panjangPerLayerInput.addEventListener('input', () => {
+                const val = parseFloat(panjangPerLayerInput.value);
+                const inputs = document.querySelectorAll('.layer-input');
+                if (!isNaN(val)) {
+                    // update all except the last one
+                    for (let i = 0; i < inputs.length - 1; i++) {
+                        inputs[i].value = val;
+                    }
+                } else {
+                    // clear all except the last one if input is empty
+                    for (let i = 0; i < inputs.length - 1; i++) {
+                        inputs[i].value = '';
+                    }
+                }
+                calculateRemaining();
+            });
+
+            resetBtn.addEventListener('click', () => {
+                panjangTotalInput.value = '';
+                jumlahLayerInput.value = '';
+                panjangPerLayerInput.value = '';
+                layerContainerWrapper.classList.add('hidden');
+                warningAlert.classList.add('hidden');
+                thinLayerAlert.classList.add('hidden');
+            });
+
+            // Dark Mode
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+            const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                themeToggleLightIcon.classList.remove('hidden');
+            } else {
+                themeToggleDarkIcon.classList.remove('hidden');
+            }
+
+            themeToggleBtn.addEventListener('click', function () {
+                themeToggleDarkIcon.classList.toggle('hidden');
+                themeToggleLightIcon.classList.toggle('hidden');
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
                 }
             });
-        }
 
-        function calculateRemaining() {
-            const totalStr = panjangTotalInput.value;
-            const total = parseFloat(totalStr) || 0;
-            const inputs = document.querySelectorAll('.layer-input');
-            
-            if (inputs.length === 0) return;
-
-            let sum = 0;
-            let hasThinLayer = false;
-
-            for (let i = 0; i < inputs.length - 1; i++) {
-                const val = parseFloat(inputs[i].value) || 0;
-                sum += val;
-                if (val > 0 && val < 1.0) hasThinLayer = true;
-            }
-
-            const remaining = total - sum;
-            const lastInput = inputs[inputs.length - 1];
-
-            if (!totalStr || total <= 0) {
-                lastInput.value = '';
-                lastInput.classList.remove('text-rose-500', 'dark:text-rose-400', 'border-rose-300', 'dark:border-rose-700');
-                sisaPanjangLabel.innerText = `Sisa: - cm`;
-                sisaPanjangLabel.className = "text-[10px] font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700";
-                warningAlert.classList.add('hidden');
-                warningAlert.classList.remove('flex');
-                thinLayerAlert.classList.add('hidden');
-                thinLayerAlert.classList.remove('flex');
-                return;
-            }
-
-            if (remaining >= 0 && remaining < 1.0 && total > 0) hasThinLayer = true;
-
-            if (remaining < 0) {
-                lastInput.value = '0';
-                lastInput.classList.add('text-rose-500', 'dark:text-rose-400', 'border-rose-300', 'dark:border-rose-700');
-                sisaPanjangLabel.innerText = `Sisa: ${Number(remaining.toFixed(2))} cm`;
-                sisaPanjangLabel.className = "text-[10px] font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/30 px-2 py-0.5 rounded border border-rose-100 dark:border-rose-800/50";
-                warningAlert.classList.remove('hidden');
-                warningAlert.classList.add('flex');
-            } else {
-                lastInput.value = total > 0 ? Number(remaining.toFixed(2)) : '';
-                lastInput.classList.remove('text-rose-500', 'dark:text-rose-400', 'border-rose-300', 'dark:border-rose-700');
-                sisaPanjangLabel.innerText = `Sisa: ${Number(remaining.toFixed(2))} cm`;
-                sisaPanjangLabel.className = "text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded border border-blue-100 dark:border-blue-800/50";
-                warningAlert.classList.add('hidden');
-                warningAlert.classList.remove('flex');
-            }
-
-            // Validasi thin layer
-            if (hasThinLayer && remaining >= 0) {
-                thinLayerAlert.classList.remove('hidden');
-                thinLayerAlert.classList.add('flex');
-            } else {
-                thinLayerAlert.classList.add('hidden');
-                thinLayerAlert.classList.remove('flex');
-            }
-        }
-
-        jumlahLayerInput.addEventListener('input', generateLayerInputs);
-        panjangTotalInput.addEventListener('input', calculateRemaining);
-        
-        panjangPerLayerInput.addEventListener('input', () => {
-            const val = parseFloat(panjangPerLayerInput.value);
-            const inputs = document.querySelectorAll('.layer-input');
-            if (!isNaN(val)) {
-                // update all except the last one
-                for (let i = 0; i < inputs.length - 1; i++) {
-                    inputs[i].value = val;
-                }
-            } else {
-                // clear all except the last one if input is empty
-                for (let i = 0; i < inputs.length - 1; i++) {
-                    inputs[i].value = '';
-                }
-            }
-            calculateRemaining();
         });
-
-        resetBtn.addEventListener('click', () => {
-            panjangTotalInput.value = '';
-            jumlahLayerInput.value = '';
-            panjangPerLayerInput.value = '';
-            layerContainerWrapper.classList.add('hidden');
-            warningAlert.classList.add('hidden');
-            thinLayerAlert.classList.add('hidden');
-        });
-
-        // Dark Mode
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-            themeToggleLightIcon.classList.remove('hidden');
-        } else {
-            themeToggleDarkIcon.classList.remove('hidden');
-        }
-
-        themeToggleBtn.addEventListener('click', function() {
-            themeToggleDarkIcon.classList.toggle('hidden');
-            themeToggleLightIcon.classList.toggle('hidden');
-            if (localStorage.getItem('color-theme') === 'light') {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('color-theme', 'light');
-            }
-        });
-
-    });
     </script>
 </body>
 
