@@ -165,17 +165,17 @@
                     </label>
                     <select id="inputVariance" onchange="updateVarianceLabel()"
                         class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-bold appearance-none text-center">
-                        <option value="low">Tipis (±0.005)</option>
-                        <option value="normal" selected>Normal (±0.02)</option>
-                        <option value="high">Lebar (±0.08)</option>
-                        <option value="wide">Sangat Lebar (±0.25)</option>
-                        <option value="combine">Combine (±0.005 - ±0.25)</option>
+                        <option value="low">Tipis (±0,005)</option>
+                        <option value="normal" selected>Normal (±0,02)</option>
+                        <option value="high">Lebar (±0,08)</option>
+                        <option value="wide">Sangat Lebar (±0,25)</option>
+                        <option value="combine">Combine (±0,005 - ±0,25)</option>
                         <option value="custom">Custom (Nilai Sendiri)</option>
                     </select>
                     <div id="customVarianceContainer" class="hidden mt-1.5">
                         <div class="flex rounded-xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-700/80 focus-within:ring-2 focus-within:ring-green-500/20 focus-within:border-green-500 bg-slate-50 dark:bg-slate-900">
                             <span class="px-2.5 py-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 flex items-center border-r border-slate-200 dark:border-slate-700/80">±</span>
-                            <input type="text" id="inputCustomVariance" placeholder="Nilai fluktuasi (misal: 0.05)" oninput="validateNumberInput(this); onCustomVarianceChange();"
+                            <input type="text" id="inputCustomVariance" placeholder="Nilai fluktuasi (misal: 0,05)" oninput="validateNumberInput(this); onCustomVarianceChange();"
                                 class="w-full px-2.5 py-1.5 bg-transparent text-xs font-bold text-slate-800 dark:text-slate-100 focus:outline-none text-center" />
                         </div>
                     </div>
@@ -349,8 +349,36 @@
             document.getElementById('inputAverage').value = '';
             document.getElementById('resultsContainer').innerHTML = '<div class="col-span-3 text-center py-3 text-[11px] text-slate-400 italic">Masukkan target rata-rata lalu tekan Hitung</div>';
             document.getElementById('badgeCount').textContent = '(0)';
+            updateVarianceOptionsFormat();
             updateVarianceLabel(false);
         });
+        function updateVarianceOptionsFormat() {
+            const isId = currentSeparator === 'id';
+            const d = isId ? ',' : '.';
+            const sel = document.getElementById('inputVariance');
+            if (sel) {
+                const opts = sel.options;
+                for (let i = 0; i < opts.length; i++) {
+                    if (opts[i].value === 'low') opts[i].text = `Tipis (±0${d}005)`;
+                    else if (opts[i].value === 'normal') opts[i].text = `Normal (±0${d}02)`;
+                    else if (opts[i].value === 'high') opts[i].text = `Lebar (±0${d}08)`;
+                    else if (opts[i].value === 'wide') opts[i].text = `Sangat Lebar (±0${d}25)`;
+                    else if (opts[i].value === 'combine') opts[i].text = `Combine (±0${d}005 - ±0${d}25)`;
+                    else if (opts[i].value === 'custom') opts[i].text = 'Custom (Nilai Sendiri)';
+                }
+            }
+            const customInput = document.getElementById('inputCustomVariance');
+            if (customInput) {
+                customInput.placeholder = `Nilai fluktuasi (misal: 0${d}05)`;
+                if (customInput.value) {
+                    customInput.value = isId ? customInput.value.replace(/\./g, ',') : customInput.value.replace(/,/g, '.');
+                }
+            }
+            const inputAvg = document.getElementById('inputAverage');
+            if (inputAvg) {
+                inputAvg.placeholder = `Contoh: 1${d}239`;
+            }
+        }
         function setDecimalSeparator(sep) {
             currentSeparator = sep;
             const btnId = document.getElementById('btnSepId');
@@ -368,6 +396,8 @@
             } else {
                 inputAvg.value = inputAvg.value.replace(/,/g, '.');
             }
+            updateVarianceOptionsFormat();
+            updateVarianceLabel(false);
             renderResults();
             updateStatistics();
             renderHistoryTable();
@@ -395,7 +425,12 @@
             
             if (sel.value === 'custom') {
                 customContainer.classList.remove('hidden');
-                const customVal = document.getElementById('inputCustomVariance').value.trim();
+                let customVal = document.getElementById('inputCustomVariance').value.trim();
+                if (currentSeparator === 'id') {
+                    customVal = customVal.replace(/\./g, ',');
+                } else {
+                    customVal = customVal.replace(/,/g, '.');
+                }
                 badge.textContent = customVal ? `±${customVal}` : 'Custom';
                 if (triggerGenerate) {
                     document.getElementById('inputCustomVariance').focus();
@@ -410,7 +445,12 @@
             }
         }
         function onCustomVarianceChange() {
-            const customVal = document.getElementById('inputCustomVariance').value.trim();
+            let customVal = document.getElementById('inputCustomVariance').value.trim();
+            if (currentSeparator === 'id') {
+                customVal = customVal.replace(/\./g, ',');
+            } else {
+                customVal = customVal.replace(/,/g, '.');
+            }
             document.getElementById('varianceBadge').textContent = customVal ? `±${customVal}` : 'Custom';
             if (document.getElementById('inputAverage').value.trim() !== '') {
                 generateNumbers();
