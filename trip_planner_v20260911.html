@@ -33,16 +33,15 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-tr from-slate-100 via-teal-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-between py-6 px-3 sm:px-6 overflow-x-hidden transition-colors duration-300">
+<body class="bg-gradient-to-tr from-slate-100 via-teal-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-between overflow-x-hidden transition-colors duration-300">
     <!-- Ambient Background Glowing Orbs -->
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-30 dark:opacity-15 hidden md:block">
         <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-teal-400 blur-[110px] animate-pulse"></div>
         <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-emerald-400 blur-[110px] animate-pulse" style="animation-delay: 2s;"></div>
     </div>
-    <!-- Main Container -->
-    <div class="w-full max-w-5xl mx-auto mb-6">
-        <!-- Sticky Header & Tab Navigation Container (Unified Card) -->
-        <header class="sticky top-2 sm:top-3 z-40 mb-6 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-3.5 sm:p-4 border border-slate-200/80 dark:border-slate-800 shadow-xl transition-all space-y-3">
+    <!-- Sticky Top Header & Tabs Container (Flush at top-0 to prevent content from scrolling above it) -->
+    <div class="sticky top-0 z-40 w-full bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80 shadow-md py-3 px-3 sm:px-6 transition-all mb-6">
+        <header class="w-full max-w-5xl mx-auto space-y-3">
             <!-- Top Header Navigation -->
             <div class="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
                 <div class="flex items-center gap-3 text-center sm:text-left">
@@ -71,7 +70,7 @@
                 </div>
             </div>
             <!-- Segmented Mode Switcher Tabs -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 p-1.5 bg-slate-100/90 dark:bg-slate-800/90 rounded-2xl border border-slate-200/60 dark:border-slate-700/60 gap-1.5 shadow-inner">
+            <div class="grid grid-cols-2 sm:grid-cols-4 p-1.5 bg-slate-100/90 dark:bg-slate-900 rounded-2xl border border-slate-200/60 dark:border-slate-800 gap-1.5 shadow-inner">
                 <button id="tabNonTol" type="button" class="py-2 px-3 rounded-xl text-xs font-bold transition-all duration-200 bg-gradient-to-r from-teal-500 to-emerald-600 text-white shadow-md">
                     🏎️ Non-Tol
                 </button>
@@ -86,6 +85,9 @@
                 </button>
             </div>
         </header>
+    </div>
+    <!-- Main Workspace Container -->
+    <main class="w-full max-w-5xl mx-auto px-3 sm:px-6 mb-6 flex-1">
         <!-- Main Workspace Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
             <!-- Left Input Form Area -->
@@ -295,7 +297,7 @@
                 </div>
             </div>
             <!-- Right Summary Sidebar -->
-            <div class="lg:sticky lg:top-48 space-y-4">
+            <div class="lg:sticky lg:top-40 space-y-4">
                 <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md p-5 rounded-3xl border border-teal-500/20 dark:border-teal-500/20 shadow-xl space-y-4 relative overflow-hidden">
                     <div class="absolute -right-12 -top-12 w-32 h-32 rounded-full bg-teal-500/10 blur-2xl pointer-events-none"></div>
                     <div>
@@ -355,31 +357,33 @@
                 </div>
             </div>
         </div>
+    </main>
+    <!-- Navigation Buttons & Footer -->
+    <div class="w-full max-w-5xl mx-auto px-3 sm:px-6 pb-6">
+        <div class="grid grid-cols-3 gap-3 w-full pt-4 border-t border-slate-200 dark:border-slate-800">
+            <button type="button" onclick="window.history.back()" class="py-2.5 px-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 active:scale-95 text-slate-600 dark:text-slate-300 font-bold text-xs rounded-xl transition-all border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                Kembali
+            </button>
+            <button type="button" id="resetAllBtn" class="py-2.5 px-2 bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400 border border-rose-200 dark:border-rose-800 hover:bg-rose-200 dark:hover:bg-rose-900/50 active:scale-95 font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-1">
+                <svg class="w-4 h-4 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                Reset
+            </button>
+            <a href="index.html" class="py-2.5 px-2 bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/50 active:scale-95 font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-1">
+                <svg class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+                Beranda
+            </a>
+        </div>
+        <!-- Footer -->
+        <footer class="w-full text-center text-slate-400 dark:text-slate-600 text-[10px] mt-4 pt-3 pb-2 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
+            Williyanto Adi 2026
+        </footer>
     </div>
-    <!-- Navigation Buttons -->
-    <div class="grid grid-cols-3 gap-3 w-full max-w-5xl mx-auto pt-4 border-t border-slate-200 dark:border-slate-800 mt-6">
-        <button type="button" onclick="window.history.back()" class="py-2.5 px-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 active:scale-95 text-slate-600 dark:text-slate-300 font-bold text-xs rounded-xl transition-all border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-1">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            Kembali
-        </button>
-        <button type="button" id="resetAllBtn" class="py-2.5 px-2 bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400 border border-rose-200 dark:border-rose-800 hover:bg-rose-200 dark:hover:bg-rose-900/50 active:scale-95 font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-1">
-            <svg class="w-4 h-4 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-            Reset
-        </button>
-        <a href="index.html" class="py-2.5 px-2 bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/50 active:scale-95 font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-1">
-            <svg class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                <polyline points="9 22 9 12 15 12 15 22" />
-            </svg>
-            Beranda
-        </a>
-    </div>
-    <!-- Footer -->
-    <footer class="w-full text-center text-slate-400 dark:text-slate-600 text-[10px] mt-4 pt-3 pb-2 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
-        Williyanto Adi 2026
-    </footer>
     <!-- JavaScript Controller Logic -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
