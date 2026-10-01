@@ -114,13 +114,13 @@
         <div class="mt-4 p-1 bg-slate-100 dark:bg-slate-800/60 rounded-xl flex items-center justify-between gap-1 overflow-x-auto"
             style="scrollbar-width: none;">
             <button class="tab-btn active px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap"
-                onclick="switchTab('tab-og')">Open Gap</button>
+                onclick="switchTab('tab-og', this)">Open Gap</button>
             <button class="tab-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap"
-                onclick="switchTab('tab-oa')">Overlap Armour</button>
+                onclick="switchTab('tab-oa', this)">Overlap Armour</button>
             <button class="tab-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap"
-                onclick="switchTab('tab-et')">Eq Tape</button>
+                onclick="switchTab('tab-et', this)">Eq Tape</button>
             <button class="tab-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap"
-                onclick="switchTab('tab-ws')">Wire Screen</button>
+                onclick="switchTab('tab-ws', this)">Wire Screen</button>
         </div>
 
         <!-- Tab Content 1: Open Gap -->
@@ -130,23 +130,23 @@
                     <label
                         class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Hasil
                         Ukur</label>
-                    <input type="number" id="og_ukur" value="23.31" step="0.01" oninput="calcOpenGap()"
-                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold" />
+                    <input type="number" id="og_ukur" value="23.31" step="0.01" placeholder="Cth: 23.31" oninput="calcOpenGap()"
+                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
                 </div>
                 <div>
                     <label
                         class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Lebar
                         Tape</label>
-                    <input type="number" id="og_tape" value="60.00" step="0.01" oninput="calcOpenGap()"
-                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold" />
+                    <input type="number" id="og_tape" value="60.00" step="0.01" placeholder="Cth: 60.00" oninput="calcOpenGap()"
+                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
                 </div>
             </div>
             <div>
                 <label
                     class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Spesifikasi
                     Max (%)</label>
-                <input type="number" id="og_spec" value="50" step="0.1" oninput="calcOpenGap()"
-                    class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold" />
+                <input type="number" id="og_spec" value="50" step="0.1" placeholder="Cth: 50" oninput="calcOpenGap()"
+                    class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
             </div>
 
             <!-- Result Box -->
@@ -171,23 +171,23 @@
                     <label
                         class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Hasil
                         Ukur</label>
-                    <input type="number" id="oa_ukur" value="16.26" step="0.01" oninput="calcOverlap()"
-                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold" />
+                    <input type="number" id="oa_ukur" value="16.26" step="0.01" placeholder="Cth: 16.26" oninput="calcOverlap()"
+                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
                 </div>
                 <div>
                     <label
                         class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Lebar
                         Tape</label>
-                    <input type="number" id="oa_tape" value="60.00" step="0.01" oninput="calcOverlap()"
-                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold" />
+                    <input type="number" id="oa_tape" value="60.00" step="0.01" placeholder="Cth: 60.00" oninput="calcOverlap()"
+                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
                 </div>
             </div>
             <div>
                 <label
                     class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Spesifikasi
                     Min (%)</label>
-                <input type="number" id="oa_spec" value="15" step="0.1" oninput="calcOverlap()"
-                    class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold" />
+                <input type="number" id="oa_spec" value="15" step="0.1" placeholder="Cth: 15" oninput="calcOverlap()"
+                    class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
             </div>
 
             <div
@@ -211,23 +211,23 @@
                     <label
                         class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Hasil
                         Ukur</label>
-                    <input type="number" id="et_ukur" value="44.15" step="0.01" oninput="calcEqualizing()"
-                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold" />
+                    <input type="number" id="et_ukur" value="44.15" step="0.01" placeholder="Cth: 44.15" oninput="calcEqualizing()"
+                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
                 </div>
                 <div>
                     <label
                         class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Lebar
                         Tape</label>
-                    <input type="number" id="et_tape" value="15.03" step="0.01" oninput="calcEqualizing()"
-                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold" />
+                    <input type="number" id="et_tape" value="15.03" step="0.01" placeholder="Cth: 15.03" oninput="calcEqualizing()"
+                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
                 </div>
             </div>
             <div>
                 <label
                     class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Spesifikasi
                     Max</label>
-                <input type="number" id="et_spec" value="3" step="0.1" oninput="calcEqualizing()"
-                    class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold" />
+                <input type="number" id="et_spec" value="3" step="0.1" placeholder="Cth: 3" oninput="calcEqualizing()"
+                    class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
             </div>
 
             <div
@@ -251,30 +251,30 @@
                     <label
                         class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Diameter
                         Wire</label>
-                    <input type="number" id="aws_dia" value="0.866" step="0.001" oninput="calcWireScreen()"
-                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold" />
+                    <input type="number" id="aws_dia" value="0.866" step="0.001" placeholder="Cth: 0.866" oninput="calcWireScreen()"
+                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
                 </div>
                 <div>
                     <label
                         class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Jumlah
                         Wire</label>
-                    <input type="number" id="aws_qty" value="48" step="1" oninput="calcWireScreen()"
-                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold" />
+                    <input type="number" id="aws_qty" value="48" step="1" placeholder="Cth: 48" oninput="calcWireScreen()"
+                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
                 </div>
             </div>
             <div>
                 <label
                     class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Spesifikasi
                     Min</label>
-                <input type="number" id="aws_spec" value="25.00" step="0.01" oninput="calcWireScreen()"
-                    class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold" />
+                <input type="number" id="aws_spec" value="25.00" step="0.01" placeholder="Cth: 25.00" oninput="calcWireScreen()"
+                    class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
             </div>
 
             <div
                 class="mt-2 bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700 flex justify-between items-center text-center shadow-sm">
                 <div class="text-left">
                     <span class="text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold block">Total
-                        Area</span>
+                    Area</span>
                     <div class="text-xl font-bold text-slate-700 dark:text-slate-200 font-mono tracking-tight"
                         id="aws_res">0.000</div>
                 </div>
@@ -284,17 +284,24 @@
             </div>
         </div>
 
-        <div class="pt-3 flex gap-2 w-full mt-4">
-            <button type="button" onclick="history.back()"
-                class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors"><svg
+        <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex gap-2 w-full mt-4">
+            <button type="button" id="kembaliBtn" onclick="handleKembali()"
+                class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors flex items-center justify-center gap-1"><svg
                     class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round">
                     <path d="m12 19-7-7 7-7" />
                     <path d="M19 12H5" />
                 </svg> Kembali</button>
+            <button type="button" id="resetBtn" onclick="resetForm()"
+                class="flex-1 py-2 rounded-xl text-xs font-bold bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors flex items-center justify-center gap-1"><svg
+                    class="w-4 h-4 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg> Reset</button>
             <a href="index.html"
-                class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors flex items-center justify-center"><svg
+                class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors flex items-center justify-center gap-1"><svg
                     class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round">
@@ -302,9 +309,6 @@
                     <polyline points="9 22 9 12 15 12 15 22" />
                 </svg> Beranda</a>
         </div>
-
-        <!-- Footer -->
-
 
         <!-- Footer -->
         <footer
@@ -341,24 +345,52 @@
         });
 
         // ----------------- Tab Navigation -----------------
-        function switchTab(tabId) {
+        let activeTabId = 'tab-og';
+
+        function switchTab(tabId, el) {
+            activeTabId = tabId;
             const tabs = ['tab-og', 'tab-oa', 'tab-et', 'tab-ws'];
             tabs.forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-                document.getElementById(id).classList.remove('block');
+                const target = document.getElementById(id);
+                if (target) {
+                    target.classList.add('hidden');
+                    target.classList.remove('block');
+                }
             });
-            document.getElementById(tabId).classList.remove('hidden');
-            document.getElementById(tabId).classList.add('block');
+            const activePanel = document.getElementById(tabId);
+            if (activePanel) {
+                activePanel.classList.remove('hidden');
+                activePanel.classList.add('block');
+            }
 
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if (el) {
+                el.classList.add('active');
+            } else if (window.event && window.event.currentTarget) {
+                window.event.currentTarget.classList.add('active');
+            }
+        }
+
+        // ----------------- Tombol Navigasi -----------------
+        function handleKembali() {
+            if (window.top !== window.self && window.parent && window.parent.closePreviewModal) {
+                window.parent.closePreviewModal();
+            } else if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
         }
 
         // ----------------- Kalkulasi Logic -----------------
         function updateStatus(elementId, isPassed) {
             const el = document.getElementById(elementId);
-            if (isPassed) {
+            if (!el) return;
+            if (isPassed === null) {
+                el.textContent = "STANDBY";
+                el.className = "px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider bg-slate-100 text-slate-400 border border-slate-200 dark:bg-slate-800/80 dark:text-slate-500 dark:border-slate-700";
+            } else if (isPassed) {
                 el.textContent = "PASS";
                 el.className = "px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider bg-green-100 text-green-600 border border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800";
             } else {
@@ -368,39 +400,104 @@
         }
 
         function calcOpenGap() {
-            const ukur = parseFloat(document.getElementById("og_ukur").value) || 0;
-            const tape = parseFloat(document.getElementById("og_tape").value) || 1;
-            const maxSpec = parseFloat(document.getElementById("og_spec").value) || 0;
+            const ukurVal = document.getElementById("og_ukur").value.trim();
+            const tapeVal = document.getElementById("og_tape").value.trim();
+            const specVal = document.getElementById("og_spec").value.trim();
+
+            if (!ukurVal || !tapeVal) {
+                document.getElementById("og_res").textContent = "0.00 %";
+                updateStatus("og_status", null);
+                return;
+            }
+            const ukur = parseFloat(ukurVal) || 0;
+            const tape = parseFloat(tapeVal) || 1;
+            const maxSpec = specVal !== "" ? parseFloat(specVal) : 50;
             const res = tape !== 0 ? (ukur / tape) * 100 : 0;
             document.getElementById("og_res").textContent = res.toFixed(2) + " %";
             updateStatus("og_status", res <= maxSpec);
         }
 
         function calcOverlap() {
-            const ukur = parseFloat(document.getElementById("oa_ukur").value) || 0;
-            const tape = parseFloat(document.getElementById("oa_tape").value) || 1;
-            const minSpec = parseFloat(document.getElementById("oa_spec").value) || 0;
+            const ukurVal = document.getElementById("oa_ukur").value.trim();
+            const tapeVal = document.getElementById("oa_tape").value.trim();
+            const specVal = document.getElementById("oa_spec").value.trim();
+
+            if (!ukurVal || !tapeVal) {
+                document.getElementById("oa_res").textContent = "0.00 %";
+                updateStatus("oa_status", null);
+                return;
+            }
+            const ukur = parseFloat(ukurVal) || 0;
+            const tape = parseFloat(tapeVal) || 1;
+            const minSpec = specVal !== "" ? parseFloat(specVal) : 15;
             const res = tape !== 0 ? (ukur / tape) * 100 : 0;
             document.getElementById("oa_res").textContent = res.toFixed(2) + " %";
             updateStatus("oa_status", res >= minSpec);
         }
 
         function calcEqualizing() {
-            const ukur = parseFloat(document.getElementById("et_ukur").value) || 0;
-            const tape = parseFloat(document.getElementById("et_tape").value) || 1;
-            const maxSpec = parseFloat(document.getElementById("et_spec").value) || 0;
+            const ukurVal = document.getElementById("et_ukur").value.trim();
+            const tapeVal = document.getElementById("et_tape").value.trim();
+            const specVal = document.getElementById("et_spec").value.trim();
+
+            if (!ukurVal || !tapeVal) {
+                document.getElementById("et_res").textContent = "0.00";
+                updateStatus("et_status", null);
+                return;
+            }
+            const ukur = parseFloat(ukurVal) || 0;
+            const tape = parseFloat(tapeVal) || 1;
+            const maxSpec = specVal !== "" ? parseFloat(specVal) : 3;
             const res = tape !== 0 ? ukur / tape : 0;
             document.getElementById("et_res").textContent = res.toFixed(2);
             updateStatus("et_status", res <= maxSpec);
         }
 
         function calcWireScreen() {
-            const dia = parseFloat(document.getElementById("aws_dia").value) || 0;
-            const qty = parseFloat(document.getElementById("aws_qty").value) || 0;
-            const minSpec = parseFloat(document.getElementById("aws_spec").value) || 0;
+            const diaVal = document.getElementById("aws_dia").value.trim();
+            const qtyVal = document.getElementById("aws_qty").value.trim();
+            const specVal = document.getElementById("aws_spec").value.trim();
+
+            if (!diaVal || !qtyVal) {
+                document.getElementById("aws_res").textContent = "0.000";
+                updateStatus("aws_status", null);
+                return;
+            }
+            const dia = parseFloat(diaVal) || 0;
+            const qty = parseFloat(qtyVal) || 0;
+            const minSpec = specVal !== "" ? parseFloat(specVal) : 25.00;
             const res = dia * dia * 0.785 * qty;
             document.getElementById("aws_res").textContent = res.toFixed(3);
             updateStatus("aws_status", res >= minSpec);
+        }
+
+        function resetForm() {
+            // Kosongkan input pada tab yang sedang aktif agar pengguna bisa menginput nilai baru
+            if (activeTabId === 'tab-og') {
+                document.getElementById("og_ukur").value = "";
+                document.getElementById("og_tape").value = "";
+                document.getElementById("og_spec").value = "";
+                calcOpenGap();
+                document.getElementById("og_ukur").focus();
+            } else if (activeTabId === 'tab-oa') {
+                document.getElementById("oa_ukur").value = "";
+                document.getElementById("oa_tape").value = "";
+                document.getElementById("oa_spec").value = "";
+                calcOverlap();
+                document.getElementById("oa_ukur").focus();
+            } else if (activeTabId === 'tab-et') {
+                document.getElementById("et_ukur").value = "";
+                document.getElementById("et_tape").value = "";
+                document.getElementById("et_spec").value = "";
+                calcEqualizing();
+                document.getElementById("et_ukur").focus();
+            } else if (activeTabId === 'tab-ws') {
+                document.getElementById("aws_dia").value = "";
+                document.getElementById("aws_qty").value = "";
+                document.getElementById("aws_spec").value = "";
+                calcWireScreen();
+                document.getElementById("aws_dia").focus();
+            }
         }
 
         window.onload = function () {

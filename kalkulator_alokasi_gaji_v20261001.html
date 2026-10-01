@@ -149,11 +149,22 @@
                             <option value="11">Desember</option>
                         </select>
                     </div>
-                    <div>
+                    <div class="relative" id="tahun-wrapper">
                         <label
                             class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Tahun</label>
-                        <select id="tahun"
-                            class="block w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold"></select>
+                        <div class="relative flex items-center">
+                            <input type="text" id="tahun" inputmode="numeric" autocomplete="off"
+                                class="block w-full pl-3 pr-8 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold cursor-pointer" placeholder="Tahun" />
+                            <button type="button" id="tahun-toggle-btn" tabindex="-1"
+                                class="absolute right-0 top-0 bottom-0 px-2.5 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors">
+                                <svg class="w-4 h-4 transition-transform duration-200" id="tahun-arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div id="tahun-dropdown"
+                            class="hidden absolute left-0 right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl z-50 max-h-48 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-700/50 py-1">
+                        </div>
                     </div>
                 </div>
 
@@ -184,14 +195,6 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-                    <button id="hitungBtn"
-                        class="py-2.5 rounded-xl text-xs font-bold bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-green-200 dark:shadow-none transition-all flex items-center justify-center gap-2">
-                        <span>📊</span> Buat Grafik & Simpan
-                    </button>
-
-                </div>
-
                 <div id="alert-total"
                     class="hidden mt-3 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-xl text-xs text-red-600 dark:text-red-400 font-bold">
                 </div>
@@ -199,15 +202,17 @@
 
             <!-- Kolom Kanan: Hasil & Grafik -->
             <div class="space-y-4">
-                <div class="flex items-center justify-between">
+                <div class="flex items-center justify-between gap-2 flex-wrap sm:flex-nowrap">
                     <h5 id="hasil-alokasi-title"
                         class="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                         <span>📈</span> Hasil Alokasi
                     </h5>
-                    <button id="printBtn"
-                        class="no-print p-1.5 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-750 transition-all text-[10px] font-bold uppercase tracking-wider border border-slate-200 dark:border-slate-700">
-                        🖨️ Cetak
-                    </button>
+                    <div class="flex items-center gap-2 no-print">
+                        <button id="printBtn"
+                            class="p-1.5 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-750 transition-all text-xs font-bold border border-slate-200 dark:border-slate-700 flex items-center gap-1.5">
+                            <span>🖨️</span> Cetak
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Summary Cards -->
@@ -240,7 +245,7 @@
                     <span class="text-4xl mb-3 opacity-50">📂</span>
                     <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Hasil alokasi belum tersedia.
                     </p>
-                    <p class="text-[10px] text-slate-400 dark:text-slate-500">Isi data dan klik "Buat Grafik & Simpan".
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500">Masukkan data gaji dan alokasi.
                     </p>
                 </div>
 
@@ -260,7 +265,7 @@
             <span class="text-sm font-bold">Data berhasil disimpan!</span>
         </div>
 
-        <div class="no-print pt-4 flex gap-2 w-full mt-6 ">
+        <div class="no-print pt-3 border-t border-slate-200 dark:border-slate-800 flex gap-2 w-full mt-6">
             <button type="button" onclick="history.back()"
                 class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors"><svg
                     class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -269,6 +274,13 @@
                     <path d="m12 19-7-7 7-7" />
                     <path d="M19 12H5" />
                 </svg> Kembali</button>
+            <button type="button" id="resetBtn"
+                class="flex-1 py-2 rounded-xl text-xs font-bold bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"><svg
+                    class="w-4 h-4 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg> Reset</button>
             <a href="index.html"
                 class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors flex items-center justify-center"><svg
                     class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -324,9 +336,45 @@
         // ----------------- Logika Kalkulator -----------------
         const gajiInput = document.getElementById('gajiBulanan');
         const bulanSelect = document.getElementById('bulan');
+        const tahunWrapper = document.getElementById('tahun-wrapper');
         const tahunSelect = document.getElementById('tahun');
+        const tahunToggleBtn = document.getElementById('tahun-toggle-btn');
+        const tahunArrowIcon = document.getElementById('tahun-arrow-icon');
+        const tahunDropdown = document.getElementById('tahun-dropdown');
+
+        function populateTahunOptions() {
+            const currentYear = new Date().getFullYear();
+            tahunDropdown.innerHTML = '';
+            for (let year = currentYear + 5; year >= currentYear - 5; year--) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'w-full text-left px-3 py-2 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-700 dark:hover:text-blue-400 transition-colors';
+                btn.textContent = year;
+                btn.dataset.year = String(year);
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    tahunSelect.value = year;
+                    toggleTahunDropdown(false);
+                    handleDateChange();
+                });
+                tahunDropdown.appendChild(btn);
+            }
+        }
+
+        function toggleTahunDropdown(show) {
+            const isHidden = tahunDropdown.classList.contains('hidden');
+            const shouldOpen = typeof show === 'boolean' ? show : isHidden;
+            if (shouldOpen) {
+                const buttons = tahunDropdown.querySelectorAll('button');
+                buttons.forEach(btn => btn.classList.remove('hidden'));
+                tahunDropdown.classList.remove('hidden');
+                tahunArrowIcon.classList.add('rotate-180');
+            } else {
+                tahunDropdown.classList.add('hidden');
+                tahunArrowIcon.classList.remove('rotate-180');
+            }
+        }
         const hasilAlokasiTitle = document.getElementById('hasil-alokasi-title');
-        const hitungBtn = document.getElementById('hitungBtn');
         const resetBtn = document.getElementById('resetBtn');
         const hasilDiv = document.getElementById('hasilAlokasi');
         const alertTotalDiv = document.getElementById('alert-total');
@@ -375,7 +423,7 @@
 
         function updateHasilTitle() {
             const selectedMonthText = bulanSelect.options[bulanSelect.selectedIndex].text;
-            const selectedYearText = tahunSelect.options[tahunSelect.selectedIndex].text;
+            const selectedYearText = tahunSelect.value || new Date().getFullYear();
             hasilAlokasiTitle.innerHTML = `<span>📈</span> Hasil Alokasi - ${selectedMonthText} ${selectedYearText}`;
         }
 
@@ -408,13 +456,34 @@
 
             categoryInput.value = name;
             newCurrencyInput.value = formattedValue;
+
+            categoryInput.addEventListener('input', () => {
+                calculateAndDisplay();
+            });
+            categoryInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    calculateAndDisplay(true);
+                }
+            });
+
             newCurrencyInput.addEventListener('input', (e) => {
                 e.target.value = formatCurrency(e.target.value);
                 updateSisa();
+                calculateAndDisplay();
             });
+            newCurrencyInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    calculateAndDisplay(true);
+                }
+            });
+
             removeBtn.addEventListener('click', () => {
                 div.remove();
+                updateRowNumbers();
                 updateSisa();
+                calculateAndDisplay();
             });
         }
 
@@ -444,15 +513,17 @@
             summarySisa.innerText = formatRupiah(sisa);
         }
 
-        function calculateAndDisplay() {
+        function calculateAndDisplay(showNotification = false) {
             const totalGaji = parseCurrency(gajiInput.value);
             if (totalGaji <= 0) {
-                if (alokasiChart) alokasiChart.destroy();
+                if (alokasiChart) {
+                    alokasiChart.destroy();
+                    alokasiChart = null;
+                }
                 showEmptyState(true);
                 return;
             };
 
-            showEmptyState(false);
             let dataAlokasi = [];
             let totalAlokasi = 0;
             document.querySelectorAll('.allocation-row').forEach((row, index) => {
@@ -468,7 +539,10 @@
             if (totalAlokasi > totalGaji) {
                 alertTotalDiv.classList.remove('hidden');
                 alertTotalDiv.innerHTML = `Total alokasi (${formatRupiah(totalAlokasi)}) <b>MELEBIHI</b> total gaji (${formatRupiah(totalGaji)})!`;
-                if (alokasiChart) alokasiChart.destroy();
+                if (alokasiChart) {
+                    alokasiChart.destroy();
+                    alokasiChart = null;
+                }
                 hasilDiv.innerHTML = "";
                 showEmptyState(true);
                 return;
@@ -480,11 +554,15 @@
             if (sisa > 0.01) dataAlokasi.push({ nama: 'Sisa Gaji', jumlah: sisa });
 
             if (dataAlokasi.length === 0 && sisa <= 0.01) {
-                if (alokasiChart) alokasiChart.destroy();
+                if (alokasiChart) {
+                    alokasiChart.destroy();
+                    alokasiChart = null;
+                }
                 showEmptyState(true);
                 return;
             }
 
+            showEmptyState(false);
             const labels = [], dataValues = [], finalColors = [];
             const vibrantColors = ['#38bdf8', '#f472b6', '#fbbf24', '#c084fc', '#4ade80', '#fb923c', '#94a3b8', '#818cf8', '#2dd4bf', '#f87171'];
             const sisaColor = '#10b981';
@@ -512,7 +590,7 @@
             hasilDiv.innerHTML = hasilHTML;
 
             updateChart(labels, dataValues, finalColors);
-            saveData();
+            saveData(showNotification);
         }
 
         function updateChart(labels, data, colors) {
@@ -559,18 +637,33 @@
         }
 
         function createDefaultRows() {
-            for (let i = 1; i <= 5; i++) createAllocationRow();
+            for (let i = 1; i <= 1; i++) createAllocationRow();
         }
 
         function resetAllocations() {
+            const year = tahunSelect.value;
+            const month = bulanSelect.value;
+            const key = `budget_${year}-${month}`;
+            localStorage.removeItem(key);
+
+            gajiInput.value = '';
             allocationContainer.innerHTML = '';
             createDefaultRows();
             updateRowNumbers();
             updateSisa();
-            calculateAndDisplay();
+
+            if (alokasiChart) {
+                alokasiChart.destroy();
+                alokasiChart = null;
+            }
+            hasilDiv.innerHTML = '';
+            alertTotalDiv.classList.add('hidden');
+            showEmptyState(true);
+
+            gajiInput.focus();
         }
 
-        function saveData() {
+        function saveData(showNotification = false) {
             const year = tahunSelect.value;
             const month = bulanSelect.value;
             const key = `budget_${year}-${month}`;
@@ -584,7 +677,9 @@
             });
             const dataToSave = { salary: parseCurrency(gajiInput.value), allocations: allocations };
             localStorage.setItem(key, JSON.stringify(dataToSave));
-            showToast();
+            if (showNotification) {
+                showToast();
+            }
         }
 
         function loadData() {
@@ -621,27 +716,69 @@
             const currentMonth = today.getMonth();
             const currentYear = today.getFullYear();
             bulanSelect.value = currentMonth;
-            tahunSelect.innerHTML = '';
-            for (let year = currentYear + 2; year >= currentYear - 5; year--) {
-                const option = document.createElement('option');
-                option.value = year;
-                option.textContent = year;
-                tahunSelect.appendChild(option);
-            }
+            populateTahunOptions();
             tahunSelect.value = currentYear;
             handleDateChange();
         }
 
         // --- Event Listeners ---
         printBtn.addEventListener('click', () => window.print());
-        addAllocationBtn.addEventListener('click', () => createAllocationRow());
+        addAllocationBtn.addEventListener('click', () => {
+            createAllocationRow();
+            updateRowNumbers();
+            updateSisa();
+            calculateAndDisplay();
+            const lastRow = allocationContainer.lastElementChild;
+            if (lastRow) {
+                const input = lastRow.querySelector('.category-name-input');
+                if (input) input.focus();
+            }
+        });
         gajiInput.addEventListener('input', (e) => {
             e.target.value = formatCurrency(e.target.value);
             updateSisa();
+            calculateAndDisplay();
         });
-        hitungBtn.addEventListener('click', calculateAndDisplay);
+        gajiInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                calculateAndDisplay(true);
+            }
+        });
         bulanSelect.addEventListener('change', handleDateChange);
-        tahunSelect.addEventListener('change', handleDateChange);
+        
+        tahunToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleTahunDropdown();
+        });
+        tahunSelect.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleTahunDropdown(true);
+        });
+        tahunSelect.addEventListener('input', () => {
+            const val = tahunSelect.value.trim().toLowerCase();
+            const buttons = tahunDropdown.querySelectorAll('button');
+            buttons.forEach(btn => {
+                if (btn.dataset.year.includes(val)) {
+                    btn.classList.remove('hidden');
+                } else {
+                    btn.classList.add('hidden');
+                }
+            });
+            handleDateChange();
+        });
+        tahunSelect.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                toggleTahunDropdown(false);
+                calculateAndDisplay(true);
+            }
+        });
+        document.addEventListener('click', (e) => {
+            if (!tahunWrapper.contains(e.target)) {
+                toggleTahunDropdown(false);
+            }
+        });
         resetBtn.addEventListener('click', resetAllocations);
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>

@@ -176,27 +176,15 @@
                 <span class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">MΩ·km</span>
             </div>
 
-            <!-- Breakdown Accordion -->
-            <div>
-                <button onclick="toggleAccordion('breakdown-content', 'breakdown-icon')"
-                    class="w-full flex items-center justify-between p-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-left text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-750 transition-colors focus:outline-none">
-                    <div class="flex items-center gap-2">
-                        <span>📝</span> Rincian Langkah Kalkulasi
-                    </div>
-                    <svg id="breakdown-icon" class="w-4 h-4 text-slate-400 transform transition-transform duration-300"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-                <div id="breakdown-content"
-                    class="accordion-content mt-1.5 bg-slate-50/50 dark:bg-slate-900/50 rounded-xl border border-slate-200/60 dark:border-slate-700/50 px-3 text-xs text-slate-600 dark:text-slate-400 overflow-x-auto">
-                    <div class="py-3 space-y-2" id="irBreakdown">
-                        <span class="text-slate-400 italic">Silakan masukkan data...</span>
-                    </div>
-                </div>
+            <div
+                class="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-200 dark:border-slate-700 mt-2">
+                <span
+                    class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase block mb-1">Rumus:</span>
+                <code
+                    class="text-xs text-emerald-600 dark:text-emerald-400 font-mono font-bold block break-all">Hasil = IR (MΩ) × (Panjang (m) / 1000)</code>
             </div>
 
-            <div class="pt-2 flex gap-2 w-full mt-1">
+            <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex gap-2 w-full mt-1">
                 <button type="button" onclick="history.back()"
                     class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors"><svg
                         class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -207,15 +195,9 @@
                     </svg> Kembali</button>
                 <button type="button" onclick="clearIR()"
                     class="flex-1 py-2 rounded-xl text-xs font-bold bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"><svg
-                        class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M3 6h18" />
-                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                        <line x1="10" x2="10" y1="11" y2="17" />
-                        <line x1="14" x2="14" y1="11" y2="17" />
-                    </svg> Hapus</button>
+                        class="w-4 h-4 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg> Reset</button>
                 <a href="index.html"
                     class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors flex items-center justify-center"><svg
                         class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -271,7 +253,7 @@
                     class="text-xs text-emerald-600 dark:text-emerald-400 font-mono font-bold block break-all">Hasil = (Pembacaan × 1000) / Panjang</code>
             </div>
 
-            <div class="pt-2 flex gap-2 w-full mt-auto">
+            <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex gap-2 w-full mt-auto">
                 <button type="button" onclick="history.back()"
                     class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors"><svg
                         class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -282,16 +264,10 @@
                     </svg> Kembali</button>
                 <button type="button" onclick="clearCap()"
                     class="flex-1 py-2 rounded-xl text-xs font-bold bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"><svg
-                        class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M3 6h18" />
-                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                        <line x1="10" x2="10" y1="11" y2="17" />
-                        <line x1="14" x2="14" y1="11" y2="17" />
-                    </svg> Hapus</button>
-                <a href="/"
+                        class="w-4 h-4 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg> Reset</button>
+                <a href="index.html"
                     class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors flex items-center justify-center"><svg
                         class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -355,7 +331,7 @@
                     class="text-xs text-emerald-600 dark:text-emerald-400 font-mono font-bold block break-all">Hasil = ((Ω + mΩ/1000) / Panjang) × 1000</code>
             </div>
 
-            <div class="pt-2 flex gap-2 w-full mt-auto">
+            <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex gap-2 w-full mt-auto">
                 <button type="button" onclick="history.back()"
                     class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors"><svg
                         class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -366,16 +342,10 @@
                     </svg> Kembali</button>
                 <button type="button" onclick="clearScr()"
                     class="flex-1 py-2 rounded-xl text-xs font-bold bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"><svg
-                        class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M3 6h18" />
-                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                        <line x1="10" x2="10" y1="11" y2="17" />
-                        <line x1="14" x2="14" y1="11" y2="17" />
-                    </svg> Hapus</button>
-                <a href="/"
+                        class="w-4 h-4 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg> Reset</button>
+                <a href="index.html"
                     class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors flex items-center justify-center"><svg
                         class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -476,7 +446,6 @@
         const irUnitSelect = document.getElementById("irUnit");
         const irLengthInput = document.getElementById("irLength");
         const irResultDisplay = document.getElementById("irResult");
-        const irBreakdown = document.getElementById("irBreakdown");
         const unitFactors = { k: 0.001, M: 1, G: 1000, T: 1000000 };
 
         function formatLocale(num) {
@@ -490,7 +459,6 @@
 
             if (isNaN(rawIR) || isNaN(rawLength) || rawLength <= 0 || rawIR <= 0) {
                 irResultDisplay.textContent = "-";
-                irBreakdown.innerHTML = "<span class='text-slate-400 italic'>Silakan masukkan data pengukuran yang valid...</span>";
                 return;
             }
 
@@ -499,20 +467,6 @@
             const resultM_OhmKm = irInMegaOhmAktual * lengthInKm;
 
             irResultDisplay.textContent = formatLocale(Number(resultM_OhmKm.toFixed(4)));
-
-            irBreakdown.innerHTML = `
-                <div class="mb-1.5 pl-2 border-l-2 border-green-500/40">
-                    <strong class="text-slate-700 dark:text-slate-300">1. Penyeragaman Satuan Basis:</strong><br>
-                    Mengubah ${rawIR} ${unit}Ω menjadi MΩ:<br>
-                    <span class="text-emerald-500 dark:text-emerald-400 font-mono block mt-0.5">R_aktual = ${formatLocale(irInMegaOhmAktual)} MΩ</span>
-                </div>
-                <div class="pl-2 border-l-2 border-green-500/40">
-                    <strong class="text-slate-700 dark:text-slate-300">2. Normalisasi per Kilometer:</strong><br>
-                    <span class="text-emerald-500 dark:text-emerald-400 font-mono block mt-0.5">R_std = R_aktual × L_km</span>
-                    <span class="text-emerald-500 dark:text-emerald-400 font-mono block mt-0.5">Hasil = ${formatLocale(irInMegaOhmAktual)} MΩ × ${lengthInKm} km</span>
-                    <span class="text-green-600 dark:text-green-400 font-mono font-bold block mt-0.5">= ${formatLocale(Number(resultM_OhmKm.toFixed(4)))} MΩ·km</span>
-                </div>
-            `;
         }
 
         function clearIR() {
