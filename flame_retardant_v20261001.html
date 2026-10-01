@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id" class="transition-all duration-300">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Kapasitas Rak Kabel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        select {
+            background-image: none !important;
+        }
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-tr from-slate-100 via-emerald-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-center items-center py-2 px-3 overflow-x-hidden transition-colors duration-300">
+
+    <!-- Ambient Background Blobs -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
+        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-emerald-400 blur-[100px] animate-pulse"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-teal-400 blur-[100px] animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-5 transition-all duration-300 flex flex-col w-full max-h-[calc(100dvh-1rem)] my-auto overflow-hidden">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-md shadow-emerald-200 dark:shadow-none">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Kapasitas Rak Kabel</h1>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">Pengujian Flame Retardant</p>
+                </div>
+            </div>
+            
+            <!-- Dark Mode Toggle Button -->
+            <button id="theme-toggle" type="button" class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">
+                <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Inputs and controls container -->
+        <div class="space-y-3 flex-1 flex flex-col justify-between my-2 overflow-y-auto scrollbar-none">
+            
+            <div class="space-y-3">
+                <!-- Tipe Rak Select -->
+                <div class="relative group">
+                    <label for="tipeRak" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Tipe / Lebar Rak</label>
+                    <div class="relative">
+                        <select id="tipeRak" onchange="handleInputChange()" class="appearance-none block w-full pl-3 pr-7 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-xs font-bold cursor-pointer">
+                            <option value="30">Rak Single Burner (30 cm)</option>
+                            <option value="70" selected>Rak Double Burner (70 cm)</option>
+                            <option value="custom">Custom (Ukuran Lain)</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400 dark:text-slate-500">
+                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Lebar (Hidden by default) -->
+                <div id="customInputDiv" class="hidden relative group">
+                    <label for="lebarCustom" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Lebar Rak Custom (cm)</label>
+                    <input type="text" inputmode="decimal" id="lebarCustom" placeholder="0" oninput="handleInputChange()" class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-xs font-semibold">
+                </div>
+
+                <!-- Diameter Kabel -->
+                <div class="relative group">
+                    <label for="diameterKabel" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Diameter Kabel (cm)</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-emerald-500 transition-colors">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                            </svg>
+                        </div>
+                        <input type="text" inputmode="decimal" id="diameterKabel" value="5.5" oninput="handleInputChange()" placeholder="5.5" class="pl-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-xs font-semibold">
+                    </div>
+                </div>
+
+                <!-- Toggle Spasi Switch -->
+                <label for="pakaiSpasi" class="flex items-center justify-between p-2.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+                        </svg>
+                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200 select-none">Gunakan Gap / Spasi Kabel</span>
+                    </div>
+                    <input type="checkbox" id="pakaiSpasi" onchange="handleInputChange()" class="w-4 h-4 text-emerald-600 rounded border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-emerald-500 cursor-pointer">
+                </label>
+
+                <!-- Spasi Input (Hidden by default) -->
+                <div id="spasiInputDiv" class="hidden relative group">
+                    <label for="jarakKabel" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Jarak / Gap Antar Kabel (cm)</label>
+                    <input type="text" inputmode="decimal" id="jarakKabel" value="1.0" oninput="handleInputChange()" placeholder="1.0" class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-xs font-semibold">
+                </div>
+            </div>
+
+            <!-- Dynamic Result Card -->
+            <div id="resultCard" class="transition-all duration-300 rounded-2xl p-4 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1">
+                <div class="absolute -right-10 -bottom-10 w-24 h-24 rounded-full bg-emerald-500/5 blur-xl pointer-events-none"></div>
+                
+                <div class="w-full flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Kapasitas Maksimal</span>
+                </div>
+                
+                <div class="my-auto py-1 w-full">
+                    <span id="jumlahKabel" class="w-full text-center bg-transparent font-extrabold text-4xl sm:text-5xl text-emerald-600 dark:text-emerald-300 transition-colors duration-300 block py-0">0</span>
+                    <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mt-1">Batang Kabel</span>
+                </div>
+                
+                <p id="keterangan" class="text-center text-[11px] text-slate-500 dark:text-slate-400 leading-snug transition-colors duration-300 mt-auto italic">Masukkan data yang valid</p>
+            </div>
+            
+            <!-- Controls Menu -->
+            <div class="grid grid-cols-3 gap-3 pt-2.5 border-t border-slate-100 dark:border-slate-800">
+                <button type="button" onclick="if(window.top!==window.self&&window.parent.closePreviewModal){window.parent.closePreviewModal();}else{history.back();}" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                    Kembali
+                </button>
+                
+                <button type="button" id="btnReset" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-transparent rounded-xl text-xs font-bold text-white bg-rose-500 hover:bg-rose-600 active:scale-95 transition-all shadow-md shadow-rose-100 dark:shadow-none">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                    Reset
+                </button>
+                
+                <a href="index.html" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                    Beranda
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-2 pt-2 border-t border-slate-100 dark:border-slate-800 font-medium">
+            Williyanto Adi 2026
+        </footer>
+
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        window.handleInputChange = function() {
+          const tipeRak = document.getElementById('tipeRak').value;
+          const customDiv = document.getElementById('customInputDiv');
+          const spasiDiv = document.getElementById('spasiInputDiv');
+          const pakaiSpasi = document.getElementById('pakaiSpasi').checked;
+
+          customDiv.classList.toggle('hidden', tipeRak !== 'custom');
+          spasiDiv.classList.toggle('hidden', !pakaiSpasi);
+
+          hitungKabel();
+        };
+
+        window.hitungKabel = function() {
+          const tipeRakValue = document.getElementById('tipeRak').value;
+          let rawDia = document.getElementById('diameterKabel').value.replace(/,/g, '.');
+          const diameterKabel = parseFloat(rawDia);
+          const pakaiSpasi = document.getElementById('pakaiSpasi').checked;
+
+          let rawJarak = document.getElementById('jarakKabel').value.replace(/,/g, '.');
+          const jarak = pakaiSpasi ? (parseFloat(rawJarak) || 0) : 0;
+
+          let lebarRak;
+          if (tipeRakValue === 'custom') {
+            let rawCustom = document.getElementById('lebarCustom').value.replace(/,/g, '.');
+            lebarRak = parseFloat(rawCustom);
+          } else {
+            lebarRak = parseFloat(tipeRakValue);
+          }
+
+          if (lebarRak > 0 && diameterKabel > 0) {
+            let jumlah;
+            if (pakaiSpasi && jarak > 0) {
+              jumlah = Math.floor((lebarRak + jarak) / (diameterKabel + jarak));
+            } else {
+              jumlah = Math.floor(lebarRak / diameterKabel);
+            }
+
+            document.getElementById('jumlahKabel').innerText = (isNaN(jumlah) || jumlah < 0) ? "0" : jumlah;
+            document.getElementById('keterangan').innerText = `Rak ${lebarRak}cm, Kabel Ø${diameterKabel}cm ${pakaiSpasi ? '(Gap ' + jarak + 'cm)' : '(Rapat)'}`;
+          } else {
+            document.getElementById('jumlahKabel').innerText = "0";
+            document.getElementById('keterangan').innerText = "Masukkan data yang valid";
+          }
+        };
+
+        handleInputChange();
+
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        function updateThemeIcons() {
+            if (document.documentElement.classList.contains('dark')) {
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleDarkIcon.classList.add('hidden');
+            } else {
+                themeToggleLightIcon.classList.add('hidden');
+                themeToggleDarkIcon.classList.remove('hidden');
+            }
+        }
+        updateThemeIcons();
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+                updateThemeIcons();
+            });
+        }
+
+        const btnReset = document.getElementById('btnReset');
+        if(btnReset) {
+          btnReset.addEventListener('click', () => {
+            document.getElementById('tipeRak').value = '70';
+            document.getElementById('lebarCustom').value = '';
+            document.getElementById('diameterKabel').value = '5.5';
+            document.getElementById('pakaiSpasi').checked = false;
+            document.getElementById('jarakKabel').value = '1.0';
+            handleInputChange();
+          });
+        }
+    });
+    </script>
+</body>
+</html>

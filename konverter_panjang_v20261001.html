@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id" class="transition-all duration-300">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konverter Panjang</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        select {
+            background-image: none !important;
+        }
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-tr from-slate-100 via-teal-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-center items-center py-2 px-3 overflow-x-hidden transition-colors duration-300">
+
+    <!-- Ambient Background Blobs -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
+        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-teal-400 blur-[100px] animate-pulse"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-emerald-400 blur-[100px] animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-5 transition-all duration-300 flex flex-col w-full max-h-[calc(100dvh-1rem)] my-auto overflow-hidden">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white shadow-md shadow-teal-200 dark:shadow-none">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Konverter Panjang</h1>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">Unit Converter SI & Imperial</p>
+                </div>
+            </div>
+            
+            <!-- Dark Mode Toggle Button -->
+            <button id="theme-toggle" type="button" class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">
+                <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Inputs and controls container -->
+        <div class="space-y-3 flex-1 flex flex-col justify-between my-2 overflow-y-auto scrollbar-none">
+            
+            <div class="space-y-3">
+                <!-- Input Value -->
+                <div class="relative group">
+                    <label for="inputValueLength" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Nilai Panjang</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-teal-500 transition-colors">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
+                            </svg>
+                        </div>
+                        <input type="text" inputmode="decimal" id="inputValueLength" placeholder="Masukkan nilai..." autocomplete="off" class="pl-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all text-xs font-semibold">
+                    </div>
+                </div>
+
+                <!-- Unit Selectors Row with Switch Button -->
+                <div class="grid grid-cols-5 gap-2 items-end">
+                    <div class="col-span-2 relative group">
+                        <label for="selectSatuanMainLength" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Dari</label>
+                        <div class="relative">
+                            <select id="selectSatuanMainLength" class="appearance-none block w-full pl-2.5 pr-6 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all text-xs font-bold cursor-pointer">
+                                <option value="km">Kilometer (km)</option>
+                                <option value="hm">Hektometer (hm)</option>
+                                <option value="dam">Dekameter (dam)</option>
+                                <option value="m" selected>Meter (m)</option>
+                                <option value="dm">Desimeter (dm)</option>
+                                <option value="cm">Centimeter (cm)</option>
+                                <option value="mm">Milimeter (mm)</option>
+                                <option value="mile">Mile (mi)</option>
+                                <option value="yard">Yard (yd)</option>
+                                <option value="ft">Feet (ft)</option>
+                                <option value="in">Inchi (in)</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400 dark:text-slate-500">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-span-1 flex justify-center pb-0.5">
+                        <button type="button" id="btnSwitchLength" title="Tukar satuan" class="p-2 bg-slate-50 dark:bg-slate-800 hover:bg-teal-500 hover:text-white dark:hover:bg-teal-500 dark:hover:text-white active:scale-95 text-teal-600 dark:text-teal-400 rounded-xl border border-slate-200 dark:border-slate-700/80 transition-all shadow-xs">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="col-span-2 relative group">
+                        <label for="selectSatuanOutputLength" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Ke</label>
+                        <div class="relative">
+                            <select id="selectSatuanOutputLength" class="appearance-none block w-full pl-2.5 pr-6 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all text-xs font-bold cursor-pointer">
+                                <option value="km">Kilometer (km)</option>
+                                <option value="hm">Hektometer (hm)</option>
+                                <option value="dam">Dekameter (dam)</option>
+                                <option value="m">Meter (m)</option>
+                                <option value="dm">Desimeter (dm)</option>
+                                <option value="cm">Centimeter (cm)</option>
+                                <option value="mm">Milimeter (mm)</option>
+                                <option value="mile">Mile (mi)</option>
+                                <option value="yard">Yard (yd)</option>
+                                <option value="ft" selected>Feet (ft)</option>
+                                <option value="in">Inchi (in)</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400 dark:text-slate-500">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Result Card -->
+            <div id="resultCard" class="transition-all duration-300 rounded-2xl p-4 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1">
+                <div class="absolute -right-10 -bottom-10 w-24 h-24 rounded-full bg-teal-500/5 blur-xl pointer-events-none"></div>
+                
+                <div class="w-full flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Hasil Konversi</span>
+                </div>
+                
+                <div class="my-auto py-1 w-full">
+                    <input type="text" id="result-length" value="0" readonly class="w-full bg-transparent text-center text-2xl sm:text-3xl font-extrabold text-teal-600 dark:text-teal-300 tracking-tight focus:outline-none border-none cursor-default font-mono">
+                </div>
+                
+                <div id="infoTextLength" class="text-center text-[11px] text-slate-500 dark:text-slate-400 leading-snug transition-colors duration-300 mt-auto italic">
+                    Silahkan masukkan nilai panjang dan pilih satuan.
+                </div>
+            </div>
+            
+            <!-- Controls Menu -->
+            <div class="grid grid-cols-3 gap-3 pt-2.5 border-t border-slate-100 dark:border-slate-800">
+                <button type="button" onclick="if(window.top!==window.self&&window.parent.closePreviewModal){window.parent.closePreviewModal();}else{history.back();}" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                    Kembali
+                </button>
+                
+                <button type="button" id="tombolReset" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-transparent rounded-xl text-xs font-bold text-white bg-rose-500 hover:bg-rose-600 active:scale-95 transition-all shadow-md shadow-rose-100 dark:shadow-none">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                    Reset
+                </button>
+                
+                <a href="index.html" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                    Beranda
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-2 pt-2 border-t border-slate-100 dark:border-slate-800 font-medium">
+            Williyanto Adi 2026
+        </footer>
+
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputValueLength = document.getElementById('inputValueLength');
+        const selectSatuanMainLength = document.getElementById('selectSatuanMainLength');
+        const selectSatuanOutputLength = document.getElementById('selectSatuanOutputLength');
+        const btnSwitchLength = document.getElementById('btnSwitchLength');
+        const resultInputLength = document.getElementById('result-length');
+        const infoTextLength = document.getElementById('infoTextLength');
+
+        const satuanPanjang = [
+          { value: "km", text: "Kilometer (km)", factor: 1000 },
+          { value: "hm", text: "Hektometer (hm)", factor: 100 },
+          { value: "dam", text: "Dekameter (dam)", factor: 10 },
+          { value: "m", text: "Meter (m)", factor: 1 },
+          { value: "dm", text: "Desimeter (dm)", factor: 0.1 },
+          { value: "cm", text: "Centimeter (cm)", factor: 0.01 },
+          { value: "mm", text: "Milimeter (mm)", factor: 0.001 },
+          { value: "mile", text: "Mile (mi)", factor: 1609.344 },
+          { value: "yard", text: "Yard (yd)", factor: 0.9144 },
+          { value: "ft", text: "Feet (ft)", factor: 0.3048 },
+          { value: "in", text: "Inchi (in)", factor: 0.0254 }
+        ];
+
+        function satuanPanjangText(val) {
+          const found = satuanPanjang.find(s => s.value === val);
+          return found ? found.text : "";
+        }
+        function satuanPanjangFactor(val) {
+          const found = satuanPanjang.find(s => s.value === val);
+          return found ? found.factor : 1;
+        }
+        function satuanPanjangIdx(val) {
+          return satuanPanjang.findIndex(s => s.value === val);
+        }
+
+        function formatHasil(hasil) {
+          if (hasil === 0) return '0';
+          const absVal = Math.abs(hasil);
+          if (absVal >= 0.01) {
+            return hasil.toLocaleString('id-ID', { maximumFractionDigits: 4 });
+          } else if (absVal >= 0.000001) {
+            let str = hasil.toLocaleString('id-ID', { maximumFractionDigits: 8 });
+            str = str.replace(/(\,\d*?[1-9])0+$/,'$1').replace(/\,0+$/,'');
+            return str;
+          } else {
+            return hasil.toExponential(4).replace('.', ',');
+          }
+        }
+
+        function getInfoExtraLength(nilai, satuanFrom, satuanTo) {
+          if (!nilai || satuanFrom === satuanTo) return '';
+          const fromIdx = satuanPanjangIdx(satuanFrom);
+          const toIdx = satuanPanjangIdx(satuanTo);
+          if (fromIdx < 0 || toIdx < 0 || fromIdx === toIdx) return '';
+
+          let nilaiFrom = 1;
+          let nilaiTo = satuanPanjangFactor(satuanFrom) / satuanPanjangFactor(satuanTo);
+          let satuanFromText = satuanPanjangText(satuanFrom);
+          let satuanToText = satuanPanjangText(satuanTo);
+
+          if (Math.abs(nilaiTo) < 1) {
+            nilaiTo = 1;
+            nilaiFrom = satuanPanjangFactor(satuanTo) / satuanPanjangFactor(satuanFrom);
+            let temp = satuanFromText; satuanFromText = satuanToText; satuanToText = temp;
+          }
+
+          let nilaiToStr = formatHasil(nilaiTo);
+          let nilaiFromStr = formatHasil(nilaiFrom);
+
+          return `<span class="text-teal-600 dark:text-teal-300 font-bold">${nilaiFromStr} ${satuanFromText}</span> sama dengan <span class="text-teal-600 dark:text-teal-300 font-bold">${nilaiToStr} ${satuanToText}</span>.`;
+        }
+
+        function updateResultLength() {
+          let rawVal = inputValueLength.value.replace(/,/g, '.');
+          const val = parseFloat(rawVal);
+          const satuanAsal = selectSatuanMainLength.value;
+          const satuanTujuan = selectSatuanOutputLength.value;
+
+          if (isNaN(val) || val < 0) {
+            resultInputLength.value = "0";
+            infoTextLength.innerHTML = `Silahkan masukkan nilai panjang dan pilih satuan.`;
+            return;
+          }
+
+          const meter = val * satuanPanjangFactor(satuanAsal);
+          const hasil = meter / satuanPanjangFactor(satuanTujuan);
+          
+          resultInputLength.value = `${formatHasil(hasil)} ${satuanPanjangText(satuanTujuan)}`;
+          let infoExtraStr = getInfoExtraLength(1, satuanAsal, satuanTujuan);
+          infoTextLength.innerHTML = (infoExtraStr ? infoExtraStr : `Konversi dari ${satuanPanjangText(satuanAsal)} ke ${satuanPanjangText(satuanTujuan)}.`);
+        }
+
+        inputValueLength.addEventListener('input', updateResultLength);
+        selectSatuanMainLength.addEventListener('change', updateResultLength);
+        selectSatuanOutputLength.addEventListener('change', updateResultLength);
+        btnSwitchLength.addEventListener('click', function() {
+          const idxMain = selectSatuanMainLength.selectedIndex;
+          const idxOut = selectSatuanOutputLength.selectedIndex;
+          selectSatuanMainLength.selectedIndex = idxOut;
+          selectSatuanOutputLength.selectedIndex = idxMain;
+          updateResultLength();
+        });
+
+        updateResultLength();
+
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        function updateThemeIcons() {
+            if (document.documentElement.classList.contains('dark')) {
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleDarkIcon.classList.add('hidden');
+            } else {
+                themeToggleLightIcon.classList.add('hidden');
+                themeToggleDarkIcon.classList.remove('hidden');
+            }
+        }
+        updateThemeIcons();
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+                updateThemeIcons();
+            });
+        }
+
+        // Reset logic
+        const tombolReset = document.getElementById('tombolReset');
+        if(tombolReset) {
+          tombolReset.addEventListener('click', function() {
+            inputValueLength.value = '';
+            selectSatuanMainLength.value = 'm';
+            selectSatuanOutputLength.value = 'ft';
+            updateResultLength();
+          });
+        }
+    });
+    </script>
+</body>
+</html>
