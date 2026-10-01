@@ -169,7 +169,16 @@
                         <option value="normal" selected>Normal (±0.02)</option>
                         <option value="high">Lebar (±0.08)</option>
                         <option value="wide">Sangat Lebar (±0.25)</option>
+                        <option value="combine">Combine (±0.005 - ±0.25)</option>
+                        <option value="custom">Custom (Nilai Sendiri)</option>
                     </select>
+                    <div id="customVarianceContainer" class="hidden mt-1.5">
+                        <div class="flex rounded-xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-700/80 focus-within:ring-2 focus-within:ring-green-500/20 focus-within:border-green-500 bg-slate-50 dark:bg-slate-900">
+                            <span class="px-2.5 py-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 flex items-center border-r border-slate-200 dark:border-slate-700/80">±</span>
+                            <input type="text" id="inputCustomVariance" placeholder="Nilai fluktuasi (misal: 0.05)" oninput="validateNumberInput(this); onCustomVarianceChange();"
+                                class="w-full px-2.5 py-1.5 bg-transparent text-xs font-bold text-slate-800 dark:text-slate-100 focus:outline-none text-center" />
+                        </div>
+                    </div>
                 </div>
                 <button type="submit"
                     class="w-full py-2.5 rounded-xl text-xs font-bold bg-green-500 hover:bg-green-600 text-white shadow-lg shadow-green-200 dark:shadow-none transition-all mt-2">
@@ -381,9 +390,29 @@
         function updateVarianceLabel(triggerGenerate = true) {
             const sel = document.getElementById('inputVariance');
             const badge = document.getElementById('varianceBadge');
-            const textMap = { 'low': 'Tipis', 'normal': 'Normal', 'high': 'Lebar', 'wide': 'Sangat Lebar' };
-            badge.textContent = textMap[sel.value] || 'Normal';
+            const customContainer = document.getElementById('customVarianceContainer');
+            const textMap = { 'low': 'Tipis', 'normal': 'Normal', 'high': 'Lebar', 'wide': 'Sangat Lebar', 'combine': 'Combine', 'custom': 'Custom' };
+            
+            if (sel.value === 'custom') {
+                customContainer.classList.remove('hidden');
+                const customVal = document.getElementById('inputCustomVariance').value.trim();
+                badge.textContent = customVal ? `±${customVal}` : 'Custom';
+                if (triggerGenerate) {
+                    document.getElementById('inputCustomVariance').focus();
+                }
+            } else {
+                customContainer.classList.add('hidden');
+                badge.textContent = textMap[sel.value] || 'Normal';
+            }
+
             if (triggerGenerate && document.getElementById('inputAverage').value.trim() !== '') {
+                generateNumbers();
+            }
+        }
+        function onCustomVarianceChange() {
+            const customVal = document.getElementById('inputCustomVariance').value.trim();
+            document.getElementById('varianceBadge').textContent = customVal ? `±${customVal}` : 'Custom';
+            if (document.getElementById('inputAverage').value.trim() !== '') {
                 generateNumbers();
             }
         }
@@ -392,6 +421,8 @@
             document.getElementById('inputCount').value = '';
             document.getElementById('inputDecimals').value = '';
             document.getElementById('inputVariance').value = 'normal';
+            document.getElementById('inputCustomVariance').value = '';
+            document.getElementById('customVarianceContainer').classList.add('hidden');
             updateVarianceLabel(false);
             generatedResults = [];
             document.getElementById('resultsContainer').innerHTML = '<div class="col-span-3 text-center py-8 text-xs text-slate-400 italic">Silakan masukkan nilai dan tekan Hitung</div>';
@@ -437,18 +468,46 @@
                 intArr[indices[i]] += 1;
             }
             let maxStep = Math.round(factor * 0.015);
-            if (varianceType === 'low') maxStep = Math.max(1, Math.round(factor * 0.004));
-            if (varianceType === 'normal') maxStep = Math.max(3, Math.round(factor * 0.025));
-            if (varianceType === 'high') maxStep = Math.max(10, Math.round(factor * 0.08));
-            if (varianceType === 'wide') maxStep = Math.max(25, Math.round(factor * 0.25));
-            const iterations = count * 35;
+            let stepPool = null;
+            let allowedLimit = 0;
+            if (varianceType === 'low') {
+                maxStep = Math.max(1, Math.round(factor * 0.004));
+                allowedLimit = maxStep * 1.8;
+            } else if (varianceType === 'normal') {
+                maxStep = Math.max(3, Math.round(factor * 0.025));
+                allowedLimit = maxStep * 1.8;
+            } else if (varianceType === 'high') {
+                maxStep = Math.max(10, Math.round(factor * 0.08));
+                allowedLimit = maxStep * 1.8;
+            } else if (varianceType === 'wide') {
+                maxStep = Math.max(25, Math.round(factor * 0.25));
+                allowedLimit = maxStep * 1.8;
+            } else if (varianceType === 'combine') {
+                const sLow = Math.max(1, Math.round(factor * 0.004));
+                const sNorm = Math.max(3, Math.round(factor * 0.025));
+                const sHigh = Math.max(10, Math.round(factor * 0.08));
+                const sWide = Math.max(25, Math.round(factor * 0.25));
+                stepPool = [sLow, sNorm, sHigh, sWide];
+                maxStep = sWide;
+                allowedLimit = maxStep * 1.8;
+            } else if (varianceType === 'custom') {
+                const customStr = document.getElementById('inputCustomVariance').value.trim().replace(/,/g, '.');
+                let customVal = parseFloat(customStr);
+                if (isNaN(customVal) || customVal <= 0) {
+                    customVal = 0.05;
+                }
+                maxStep = Math.max(1, Math.round(factor * customVal));
+                allowedLimit = maxStep;
+            }
+            const iterations = count * (varianceType === 'combine' ? 45 : 35);
             for (let k = 0; k < iterations; k++) {
                 let idxA = Math.floor(Math.random() * count);
                 let idxB = Math.floor(Math.random() * count);
                 if (idxA === idxB) continue;
-                let delta = Math.floor(Math.random() * maxStep) + 1;
+                let currentStep = stepPool ? stepPool[Math.floor(Math.random() * stepPool.length)] : maxStep;
+                let delta = Math.floor(Math.random() * currentStep) + 1;
                 let targetInt = Math.round(parsedAvg * factor);
-                if (intArr[idxA] + delta - targetInt <= maxStep * 1.8 && targetInt - (intArr[idxB] - delta) <= maxStep * 1.8) {
+                if (intArr[idxA] + delta - targetInt <= allowedLimit && targetInt - (intArr[idxB] - delta) <= allowedLimit) {
                     intArr[idxA] += delta;
                     intArr[idxB] -= delta;
                 }
