@@ -162,7 +162,10 @@
                     </div>
                 </div>
                 
-                <p class="text-center text-[11px] font-mono text-slate-400 dark:text-slate-500 leading-snug transition-colors duration-300 mt-auto">Formula: <span id="formulaText" class="text-emerald-600 dark:text-emerald-400 font-bold">---</span></p>
+                <!-- Formula Section with Top Divider -->
+                <div class="w-full pt-2.5 mt-2 border-t border-slate-200/80 dark:border-slate-700/60 text-center">
+                    <p class="text-[11px] font-mono text-slate-500 dark:text-slate-400 leading-snug">Formula: <span id="formulaText" class="text-emerald-600 dark:text-emerald-400 font-bold font-mono">25 (d + D) ± 5%</span></p>
+                </div>
             </div>
             
             <!-- Controls Menu -->
@@ -205,21 +208,8 @@
         const formulaText = document.getElementById("formulaText");
 
         window.hitungRadius = function() {
-          let rawD = diameterKonduktor.value.replace(/,/g, '.');
-          let rawDkabel = diameterKabel.value.replace(/,/g, '.');
-
-          const d = parseFloat(rawD) || 0;
-          const D = parseFloat(rawDkabel) || 0;
           const tipe = tipeKabel.value;
           const inti = jumlahInti.value;
-
-          if (!d || !D) {
-            minRadius.value = "---";
-            maxRadius.value = "---";
-            nomRadius.value = "---";
-            formulaText.innerHTML = "---";
-            return;
-          }
 
           let faktor = 0;
           let formula = "";
@@ -238,6 +228,21 @@
             formula = "15 (d + D) ± 5%";
           }
 
+          formulaText.textContent = formula;
+
+          let rawD = diameterKonduktor.value.replace(/,/g, '.');
+          let rawDkabel = diameterKabel.value.replace(/,/g, '.');
+
+          const d = parseFloat(rawD) || 0;
+          const D = parseFloat(rawDkabel) || 0;
+
+          if (!d || !D) {
+            minRadius.value = "---";
+            maxRadius.value = "---";
+            nomRadius.value = "---";
+            return;
+          }
+
           const base = d + D;
           const min = (base - 0.05 * base) * faktor;
           const max = (base + 0.05 * base) * faktor;
@@ -246,13 +251,15 @@
           minRadius.value = min.toFixed(0) + " mm";
           maxRadius.value = max.toFixed(0) + " mm";
           nomRadius.value = nom.toFixed(0) + " mm";
-          formulaText.innerHTML = formula;
         };
 
         tipeKabel.addEventListener("change", hitungRadius);
         jumlahInti.addEventListener("change", hitungRadius);
         diameterKonduktor.addEventListener("input", hitungRadius);
         diameterKabel.addEventListener("input", hitungRadius);
+
+        // Initial trigger
+        hitungRadius();
 
         // Theme Toggle Logic
         const themeToggleBtn = document.getElementById('theme-toggle');
