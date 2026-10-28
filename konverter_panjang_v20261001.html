@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html lang="id" class="transition-all duration-300">
+<html lang="id" class="transition-all duration-300 w-full max-w-[100vw] overflow-x-hidden">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konverter Panjang</title>
+    <title>Kalkulator Konversi Panjang Lengkap</title>
     <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -16,6 +21,7 @@
                 extend: {
                     fontFamily: {
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
                     }
                 }
             }
@@ -28,12 +34,19 @@
         select {
             background-image: none !important;
         }
-        .scrollbar-none::-webkit-scrollbar {
-            display: none;
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
         }
-        .scrollbar-none {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.3);
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(20, 184, 166, 0.5);
         }
     </style>
     <script>
@@ -44,34 +57,38 @@
         }
     </script>
 </head>
-<body class="bg-gradient-to-tr from-slate-100 via-teal-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-center items-center py-2 px-3 overflow-x-hidden transition-colors duration-300">
+
+<body class="bg-gradient-to-tr from-slate-100 via-teal-50/40 to-slate-100 dark:from-slate-950 dark:via-slate-900/70 dark:to-slate-950 min-h-[100dvh] w-full max-w-[100vw] flex flex-col justify-center items-center py-4 sm:py-6 px-3 sm:px-4 overflow-x-hidden transition-colors duration-300">
 
     <!-- Ambient Background Blobs -->
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
-        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-teal-400 blur-[100px] animate-pulse"></div>
-        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-emerald-400 blur-[100px] animate-pulse" style="animation-delay: 2s;"></div>
+        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-teal-400 blur-[110px] animate-pulse"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-emerald-400 blur-[110px] animate-pulse" style="animation-delay: 2s;"></div>
     </div>
 
     <!-- Main Container -->
-    <div class="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-5 transition-all duration-300 flex flex-col w-full max-h-[calc(100dvh-1rem)] my-auto overflow-hidden">
+    <div class="w-full max-w-5xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/60 dark:border-slate-800/80 shadow-xl p-4 sm:p-6 transition-all duration-300 flex flex-col overflow-hidden">
         
         <!-- Header -->
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white shadow-md shadow-teal-200 dark:shadow-none">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white shadow-lg shadow-teal-500/20 dark:shadow-none">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Konverter Panjang</h1>
-                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">Unit Converter SI & Imperial</p>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-base sm:text-lg font-extrabold text-slate-800 dark:text-slate-100 tracking-tight">Konverter Panjang Lengkap</h1>
+                        <span class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-bold bg-teal-100 dark:bg-teal-900/50 text-teal-700 dark:text-teal-300 rounded-full">20 Satuan</span>
+                    </div>
+                    <p class="text-[10px] sm:text-xs text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">Metrik • Imperial • Mikro • Maritim • Astronomi</p>
                 </div>
             </div>
             
             <!-- Dark Mode Toggle Button -->
-            <button id="theme-toggle" type="button" class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">
-                <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <button id="theme-toggle" type="button" title="Ubah Tema" class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 transition-all">
+                <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-600 dark:text-slate-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
                 <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -80,118 +97,196 @@
             </button>
         </div>
 
-        <!-- Inputs and controls container -->
-        <div class="space-y-3 flex-1 flex flex-col justify-between my-2 overflow-y-auto scrollbar-none">
+        <!-- Main Workspace Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mt-5">
             
-            <div class="space-y-3">
-                <!-- Input Value -->
-                <div class="relative group">
-                    <label for="inputValueLength" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Nilai Panjang</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-teal-500 transition-colors">
-                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
-                            </svg>
+            <!-- Left Column: Primary Converter (5 cols on lg) -->
+            <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+                
+                <div class="space-y-4">
+                    <!-- Input Value -->
+                    <div class="relative group">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label for="inputValueLength" class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Nilai Panjang</label>
+                            <div class="flex items-center gap-1">
+                                <button type="button" data-quick="1" class="quick-val-btn px-2 py-0.5 text-[10px] font-bold rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-teal-500 hover:text-white transition-colors">1</button>
+                                <button type="button" data-quick="10" class="quick-val-btn px-2 py-0.5 text-[10px] font-bold rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-teal-500 hover:text-white transition-colors">10</button>
+                                <button type="button" data-quick="100" class="quick-val-btn px-2 py-0.5 text-[10px] font-bold rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-teal-500 hover:text-white transition-colors">100</button>
+                                <button type="button" data-quick="1000" class="quick-val-btn px-2 py-0.5 text-[10px] font-bold rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-teal-500 hover:text-white transition-colors">1000</button>
+                            </div>
                         </div>
-                        <input type="text" inputmode="decimal" id="inputValueLength" placeholder="Masukkan nilai..." autocomplete="off" class="pl-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all text-xs font-semibold">
-                    </div>
-                </div>
-
-                <!-- Unit Selectors Row with Switch Button -->
-                <div class="grid grid-cols-5 gap-2 items-end">
-                    <div class="col-span-2 relative group">
-                        <label for="selectSatuanMainLength" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Dari</label>
                         <div class="relative">
-                            <select id="selectSatuanMainLength" class="appearance-none block w-full pl-2.5 pr-6 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all text-xs font-bold cursor-pointer">
-                                <option value="km">Kilometer (km)</option>
-                                <option value="hm">Hektometer (hm)</option>
-                                <option value="dam">Dekameter (dam)</option>
-                                <option value="m" selected>Meter (m)</option>
-                                <option value="dm">Desimeter (dm)</option>
-                                <option value="cm">Centimeter (cm)</option>
-                                <option value="mm">Milimeter (mm)</option>
-                                <option value="mile">Mile (mi)</option>
-                                <option value="yard">Yard (yd)</option>
-                                <option value="ft">Feet (ft)</option>
-                                <option value="in">Inchi (in)</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400 dark:text-slate-500">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-teal-500 transition-colors">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
+                                </svg>
+                            </div>
+                            <input type="text" inputmode="decimal" id="inputValueLength" value="1" placeholder="Masukkan angka..." autocomplete="off" class="pl-10 pr-9 block w-full py-2.5 bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all text-sm font-bold font-mono">
+                            <button type="button" id="clearInputBtn" title="Bersihkan" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-rose-500 transition-colors">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Unit Selectors Row with Switch Button -->
+                    <div class="grid grid-cols-11 gap-2 items-end">
+                        <div class="col-span-5 relative group">
+                            <label for="selectSatuanMainLength" class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Dari Satuan</label>
+                            <div class="relative">
+                                <select id="selectSatuanMainLength" class="appearance-none block w-full pl-3 pr-7 py-2.5 bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all text-xs font-bold cursor-pointer truncate">
+                                    <!-- Populated by JS -->
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400 dark:text-slate-500">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-span-1 flex justify-center pb-0.5">
+                            <button type="button" id="btnSwitchLength" title="Tukar satuan" class="p-2.5 bg-slate-50 dark:bg-slate-800 hover:bg-teal-500 hover:text-white dark:hover:bg-teal-500 dark:hover:text-white active:scale-90 text-teal-600 dark:text-teal-400 rounded-xl border border-slate-200 dark:border-slate-700/80 transition-all shadow-sm">
+                                <svg class="w-4 h-4 transition-transform duration-300" id="switchIcon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="col-span-5 relative group">
+                            <label for="selectSatuanOutputLength" class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Ke Satuan</label>
+                            <div class="relative">
+                                <select id="selectSatuanOutputLength" class="appearance-none block w-full pl-3 pr-7 py-2.5 bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all text-xs font-bold cursor-pointer truncate">
+                                    <!-- Populated by JS -->
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400 dark:text-slate-500">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-span-1 flex justify-center pb-0.5">
-                        <button type="button" id="btnSwitchLength" title="Tukar satuan" class="p-2 bg-slate-50 dark:bg-slate-800 hover:bg-teal-500 hover:text-white dark:hover:bg-teal-500 dark:hover:text-white active:scale-95 text-teal-600 dark:text-teal-400 rounded-xl border border-slate-200 dark:border-slate-700/80 transition-all shadow-xs">
-                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                    <!-- Popular Presets -->
+                    <div>
+                        <span class="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">Pintasan Populer</span>
+                        <div class="flex flex-wrap gap-1.5">
+                            <button type="button" data-from="m" data-to="ft" class="preset-btn px-2.5 py-1 rounded-lg text-[11px] font-bold bg-slate-100/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-teal-50 dark:hover:bg-teal-900/30 hover:text-teal-600 dark:hover:text-teal-400 border border-slate-200/60 dark:border-slate-700/60 transition-all">m ⇄ ft</button>
+                            <button type="button" data-from="cm" data-to="in" class="preset-btn px-2.5 py-1 rounded-lg text-[11px] font-bold bg-slate-100/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-teal-50 dark:hover:bg-teal-900/30 hover:text-teal-600 dark:hover:text-teal-400 border border-slate-200/60 dark:border-slate-700/60 transition-all">cm ⇄ in</button>
+                            <button type="button" data-from="km" data-to="mile" class="preset-btn px-2.5 py-1 rounded-lg text-[11px] font-bold bg-slate-100/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-teal-50 dark:hover:bg-teal-900/30 hover:text-teal-600 dark:hover:text-teal-400 border border-slate-200/60 dark:border-slate-700/60 transition-all">km ⇄ mi</button>
+                            <button type="button" data-from="mm" data-to="mil" class="preset-btn px-2.5 py-1 rounded-lg text-[11px] font-bold bg-slate-100/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-teal-50 dark:hover:bg-teal-900/30 hover:text-teal-600 dark:hover:text-teal-400 border border-slate-200/60 dark:border-slate-700/60 transition-all">mm ⇄ mil</button>
+                            <button type="button" data-from="m" data-to="yard" class="preset-btn px-2.5 py-1 rounded-lg text-[11px] font-bold bg-slate-100/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-teal-50 dark:hover:bg-teal-900/30 hover:text-teal-600 dark:hover:text-teal-400 border border-slate-200/60 dark:border-slate-700/60 transition-all">m ⇄ yd</button>
+                            <button type="button" data-from="km" data-to="nmi" class="preset-btn px-2.5 py-1 rounded-lg text-[11px] font-bold bg-slate-100/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-teal-50 dark:hover:bg-teal-900/30 hover:text-teal-600 dark:hover:text-teal-400 border border-slate-200/60 dark:border-slate-700/60 transition-all">km ⇄ nmi</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Main Result Card -->
+                <div id="resultCard" class="transition-all duration-300 rounded-2xl p-4 sm:p-5 bg-gradient-to-br from-teal-500/10 via-emerald-500/5 to-transparent dark:from-teal-500/15 dark:via-slate-800/60 dark:to-slate-900/60 border border-teal-500/30 dark:border-teal-500/30 relative overflow-hidden flex flex-col justify-between min-h-[160px]">
+                    <div class="absolute -right-8 -bottom-8 w-28 h-28 rounded-full bg-teal-500/10 blur-2xl pointer-events-none"></div>
+                    
+                    <div class="w-full flex items-center justify-between">
+                        <span class="text-[10px] font-extrabold text-teal-700 dark:text-teal-400 uppercase tracking-widest flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-teal-500 animate-ping"></span>
+                            Hasil Konversi Utama
+                        </span>
+                        <button type="button" id="btnCopyMain" class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/80 dark:bg-slate-800/80 hover:bg-teal-500 hover:text-white dark:hover:bg-teal-500 text-slate-600 dark:text-slate-300 border border-slate-200/70 dark:border-slate-700 text-[11px] font-bold transition-all shadow-sm active:scale-95">
+                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                             </svg>
+                            <span id="copyMainText">Salin</span>
                         </button>
                     </div>
-
-                    <div class="col-span-2 relative group">
-                        <label for="selectSatuanOutputLength" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Ke</label>
-                        <div class="relative">
-                            <select id="selectSatuanOutputLength" class="appearance-none block w-full pl-2.5 pr-6 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all text-xs font-bold cursor-pointer">
-                                <option value="km">Kilometer (km)</option>
-                                <option value="hm">Hektometer (hm)</option>
-                                <option value="dam">Dekameter (dam)</option>
-                                <option value="m">Meter (m)</option>
-                                <option value="dm">Desimeter (dm)</option>
-                                <option value="cm">Centimeter (cm)</option>
-                                <option value="mm">Milimeter (mm)</option>
-                                <option value="mile">Mile (mi)</option>
-                                <option value="yard">Yard (yd)</option>
-                                <option value="ft" selected>Feet (ft)</option>
-                                <option value="in">Inchi (in)</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400 dark:text-slate-500">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                            </div>
+                    
+                    <div class="my-3 w-full text-center">
+                        <div id="result-length" class="text-2xl sm:text-3xl font-extrabold text-teal-600 dark:text-teal-300 tracking-tight font-mono break-all select-all">
+                            0
+                        </div>
+                        <div id="result-unit-label" class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-0.5">
+                            Feet (ft)
+                        </div>
+                    </div>
+                    
+                    <div class="pt-2.5 border-t border-teal-500/15 dark:border-slate-700/60 flex flex-col gap-1 text-center">
+                        <div id="infoTextLength" class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug">
+                            Silahkan masukkan nilai panjang dan pilih satuan.
+                        </div>
+                        <div id="formulaTextLength" class="text-[10px] font-mono text-slate-400 dark:text-slate-500">
+                            Rumus: 1 m = 3,28084 ft
                         </div>
                     </div>
                 </div>
+
             </div>
 
-            <!-- Dynamic Result Card -->
-            <div id="resultCard" class="transition-all duration-300 rounded-2xl p-4 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1">
-                <div class="absolute -right-10 -bottom-10 w-24 h-24 rounded-full bg-teal-500/5 blur-xl pointer-events-none"></div>
+            <!-- Right Column: Complete Multi-Unit Dashboard (7 cols on lg) -->
+            <div class="lg:col-span-7 flex flex-col bg-slate-50/70 dark:bg-slate-800/40 rounded-2xl border border-slate-200/70 dark:border-slate-800 p-3.5 sm:p-4">
                 
-                <div class="w-full flex items-center justify-between mb-1">
-                    <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Hasil Konversi</span>
+                <!-- Dashboard Header & Filter Tabs -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-slate-200/70 dark:border-slate-700/60">
+                    <div>
+                        <h2 class="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                            </svg>
+                            Konversi ke Semua Satuan Sekaligus
+                        </h2>
+                        <p class="text-[10px] text-slate-400 dark:text-slate-500">Klik kartu satuan untuk menyalin nilainya atau menjadikannya satuan tujuan</p>
+                    </div>
+
+                    <!-- Search Filter -->
+                    <div class="relative w-full sm:w-44">
+                        <input type="text" id="searchUnitInput" placeholder="Cari satuan..." class="w-full pl-7 pr-2.5 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-teal-500">
+                        <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
                 </div>
-                
-                <div class="my-auto py-1 w-full">
-                    <input type="text" id="result-length" value="0" readonly class="w-full bg-transparent text-center text-2xl sm:text-3xl font-extrabold text-teal-600 dark:text-teal-300 tracking-tight focus:outline-none border-none cursor-default font-mono">
+
+                <!-- Category Filter Pills -->
+                <div class="flex items-center gap-1.5 overflow-x-auto py-2.5 custom-scrollbar">
+                    <button type="button" data-cat="all" class="cat-tab-btn active shrink-0 px-3 py-1 rounded-xl text-[11px] font-bold bg-teal-500 text-white shadow-sm transition-all">Semua (20)</button>
+                    <button type="button" data-cat="Metrik (SI)" class="cat-tab-btn shrink-0 px-3 py-1 rounded-xl text-[11px] font-bold bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-teal-500 transition-all">Metrik / SI (7)</button>
+                    <button type="button" data-cat="Imperial & US" class="cat-tab-btn shrink-0 px-3 py-1 rounded-xl text-[11px] font-bold bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-teal-500 transition-all">Imperial & US (6)</button>
+                    <button type="button" data-cat="Mikro & Presisi" class="cat-tab-btn shrink-0 px-3 py-1 rounded-xl text-[11px] font-bold bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-teal-500 transition-all">Mikro & Presisi (4)</button>
+                    <button type="button" data-cat="Maritim & Astronomi" class="cat-tab-btn shrink-0 px-3 py-1 rounded-xl text-[11px] font-bold bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-teal-500 transition-all">Maritim & Astro (3)</button>
                 </div>
-                
-                <div id="infoTextLength" class="text-center text-[11px] text-slate-500 dark:text-slate-400 leading-snug transition-colors duration-300 mt-auto italic">
-                    Silahkan masukkan nilai panjang dan pilih satuan.
+
+                <!-- All Units Grid -->
+                <div id="allUnitsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2 overflow-y-auto max-h-[320px] sm:max-h-[340px] pr-1 custom-scrollbar">
+                    <!-- Populated dynamically by JS -->
                 </div>
-            </div>
-            
-            <!-- Controls Menu -->
-            <div class="grid grid-cols-3 gap-3 pt-2.5 border-t border-slate-100 dark:border-slate-800">
-                <button type="button" onclick="if(window.top!==window.self&&window.parent.closePreviewModal){window.parent.closePreviewModal();}else{history.back();}" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-                    Kembali
-                </button>
-                
-                <button type="button" id="tombolReset" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-transparent rounded-xl text-xs font-bold text-white bg-rose-500 hover:bg-rose-600 active:scale-95 transition-all shadow-md shadow-rose-100 dark:shadow-none">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-                    Reset
-                </button>
-                
-                <a href="index.html" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-                    Beranda
-                </a>
+
             </div>
 
         </div>
 
+        <!-- Bottom Navigation & Actions -->
+        <div class="grid grid-cols-3 gap-3 pt-4 mt-5 border-t border-slate-100 dark:border-slate-800">
+            <button type="button" onclick="if(window.top!==window.self&&window.parent.closePreviewModal){window.parent.closePreviewModal();}else{history.back();}" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800 active:scale-95 transition-all shadow-sm">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                Kembali
+            </button>
+            
+            <button type="button" id="tombolReset" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-transparent rounded-xl text-xs font-bold text-white bg-rose-500 hover:bg-rose-600 active:scale-95 transition-all shadow-md shadow-rose-500/20 dark:shadow-none">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                Reset
+            </button>
+            
+            <a href="index.html" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800 active:scale-95 transition-all shadow-sm">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                Beranda
+            </a>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="copyToast" class="fixed bottom-5 right-5 translate-y-20 opacity-0 bg-slate-900 dark:bg-teal-600 text-white px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2.5 transition-all duration-300 z-50 pointer-events-none text-xs font-bold">
+            <svg class="w-4 h-4 text-teal-400 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span id="copyToastText">Nilai berhasil disalin!</span>
+        </div>
+
         <!-- Footer -->
-        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-2 pt-2 border-t border-slate-100 dark:border-slate-800 font-medium">
+        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 font-medium">
             Williyanto Adi 2026
         </footer>
 
@@ -201,107 +296,294 @@
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         const inputValueLength = document.getElementById('inputValueLength');
+        const clearInputBtn = document.getElementById('clearInputBtn');
         const selectSatuanMainLength = document.getElementById('selectSatuanMainLength');
         const selectSatuanOutputLength = document.getElementById('selectSatuanOutputLength');
         const btnSwitchLength = document.getElementById('btnSwitchLength');
-        const resultInputLength = document.getElementById('result-length');
+        const switchIcon = document.getElementById('switchIcon');
+        const resultDisplay = document.getElementById('result-length');
+        const resultUnitLabel = document.getElementById('result-unit-label');
         const infoTextLength = document.getElementById('infoTextLength');
+        const formulaTextLength = document.getElementById('formulaTextLength');
+        const allUnitsGrid = document.getElementById('allUnitsGrid');
+        const searchUnitInput = document.getElementById('searchUnitInput');
+        const btnCopyMain = document.getElementById('btnCopyMain');
+        const copyMainText = document.getElementById('copyMainText');
+        const copyToast = document.getElementById('copyToast');
+        const copyToastText = document.getElementById('copyToastText');
 
+        // Daftar Lengkap 20 Satuan Panjang (Faktor konversi ke Meter)
         const satuanPanjang = [
-          { value: "km", text: "Kilometer (km)", factor: 1000 },
-          { value: "hm", text: "Hektometer (hm)", factor: 100 },
-          { value: "dam", text: "Dekameter (dam)", factor: 10 },
-          { value: "m", text: "Meter (m)", factor: 1 },
-          { value: "dm", text: "Desimeter (dm)", factor: 0.1 },
-          { value: "cm", text: "Centimeter (cm)", factor: 0.01 },
-          { value: "mm", text: "Milimeter (mm)", factor: 0.001 },
-          { value: "mile", text: "Mile (mi)", factor: 1609.344 },
-          { value: "yard", text: "Yard (yd)", factor: 0.9144 },
-          { value: "ft", text: "Feet (ft)", factor: 0.3048 },
-          { value: "in", text: "Inchi (in)", factor: 0.0254 }
+            // Metrik (SI)
+            { value: "km", name: "Kilometer", symbol: "km", text: "Kilometer (km)", factor: 1000, category: "Metrik (SI)" },
+            { value: "hm", name: "Hektometer", symbol: "hm", text: "Hektometer (hm)", factor: 100, category: "Metrik (SI)" },
+            { value: "dam", name: "Dekameter", symbol: "dam", text: "Dekameter (dam)", factor: 10, category: "Metrik (SI)" },
+            { value: "m", name: "Meter", symbol: "m", text: "Meter (m)", factor: 1, category: "Metrik (SI)" },
+            { value: "dm", name: "Desimeter", symbol: "dm", text: "Desimeter (dm)", factor: 0.1, category: "Metrik (SI)" },
+            { value: "cm", name: "Centimeter", symbol: "cm", text: "Centimeter (cm)", factor: 0.01, category: "Metrik (SI)" },
+            { value: "mm", name: "Milimeter", symbol: "mm", text: "Milimeter (mm)", factor: 0.001, category: "Metrik (SI)" },
+            
+            // Mikro & Presisi
+            { value: "um", name: "Mikrometer / Mikron", symbol: "µm", text: "Mikrometer (µm)", factor: 1e-6, category: "Mikro & Presisi" },
+            { value: "nm", name: "Nanometer", symbol: "nm", text: "Nanometer (nm)", factor: 1e-9, category: "Mikro & Presisi" },
+            { value: "pm", name: "Pikometer", symbol: "pm", text: "Pikometer (pm)", factor: 1e-12, category: "Mikro & Presisi" },
+            { value: "angstrom", name: "Ångström", symbol: "Å", text: "Ångström (Å)", factor: 1e-10, category: "Mikro & Presisi" },
+
+            // Imperial & US
+            { value: "mile", name: "Mil (Daratan)", symbol: "mi", text: "Mile (mi)", factor: 1609.344, category: "Imperial & US" },
+            { value: "furlong", name: "Furlong", symbol: "fur", text: "Furlong (fur)", factor: 201.168, category: "Imperial & US" },
+            { value: "yard", name: "Yard", symbol: "yd", text: "Yard (yd)", factor: 0.9144, category: "Imperial & US" },
+            { value: "ft", name: "Kaki / Feet", symbol: "ft", text: "Feet (ft)", factor: 0.3048, category: "Imperial & US" },
+            { value: "in", name: "Inci / Inch", symbol: "in", text: "Inchi (in)", factor: 0.0254, category: "Imperial & US" },
+            { value: "mil", name: "Mil / Thou (1/1000 in)", symbol: "mil", text: "Mil / Thou (mil)", factor: 0.0000254, category: "Imperial & US" },
+
+            // Maritim & Astronomi
+            { value: "nmi", name: "Mil Laut (Nautical)", symbol: "nmi", text: "Mil Laut (nmi)", factor: 1852, category: "Maritim & Astronomi" },
+            { value: "fathom", name: "Depa / Fathom", symbol: "ftm", text: "Fathom (ftm)", factor: 1.8288, category: "Maritim & Astronomi" },
+            { value: "au", name: "Satuan Astronomi", symbol: "AU", text: "Astronomical Unit (AU)", factor: 149597870700, category: "Maritim & Astronomi" }
         ];
 
-        function satuanPanjangText(val) {
-          const found = satuanPanjang.find(s => s.value === val);
-          return found ? found.text : "";
+        let activeCategory = 'all';
+        let searchQuery = '';
+        let switchRotation = 0;
+
+        // Populate Select Dropdowns with Optgroups
+        function populateSelects() {
+            const categories = ["Metrik (SI)", "Imperial & US", "Mikro & Presisi", "Maritim & Astronomi"];
+            
+            [selectSatuanMainLength, selectSatuanOutputLength].forEach((selectEl, idx) => {
+                selectEl.innerHTML = '';
+                categories.forEach(cat => {
+                    const group = document.createElement('optgroup');
+                    group.label = cat;
+                    satuanPanjang.filter(u => u.category === cat).forEach(unit => {
+                        const opt = document.createElement('option');
+                        opt.value = unit.value;
+                        opt.textContent = `${unit.name} (${unit.symbol})`;
+                        if (idx === 0 && unit.value === 'm') opt.selected = true;
+                        if (idx === 1 && unit.value === 'ft') opt.selected = true;
+                        group.appendChild(opt);
+                    });
+                    selectEl.appendChild(group);
+                });
+            });
         }
-        function satuanPanjangFactor(val) {
-          const found = satuanPanjang.find(s => s.value === val);
-          return found ? found.factor : 1;
-        }
-        function satuanPanjangIdx(val) {
-          return satuanPanjang.findIndex(s => s.value === val);
+
+        function getUnit(val) {
+            return satuanPanjang.find(s => s.value === val) || satuanPanjang[3];
         }
 
         function formatHasil(hasil) {
-          if (hasil === 0) return '0';
-          const absVal = Math.abs(hasil);
-          if (absVal >= 0.01) {
-            return hasil.toLocaleString('id-ID', { maximumFractionDigits: 4 });
-          } else if (absVal >= 0.000001) {
-            let str = hasil.toLocaleString('id-ID', { maximumFractionDigits: 8 });
-            str = str.replace(/(\,\d*?[1-9])0+$/,'$1').replace(/\,0+$/,'');
-            return str;
-          } else {
-            return hasil.toExponential(4).replace('.', ',');
-          }
+            if (hasil === 0 || isNaN(hasil)) return '0';
+            const absVal = Math.abs(hasil);
+            if (absVal >= 1e12 || (absVal > 0 && absVal < 1e-6)) {
+                return hasil.toExponential(4).replace('.', ',');
+            }
+            if (absVal >= 1) {
+                return hasil.toLocaleString('id-ID', { maximumFractionDigits: 6 });
+            } else {
+                return hasil.toLocaleString('id-ID', { maximumFractionDigits: 8 });
+            }
         }
 
-        function getInfoExtraLength(nilai, satuanFrom, satuanTo) {
-          if (!nilai || satuanFrom === satuanTo) return '';
-          const fromIdx = satuanPanjangIdx(satuanFrom);
-          const toIdx = satuanPanjangIdx(satuanTo);
-          if (fromIdx < 0 || toIdx < 0 || fromIdx === toIdx) return '';
+        function showToast(msg) {
+            copyToastText.textContent = msg;
+            copyToast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                copyToast.classList.add('translate-y-20', 'opacity-0');
+            }, 2200);
+        }
 
-          let nilaiFrom = 1;
-          let nilaiTo = satuanPanjangFactor(satuanFrom) / satuanPanjangFactor(satuanTo);
-          let satuanFromText = satuanPanjangText(satuanFrom);
-          let satuanToText = satuanPanjangText(satuanTo);
-
-          if (Math.abs(nilaiTo) < 1) {
-            nilaiTo = 1;
-            nilaiFrom = satuanPanjangFactor(satuanTo) / satuanPanjangFactor(satuanFrom);
-            let temp = satuanFromText; satuanFromText = satuanToText; satuanToText = temp;
-          }
-
-          let nilaiToStr = formatHasil(nilaiTo);
-          let nilaiFromStr = formatHasil(nilaiFrom);
-
-          return `<span class="text-teal-600 dark:text-teal-300 font-bold">${nilaiFromStr} ${satuanFromText}</span> sama dengan <span class="text-teal-600 dark:text-teal-300 font-bold">${nilaiToStr} ${satuanToText}</span>.`;
+        function copyToClipboard(text, label) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(`Disalin: ${text} ${label || ''}`);
+            });
         }
 
         function updateResultLength() {
-          let rawVal = inputValueLength.value.replace(/,/g, '.');
-          const val = parseFloat(rawVal);
-          const satuanAsal = selectSatuanMainLength.value;
-          const satuanTujuan = selectSatuanOutputLength.value;
+            let rawVal = inputValueLength.value.trim().replace(/,/g, '.');
+            const val = parseFloat(rawVal);
+            const unitFrom = getUnit(selectSatuanMainLength.value);
+            const unitTo = getUnit(selectSatuanOutputLength.value);
 
-          if (isNaN(val) || val < 0) {
-            resultInputLength.value = "0";
-            infoTextLength.innerHTML = `Silahkan masukkan nilai panjang dan pilih satuan.`;
-            return;
-          }
+            resultUnitLabel.textContent = `${unitTo.name} (${unitTo.symbol})`;
 
-          const meter = val * satuanPanjangFactor(satuanAsal);
-          const hasil = meter / satuanPanjangFactor(satuanTujuan);
-          
-          resultInputLength.value = `${formatHasil(hasil)} ${satuanPanjangText(satuanTujuan)}`;
-          let infoExtraStr = getInfoExtraLength(1, satuanAsal, satuanTujuan);
-          infoTextLength.innerHTML = (infoExtraStr ? infoExtraStr : `Konversi dari ${satuanPanjangText(satuanAsal)} ke ${satuanPanjangText(satuanTujuan)}.`);
+            if (rawVal === '' || isNaN(val)) {
+                resultDisplay.textContent = "0";
+                infoTextLength.innerHTML = `Silahkan masukkan nilai panjang untuk dikonversi.`;
+                formulaTextLength.textContent = `1 ${unitFrom.symbol} = ${formatHasil(unitFrom.factor / unitTo.factor)} ${unitTo.symbol}`;
+                renderAllUnitsGrid(0, unitFrom);
+                return;
+            }
+
+            const meter = val * unitFrom.factor;
+            const hasil = meter / unitTo.factor;
+            const formattedMain = formatHasil(hasil);
+
+            resultDisplay.textContent = `${formattedMain} ${unitTo.symbol}`;
+
+            // Info & Formula
+            const ratio = unitFrom.factor / unitTo.factor;
+            infoTextLength.innerHTML = `<span class="font-bold text-teal-600 dark:text-teal-400">${formatHasil(val)} ${unitFrom.name} (${unitFrom.symbol})</span> setara dengan <span class="font-bold text-teal-600 dark:text-teal-400">${formattedMain} ${unitTo.name} (${unitTo.symbol})</span>`;
+            formulaTextLength.textContent = `Faktor: 1 ${unitFrom.symbol} = ${formatHasil(ratio)} ${unitTo.symbol}  |  Basis SI: ${formatHasil(meter)} m`;
+
+            renderAllUnitsGrid(meter, unitFrom, unitTo);
         }
 
+        function renderAllUnitsGrid(meterValue, unitFrom, unitTo) {
+            allUnitsGrid.innerHTML = '';
+
+            const filtered = satuanPanjang.filter(u => {
+                const matchCat = activeCategory === 'all' || u.category === activeCategory;
+                const matchSearch = u.name.toLowerCase().includes(searchQuery) ||
+                                    u.symbol.toLowerCase().includes(searchQuery) ||
+                                    u.category.toLowerCase().includes(searchQuery);
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                allUnitsGrid.innerHTML = `
+                    <div class="col-span-full py-8 text-center text-xs text-slate-400 dark:text-slate-500">
+                        Satuan tidak ditemukan untuk kata kunci "${searchQuery}".
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(unit => {
+                const valConverted = meterValue / unit.factor;
+                const formatted = formatHasil(valConverted);
+                const isSelectedTarget = unitTo && unit.value === unitTo.value;
+                const isSelectedSource = unitFrom && unit.value === unitFrom.value;
+
+                const card = document.createElement('div');
+                card.className = `group relative flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                    isSelectedTarget
+                        ? 'bg-teal-50/90 dark:bg-teal-900/30 border-teal-500/60 dark:border-teal-500/60 shadow-sm'
+                        : isSelectedSource
+                        ? 'bg-slate-100/90 dark:bg-slate-800/90 border-slate-300 dark:border-slate-600'
+                        : 'bg-white dark:bg-slate-900/70 border-slate-200/70 dark:border-slate-800 hover:border-teal-500/50 dark:hover:border-teal-500/50'
+                }`;
+
+                card.innerHTML = `
+                    <div class="min-w-0 pr-2">
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-xs font-bold text-slate-700 dark:text-slate-200 truncate">${unit.name}</span>
+                            <span class="px-1.5 py-0.2 text-[10px] font-mono font-bold rounded bg-slate-100 dark:bg-slate-800 text-teal-600 dark:text-teal-400">${unit.symbol}</span>
+                        </div>
+                        <span class="text-[9px] text-slate-400 dark:text-slate-500 font-medium">${unit.category}</span>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <div class="text-right">
+                            <div class="text-xs sm:text-sm font-extrabold font-mono text-slate-800 dark:text-slate-100">${formatted}</div>
+                        </div>
+                        <button type="button" class="copy-unit-btn opacity-70 group-hover:opacity-100 p-1.5 rounded-lg hover:bg-teal-500 hover:text-white text-slate-400 dark:text-slate-500 transition-all" title="Salin nilai">
+                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+
+                // Clicking the copy button copies the value
+                const copyBtn = card.querySelector('.copy-unit-btn');
+                copyBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    copyToClipboard(formatted, unit.symbol);
+                });
+
+                // Clicking the card sets it as Target Unit
+                card.addEventListener('click', () => {
+                    selectSatuanOutputLength.value = unit.value;
+                    updateResultLength();
+                });
+
+                allUnitsGrid.appendChild(card);
+            });
+        }
+
+        // Initialize Dropdowns & First Calculation
+        populateSelects();
+        updateResultLength();
+
+        // Event Listeners
         inputValueLength.addEventListener('input', updateResultLength);
         selectSatuanMainLength.addEventListener('change', updateResultLength);
         selectSatuanOutputLength.addEventListener('change', updateResultLength);
-        btnSwitchLength.addEventListener('click', function() {
-          const idxMain = selectSatuanMainLength.selectedIndex;
-          const idxOut = selectSatuanOutputLength.selectedIndex;
-          selectSatuanMainLength.selectedIndex = idxOut;
-          selectSatuanOutputLength.selectedIndex = idxMain;
-          updateResultLength();
+
+        clearInputBtn.addEventListener('click', () => {
+            inputValueLength.value = '';
+            inputValueLength.focus();
+            updateResultLength();
         });
 
-        updateResultLength();
+        // Quick Value Buttons
+        document.querySelectorAll('.quick-val-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                inputValueLength.value = btn.dataset.quick;
+                updateResultLength();
+            });
+        });
+
+        // Popular Preset Buttons
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                selectSatuanMainLength.value = btn.dataset.from;
+                selectSatuanOutputLength.value = btn.dataset.to;
+                if (!inputValueLength.value) inputValueLength.value = '1';
+                updateResultLength();
+            });
+        });
+
+        // Switch Units Button
+        btnSwitchLength.addEventListener('click', () => {
+            switchRotation += 180;
+            switchIcon.style.transform = `rotate(${switchRotation}deg)`;
+            const temp = selectSatuanMainLength.value;
+            selectSatuanMainLength.value = selectSatuanOutputLength.value;
+            selectSatuanOutputLength.value = temp;
+            updateResultLength();
+        });
+
+        // Copy Main Result
+        btnCopyMain.addEventListener('click', () => {
+            const textToCopy = resultDisplay.textContent.trim();
+            copyToClipboard(textToCopy, '');
+            copyMainText.textContent = 'Tersalin!';
+            setTimeout(() => { copyMainText.textContent = 'Salin'; }, 1500);
+        });
+
+        // Category Filter Tabs
+        document.querySelectorAll('.cat-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.cat-tab-btn').forEach(b => {
+                    b.className = 'cat-tab-btn shrink-0 px-3 py-1 rounded-xl text-[11px] font-bold bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-teal-500 transition-all';
+                });
+                btn.className = 'cat-tab-btn active shrink-0 px-3 py-1 rounded-xl text-[11px] font-bold bg-teal-500 text-white shadow-sm transition-all';
+                activeCategory = btn.dataset.cat;
+                updateResultLength();
+            });
+        });
+
+        // Search Filter
+        searchUnitInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.trim().toLowerCase();
+            updateResultLength();
+        });
+
+        // Reset Button
+        const tombolReset = document.getElementById('tombolReset');
+        if (tombolReset) {
+            tombolReset.addEventListener('click', () => {
+                inputValueLength.value = '1';
+                selectSatuanMainLength.value = 'm';
+                selectSatuanOutputLength.value = 'ft';
+                searchUnitInput.value = '';
+                searchQuery = '';
+                document.querySelector('[data-cat="all"]').click();
+                updateResultLength();
+            });
+        }
 
         // Theme Toggle Logic
         const themeToggleBtn = document.getElementById('theme-toggle');
@@ -331,18 +613,8 @@
                 updateThemeIcons();
             });
         }
-
-        // Reset logic
-        const tombolReset = document.getElementById('tombolReset');
-        if(tombolReset) {
-          tombolReset.addEventListener('click', function() {
-            inputValueLength.value = '';
-            selectSatuanMainLength.value = 'm';
-            selectSatuanOutputLength.value = 'ft';
-            updateResultLength();
-          });
-        }
     });
     </script>
 </body>
+
 </html>
