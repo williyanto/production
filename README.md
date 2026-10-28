@@ -44,11 +44,11 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 
 | Proyek | Deskripsi & Standar | File Utama | Status |
 | :--- | :--- | :--- | :---: |
-| **Kalkulator Hambatan Konduktor** | Perhitungan hambatan listrik konduktor kabel berdasarkan standar internasional **IEC 60228**, **ICEA**, **AS/NZS**, dan **SPLN**. | [`kalkulator_hambatan_kabel/iec_final_v20260801.html`](./kalkulator_hambatan_kabel/iec_final_v20260801.html) | `Aktif` |
-| **Faktor Koreksi Suhu** | Penghitung faktor koreksi suhu untuk penyesuaian nilai hambatan konduktor pada berbagai temperatur acuan. | [`faktor_koreksi_suhu_v20260801.html`](./faktor_koreksi_suhu_v20260801.html) | `Aktif` |
-| **Kalkulator Uji Tegangan** | Alat bantu perhitungan parameter pengujian tegangan listrik (*Voltage Test*). | `20.uji_tegangan/uji_tegangan.html` | `Aktif` |
-| **Kalkulator Resistor** | Alat hitung nilai resistansi resistor 4/5/6 gelang warna dan kalkulasi nilai SMD. | `10.kalkulator_resistor/kalkulator_resistor.html` | `Aktif` |
-| **Kalkulator Biaya Listrik Otomatis** | Perhitungan konsumsi daya alat elektronik & estimasi tagihan listrik PLN (harian, bulanan). | [`kalkulator_daya_listrik_v20260911.html`](./kalkulator_daya_listrik_v20260911.html) | `Aktif` |
+| **Kalkulator Hambatan Konduktor** | Perhitungan hambatan listrik konduktor kabel berdasarkan standar internasional **IEC 60228**, **ICEA**, **AS/NZS**, **SPLN**, dan **BS EN**. | [`kalkulator_hambatan_kabel/iec_final_v20261028.html`](./kalkulator_hambatan_kabel/iec_final_v20261028.html) | `Aktif` |
+| **Faktor Koreksi Suhu** | Penghitung faktor koreksi suhu untuk penyesuaian nilai hambatan konduktor pada berbagai temperatur acuan. | [`faktor_koreksi_suhu_v20261001.html`](./faktor_koreksi_suhu_v20261001.html) | `Aktif` |
+| **Kalkulasi Dimensi Kabel PLN** | Kalkulator untuk menghitung dimensi dan spesifikasi teknis kabel standar PLN. | [`kalkulasi_dimensi_pln_v20261001.html`](./kalkulasi_dimensi_pln_v20261001.html) | `Aktif` |
+| **Konversi Kabel mm² ↔ AWG** | Alat konversi presisi untuk ukuran penampang kabel antara milimeter persegi (mm²) dan standar AWG/kcmil. | [`konversi_mm2_to_awg_v20261001.html`](./konversi_mm2_to_awg_v20261001.html) | `Aktif` |
+| **Kalkulator Biaya Listrik Otomatis** | Perhitungan konsumsi daya alat elektronik & estimasi tagihan listrik PLN (harian, bulanan). | [`kalkulator_daya_listrik_v20261007.html`](./kalkulator_daya_listrik_v20261007.html) | `Aktif` |
 
 </details>
 
@@ -57,9 +57,10 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 
 | Proyek | Deskripsi | File Utama | Status |
 | :--- | :--- | :--- | :---: |
-| **Hitung Panjang Kabel di Drum** | Estimasi total panjang kabel yang tergulung dalam drum kayu/besi (*CableMetrics*). | [`hitung_panjang_kabel_didrum_v20260801.html`](./hitung_panjang_kabel_didrum_v20260801.html) | `Aktif` |
-| **Estimasi Waktu Rewind Kabel** | Kalkulasi durasi waktu proses penggulungan (*rewinding*) dan *coiling* kabel produksi. | [`hitung_waktu_rewind_v20260801.html`](./hitung_waktu_rewind_v20260801.html) | `Aktif` |
-| **Hitung Volume Drum** | Perhitungan volume geometris dan kapasitas ruang muat drum kabel. | `27.volume_drum/volume_drum.html` | `Aktif` |
+| **Hitung Panjang Kabel di Drum** | Estimasi total panjang kabel yang tergulung dalam drum kayu/besi (*CableMetrics*). | [`hitung_panjang_kabel_didrum_v20260930.html`](./hitung_panjang_kabel_didrum_v20260930.html) | `Aktif` |
+| **Estimasi Waktu Rewind Kabel** | Kalkulasi durasi waktu proses penggulungan (*rewinding*) dan *coiling* kabel produksi. | [`hitung_waktu_rewind_v20261001.html`](./hitung_waktu_rewind_v20261001.html) | `Aktif` |
+| **Kalkulator Presisi Potongan Kabel** | Aplikasi perhitungan presisi untuk potongan kabel dan toleransi scrap. | [`slice_calculation_v20260930.html`](./slice_calculation_v20260930.html) | `Aktif` |
+| **Kalkulator Berat Kawat (Stranding)** | Aplikasi perhitungan berat kawat dan stranding untuk proses produksi kabel. | [`wire_weight_calculation_v20260930.html`](./wire_weight_calculation_v20260930.html) | `Aktif` |
 
 </details>
 
@@ -68,9 +69,10 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 
 | Proyek | Deskripsi | File Utama | Status |
 | :--- | :--- | :--- | :---: |
-| **Kapasitas Rak Kabel (Flame Retardant)** | Analisis pembebanan & kapasitas penataan kabel tahan api (*Flame Retardant*) pada rak kabel. | [`flame_retardant_v20260801.html`](./flame_retardant_v20260801.html) | `Aktif` |
-| **Uji Bending Mandrel** | Perhitungan ukuran mandrel & keliling lap pengujian tekuk kabel (*Mandrel Bending Test*). | [`uji_bending_v20260801.html`](./uji_bending_v20260801.html) | `Aktif` |
-| **Cold Bending & Heat Shock** | Evaluasi dan kalkulator batas uji ketahanan suhu dingin (*Cold Bending*) & kejutan panas (*Heat Shock*). | [`coldbending_heatshock/coldbending_v20260801.html`](./coldbending_heatshock/coldbending_v20260801.html) | `Aktif` |
+| **Kalkulator Pengujian Kabel Terpadu** | Perhitungan parameter pengujian insulasi kabel: Insulation Resistance (IR), Capacitance, & SCR. | [`kalkulator_ir_cap_scr_v20261001.html`](./kalkulator_ir_cap_scr_v20261001.html) | `Aktif` |
+| **Kapasitas Rak Kabel (Flame Retardant)** | Analisis pembebanan & kapasitas penataan kabel tahan api (*Flame Retardant*) pada rak kabel. | [`flame_retardant_v20261001.html`](./flame_retardant_v20261001.html) | `Aktif` |
+| **Uji Bending Mandrel** | Perhitungan ukuran mandrel & keliling lap pengujian tekuk kabel (*Mandrel Bending Test*). | [`uji_bending_v20261001.html`](./uji_bending_v20261001.html) | `Aktif` |
+| **Cold Bending & Heat Shock** | Evaluasi dan kalkulator batas uji ketahanan suhu dingin (*Cold Bending*) & kejutan panas (*Heat Shock*). | [`coldbending_heatshock/coldbending_v20261001.html`](./coldbending_heatshock/coldbending_v20261001.html) | `Aktif` |
 
 </details>
 
@@ -79,13 +81,13 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 
 | Proyek | Deskripsi | File Utama | Status |
 | :--- | :--- | :--- | :---: |
-| **Kalkulator Waktu Pro** | Penghitung selisih jam/menit, selisih tanggal, dan konversi durasi interval waktu. | [`kalkulator_waktu_v20260910.html`](./kalkulator_waktu_v20260910.html) | `Aktif` |
-| **Generator Angka Acak** | Penghasil angka acak (*Random Number Generator*) dengan kustomisasi rentang & statistik. | [`generator_angka_v20260910.html`](./generator_angka_v20260910.html) | `Aktif` |
-| **Konverter Panjang** | Konversi presisi antar satuan panjang (Meter, Feet, Inch, Yard, mm, cm, KM, Mile). | [`konverter_panjang_v20260801.html`](./konverter_panjang_v20260801.html) | `Aktif` |
-| **Kalkulator Persentase Pro** | Alat hitung persentase cepat untuk diskon, kenaikan/penurunan harga, dan rasio. | [`hitung_persen_v20260801.html`](./hitung_persen_v20260801.html) | `Aktif` |
-| **Monitoring Pengisian BBM** | Pencatatan & analisis konsumsi bahan bakar minyak (BBM), rasio km/liter, dan ekspor PDF/Excel. | [`monitoring_bbm_v20260911.html`](./monitoring_bbm_v20260911.html) | `Aktif` |
-| **Kalkulator Dimensi** | Aplikasi perhitungan dimensi objek geometris dan pengukuran area. | `4.kalkulator_dimensi/kalkulator_dimensi.html` | `Aktif` |
-| **Android KW UI** | Web app simulasi antarmuka gaya Android untuk kegunaan harian. | `11.android_kw/android_kw.html` | `Aktif` |
+| **Kalkulator Waktu Pro** | Penghitung selisih jam/menit, selisih tanggal, dan konversi durasi interval waktu. | [`kalkulator_waktu_v20261007.html`](./kalkulator_waktu_v20261007.html) | `Aktif` |
+| **Generator Angka Acak** | Penghasil angka acak (*Random Number Generator*) dengan kustomisasi rentang & statistik. | [`generator_angka_v20261007.html`](./generator_angka_v20261007.html) | `Aktif` |
+| **Konverter Panjang** | Konversi presisi antar satuan panjang (Meter, Feet, Inch, Yard, mm, cm, KM, Mile). | [`konverter_panjang_v20261001.html`](./konverter_panjang_v20261001.html) | `Aktif` |
+| **Kalkulator Persentase Pro** | Alat hitung persentase cepat untuk diskon, kenaikan/penurunan harga, dan rasio. | [`hitung_persen_v20261001.html`](./hitung_persen_v20261001.html) | `Aktif` |
+| **Monitoring Pengisian BBM** | Pencatatan & analisis konsumsi bahan bakar minyak (BBM), rasio km/liter, dan ekspor PDF/Excel. | [`monitoring_bbm_v20261001.html`](./monitoring_bbm_v20261001.html) | `Aktif` |
+| **Pencari Rata-Rata** | Menghitung nilai rata-rata dari sekumpulan data numerik dengan cepat dan mudah. | [`pencari_rata_rata_v20261001.html`](./pencari_rata_rata_v20261001.html) | `Aktif` |
+| **Rapihkan Teks** | Alat bantu untuk merapikan dan mengubah format teks (Uppercase, Lowercase, dll). | [`rapihkan_teks_v20261007.html`](./rapihkan_teks_v20261007.html) | `Aktif` |
 
 </details>
 
@@ -94,12 +96,10 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 
 | Proyek | Deskripsi | File Utama | Status |
 | :--- | :--- | :--- | :---: |
-| **AssetPro – Manajemen Aset** | Sistem pendataan aset terpadu dengan Barcode, QR Code, statistik tahunan, & ekspor PDF/Excel. | [`manajemen_aset_v20260911.html`](./manajemen_aset_v20260911.html) | `Aktif` |
-| **TripBudget & RoadTrip Studio** | Perencanaan anggaran perjalanan road trip, estimasi rute/jarak, konsumsi BBM, & rincian biaya. | [`trip_planner_v20260911.html`](./trip_planner_v20260911.html) | `Aktif` |
-| **Kalkulator Alokasi Gaji** | Pengatur dan perencana alokasi keuangan gaji (Metode 50/30/20 & Kustom). | `17.alokasi_gaji/kalkulator_alokasigaji.html` | `Aktif` |
-| **Pengatur Keuangan** | Modul pencatatan pemasukan, pengeluaran, dan manajemen anggaran bulanan. | `23.Pengatur_Uang/pengatur_uang.html` | `Aktif` |
-| **Kalkulator Jam Lembur** | Penghitung jam kerja lembur dan kalkulasi estimasi upah lembur. | `30.hitung_jamlembur/hitungjamlembur.html` | `Aktif` |
-| **Analisis Kripto** | Dashboard pemantau tren & kalkulator investasi aset kripto. | `26.analisis kripto/analisis_kripto_v1.html` | `Aktif` |
+| **AssetPro – Manajemen Aset** | Sistem pendataan aset terpadu dengan Barcode, QR Code, statistik tahunan, & ekspor PDF/Excel. | [`manajemen_aset_v20261001.html`](./manajemen_aset_v20261001.html) | `Aktif` |
+| **RoadTrip Budgeting** | Perencanaan anggaran perjalanan road trip, estimasi rute/jarak, konsumsi BBM, & rincian biaya. | [`trip_planner_v20261007.html`](./trip_planner_v20261007.html) | `Aktif` |
+| **Kalkulator Alokasi Gaji** | Pengatur dan perencana alokasi keuangan gaji (Metode 50/30/20 & Kustom). | [`kalkulator_alokasi_gaji_v20261007.html`](./kalkulator_alokasi_gaji_v20261007.html) | `Aktif` |
+| **Kalkulator Lembur** | Penghitung jam kerja lembur dan kalkulasi estimasi upah lembur sesuai standar peraturan. | [`hitung_lembur_v20261001.html`](./hitung_lembur_v20261001.html) | `Aktif` |
 
 </details>
 
