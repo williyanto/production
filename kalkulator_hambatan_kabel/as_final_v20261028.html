@@ -31,16 +31,23 @@
         select {
             background-image: none !important;
         }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
 
 <body
-    class="bg-gradient-to-tr from-slate-100 via-orange-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-center items-center py-2 px-3 overflow-x-hidden transition-colors duration-300">
+    class="bg-gradient-to-tr from-slate-100 via-purple-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-center items-center py-2 px-3 overflow-x-hidden transition-colors duration-300">
 
     <!-- Ambient Background Blobs (Desktop Only visual enhancement) -->
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
-        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-orange-400 blur-[100px] animate-pulse"></div>
-        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-amber-300 blur-[100px] animate-pulse"
+        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-purple-400 blur-[100px] animate-pulse"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-violet-400 blur-[100px] animate-pulse"
             style="animation-delay: 2s;"></div>
     </div>
 
@@ -52,9 +59,9 @@
         <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
             <div class="flex items-center gap-3">
                 <div
-                    class="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center text-white shadow-md shadow-orange-200 dark:shadow-none">
+                    class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-purple-200 dark:shadow-none">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 19h4.5a7 7 0 1 1 7 0H20" />
                     </svg>
                 </div>
                 <div>
@@ -67,7 +74,7 @@
 
             <!-- Dark Mode Toggle Button -->
             <button id="theme-toggle" type="button"
-                class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">
+                class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95 transition-all">
                 <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -83,33 +90,36 @@
 
         <!-- Segmented Standard Switcher -->
         <div
-            class="grid grid-cols-4 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl my-2 border border-slate-200/20 dark:border-slate-700/20">
-            <a href="./iec_final_v20261001.html"
+            class="grid grid-cols-5 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl my-2 border border-slate-200/20 dark:border-slate-700/20">
+            <a href="./iec_final_v20261028.html"
                 class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-800/50">
                 IEC
             </a>
-            <a href="./icea_final_v20261001.html"
+            <a href="./icea_final_v20261028.html"
                 class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-800/50">
                 ICEA
             </a>
-            <a href="./as_final_v20261001.html"
-                class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-orange-600 dark:text-orange-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30">
+            <a href="./as_final_v20261028.html"
+                class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-purple-600 dark:text-purple-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30">
                 AS/NZS
             </a>
-            <a href="./spln_final_v20261001.html"
+            <a href="./spln_final_v20261028.html"
                 class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-800/50">
                 SPLN
+            </a>
+            <a href="./bsen_final_v20261028.html" class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-800/50">
+                BS EN
             </a>
         </div>
 
         <!-- Inputs and controls container -->
-        <div class="space-y-3 flex-1 flex flex-col justify-between my-1 overflow-y-auto scrollbar-none">
+        <div class="space-y-3 flex-1 flex flex-col justify-between my-1 px-1 -mx-1 overflow-y-auto scrollbar-none">
 
             <!-- Mode Selector Toggle -->
             <div
                 class="flex p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl mb-1 border border-slate-200/20 dark:border-slate-700/20">
                 <button type="button" id="modeHambatanBtn"
-                    class="flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-orange-600 dark:text-orange-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30">
+                    class="flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-purple-600 dark:text-purple-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30">
                     ⚡ Hitung Hambatan
                 </button>
                 <button type="button" id="modePanjangBtn"
@@ -126,12 +136,17 @@
                 <div class="grid grid-cols-2 gap-4">
                     <!-- Pembacaan Alat -->
                     <div class="relative group">
-                        <label for="pembacaanAlat"
-                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pembacaan
-                            (mΩ)</label>
+                        <div class="flex items-center justify-between mb-1 min-h-[20px]">
+                            <label id="labelPembacaan" for="pembacaanAlat"
+                                class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Pembacaan (mΩ)</label>
+                            <div class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60">
+                                <button type="button" id="satuanMohmBtn" title="Satuan mili ohm" class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-purple-600 dark:text-purple-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">mΩ</button>
+                                <button type="button" id="satuanOhmBtn" title="Satuan ohm" class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">Ω</button>
+                            </div>
+                        </div>
                         <div class="relative">
                             <div
-                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-orange-500 transition-colors">
+                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-purple-500 transition-colors">
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                     stroke-width="1.5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -139,18 +154,22 @@
                                 </svg>
                             </div>
                             <input type="text" inputmode="decimal" name="pembacaanAlat" id="pembacaanAlat"
-                                class="pl-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-xs font-semibold"
+                                class="pl-9 pr-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-xs font-semibold"
                                 placeholder="mili ohm">
+                            <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
+                                <span id="badgeSatuan" class="text-[10px] font-bold text-slate-400 dark:text-slate-500">mΩ</span>
+                            </div>
                         </div>
                     </div>
                     <!-- Panjang -->
                     <div class="relative group">
-                        <label id="labelPanjang" for="panjang"
-                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Panjang
-                            (m)</label>
+                        <div class="flex items-center justify-between mb-1 min-h-[20px]">
+                            <label id="labelPanjang" for="panjang"
+                                class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Panjang (m)</label>
+                        </div>
                         <div class="relative">
                             <div
-                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-orange-500 transition-colors">
+                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-purple-500 transition-colors">
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                     stroke-width="1.5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -158,7 +177,7 @@
                                 </svg>
                             </div>
                             <input type="text" inputmode="decimal" name="panjang" id="panjang"
-                                class="pl-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-xs font-semibold"
+                                class="pl-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-xs font-semibold"
                                 placeholder="meter">
                         </div>
                     </div>
@@ -175,7 +194,7 @@
                             (°C)</label>
                         <div class="relative">
                             <div
-                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-orange-500 transition-colors">
+                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-purple-500 transition-colors">
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                     stroke-width="1.5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -183,7 +202,7 @@
                                 </svg>
                             </div>
                             <input type="text" inputmode="decimal" name="suhu" id="suhu"
-                                class="pl-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-xs font-semibold"
+                                class="pl-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-xs font-semibold"
                                 placeholder="celsius">
                         </div>
                     </div>
@@ -214,14 +233,14 @@
                 <span
                     class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-1.5">Spesifikasi
                     Kabel</span>
-                <div class="grid grid-cols-3 gap-3 pt-2.5 border-t border-slate-100 dark:border-slate-800">
+                <div class="grid grid-cols-3 gap-3">
                     <!-- Konduktor -->
                     <div class="relative group">
                         <label for="konduktor"
                             class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Penghantar</label>
                         <div class="relative">
                             <select id="konduktor" name="konduktor"
-                                class="appearance-none block w-full pl-3 pr-7 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-xs font-bold">
+                                class="appearance-none block w-full pl-3 pr-7 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-xs font-bold">
                                 <option>CU</option>
                                 <option>AL</option>
                                 <option>TCU</option>
@@ -242,7 +261,7 @@
                             class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Penampang</label>
                         <div class="relative">
                             <select id="penampang" name="penampang"
-                                class="appearance-none block w-full pl-3 pr-7 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-xs font-bold">
+                                class="appearance-none block w-full pl-3 pr-7 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-xs font-bold">
                                 <option value="0,5">0,5 mm²</option>
                                 <option value="0,75">0,75 mm²</option>
                                 <option value="1,0">1,0 mm²</option>
@@ -306,7 +325,7 @@
             <div id="resultCard"
                 class="transition-all duration-300 rounded-2xl p-4 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1">
                 <div
-                    class="absolute -right-10 -bottom-10 w-24 h-24 rounded-full bg-orange-500/5 blur-xl pointer-events-none">
+                    class="absolute -right-10 -bottom-10 w-24 h-24 rounded-full bg-purple-500/5 blur-xl pointer-events-none">
                 </div>
 
                 <div class="w-full flex items-center justify-between mb-1">
@@ -318,7 +337,7 @@
 
                 <div class="my-auto py-1 w-full">
                     <input type="text" name="hasilKalkulasi" id="hasilKalkulasi" readonly
-                        class="w-full text-center bg-transparent border-none focus:outline-none focus:ring-0 font-extrabold text-3xl sm:text-4xl text-slate-750 dark:text-slate-250 transition-colors duration-300 py-0"
+                        class="w-full text-center bg-transparent border-none focus:outline-none focus:ring-0 font-extrabold text-3xl sm:text-4xl text-slate-700 dark:text-slate-200 transition-colors duration-300 py-0"
                         placeholder="---">
                     <span id="resultUnit"
                         class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mt-1">Ohm
@@ -387,22 +406,22 @@
                     acuan: {
                         "0,5": "38,4", "0,75": "25,3", "1,0": "21,2", "1,5": "13,6", "2,5": "7,41", "4": "4,61", "6": "3,08", "10": "1,83", "16": "1,15", "25": "0,727", "35": "0,524", "50": "0,387", "70": "0,268", "95": "0,193", "120": "0,153", "150": "0,124", "185": "0,0991", "240": "0,0754", "300": "0,0601", "400": "0,0470", "500": "0,0366", "630": "0,0283", "800": "0,0221", "960": "0,0189", "1000": "0,0176", "1200": "0,0151", "1600": "0,0113", "2000": "0,0090"
                     },
-                    single_core: { "0,5": "39,6", "0,75": "26,1", "1,0": "21,9", "1,5": "14,0", "2,5": "7,64", "4": "4,75", "6": "3,18", "10": "1,89", "16": "1,19", "25": "0,749", "35": "0,540", "50": "0,399", "70": "0,276", "95": "0,199", "120": "0,158", "150": "0,128", "185": "0,102", "240": "0,0777", "300": "0,0620", "400": "0,0485", "500": "0,0377", "630": "0,0292", "800": "0,0228", "1000": "0,0195", "1200": "0,0181", "1400": "0,0156", "1600": "0,0116", "1800": "0,0093" },
-                    multi_core: { "0,5": "39,6", "0,75": "26,1", "1,0": "21,9", "1,5": "14", "2,5": "7,64", "4": "4,75", "6": "3,18", "10": "1,89", "16": "1,19", "25": "0,749", "35": "0,540", "50": "0,399", "70": "0,276", "95": "0,199", "120": "0,158", "150": "0,128", "185": "0,102", "240": "0,0777", "300": "0,0620", "400": "0,0485", "500": "0,0373", "630": "0,0289", "800": "0,0228", "1000": "0,0195", "1200": "0,0181", "1400": "0,0156", "1600": "0,0116", "1800": "0,0093" }
+                    single_core: { "0,5": "39,6", "0,75": "26,1", "1,0": "21,9", "1,5": "14,0", "2,5": "7,64", "4": "4,75", "6": "3,18", "10": "1,89", "16": "1,19", "25": "0,749", "35": "0,540", "50": "0,399", "70": "0,276", "95": "0,199", "120": "0,158", "150": "0,128", "185": "0,102", "240": "0,0777", "300": "0,0620", "400": "0,0485", "500": "0,0377", "630": "0,0292", "800": "0,0228", "960": "0,0195", "1000": "0,0181", "1200": "0,0156", "1600": "0,0116", "2000": "0,0093" },
+                    multi_core: { "0,5": "39,6", "0,75": "26,1", "1,0": "21,9", "1,5": "14,0", "2,5": "7,64", "4": "4,75", "6": "3,18", "10": "1,89", "16": "1,19", "25": "0,749", "35": "0,540", "50": "0,399", "70": "0,276", "95": "0,199", "120": "0,158", "150": "0,128", "185": "0,102", "240": "0,0777", "300": "0,0620", "400": "0,0485", "500": "0,0373", "630": "0,0289", "800": "0,0228", "960": "0,0195", "1000": "0,0181", "1200": "0,0156", "1600": "0,0116", "2000": "0,0093" }
                 },
                 AL: {
                     acuan: {
                         "0,5": "-", "0,75": "-", "1,0": "-", "1,5": "-", "2,5": "-", "4": "7,41", "6": "4,61", "10": "3,08", "16": "1,91", "25": "1,20", "35": "0,868", "50": "0,641", "70": "0,443", "95": "0,320", "120": "0,253", "150": "0,206", "185": "0,164", "240": "0,125", "300": "0,100", "400": "0,0778", "500": "0,0605", "630": "0,0469", "800": "0,0367", "960": "-", "1000": "0,0291", "1200": "-", "1600": "-", "2000": "-"
                     },
-                    single_core: { "0,5": "n/a", "0,75": "n/a", "1": "n/a", "1,5": "n/a", "2,5": "n/a", "4": "7,41", "6": "4,61", "10": "3,08", "16": "1,91", "25": "1,20", "35": "0,868", "50": "0,641", "70": "0,443", "95": "0,320", "120": "0,253", "150": "0,206", "185": "0,164", "240": "0,125", "300": "0,100", "400": "0,0778", "500": "0,0605", "630": "0,0469", "800": "0,0367", "1000": "n/a", "1200": "0,0291", "1400": "n/a", "1600": "n/a", "1800": "n/a" },
-                    multi_core: { "0,5": "n/a", "0,75": "n/a", "1": "n/a", "1,5": "n/a", "2,5": "n/a", "4": "7,41", "6": "4,61", "10": "3,08", "16": "1,91", "25": "1,20", "35": "0,868", "50": "0,641", "70": "0,443", "95": "0,320", "120": "0,253", "150": "0,206", "185": "0,164", "240": "0,125", "300": "0,100", "400": "0,0778", "500": "0,0617", "630": "0,0478", "800": "0,0367", "1000": "n/a", "1200": "0,0291", "1400": "n/a", "1600": "n/a", "1800": "n/a" }
+                    single_core: { "0,5": "n/a", "0,75": "n/a", "1,0": "n/a", "1,5": "n/a", "2,5": "n/a", "4": "7,41", "6": "4,61", "10": "3,08", "16": "1,91", "25": "1,20", "35": "0,868", "50": "0,641", "70": "0,443", "95": "0,320", "120": "0,253", "150": "0,206", "185": "0,164", "240": "0,125", "300": "0,100", "400": "0,0778", "500": "0,0605", "630": "0,0469", "800": "0,0367", "960": "n/a", "1000": "0,0291", "1200": "n/a", "1600": "n/a", "2000": "n/a" },
+                    multi_core: { "0,5": "n/a", "0,75": "n/a", "1,0": "n/a", "1,5": "n/a", "2,5": "n/a", "4": "7,41", "6": "4,61", "10": "3,08", "16": "1,91", "25": "1,20", "35": "0,868", "50": "0,641", "70": "0,443", "95": "0,320", "120": "0,253", "150": "0,206", "185": "0,164", "240": "0,125", "300": "0,100", "400": "0,0778", "500": "0,0617", "630": "0,0478", "800": "0,0367", "960": "n/a", "1000": "0,0291", "1200": "n/a", "1600": "n/a", "2000": "n/a" }
                 },
                 TCU: {
                     acuan: {
                         "0,5": "39,6", "0,75": "26,0", "1,0": "21,6", "1,5": "13,8", "2,5": "7,56", "4": "4,70", "6": "3,11", "10": "1,84", "16": "1,16", "25": "0,734", "35": "0,529", "50": "0,391", "70": "0,270", "95": "0,195", "120": "0,154", "150": "0,126", "185": "0,100", "240": "0,0762", "300": "0,0607", "400": "0,0475", "500": "0,0369", "630": "0,0286", "800": "0,0224", "960": "0,0189", "1000": "0,0177", "1200": "0,0151", "1600": "0,0113", "2000": "0,0090"
                     },
-                    single_core: { "0,5": "40,8", "0,75": "26,8", "1": "22,3", "1,5": "14,2", "2,5": "7,79", "4": "4,85", "6": "3,21", "10": "1,90", "16": "1,20", "25": "0,757", "35": "0,545", "50": "0,403", "70": "0,278", "95": "0,201", "120": "0,159", "150": "0,130", "185": "0,103", "240": "0,0786", "300": "0,0626", "400": "0,0490", "500": "0,0380", "630": "0,0295", "800": "0,0231", "1000": "0,0195", "1200": "0,0182", "1400": "0,0156", "1600": "0,0116", "1800": "0,0093" },
-                    multi_core: { "0,5": "40,8", "0,75": "26,8", "1": "22,3", "1,5": "14,2", "2,5": "7,79", "4": "4,85", "6": "3,21", "10": "1,90", "16": "1,20", "25": "0,757", "35": "0,545", "50": "0,403", "70": "0,278", "95": "0,201", "120": "0,159", "150": "0,130", "185": "0,103", "240": "0,0786", "300": "0,0626", "400": "0,0490", "500": "0,0376", "630": "0,0292", "800": "0,0231", "1000": "0,0195", "1200": "0,0182", "1400": "0,0156", "1600": "0,0116", "1800": "0,0093" }
+                    single_core: { "0,5": "40,8", "0,75": "26,8", "1,0": "22,3", "1,5": "14,2", "2,5": "7,79", "4": "4,85", "6": "3,21", "10": "1,90", "16": "1,20", "25": "0,757", "35": "0,545", "50": "0,403", "70": "0,278", "95": "0,201", "120": "0,159", "150": "0,130", "185": "0,103", "240": "0,0786", "300": "0,0626", "400": "0,0490", "500": "0,0380", "630": "0,0295", "800": "0,0231", "960": "0,0195", "1000": "0,0182", "1200": "0,0156", "1600": "0,0116", "2000": "0,0093" },
+                    multi_core: { "0,5": "40,8", "0,75": "26,8", "1,0": "22,3", "1,5": "14,2", "2,5": "7,79", "4": "4,85", "6": "3,21", "10": "1,90", "16": "1,20", "25": "0,757", "35": "0,545", "50": "0,403", "70": "0,278", "95": "0,201", "120": "0,159", "150": "0,130", "185": "0,103", "240": "0,0786", "300": "0,0626", "400": "0,0490", "500": "0,0376", "630": "0,0292", "800": "0,0231", "960": "0,0195", "1000": "0,0182", "1200": "0,0156", "1600": "0,0116", "2000": "0,0093" }
                 }
             };
 
@@ -419,6 +438,10 @@
             const hapusBtn = document.getElementById('hapusBtn');
             const specSingleCoreSpan = document.getElementById('specSingleCore');
             const specMultiCoreSpan = document.getElementById('specMultiCore');
+            const labelPembacaan = document.getElementById('labelPembacaan');
+            const satuanMohmBtn = document.getElementById('satuanMohmBtn');
+            const satuanOhmBtn = document.getElementById('satuanOhmBtn');
+            const badgeSatuan = document.getElementById('badgeSatuan');
 
             function validateNumericInput(event) {
                 let val = event.target.value.replace(/,/g, '.');
@@ -430,21 +453,46 @@
             }
 
             let currentMode = 'hambatan';
+            let currentSatuan = 'mohm'; // Default: mili ohm (mΩ)
+
+            function setSatuan(satuan) {
+                currentSatuan = satuan;
+                if (satuan === 'ohm') {
+                    satuanOhmBtn.className = "px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-purple-600 dark:text-purple-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none";
+                    satuanMohmBtn.className = "px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none";
+                    labelPembacaan.innerText = "Pembacaan (Ω)";
+                    pembacaanAlatInput.placeholder = "ohm";
+                    if (badgeSatuan) badgeSatuan.innerText = "Ω";
+                } else {
+                    satuanMohmBtn.className = "px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-purple-600 dark:text-purple-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none";
+                    satuanOhmBtn.className = "px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none";
+                    labelPembacaan.innerText = "Pembacaan (mΩ)";
+                    pembacaanAlatInput.placeholder = "mili ohm";
+                    if (badgeSatuan) badgeSatuan.innerText = "mΩ";
+                }
+                hitungHasil();
+            }
 
             function hitungHasil() {
-                hasilKalkulasiInput.classList.remove('text-green-500', 'text-red-500', 'text-orange-600', 'dark:text-orange-400', 'text-slate-750', 'dark:text-slate-250');
+                hasilKalkulasiInput.classList.remove('text-green-500', 'text-red-500', 'text-purple-600', 'dark:text-purple-400', 'text-slate-700', 'dark:text-slate-200');
                 pesanHasil.className = 'text-center text-xs font-semibold leading-snug min-h-[1.1rem] transition-colors duration-300 mt-auto';
                 pesanHasil.innerText = '';
 
+                let pembacaan = parseFloat(pembacaanAlatInput.value.replace(',', '.'));
+                // Jika pembacaan alat dalam satuan Ohm (Ω), konversikan ke mili-ohm (x 1000)
+                // Sesuai formula standar: R_20 = (R_ohm / (panjang / 1000)) * koreksi = (R_ohm * 1000 / panjang) * koreksi
+                if (!isNaN(pembacaan) && currentSatuan === 'ohm') {
+                    pembacaan = pembacaan * 1000;
+                }
+
                 if (currentMode === 'panjang') {
-                    const pembacaan = parseFloat(pembacaanAlatInput.value.replace(',', '.'));
                     const acuan = parseFloat(panjangInput.value.replace(',', '.'));
                     const koreksi = parseFloat(faktorKoreksiInput.value.replace(',', '.'));
 
-                    if (!isNaN(pembacaan) && !isNaN(acuan) && !isNaN(koreksi) && acuan !== 0) {
+                    if (!isNaN(pembacaan) && pembacaan > 0 && !isNaN(acuan) && acuan > 0 && !isNaN(koreksi)) {
                         const estimasiMeter = (pembacaan * koreksi) / acuan;
                         hasilKalkulasiInput.value = estimasiMeter.toFixed(2);
-                        hasilKalkulasiInput.classList.add('text-orange-600', 'dark:text-orange-400');
+                        hasilKalkulasiInput.classList.add('text-purple-600', 'dark:text-purple-400');
 
                         if (estimasiMeter >= 1000) {
                             const km = (estimasiMeter / 1000).toFixed(3);
@@ -452,20 +500,19 @@
                         } else {
                             pesanHasil.innerText = `Kalkulasi panjang dari acuan ${acuan} Ω/km pada 20°C.`;
                         }
-                        pesanHasil.classList.add('text-orange-600', 'dark:text-orange-300');
+                        pesanHasil.classList.add('text-purple-600', 'dark:text-purple-300');
                     } else {
                         hasilKalkulasiInput.value = '';
-                        hasilKalkulasiInput.classList.add('text-slate-750', 'dark:text-slate-250');
+                        hasilKalkulasiInput.classList.add('text-slate-700', 'dark:text-slate-200');
                     }
                     updateResultCardVisuals();
                     return;
                 }
 
-                const pembacaan = parseFloat(pembacaanAlatInput.value.replace(',', '.'));
                 const panjang = parseFloat(panjangInput.value.replace(',', '.'));
                 const koreksi = parseFloat(faktorKoreksiInput.value.replace(',', '.'));
 
-                if (!isNaN(pembacaan) && !isNaN(panjang) && !isNaN(koreksi) && panjang !== 0) {
+                if (!isNaN(pembacaan) && pembacaan > 0 && !isNaN(panjang) && panjang > 0 && !isNaN(koreksi)) {
                     const hasil = (pembacaan / panjang) * koreksi;
                     hasilKalkulasiInput.value = hasil.toFixed(4);
 
@@ -484,13 +531,13 @@
                             pesanHasil.classList.add('text-rose-600', 'dark:text-rose-400');
                         }
                     } else if (spekMaxRaw === '~' || spekMaxRaw === '-') {
-                        hasilKalkulasiInput.classList.add('text-slate-750', 'dark:text-slate-250');
+                        hasilKalkulasiInput.classList.add('text-slate-700', 'dark:text-slate-200');
                         pesanHasil.innerText = 'Spesifikasi maksimum tidak dispesifikasikan untuk ukuran ini.';
                         pesanHasil.classList.add('text-slate-500', 'dark:text-slate-400');
                     }
                 } else {
                     hasilKalkulasiInput.value = '';
-                    hasilKalkulasiInput.classList.add('text-slate-750', 'dark:text-slate-250');
+                    hasilKalkulasiInput.classList.add('text-slate-700', 'dark:text-slate-200');
                 }
                 updateResultCardVisuals();
             }
@@ -530,7 +577,7 @@
                     specMultiCoreSpan.innerText = multiCoreSpec;
                     spekMaxInput.value = acuanSpec;
                     if (currentMode === 'panjang') {
-                        panjangInput.value = acuanSpec;
+                        panjangInput.value = (acuanSpec === '-' || acuanSpec === '~') ? '' : acuanSpec;
                     }
                 } else {
                     specSingleCoreSpan.innerText = '-';
@@ -550,7 +597,9 @@
                 faktorKoreksiInput.value = '';
                 hasilKalkulasiInput.value = '';
                 pesanHasil.innerText = '';
+                setSatuan('mohm');
                 updateFaktorKoreksi();
+                updateResultCardVisuals();
             }
 
             // Custom Visual Card State Handler
@@ -559,8 +608,8 @@
                 const statusIcon = document.getElementById('statusIcon');
 
                 if (currentMode === 'panjang' && hasilKalkulasiInput.value !== '') {
-                    card.className = "transition-all duration-300 rounded-2xl p-4 bg-orange-500/10 dark:bg-orange-950/20 border border-orange-500/30 dark:border-orange-500/25 shadow-lg shadow-orange-100/30 dark:shadow-none text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1";
-                    statusIcon.innerHTML = `<svg class="w-5 h-5 text-orange-500 dark:text-orange-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>`;
+                    card.className = "transition-all duration-300 rounded-2xl p-4 bg-purple-500/10 dark:bg-purple-950/20 border border-purple-500/30 dark:border-purple-500/25 shadow-lg shadow-purple-100/30 dark:shadow-none text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1";
+                    statusIcon.innerHTML = `<svg class="w-5 h-5 text-purple-500 dark:text-purple-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>`;
                     statusIcon.classList.remove('hidden');
                     return;
                 }
@@ -574,7 +623,7 @@
                     statusIcon.classList.remove('hidden');
                 } else if (hasFail) {
                     card.className = "transition-all duration-300 rounded-2xl p-4 bg-rose-500/10 dark:bg-rose-950/20 border border-rose-500/30 dark:border-rose-500/25 shadow-lg shadow-rose-100/30 dark:shadow-none text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1";
-                    statusIcon.innerHTML = `<svg class="w-5 h-5 text-rose-500 dark:text-rose-450 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+                    statusIcon.innerHTML = `<svg class="w-5 h-5 text-rose-500 dark:text-rose-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
                     statusIcon.classList.remove('hidden');
                 } else {
                     card.className = "transition-all duration-300 rounded-2xl p-4 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1";
@@ -637,7 +686,7 @@
 
             modeHambatanBtn.addEventListener('click', () => {
                 currentMode = 'hambatan';
-                modeHambatanBtn.className = "flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-orange-600 dark:text-orange-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30";
+                modeHambatanBtn.className = "flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-purple-600 dark:text-purple-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30";
                 modePanjangBtn.className = "flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200";
                 labelPanjang.innerText = "Panjang (m)";
                 panjangInput.placeholder = "meter";
@@ -649,15 +698,18 @@
 
             modePanjangBtn.addEventListener('click', () => {
                 currentMode = 'panjang';
-                modePanjangBtn.className = "flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-orange-600 dark:text-orange-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30";
+                modePanjangBtn.className = "flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-purple-600 dark:text-purple-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30";
                 modeHambatanBtn.className = "flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200";
                 labelPanjang.innerText = "Acuan (Ω/km)";
                 panjangInput.placeholder = "Ω/km (Spek)";
-                panjangInput.value = spekMaxInput.value;
+                panjangInput.value = (spekMaxInput.value === '-' || spekMaxInput.value === '~') ? '' : spekMaxInput.value;
                 resultTitle.innerText = "Estimasi Panjang Kabel";
                 resultUnit.innerText = "Meter (m)";
                 hitungHasil();
             });
+
+            satuanMohmBtn.addEventListener('click', () => setSatuan('mohm'));
+            satuanOhmBtn.addEventListener('click', () => setSatuan('ohm'));
 
             konduktorSelect.addEventListener('change', () => {
                 updateFaktorKoreksi();
@@ -668,7 +720,7 @@
             hapusBtn.addEventListener('click', () => {
                 hapus();
                 if (currentMode === 'panjang') {
-                    panjangInput.value = spekMaxInput.value;
+                    panjangInput.value = (spekMaxInput.value === '-' || spekMaxInput.value === '~') ? '' : spekMaxInput.value;
                 }
                 hitungHasil();
             });

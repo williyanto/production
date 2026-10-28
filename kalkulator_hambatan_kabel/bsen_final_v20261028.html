@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="id" class="transition-all duration-300">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Kabel Instrumen BS EN</title>
+    <link rel="icon" type="image/png" href="../icons/logo_iec.png"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        select {
+            background-image: none !important;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-tr from-slate-100 via-cyan-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-center items-center py-2 px-3 overflow-x-hidden transition-colors duration-300">
+
+    <!-- Ambient Background Blobs (Desktop Only visual enhancement) -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
+        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-cyan-400 blur-[100px] animate-pulse"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-sky-400 blur-[100px] animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-5 transition-all duration-300 flex flex-col w-full max-h-[calc(100dvh-1rem)] my-auto overflow-hidden">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-2.5 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500 to-sky-600 flex items-center justify-center text-white shadow-md shadow-cyan-200 dark:shadow-none">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 19h4.5a7 7 0 1 1 7 0H20" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Kalkulator Hambatan</h1>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">BS EN 60228 STANDARD</p>
+                </div>
+            </div>
+            
+            <!-- Dark Mode Toggle Button -->
+            <button id="theme-toggle" type="button" class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95 transition-all">
+                <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Segmented Standard Switcher -->
+        <div class="grid grid-cols-5 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl my-2 border border-slate-200/20 dark:border-slate-700/20">
+            <a href="./iec_final_v20261028.html" class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-800/50">
+                IEC
+            </a>
+            <a href="./icea_final_v20261028.html" class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-800/50">
+                ICEA
+            </a>
+            <a href="./as_final_v20261028.html" class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-800/50">
+                AS/NZS
+            </a>
+            <a href="./spln_final_v20261028.html" class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-800/50">
+                SPLN
+            </a>
+            <a href="./bsen_final_v20261028.html" class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30">
+                BS EN
+            </a>
+        </div>
+
+        <!-- Inputs and controls container -->
+        <div class="space-y-2.5 flex-1 flex flex-col justify-between my-0.5 px-1 -mx-1">
+            
+            <!-- Group 1: Parameter Pengukuran Kabel Instrumen (4 Kolom dalam 1 Tampilan) -->
+            <div>
+                <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-1">Parameter Pengukuran Instrumen</span>
+                <div class="grid grid-cols-2 gap-2.5">
+                    <!-- 1. Conductor Resistance (Default: Ω) -->
+                    <div class="relative group">
+                        <div class="flex items-center justify-between mb-1 min-h-[18px]">
+                            <label for="inputCR" class="block text-[9.5px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight">Conductor Res.</label>
+                            <div class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60">
+                                <button type="button" id="crMohmBtn" title="Input mili ohm" class="px-1.5 py-0.5 rounded-md text-[8.5px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">mΩ</button>
+                                <button type="button" id="crOhmBtn" title="Input ohm" class="px-1.5 py-0.5 rounded-md text-[8.5px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">Ω</button>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <input type="text" inputmode="decimal" id="inputCR" class="pr-11 block w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all text-xs font-semibold" placeholder="ohm">
+                            <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
+                                <span id="badgeCR" class="text-[9px] font-bold text-slate-400 dark:text-slate-500">Ω</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Insulation Resistance (Default: GΩ.km) -->
+                    <div class="relative group">
+                        <div class="flex items-center justify-between mb-1 min-h-[18px]">
+                            <label for="inputIR" class="block text-[9.5px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight">Insulation Res.</label>
+                            <div class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60">
+                                <button type="button" id="irMohmBtn" title="Satuan MΩ.km" class="px-1.5 py-0.5 rounded-md text-[8.5px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">MΩ.km</button>
+                                <button type="button" id="irGohmBtn" title="Satuan GΩ.km" class="px-1.5 py-0.5 rounded-md text-[8.5px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">GΩ.km</button>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <input type="text" inputmode="decimal" id="inputIR" class="pr-12 block w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all text-xs font-semibold" placeholder="giga ohm">
+                            <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+                                <span id="badgeIR" class="text-[9px] font-bold text-slate-400 dark:text-slate-500">GΩ.km</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Mutual Capacitance (1 Opsi: nF/km) -->
+                    <div class="relative group">
+                        <div class="flex items-center justify-between mb-1 min-h-[18px]">
+                            <label for="inputMC" class="block text-[9.5px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight">Mutual Cap. (nF/km)</label>
+                        </div>
+                        <div class="relative">
+                            <input type="text" inputmode="decimal" id="inputMC" class="block w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all text-xs font-semibold" placeholder="nano farad">
+                        </div>
+                    </div>
+
+                    <!-- 4. L/R Ratio (1 Opsi: μH/Ω) -->
+                    <div class="relative group">
+                        <div class="flex items-center justify-between mb-1 min-h-[18px]">
+                            <label for="inputLR" class="block text-[9.5px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight">L/R Ratio (μH/Ω)</label>
+                        </div>
+                        <div class="relative">
+                            <input type="text" inputmode="decimal" id="inputLR" class="block w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all text-xs font-semibold" placeholder="millihenry">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group 2: Panjang, Suhu & Faktor Koreksi -->
+            <div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    <!-- Panjang -->
+                    <div class="relative group">
+                        <label for="panjang" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Panjang (m)</label>
+                        <input type="text" inputmode="decimal" name="panjang" id="panjang" class="block w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all text-xs font-semibold" placeholder="meter">
+                    </div>
+                    <!-- Suhu -->
+                    <div class="relative group">
+                        <label for="suhu" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Suhu (°C)</label>
+                        <input type="text" inputmode="decimal" name="suhu" id="suhu" class="block w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all text-xs font-semibold" placeholder="celsius">
+                    </div>
+                    <!-- Faktor Koreksi -->
+                    <div class="relative group">
+                        <label for="faktorKoreksi" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Faktor Koreksi</label>
+                        <input type="text" name="faktorKoreksi" id="faktorKoreksi" readonly class="block w-full px-2.5 py-1.5 bg-slate-100/75 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 dark:text-slate-400 focus:outline-none transition-all font-mono text-xs font-bold text-center" placeholder="-">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group 3: Spesifikasi Kabel (Penghantar, Penampang, Isolasi, Konstruksi) -->
+            <div>
+                <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-1">Spesifikasi Kabel (BS EN 60228 / 50288-7)</span>
+                <div class="grid grid-cols-4 gap-2">
+                    <!-- Konduktor -->
+                    <div class="relative group">
+                        <label for="konduktor" class="block text-[9.5px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight mb-1">Penghantar</label>
+                        <div class="relative">
+                            <select id="konduktor" name="konduktor" class="appearance-none block w-full pl-2.5 pr-5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all text-[11px] font-bold">
+                                <option value="CU">CU</option>
+                                <option value="TCU">TCU</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400 dark:text-slate-500">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Penampang -->
+                    <div class="relative group">
+                        <label for="penampang" class="block text-[9.5px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight mb-1">Penampang</label>
+                        <div class="relative">
+                            <select id="penampang" name="penampang" class="appearance-none block w-full pl-2.5 pr-5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all text-[11px] font-bold">
+                                <option value="0.5">0.5 mm²</option>
+                                <option value="0.75">0.75 mm²</option>
+                                <option value="1.0">1.0 mm²</option>
+                                <option value="1.5">1.5 mm²</option>
+                                <option value="2.5">2.5 mm²</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400 dark:text-slate-500">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Material Isolasi -->
+                    <div class="relative group">
+                        <label for="isolasi" class="block text-[9.5px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight mb-1">Isolasi</label>
+                        <div class="relative">
+                            <select id="isolasi" name="isolasi" class="appearance-none block w-full pl-2.5 pr-5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all text-[11px] font-bold">
+                                <option value="PE_XLPE">PE / XLPE</option>
+                                <option value="PVC">PVC</option>
+                                <option value="LSZH">LSZH / HFFR</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400 dark:text-slate-500">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Konstruksi Kabel (Screened / Unscreened) -->
+                    <div class="relative group">
+                        <label for="konstruksi" class="block text-[9.5px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight mb-1">Konstruksi</label>
+                        <div class="relative">
+                            <select id="konstruksi" name="konstruksi" class="appearance-none block w-full pl-2.5 pr-5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all text-[11px] font-bold">
+                                <option value="SCREENED">Screened</option>
+                                <option value="UNSCREENED">Unscreened</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400 dark:text-slate-500">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Result Card (Dikompakan agar tidak terpotong & tanpa scroll) -->
+            <div id="resultCard" class="transition-all duration-300 rounded-2xl p-2.5 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 relative my-0.5 flex flex-col justify-between shrink-0">
+                <div class="w-full flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Hasil & Batas Spesifikasi</span>
+                    <div id="statusIcon" class="hidden"></div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-1.5 w-full">
+                    <!-- Result 1: CR -->
+                    <div class="bg-white/80 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-700/60 rounded-xl px-2.5 py-1.5 text-center">
+                        <div class="flex items-center justify-between gap-1 whitespace-nowrap text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase">
+                            <span>Cond. Res</span>
+                            <span id="specBadgeCR" class="font-mono text-[11px] font-extrabold text-cyan-600 dark:text-cyan-400">≤ 36.0</span>
+                        </div>
+                        <div id="resCR" class="font-extrabold text-base text-slate-700 dark:text-slate-200 leading-tight">---</div>
+                        <div class="text-[8px] font-bold text-slate-400 dark:text-slate-500 leading-none">Ω/km (20°C)</div>
+                    </div>
+
+                    <!-- Result 2: IR -->
+                    <div class="bg-white/80 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-700/60 rounded-xl px-2.5 py-1.5 text-center">
+                        <div class="flex items-center justify-between gap-1 whitespace-nowrap text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase">
+                            <span>INS. RES</span>
+                            <span id="specBadgeIR" class="font-mono text-[10.5px] font-extrabold text-cyan-600 dark:text-cyan-400">≥ 1,000 - 5,000</span>
+                        </div>
+                        <div id="resIR" class="font-extrabold text-base text-slate-700 dark:text-slate-200 leading-tight">---</div>
+                        <div id="unitIRLabel" class="text-[8px] font-bold text-slate-400 dark:text-slate-500 leading-none">MΩ·km</div>
+                    </div>
+
+                    <!-- Result 3: MC -->
+                    <div class="bg-white/80 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-700/60 rounded-xl px-2.5 py-1.5 text-center">
+                        <div class="flex items-center justify-between gap-1 whitespace-nowrap text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase">
+                            <span>Mutual Cap</span>
+                            <span id="specBadgeMC" class="font-mono text-[11px] font-extrabold text-cyan-600 dark:text-cyan-400">≤ 150</span>
+                        </div>
+                        <div id="resMC" class="font-extrabold text-base text-slate-700 dark:text-slate-200 leading-tight">---</div>
+                        <div id="unitMCLabel" class="text-[8px] font-bold text-slate-400 dark:text-slate-500 leading-none">nF/km</div>
+                    </div>
+
+                    <!-- Result 4: L/R Ratio -->
+                    <div class="bg-white/80 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-700/60 rounded-xl px-2.5 py-1.5 text-center">
+                        <div class="flex items-center justify-between gap-1 whitespace-nowrap text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase">
+                            <span>L/R Ratio</span>
+                            <span id="specBadgeLR" class="font-mono text-[11px] font-extrabold text-cyan-600 dark:text-cyan-400">≤ 25</span>
+                        </div>
+                        <div id="resLR" class="font-extrabold text-base text-slate-700 dark:text-slate-200 leading-tight">---</div>
+                        <div class="text-[8px] font-bold text-slate-400 dark:text-slate-500 leading-none">μH/Ω</div>
+                    </div>
+                </div>
+                
+                <p id="pesanHasil" class="text-center text-[10.5px] font-semibold leading-tight min-h-[0.85rem] transition-colors duration-300 mt-1"></p>
+            </div>
+            
+            <!-- Controls Menu -->
+            <div class="grid grid-cols-3 gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+                <button type="button" onclick="history.back()" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                    Kembali
+                </button>
+                
+                <button type="button" id="hapusBtn" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-transparent rounded-xl text-xs font-bold text-white bg-rose-500 hover:bg-rose-600 active:scale-95 transition-all shadow-md shadow-rose-100 dark:shadow-none">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                    Reset
+                </button>
+                
+                <a href="../index.html" class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                    Beranda
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-1.5 pt-1.5 border-t border-slate-100 dark:border-slate-800 font-medium">
+            Williyanto Adi 2026
+        </footer>
+
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // Data Faktor Koreksi Suhu (Sama dengan tab IEC 60228 untuk CU dan TCU)
+        const tempTableCuTcu = {
+            "20.0": "1.0000",
+            "21.0": "0.9961", "21.1": "0.9957", "21.2": "0.9953", "21.3": "0.9949", "21.4": "0.9945",
+            "21.5": "0.9941", "21.6": "0.9938", "21.7": "0.9934", "21.8": "0.9930", "21.9": "0.9926",
+            "22.0": "0.9922", "22.1": "0.9918", "22.2": "0.9914", "22.3": "0.9910", "22.4": "0.9907",
+            "22.5": "0.9903", "22.6": "0.9899", "22.7": "0.9895", "22.8": "0.9891", "22.9": "0.9887",
+            "23.0": "0.9883", "23.1": "0.9880", "23.2": "0.9876", "23.3": "0.9872", "23.4": "0.9868",
+            "23.5": "0.9864", "23.6": "0.9861", "23.7": "0.9857", "23.8": "0.9853", "23.9": "0.9849",
+            "24.0": "0.9845", "24.1": "0.9841", "24.2": "0.9838", "24.3": "0.9834", "24.4": "0.9830",
+            "24.5": "0.9826", "24.6": "0.9822", "24.7": "0.9819", "24.8": "0.9815", "24.9": "0.9811",
+            "25.0": "0.9807", "25.1": "0.9804", "25.2": "0.9800", "25.3": "0.9796", "25.4": "0.9792",
+            "25.5": "0.9788", "25.6": "0.9785", "25.7": "0.9781", "25.8": "0.9777", "25.9": "0.9773",
+            "26.0": "0.9770", "26.1": "0.9766", "26.2": "0.9762", "26.3": "0.9758", "26.4": "0.9755",
+            "26.5": "0.9751", "26.6": "0.9747", "26.7": "0.9743", "26.8": "0.9740", "26.9": "0.9736",
+            "27.0": "0.9732", "27.1": "0.9729", "27.2": "0.9725", "27.3": "0.9721", "27.4": "0.9717",
+            "27.5": "0.9714", "27.6": "0.9710", "27.7": "0.9706", "27.8": "0.9703", "27.9": "0.9699",
+            "28.0": "0.9695", "28.1": "0.9692", "28.2": "0.9688", "28.3": "0.9684", "28.4": "0.9680",
+            "28.5": "0.9677", "28.6": "0.9673", "28.7": "0.9669", "28.8": "0.9666", "28.9": "0.9662",
+            "29.0": "0.9658", "29.1": "0.9655", "29.2": "0.9651", "29.3": "0.9647", "29.4": "0.9644",
+            "29.5": "0.9640", "29.6": "0.9637", "29.7": "0.9633", "29.8": "0.9629", "29.9": "0.9626",
+            "30.0": "0.9622", "30.1": "0.9618", "30.2": "0.9615", "30.3": "0.9611", "30.4": "0.9607",
+            "30.5": "0.9604", "30.6": "0.9600", "30.7": "0.9597", "30.8": "0.9593", "30.9": "0.9589",
+            "31.0": "0.9586", "31.1": "0.9582", "31.2": "0.9578", "31.3": "0.9575", "31.4": "0.9571",
+            "31.5": "0.9568", "31.6": "0.9564", "31.7": "0.9560", "31.8": "0.9557", "31.9": "0.9553",
+            "32.0": "0.9550", "32.1": "0.9546", "32.2": "0.9543", "32.3": "0.9539", "32.4": "0.9535",
+            "32.5": "0.9532", "32.6": "0.9528", "32.7": "0.9525", "32.8": "0.9521", "32.9": "0.9518",
+            "33.0": "0.9514", "33.1": "0.9510", "33.2": "0.9507", "33.3": "0.9503", "33.4": "0.9500",
+            "33.5": "0.9496", "33.6": "0.9493", "33.7": "0.9489", "33.8": "0.9486", "33.9": "0.9482",
+            "34.0": "0.9479", "34.1": "0.9475", "34.2": "0.9472", "34.3": "0.9468", "34.4": "0.9464",
+            "34.5": "0.9461", "34.6": "0.9457", "34.7": "0.9454", "34.8": "0.9450", "34.9": "0.9447"
+        };
+
+        const correctionFactors = {
+            CU: tempTableCuTcu,
+            TCU: tempTableCuTcu
+        };
+
+        // 1. Tabel Nilai Maksimum Resistansi Konduktor (20°C) - BS EN 60228
+        const specCR = {
+            CU: {
+                "0.5": 36.0,
+                "0.75": 24.5,
+                "1.0": 18.1,
+                "1.5": 12.1,
+                "2.5": 7.41
+            },
+            TCU: {
+                "0.5": 36.7,
+                "0.75": 24.8,
+                "1.0": 18.2,
+                "1.5": 12.2,
+                "2.5": 7.56
+            }
+        };
+
+        // 2. Spesifikasi Minimum Nilai IR (MΩ·km) sesuai tabel standar
+        const specIR = {
+            PVC: { minMOhm: 25, maxRefMOhm: 100, label: "≥ 25 - 100" },
+            PE_XLPE: { minMOhm: 1000, maxRefMOhm: 5000, label: "≥ 1,000 - 5,000" },
+            LSZH: { minMOhm: 100, maxRefMOhm: 500, label: "≥ 100 - 500" }
+        };
+
+        // 3. Batas Maksimum Mutual Capacitance (BS EN 50288-7) dalam nF/km
+        const specMC = {
+            UNSCREENED: {
+                PVC: 100,
+                PE_XLPE: 75,
+                LSZH: 100
+            },
+            SCREENED: {
+                PVC: 250,
+                PE_XLPE: 150,
+                LSZH: 250
+            }
+        };
+
+        // 4. Batas Maksimum Spesifikasi L/R Ratio (IEC 60079-14 / BS EN 50288-7) dalam μH/Ω
+        const specLR = {
+            "0.5": { max: 25, label: "≤ 25" },
+            "0.75": { max: 25, label: "≤ 25" },
+            "1.0": { max: 40, label: "≤ 25 - 40" },
+            "1.5": { max: 40, label: "≤ 40" },
+            "2.5": { max: 60, label: "≤ 60" }
+        };
+
+        // DOM Elements
+        const inputCR = document.getElementById('inputCR');
+        const inputIR = document.getElementById('inputIR');
+        const inputMC = document.getElementById('inputMC');
+        const inputLR = document.getElementById('inputLR');
+
+        const crMohmBtn = document.getElementById('crMohmBtn');
+        const crOhmBtn = document.getElementById('crOhmBtn');
+        const irMohmBtn = document.getElementById('irMohmBtn');
+        const irGohmBtn = document.getElementById('irGohmBtn');
+
+        const badgeCR = document.getElementById('badgeCR');
+        const badgeIR = document.getElementById('badgeIR');
+
+        const panjangInput = document.getElementById('panjang');
+        const suhuInput = document.getElementById('suhu');
+        const faktorKoreksiInput = document.getElementById('faktorKoreksi');
+        const konduktorSelect = document.getElementById('konduktor');
+        const penampangSelect = document.getElementById('penampang');
+        const isolasiSelect = document.getElementById('isolasi');
+        const konstruksiSelect = document.getElementById('konstruksi');
+
+        const resCR = document.getElementById('resCR');
+        const resIR = document.getElementById('resIR');
+        const resMC = document.getElementById('resMC');
+        const resLR = document.getElementById('resLR');
+
+        const specBadgeCR = document.getElementById('specBadgeCR');
+        const specBadgeIR = document.getElementById('specBadgeIR');
+        const specBadgeMC = document.getElementById('specBadgeMC');
+        const specBadgeLR = document.getElementById('specBadgeLR');
+
+        const unitIRLabel = document.getElementById('unitIRLabel');
+        const pesanHasil = document.getElementById('pesanHasil');
+        const hapusBtn = document.getElementById('hapusBtn');
+
+        // Default Unit States sesuai permintaan:
+        // Conductor Res -> ohm (Ω)
+        // Insulation Res -> Gohm (GΩ)
+        // Mutual Cap -> 1 opsi saja (nF/km)
+        // L/R Ratio -> 1 opsi saja (μH/Ω)
+        let unitCR = 'ohm';   // 'ohm' | 'mohm'
+        let unitIR = 'gohm';  // 'gohm' (GΩ) | 'mohm' (MΩ)
+
+        const activeSmallBtn = "px-1.5 py-0.5 rounded-md text-[8.5px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none";
+        const inactiveSmallBtn = "px-1.5 py-0.5 rounded-md text-[8.5px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none";
+
+        function validateNumericInput(event) {
+            let val = event.target.value.replace(/,/g, '.');
+            const parts = val.split('.');
+            if (parts.length > 2) {
+                val = parts[0] + '.' + parts.slice(1).join('');
+            }
+            event.target.value = val.replace(/[^0-9.]/g, '');
+        }
+
+        function updateFaktorKoreksi() {
+            const suhuValueRaw = suhuInput.value.replace(',', '.');
+            const suhuNumber = parseFloat(suhuValueRaw);
+            faktorKoreksiInput.value = '';
+            if (!isNaN(suhuNumber)) {
+                const suhuKey = suhuNumber.toFixed(1);
+                const konduktorValue = konduktorSelect.value;
+                const currentFactors = correctionFactors[konduktorValue];
+                if (currentFactors && currentFactors[suhuKey]) {
+                    faktorKoreksiInput.value = currentFactors[suhuKey];
+                } else {
+                    const c = 234.5;
+                    const factor = (c + 20) / (c + suhuNumber);
+                    if (factor > 0) {
+                        faktorKoreksiInput.value = factor.toFixed(4);
+                    }
+                }
+            }
+            hitungSemua();
+        }
+
+        function updateSpek() {
+            const konduktorValue = konduktorSelect.value;
+            const penampangValue = penampangSelect.value;
+            const isolasiValue = isolasiSelect.value;
+            const konstruksiValue = konstruksiSelect.value;
+
+            // 1. Spek CR
+            const crMaxVal = specCR[konduktorValue] ? specCR[konduktorValue][penampangValue] : null;
+            const crFormatted = crMaxVal !== null ? (Number.isInteger(crMaxVal) ? crMaxVal.toFixed(1) : String(crMaxVal)) : '-';
+            specBadgeCR.innerText = `≤ ${crFormatted}`;
+
+            // 2. Spek IR (Selalu dalam MΩ·km sesuai tabel spesifikasi)
+            const irSpecObj = specIR[isolasiValue] || specIR.PE_XLPE;
+            specBadgeIR.innerText = irSpecObj.label;
+            unitIRLabel.innerText = 'MΩ·km';
+
+            // 3. Spek MC
+            const mcMaxVal = (specMC[konstruksiValue] && specMC[konstruksiValue][isolasiValue]) ? specMC[konstruksiValue][isolasiValue] : 150;
+            specBadgeMC.innerText = `≤ ${mcMaxVal}`;
+
+            // 4. Spek L/R Ratio
+            const lrSpecObj = specLR[penampangValue] || { max: 25, label: "≤ 25" };
+            specBadgeLR.innerText = lrSpecObj.label;
+
+            hitungSemua();
+        }
+
+        function setHasilColor(el, status) {
+            el.classList.remove('text-green-500', 'text-red-500', 'text-slate-700', 'dark:text-slate-200');
+            if (status === 'pass') {
+                el.classList.add('text-green-500');
+            } else if (status === 'fail') {
+                el.classList.add('text-red-500');
+            } else {
+                el.classList.add('text-slate-700', 'dark:text-slate-200');
+            }
+        }
+
+        function hitungSemua() {
+            const panjangM = parseFloat(panjangInput.value.replace(',', '.'));
+            const koreksi = parseFloat(faktorKoreksiInput.value.replace(',', '.'));
+            const isKondisiLengkap = !isNaN(panjangM) && panjangM > 0 && !isNaN(koreksi) && koreksi > 0;
+
+            const konduktorValue = konduktorSelect.value;
+            const penampangValue = penampangSelect.value;
+            const isolasiValue = isolasiSelect.value;
+            const konstruksiValue = konstruksiSelect.value;
+
+            let totalTested = 0;
+            let totalFailed = 0;
+
+            // 1. Conductor Resistance (Ω/km) - Wajib isi CR, Panjang, dan Suhu
+            const rawCR = parseFloat(inputCR.value.replace(',', '.'));
+            const maxCR = specCR[konduktorValue] ? specCR[konduktorValue][penampangValue] : NaN;
+            let calculatedCR = NaN;
+
+            if (isKondisiLengkap && !isNaN(rawCR) && rawCR > 0) {
+                const crMOhm = (unitCR === 'ohm') ? rawCR * 1000 : rawCR;
+                calculatedCR = (crMOhm / panjangM) * koreksi;
+                resCR.innerText = calculatedCR.toFixed(4);
+                totalTested++;
+                if (!isNaN(maxCR) && calculatedCR <= maxCR) {
+                    setHasilColor(resCR, 'pass');
+                } else {
+                    setHasilColor(resCR, 'fail');
+                    totalFailed++;
+                }
+            } else {
+                resCR.innerText = '---';
+                setHasilColor(resCR, 'idle');
+            }
+
+            // 2. Insulation Resistance (Output & Spek dalam MΩ·km) - Wajib isi IR, Panjang, dan Suhu
+            const rawIR = parseFloat(inputIR.value.replace(',', '.'));
+            const irSpecObj = specIR[isolasiValue] || specIR.PE_XLPE;
+            const minIR = irSpecObj.minMOhm;
+
+            if (isKondisiLengkap && !isNaN(rawIR) && rawIR > 0) {
+                // Jika input dalam GΩ, konversikan ke MΩ (x 1000)
+                const irMOhm = (unitIR === 'gohm') ? (rawIR * 1000) : rawIR;
+                const hasilIR = irMOhm * (panjangM / 1000);
+                resIR.innerText = hasilIR >= 100 ? hasilIR.toFixed(2) : hasilIR.toFixed(4);
+                totalTested++;
+                if (hasilIR >= minIR) {
+                    setHasilColor(resIR, 'pass');
+                } else {
+                    setHasilColor(resIR, 'fail');
+                    totalFailed++;
+                }
+            } else {
+                resIR.innerText = '---';
+                setHasilColor(resIR, 'idle');
+            }
+
+            // 3. Mutual Capacitance (nF/km) - Wajib isi MC, Panjang, dan Suhu
+            const rawMC = parseFloat(inputMC.value.replace(',', '.'));
+            const maxMC = (specMC[konstruksiValue] && specMC[konstruksiValue][isolasiValue]) ? specMC[konstruksiValue][isolasiValue] : 150;
+
+            if (isKondisiLengkap && !isNaN(rawMC) && rawMC > 0) {
+                const hasilMC = rawMC / (panjangM / 1000);
+                resMC.innerText = hasilMC.toFixed(2);
+                totalTested++;
+                if (hasilMC <= maxMC) {
+                    setHasilColor(resMC, 'pass');
+                } else {
+                    setHasilColor(resMC, 'fail');
+                    totalFailed++;
+                }
+            } else {
+                resMC.innerText = '---';
+                setHasilColor(resMC, 'idle');
+            }
+
+            // 4. L/R Ratio (μH/Ω) - Wajib isi L/R, Panjang, dan Suhu
+            const rawLR = parseFloat(inputLR.value.replace(',', '.'));
+            const lrSpecObj = specLR[penampangValue] || { max: 25, label: "≤ 25" };
+            const maxLR = lrSpecObj.max;
+
+            if (isKondisiLengkap && !isNaN(rawLR) && rawLR > 0) {
+                const rRef = (!isNaN(calculatedCR) && calculatedCR > 0) ? calculatedCR : maxCR;
+                const lPerKm = (rawLR * 1000) / (panjangM / 1000);
+                const hasilLR = (!isNaN(rRef) && rRef > 0) ? (lPerKm / rRef) : rawLR;
+                resLR.innerText = hasilLR.toFixed(2);
+                totalTested++;
+                if (hasilLR <= maxLR) {
+                    setHasilColor(resLR, 'pass');
+                } else {
+                    setHasilColor(resLR, 'fail');
+                    totalFailed++;
+                }
+            } else {
+                resLR.innerText = '---';
+                setHasilColor(resLR, 'idle');
+            }
+
+            // Update Card Summary Status
+            const card = document.getElementById('resultCard');
+            const statusIcon = document.getElementById('statusIcon');
+            pesanHasil.className = 'text-center text-[10.5px] font-semibold leading-tight min-h-[0.85rem] transition-colors duration-300 mt-1';
+
+            if (totalTested === 0) {
+                card.className = "transition-all duration-300 rounded-2xl p-2.5 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 relative my-0.5 flex flex-col justify-between shrink-0";
+                statusIcon.innerHTML = '';
+                statusIcon.classList.add('hidden');
+                pesanHasil.innerText = '';
+            } else if (totalFailed === 0) {
+                card.className = "transition-all duration-300 rounded-2xl p-2.5 bg-emerald-500/10 dark:bg-emerald-950/20 border border-emerald-500/30 dark:border-emerald-500/25 shadow-lg shadow-emerald-100/30 dark:shadow-none relative my-0.5 flex flex-col justify-between shrink-0";
+                statusIcon.innerHTML = `<svg class="w-4 h-4 text-green-500 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+                statusIcon.classList.remove('hidden');
+                pesanHasil.innerText = 'Hasil pengujian memenuhi spesifikasi standar BS EN.';
+                pesanHasil.classList.add('text-green-600', 'dark:text-green-400');
+            } else {
+                card.className = "transition-all duration-300 rounded-2xl p-2.5 bg-rose-500/10 dark:bg-rose-950/20 border border-rose-500/30 dark:border-rose-500/25 shadow-lg shadow-rose-100/30 dark:shadow-none relative my-0.5 flex flex-col justify-between shrink-0";
+                statusIcon.innerHTML = `<svg class="w-4 h-4 text-rose-500 dark:text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+                statusIcon.classList.remove('hidden');
+                pesanHasil.innerText = `${totalFailed} parameter tidak memenuhi spesifikasi standar BS EN.`;
+                pesanHasil.classList.add('text-rose-600', 'dark:text-rose-400');
+            }
+        }
+
+        // Unit Toggles (Conductor Res & Insulation Res)
+        function setUnitCR(u) {
+            unitCR = u;
+            if (u === 'mohm') {
+                crMohmBtn.className = activeSmallBtn;
+                crOhmBtn.className = inactiveSmallBtn;
+                badgeCR.innerText = 'mΩ';
+                inputCR.placeholder = 'mili ohm';
+            } else {
+                crOhmBtn.className = activeSmallBtn;
+                crMohmBtn.className = inactiveSmallBtn;
+                badgeCR.innerText = 'Ω';
+                inputCR.placeholder = 'ohm';
+            }
+            hitungSemua();
+        }
+
+        function setUnitIR(u) {
+            unitIR = u;
+            if (u === 'mohm') {
+                irMohmBtn.className = activeSmallBtn;
+                irGohmBtn.className = inactiveSmallBtn;
+                badgeIR.innerText = 'MΩ.km';
+                inputIR.placeholder = 'mega ohm';
+            } else {
+                irGohmBtn.className = activeSmallBtn;
+                irMohmBtn.className = inactiveSmallBtn;
+                badgeIR.innerText = 'GΩ.km';
+                inputIR.placeholder = 'giga ohm';
+            }
+            updateSpek();
+        }
+
+        crMohmBtn.addEventListener('click', () => setUnitCR('mohm'));
+        crOhmBtn.addEventListener('click', () => setUnitCR('ohm'));
+        irMohmBtn.addEventListener('click', () => setUnitIR('mohm'));
+        irGohmBtn.addEventListener('click', () => setUnitIR('gohm'));
+
+        function hapus() {
+            inputCR.value = '';
+            inputIR.value = '';
+            inputMC.value = '';
+            inputLR.value = '';
+            panjangInput.value = '';
+            suhuInput.value = '';
+            faktorKoreksiInput.value = '';
+            setUnitCR('ohm');
+            setUnitIR('gohm');
+            updateFaktorKoreksi();
+            updateSpek();
+        }
+
+        // Input Listeners
+        [inputCR, inputIR, inputMC, inputLR, panjangInput, suhuInput].forEach(el => {
+            el.addEventListener('input', validateNumericInput);
+        });
+        [inputCR, inputIR, inputMC, inputLR, panjangInput].forEach(el => {
+            el.addEventListener('input', hitungSemua);
+        });
+        suhuInput.addEventListener('input', updateFaktorKoreksi);
+
+        konduktorSelect.addEventListener('change', () => {
+            updateFaktorKoreksi();
+            updateSpek();
+        });
+        penampangSelect.addEventListener('change', updateSpek);
+        isolasiSelect.addEventListener('change', updateSpek);
+        konstruksiSelect.addEventListener('change', updateSpek);
+        hapusBtn.addEventListener('click', hapus);
+
+        // Dark Mode switch handler
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
+            themeToggleDarkIcon.classList.add('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeToggleDarkIcon.classList.remove('hidden');
+            themeToggleLightIcon.classList.add('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+
+        // Initialize state
+        setUnitCR('ohm');
+        setUnitIR('gohm');
+        updateFaktorKoreksi();
+        updateSpek();
+    });
+    </script>
+
+</body>
+</html>
