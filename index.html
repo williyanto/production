@@ -335,6 +335,238 @@
             margin-top: auto !important;
             transition: border-color 0.3s;
         }
+
+        /* --- Sort Select Dropdown --- */
+        .sort-select {
+            width: auto;
+            min-width: 175px;
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 0.6rem 2rem 0.6rem 0.85rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .sort-select:focus {
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+            border-color: var(--primary-accent) !important;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        }
+
+        @media (max-width: 576px) {
+            .search-row {
+                flex-wrap: wrap;
+            }
+            .search-input {
+                width: 100%;
+                flex-basis: 100%;
+            }
+            .sort-select {
+                flex-grow: 1;
+            }
+        }
+
+        /* --- Favorite Filter Pill --- */
+        .category-btn.fav-filter-btn {
+            border-color: #f59e0b;
+            color: #d97706;
+        }
+
+        body.dark-mode .category-btn.fav-filter-btn {
+            border-color: #f59e0b;
+            color: #fbbf24;
+        }
+
+        .category-btn.fav-filter-btn:hover,
+        .category-btn.fav-filter-btn.active {
+            background-color: #f59e0b !important;
+            border-color: #f59e0b !important;
+            color: #ffffff !important;
+        }
+
+        /* --- Recently Used Bar --- */
+        .recent-projects-bar {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 0.6rem 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .recent-header {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .recent-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--muted-text-color);
+            white-space: nowrap;
+        }
+
+        .recent-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            align-items: center;
+        }
+
+        .recent-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.76rem;
+            font-weight: 600;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            max-width: 220px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .recent-chip:hover {
+            border-color: var(--primary-accent);
+            background-color: var(--hover-bg);
+            color: var(--primary-accent);
+            transform: translateY(-1px);
+        }
+
+        .clear-recent-btn {
+            background: none;
+            border: none;
+            color: var(--muted-text-color);
+            font-size: 0.82rem;
+            padding: 0.2rem 0.45rem;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            transition: color 0.2s, background-color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .clear-recent-btn:hover {
+            color: #dc3545;
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+
+        /* --- Project Card Action Buttons (Pin & Quick Share) --- */
+        .list-group-item {
+            position: relative;
+        }
+
+        .list-group-item > div:first-of-type {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .project-card-actions {
+            margin-left: auto;
+            padding-left: 0.75rem;
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .list-group.grid-view .project-card-actions {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            margin-left: 0;
+            padding-left: 0;
+        }
+
+        .card-action-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--muted-text-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .card-action-btn:hover {
+            border-color: var(--primary-accent);
+            color: var(--primary-accent);
+            background-color: var(--badge-bg);
+            transform: scale(1.08);
+        }
+
+        .card-action-btn.fav-btn:hover {
+            border-color: #f59e0b;
+            color: #f59e0b;
+            background-color: rgba(245, 158, 11, 0.12);
+        }
+
+        .card-action-btn.fav-btn.active {
+            color: #f59e0b;
+            border-color: rgba(245, 158, 11, 0.5);
+            background-color: rgba(245, 158, 11, 0.15);
+        }
+
+        .meta-badge.fav-badge {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: #d97706;
+        }
+
+        body.dark-mode .meta-badge.fav-badge {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+        }
+
+        /* --- Toast Notification --- */
+        .custom-toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 0.6rem 1.2rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            white-space: nowrap;
+        }
+
+        .custom-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -358,6 +590,12 @@
             <div class="search-row">
                 <input type="search" id="search-input" class="form-control search-input"
                     placeholder="Cari proyek (contoh: kabel, gaji, edukasi)...">
+                <select id="sort-select" class="form-select sort-select" title="Urutkan Proyek">
+                    <option value="number">Urut: Nomor (1–50)</option>
+                    <option value="az">Urut: Nama (A–Z)</option>
+                    <option value="za">Urut: Nama (Z–A)</option>
+                    <option value="newest">Urut: Versi Terbaru</option>
+                </select>
                 <button class="btn btn-outline-secondary btn-layout-toggle" id="layout-toggle"
                     title="Ubah Tampilan Mode List / Grid">
                     <i class="bi bi-grid-3x2-gap-fill"></i>
@@ -367,6 +605,9 @@
             <!-- Category Pills -->
             <div class="category-filters" id="category-filters">
                 <button class="btn btn-outline-primary category-btn active" data-category="all">Semua</button>
+                <button class="btn btn-outline-warning category-btn fav-filter-btn" data-category="Favorit">
+                    <i class="bi bi-star-fill me-1"></i>Favorit <span id="fav-count-badge">(0)</span>
+                </button>
                 <button class="btn btn-outline-primary category-btn" data-category="Kelistrikan & Teknik">Kelistrikan &
                     Teknik</button>
                 <button class="btn btn-outline-primary category-btn" data-category="Kabel & Produksi">Kabel &
@@ -378,6 +619,17 @@
                     Tools</button>
                 <button class="btn btn-outline-primary category-btn" data-category="Manajemen">Manajemen</button>
                 <button class="btn btn-outline-primary category-btn" data-category="Media">Media</button>
+            </div>
+
+            <!-- Recently Used Projects Bar -->
+            <div id="recent-projects-bar" class="recent-projects-bar d-none">
+                <div class="recent-header">
+                    <span class="recent-label"><i class="bi bi-clock-history me-1"></i>Terakhir Dibuka:</span>
+                    <div class="recent-chips" id="recent-chips"></div>
+                </div>
+                <button type="button" id="clear-recent-btn" class="clear-recent-btn" title="Hapus Riwayat Terakhir Dibuka">
+                    <i class="bi bi-trash3 me-1"></i>Hapus
+                </button>
             </div>
         </div>
 
@@ -1147,8 +1399,16 @@
         <button id="close-floating-search" style="background: none; border: none; color: var(--muted-text-color); margin-left: 5px; cursor: pointer;"><i class="bi bi-x-lg"></i></button>
     </div>
 
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="custom-toast" role="status" aria-live="polite">
+        <span id="toast-message">Tautan berhasil disalin!</span>
+    </div>
+
     <!-- Floating Bottom Controls -->
     <div class="bottom-right-controls">
+        <button class="btn btn-info text-white btn-floating" id="share-page-btn" title="Bagikan / Salin Link Halaman">
+            <i class="bi bi-share-fill"></i>
+        </button>
         <button class="btn btn-secondary btn-floating" id="theme-toggle" title="Ubah Tema Gelap/Terang">🌓</button>
         <!-- Floating Search Button -->
         <button id="floating-search-btn" class="btn btn-primary btn-floating" style="transform: translateY(100px); opacity: 0; transition: all 0.3s;" title="Cari Proyek">
@@ -1176,8 +1436,272 @@
             const emptyState = document.getElementById('empty-state');
             const resetFilterBtn = document.getElementById('reset-filter-btn');
 
+            const sortSelect = document.getElementById('sort-select');
+            const favCountBadge = document.getElementById('fav-count-badge');
+            const recentProjectsBar = document.getElementById('recent-projects-bar');
+            const recentChipsContainer = document.getElementById('recent-chips');
+            const clearRecentBtn = document.getElementById('clear-recent-btn');
+            const sharePageBtn = document.getElementById('share-page-btn');
+            const toastEl = document.getElementById('toast-notification');
+            const toastMessageEl = document.getElementById('toast-message');
+
             let currentCategory = 'all';
             let currentSearchTerm = '';
+            let currentSort = localStorage.getItem('sortPreference') || 'number';
+            if (sortSelect) sortSelect.value = currentSort;
+
+            let favoriteIds = [];
+            try {
+                favoriteIds = JSON.parse(localStorage.getItem('favoriteProjects') || '[]');
+            } catch (e) {
+                favoriteIds = [];
+            }
+
+            let recentProjects = [];
+            try {
+                recentProjects = JSON.parse(localStorage.getItem('recentProjects') || '[]');
+            } catch (e) {
+                recentProjects = [];
+            }
+
+            let toastTimeout = null;
+            function showToast(msg) {
+                if (!toastEl || !toastMessageEl) return;
+                toastMessageEl.textContent = msg;
+                toastEl.classList.add('show');
+                if (toastTimeout) clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    toastEl.classList.remove('show');
+                }, 2400);
+            }
+
+            async function copyOrShareUrl(url, title, toastText) {
+                try {
+                    await navigator.clipboard.writeText(url);
+                    showToast(toastText || '🔗 Link berhasil disalin ke clipboard!');
+                } catch (err) {
+                    const tempInput = document.createElement('input');
+                    tempInput.value = url;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    showToast(toastText || '🔗 Link berhasil disalin ke clipboard!');
+                }
+            }
+
+            if (sharePageBtn) {
+                sharePageBtn.addEventListener('click', function () {
+                    copyOrShareUrl(window.location.href, document.title, '🔗 Link halaman Daftar Proyek berhasil disalin!');
+                });
+            }
+
+            // --- INISIALISASI DATA KARTU PROYEK, PIN FAVORIT & QUICK SHARE ---
+            const allProjectElements = Array.from(document.querySelectorAll('.list-group-item'));
+            allProjectElements.forEach((item, index) => {
+                const strongEl = item.querySelector('strong');
+                const rawTitle = strongEl ? strongEl.textContent.trim() : `Proyek ${index + 1}`;
+                const numMatch = rawTitle.match(/Proyek\s+(\d+)/i);
+                const projectId = numMatch ? parseInt(numMatch[1], 10) : (index + 1);
+
+                // Clean title without "Proyek X: " and "(vYYYYMMDD)"
+                const cleanName = rawTitle
+                    .replace(/^Proyek\s+\d+\s*:\s*/i, '')
+                    .replace(/\s*\(v\d+\)\s*$/i, '')
+                    .trim();
+
+                const verMatch = rawTitle.match(/\(v(\d+)\)/i) || (item.getAttribute('href') || '').match(/_v(\d{8})\.html/i);
+                const versionNum = verMatch ? parseInt(verMatch[1], 10) : 0;
+                const isConcept = rawTitle.toLowerCase().includes('sedang dikembangkan');
+
+                item.setAttribute('data-project-id', String(projectId));
+                item.setAttribute('data-project-name', cleanName);
+                item.setAttribute('data-project-version', String(versionNum));
+                item.setAttribute('data-project-concept', isConcept ? '1' : '0');
+
+                // Tambahkan tombol Pin Favorit & Quick Share di setiap kartu
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'project-card-actions';
+
+                const favBtn = document.createElement('button');
+                favBtn.type = 'button';
+                favBtn.className = 'card-action-btn fav-btn';
+                favBtn.title = 'Pin / Simpan ke Favorit';
+                favBtn.innerHTML = '<i class="bi bi-star"></i>';
+
+                const shareBtn = document.createElement('button');
+                shareBtn.type = 'button';
+                shareBtn.className = 'card-action-btn share-btn';
+                shareBtn.title = 'Salin Link Proyek';
+                shareBtn.innerHTML = '<i class="bi bi-link-45deg"></i>';
+
+                actionsDiv.appendChild(favBtn);
+                actionsDiv.appendChild(shareBtn);
+                item.appendChild(actionsDiv);
+
+                favBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleFavorite(projectId, cleanName);
+                });
+
+                shareBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const fullUrl = new URL(item.getAttribute('href'), window.location.href).href;
+                    copyOrShareUrl(fullUrl, cleanName, `🔗 Link "${cleanName}" berhasil disalin!`);
+                });
+
+                // Catat riwayat terakhir dibuka saat kartu diklik
+                item.addEventListener('click', function () {
+                    const iconEl = item.querySelector('i.project-icon');
+                    const iconClass = iconEl ? iconEl.className.replace('project-icon', '').trim() : 'bi bi-folder';
+                    recordRecentProject({
+                        id: projectId,
+                        name: cleanName,
+                        href: item.getAttribute('href'),
+                        icon: iconClass
+                    });
+                });
+            });
+
+            function updateFavoriteUI() {
+                if (favCountBadge) {
+                    favCountBadge.textContent = `(${favoriteIds.length})`;
+                }
+                allProjectElements.forEach(item => {
+                    const pid = parseInt(item.getAttribute('data-project-id'), 10);
+                    const isFav = favoriteIds.includes(pid);
+                    const favBtn = item.querySelector('.fav-btn');
+                    const metaContainer = item.querySelector('.project-meta');
+                    let favBadge = item.querySelector('.fav-badge');
+
+                    if (favBtn) {
+                        favBtn.classList.toggle('active', isFav);
+                        favBtn.innerHTML = isFav ? '<i class="bi bi-star-fill"></i>' : '<i class="bi bi-star"></i>';
+                    }
+                    if (isFav && metaContainer && !favBadge) {
+                        favBadge = document.createElement('span');
+                        favBadge.className = 'meta-badge fav-badge';
+                        favBadge.innerHTML = '<i class="bi bi-star-fill me-1"></i>Favorit';
+                        metaContainer.prepend(favBadge);
+                    } else if (!isFav && favBadge) {
+                        favBadge.remove();
+                    }
+                });
+            }
+
+            function toggleFavorite(projectId, projectName) {
+                const idx = favoriteIds.indexOf(projectId);
+                if (idx > -1) {
+                    favoriteIds.splice(idx, 1);
+                    showToast(`⭐ "${projectName}" dihapus dari Favorit`);
+                } else {
+                    favoriteIds.push(projectId);
+                    showToast(`⭐ "${projectName}" ditambahkan ke Favorit!`);
+                }
+                localStorage.setItem('favoriteProjects', JSON.stringify(favoriteIds));
+                updateFavoriteUI();
+                sortAndRenderProjects();
+                filterProjects();
+            }
+
+            function recordRecentProject(proj) {
+                recentProjects = recentProjects.filter(p => p.id !== proj.id);
+                recentProjects.unshift(proj);
+                if (recentProjects.length > 5) {
+                    recentProjects = recentProjects.slice(0, 5);
+                }
+                localStorage.setItem('recentProjects', JSON.stringify(recentProjects));
+                renderRecentProjects();
+            }
+
+            function renderRecentProjects() {
+                if (!recentProjectsBar || !recentChipsContainer) return;
+                if (recentProjects.length === 0) {
+                    recentProjectsBar.classList.add('d-none');
+                    return;
+                }
+                recentProjectsBar.classList.remove('d-none');
+                recentChipsContainer.innerHTML = '';
+                recentProjects.forEach(proj => {
+                    const chip = document.createElement('a');
+                    chip.href = proj.href;
+                    chip.className = 'recent-chip';
+                    chip.title = `Proyek ${proj.id}: ${proj.name}`;
+                    chip.innerHTML = `<i class="${proj.icon}"></i><span>${proj.name}</span>`;
+                    chip.addEventListener('click', function () {
+                        recordRecentProject(proj);
+                    });
+                    recentChipsContainer.appendChild(chip);
+                });
+            }
+
+            if (clearRecentBtn) {
+                clearRecentBtn.addEventListener('click', function () {
+                    recentProjects = [];
+                    localStorage.removeItem('recentProjects');
+                    renderRecentProjects();
+                    showToast('🕒 Riwayat terakhir dibuka telah dihapus');
+                });
+            }
+
+            function sortAndRenderProjects() {
+                const sorted = [...allProjectElements].sort((a, b) => {
+                    const idA = parseInt(a.getAttribute('data-project-id'), 10);
+                    const idB = parseInt(b.getAttribute('data-project-id'), 10);
+                    const favA = favoriteIds.includes(idA) ? 1 : 0;
+                    const favB = favoriteIds.includes(idB) ? 1 : 0;
+
+                    // Proyek Favorit selalu diprioritaskan di atas
+                    if (favA !== favB) return favB - favA;
+
+                    if (currentSort === 'az' || currentSort === 'za') {
+                        const conceptA = parseInt(a.getAttribute('data-project-concept'), 10);
+                        const conceptB = parseInt(b.getAttribute('data-project-concept'), 10);
+                        if (conceptA !== conceptB) return conceptA - conceptB;
+
+                        const nameA = a.getAttribute('data-project-name').toLowerCase();
+                        const nameB = b.getAttribute('data-project-name').toLowerCase();
+                        const cmp = nameA.localeCompare(nameB, 'id');
+                        if (cmp !== 0) return currentSort === 'az' ? cmp : -cmp;
+                        return idA - idB;
+                    }
+
+                    if (currentSort === 'newest') {
+                        const verA = parseInt(a.getAttribute('data-project-version'), 10);
+                        const verB = parseInt(b.getAttribute('data-project-version'), 10);
+                        if (verA !== verB) return verB - verA;
+                        return idA - idB;
+                    }
+
+                    // Default: nomor urut
+                    return idA - idB;
+                });
+
+                // Tempatkan 25 proyek pertama di #project-list (sebelum #additional-projects)
+                // dan 25 sisanya di dalam #additional-projects
+                sorted.forEach((item, index) => {
+                    if (index < 25) {
+                        projectList.insertBefore(item, additionalProjects);
+                    } else {
+                        additionalProjects.appendChild(item);
+                    }
+                });
+            }
+
+            if (sortSelect) {
+                sortSelect.addEventListener('change', function (e) {
+                    currentSort = e.target.value;
+                    localStorage.setItem('sortPreference', currentSort);
+                    sortAndRenderProjects();
+                    filterProjects();
+                });
+            }
+
+            updateFavoriteUI();
+            renderRecentProjects();
+            sortAndRenderProjects();
 
             // --- 1. JAM DIGITAL REAL-TIME ---
             function updateClock() {
@@ -1249,8 +1773,10 @@
                     const itemText = item.textContent.toLowerCase();
                     const itemCategory = item.getAttribute('data-category');
 
+                    const projectId = parseInt(item.getAttribute('data-project-id'), 10);
                     const matchesSearch = currentSearchTerm === '' || itemText.includes(currentSearchTerm);
-                    const matchesCategory = currentCategory === 'all' || itemCategory === currentCategory;
+                    const matchesCategory = currentCategory === 'all'
+                        || (currentCategory === 'Favorit' ? favoriteIds.includes(projectId) : itemCategory === currentCategory);
 
                     const isMatch = matchesSearch && matchesCategory;
 
