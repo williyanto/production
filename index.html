@@ -119,12 +119,61 @@
             color: var(--muted-text-color);
         }
 
-        /* --- Category Pills --- */
+        /* --- Category Pills (Default Hidden, Toggleable) --- */
         .category-filters {
-            display: flex;
+            display: none;
             flex-wrap: wrap;
             gap: 0.5rem;
             align-items: center;
+            padding-top: 0.25rem;
+            animation: fadeSlideDown 0.2s ease-out;
+        }
+
+        .category-filters.show {
+            display: flex;
+        }
+
+        @keyframes fadeSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-filter-toggle {
+            border-radius: 0.5rem;
+            padding: 0.6rem 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-color: var(--border-color);
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .btn-filter-toggle:hover,
+        .btn-filter-toggle.active {
+            background-color: var(--primary-accent);
+            border-color: var(--primary-accent);
+            color: #ffffff;
+        }
+
+        #category-status {
+            cursor: pointer;
+            user-select: none;
+            transition: opacity 0.2s ease, transform 0.15s ease;
+        }
+
+        #category-status:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
         }
 
         .category-btn {
@@ -590,6 +639,11 @@
             <div class="search-row">
                 <input type="search" id="search-input" class="form-control search-input"
                     placeholder="Cari proyek (contoh: kabel, gaji, edukasi)...">
+                <button class="btn btn-outline-secondary btn-filter-toggle" id="filter-toggle"
+                    type="button" title="Tampilkan / Sembunyikan Filter Kategori" aria-expanded="false">
+                    <i class="bi bi-funnel"></i>
+                    <span class="d-none d-sm-inline">Kategori</span>
+                </button>
                 <select id="sort-select" class="form-select sort-select" title="Urutkan Proyek">
                     <option value="number">Urut: Nomor (1–50)</option>
                     <option value="az">Urut: Nama (A–Z)</option>
@@ -636,7 +690,7 @@
         <!-- Project Counter Bar -->
         <div class="stats-bar">
             <span id="project-counter">Menampilkan 50 proyek</span>
-            <span id="category-status" class="badge bg-secondary">Kategori: Semua</span>
+            <span id="category-status" class="badge bg-secondary" title="Klik untuk menampilkan/menyembunyikan filter kategori">Kategori: Semua <i class="bi bi-chevron-down ms-1"></i></span>
         </div>
 
         <!-- Project List Container -->
@@ -1803,7 +1857,8 @@
                 // Update statistik & counter
                 const totalCount = allItems.length;
                 projectCounter.textContent = `Menampilkan ${visibleCount} dari ${totalCount} proyek`;
-                categoryStatus.textContent = `Kategori: ${currentCategory === 'all' ? 'Semua' : currentCategory}`;
+                const isCatOpen = categoryFilters.classList.contains('show');
+                categoryStatus.innerHTML = `Kategori: ${currentCategory === 'all' ? 'Semua' : currentCategory} <i class="bi bi-chevron-${isCatOpen ? 'up' : 'down'} ms-1"></i>`;
 
                 // Tampilkan/sembunyikan Empty State
                 if (visibleCount === 0) {
@@ -1822,6 +1877,25 @@
                 currentSearchTerm = e.target.value.toLowerCase().trim();
                 filterProjects();
             });
+
+            // Toggle tampil/sembunyikan Filter Kategori
+            const filterToggleBtn = document.getElementById('filter-toggle');
+            function toggleCategoryFilters() {
+                const isShown = categoryFilters.classList.toggle('show');
+                if (filterToggleBtn) {
+                    filterToggleBtn.classList.toggle('active', isShown);
+                    filterToggleBtn.setAttribute('aria-expanded', String(isShown));
+                }
+                if (categoryStatus) {
+                    categoryStatus.innerHTML = `Kategori: ${currentCategory === 'all' ? 'Semua' : currentCategory} <i class="bi bi-chevron-${isShown ? 'up' : 'down'} ms-1"></i>`;
+                }
+            }
+            if (filterToggleBtn) {
+                filterToggleBtn.addEventListener('click', toggleCategoryFilters);
+            }
+            if (categoryStatus) {
+                categoryStatus.addEventListener('click', toggleCategoryFilters);
+            }
 
             // Event Listener Category Buttons
             categoryFilters.addEventListener('click', function (e) {
