@@ -111,7 +111,7 @@
         .search-input:focus {
             background-color: var(--card-bg-color);
             color: var(--text-color);
-            border-color: var(--primary-accent);
+            border-color: var(--primary-accent) !important;
             box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
         }
 
@@ -138,7 +138,7 @@
         .category-btn.active {
             background-color: var(--primary-accent);
             color: #ffffff !important;
-            border-color: var(--primary-accent);
+            border-color: var(--primary-accent) !important;
         }
 
         /* --- Project Stats Badge --- */
@@ -156,7 +156,8 @@
         .list-group-item {
             border-radius: 0.75rem !important;
             margin-bottom: 0.75rem;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border-color) !important;
+            border-top-width: 1px !important;
             background-color: var(--card-bg-color);
             transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
             display: flex;
@@ -168,7 +169,7 @@
 
         .list-group-item:hover {
             background-color: var(--hover-bg);
-            border-color: var(--primary-accent);
+            border-color: var(--primary-accent) !important;
             transform: translateY(-3px);
             box-shadow: 0 8px 24px var(--shadow-color);
             position: relative;
@@ -1359,9 +1360,16 @@
             
             if(floatingSearchBtn) {
                 floatingSearchBtn.addEventListener('click', () => {
-                    floatingSearchContainer.style.transform = 'scale(1)';
-                    floatingSearchContainer.style.opacity = '1';
-                    floatingSearchInput.focus();
+                    const isOpen = floatingSearchContainer.style.opacity === '1';
+                    if (isOpen) {
+                        floatingSearchContainer.style.transform = 'scale(0)';
+                        floatingSearchContainer.style.opacity = '0';
+                        floatingSearchInput.blur();
+                    } else {
+                        floatingSearchContainer.style.transform = 'scale(1)';
+                        floatingSearchContainer.style.opacity = '1';
+                        floatingSearchInput.focus();
+                    }
                 });
             }
             if(closeFloatingSearch) {
