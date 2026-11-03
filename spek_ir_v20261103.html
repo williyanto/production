@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="id" class="transition-all duration-300">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kalkulator Spek IR Kabel (LSOH, PVC, XLPE)</title>
+    <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            touch-action: manipulation;
+        }
+
+        /* Custom styling for selects to match iec_final */
+        select {
+            background-image: none !important;
+        }
+
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gradient-to-tr from-slate-100 via-cyan-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-center items-center py-2 px-3 overflow-hidden transition-colors duration-300">
+
+    <!-- Ambient Background Blobs (Desktop Only) -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
+        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-cyan-400 blur-[100px] animate-pulse"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-emerald-400 blur-[100px] animate-pulse"
+            style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Main Mobile Container (Single-Screen Fit, Zero-Scroll) -->
+    <div
+        class="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-3 sm:p-4 transition-all duration-300 flex flex-col h-[calc(100dvh-1rem)] max-h-[760px] my-auto overflow-hidden">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-1.5 border-b border-slate-100 dark:border-slate-800 shrink-0">
+            <div class="flex items-center gap-2">
+                <div
+                    class="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-500 to-emerald-600 flex items-center justify-center text-white shadow-md shadow-cyan-200 dark:shadow-none shrink-0">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-sm font-bold text-slate-800 dark:text-slate-100 tracking-tight leading-tight">
+                        Kalkulator Spek IR
+                    </h1>
+                    <p id="headerSubtitle" class="text-[9px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider truncate max-w-[230px]">
+                        BS EN 50525 (LSOH 90°C)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Dark Mode Toggle Button -->
+            <button id="theme-toggle" type="button" aria-label="Toggle Dark Mode"
+                class="p-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95 transition-all">
+                <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Top Switchers (Hanya 2 Baris Ringkas & Bersih) -->
+        <!-- 1. Segmented Material Switcher (LSOH | PVC | XLPE) -->
+        <div
+            class="grid grid-cols-3 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl my-1 border border-slate-200/20 dark:border-slate-700/20 shrink-0">
+            <button type="button" id="btnMatLsoh"
+                class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
+                LSOH
+            </button>
+            <button type="button" id="btnMatPvc"
+                class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
+                PVC
+            </button>
+            <button type="button" id="btnMatXlpe"
+                class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30">
+                XLPE
+            </button>
+        </div>
+
+        <!-- Inputs and controls container (Fitted to 100dvh without scroll) -->
+        <div class="space-y-2 flex-1 flex flex-col justify-between my-0.5 px-1 -mx-1 overflow-hidden">
+
+            <!-- 2. Mode Suhu Switcher: Suhu Operasi vs Suhu Ruang -->
+            <div
+                class="flex p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl border border-slate-200/20 dark:border-slate-700/20 shrink-0">
+                <button type="button" id="modeOperasiBtn"
+                    class="flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 flex items-center justify-center gap-1.5">
+                    <span>🔥 Suhu Operasi</span>
+                    <span id="badgeOperasiTemp" class="text-[9px] px-1 py-0.2 rounded bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 font-mono">90°C</span>
+                </button>
+                <button type="button" id="modeRuangBtn"
+                    class="flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 flex items-center justify-center gap-1.5">
+                    <span>🌡️ Suhu Ruang</span>
+                    <span id="badgeRuangRef" class="text-[9px] px-1 py-0.2 rounded bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-mono">20°C Ref</span>
+                </button>
+            </div>
+
+            <!-- Group 1: Parameter Pengukuran -->
+            <div class="shrink-0">
+                <span
+                    class="text-[9px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-0.5">
+                    Parameter Pengukuran
+                </span>
+                <div class="grid grid-cols-2 gap-2">
+                    <!-- Pembacaan Alat Megger -->
+                    <div class="relative group">
+                        <div class="flex items-center justify-between mb-0.5">
+                            <label for="pembacaanAlat"
+                                class="block text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                Pembacaan Megger
+                            </label>
+                            <div
+                                class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-md border border-slate-200/60 dark:border-slate-700/60">
+                                <button type="button" id="satuanKohmBtn" title="Kilo-Ohm"
+                                    class="px-1 py-0.2 rounded text-[8px] font-extrabold transition-all text-slate-400 dark:text-slate-500">kΩ</button>
+                                <button type="button" id="satuanMohmBtn" title="Mega-Ohm"
+                                    class="px-1 py-0.2 rounded text-[8px] font-extrabold transition-all bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm">MΩ</button>
+                                <button type="button" id="satuanGohmBtn" title="Giga-Ohm"
+                                    class="px-1 py-0.2 rounded text-[8px] font-extrabold transition-all text-slate-400 dark:text-slate-500">GΩ</button>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <div
+                                class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-cyan-500 transition-colors">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                            </div>
+                            <input type="text" inputmode="decimal" id="pembacaanAlat" value=""
+                                class="pl-8 pr-8 block w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all text-xs font-bold font-mono"
+                                placeholder="mega ohm">
+                            <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+                                <span id="badgeSatuan"
+                                    class="text-[9px] font-bold font-mono text-cyan-600 dark:text-cyan-400">MΩ</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panjang Kabel (M) -->
+                    <div class="relative group">
+                        <div class="flex items-center justify-between mb-0.5">
+                            <label for="panjangKabel"
+                                class="block text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                Panjang Kabel (M)
+                            </label>
+                            <span class="text-[8px] font-mono text-slate-400" id="badgeKm">0.313 km</span>
+                        </div>
+                        <div class="relative">
+                            <div
+                                class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-cyan-500 transition-colors">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M4 6h16M4 12h16m-7 6h7" />
+                                </svg>
+                            </div>
+                            <input type="text" inputmode="decimal" id="panjangKabel" value=""
+                                class="pl-8 pr-8 block w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all text-xs font-bold font-mono"
+                                placeholder="meter">
+                            <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+                                <span class="text-[9px] font-bold text-slate-400">m</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group 2: Kondisi Suhu & Faktor Koreksi (Kt) -->
+            <div class="shrink-0">
+                <div class="grid grid-cols-2 gap-2">
+                    <!-- Suhu Pengujian (°C) -->
+                    <div class="relative group">
+                        <div class="flex items-center justify-between mb-0.5">
+                            <label for="suhuUji" id="labelSuhu"
+                                class="block text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                Suhu Desain Operasi
+                            </label>
+                            <span id="badgeSuhuMode" class="text-[8px] font-mono font-bold text-cyan-600 dark:text-cyan-400">Maks</span>
+                        </div>
+                        <div class="relative">
+                            <div
+                                class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-cyan-500 transition-colors">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10" />
+                                </svg>
+                            </div>
+                            <input type="text" inputmode="decimal" id="suhuUji" value="" readonly
+                                class="pl-8 block w-full px-2.5 py-1.5 bg-slate-100/75 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none transition-all text-xs font-bold font-mono"
+                                placeholder="celcius">
+                            <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+                                <span class="text-[9px] font-bold text-slate-400">°C</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Faktor Koreksi Suhu (Kt) -->
+                    <div class="relative group">
+                        <label for="faktorKoreksiKt" id="labelFaktor"
+                            class="block text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-0.5">
+                            Faktor Koreksi (Kt)
+                        </label>
+                        <div class="relative">
+                            <div
+                                class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <input type="text" id="faktorKoreksiKt" readonly value="1.00"
+                                class="pl-8 block w-full px-2.5 py-1.5 bg-slate-100/75 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700 rounded-xl text-cyan-600 dark:text-cyan-400 focus:outline-none transition-all font-mono text-xs font-bold text-center"
+                                placeholder="-">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group 3: Spesifikasi Kabel (Penampang, Tebal Custom, Spek Min Ri) -->
+            <div class="shrink-0">
+                <div class="flex items-center justify-between mb-0.5">
+                    <span
+                        class="text-[9px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                        Spesifikasi Insulasi
+                    </span>
+                    <!-- Dropdown Pilihan Acuan Standar yang Ringkas & Elegan -->
+                    <div class="relative inline-flex items-center">
+                        <select id="selectStandardRef"
+                            class="appearance-none pl-2 pr-5 py-0.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-[9px] font-bold font-mono text-cyan-600 dark:text-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer transition-colors">
+                            <option value="iec" class="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100">⚡ Standar SNI / IEC</option>
+                            <option value="pabrik" class="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100">📋 Tabel Pabrik (LV 20°C)</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1 text-slate-400 dark:text-slate-500">
+                            <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <!-- Penampang Dropdown -->
+                    <div class="relative group">
+                        <label for="selectPenampang"
+                            class="block text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-0.5">
+                            Penampang
+                        </label>
+                        <div class="relative">
+                            <select id="selectPenampang"
+                                class="appearance-none block w-full pl-2 pr-5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all text-xs font-bold cursor-pointer">
+                                <!-- Populated by JS: 1.5 - 630 mm² -->
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1 text-slate-400 dark:text-slate-500">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tebal Insulasi (Bisa Custom!) -->
+                    <div class="relative group">
+                        <div class="flex items-center justify-between mb-0.5">
+                            <label for="spekTebal"
+                                class="block text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                Tebal Insul.
+                            </label>
+                            <span class="text-[8px] font-bold text-cyan-600 dark:text-cyan-400" title="Bisa diketik manual">Custom</span>
+                        </div>
+                        <div class="relative">
+                            <input type="text" inputmode="decimal" id="spekTebal" value="1.8"
+                                class="block w-full pl-2 pr-6 py-1.5 bg-slate-50 dark:bg-slate-800 border border-cyan-500/40 dark:border-cyan-500/30 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all font-mono text-xs font-bold text-center">
+                            <div class="absolute inset-y-0 right-0 pr-1.5 flex items-center pointer-events-none">
+                                <span class="text-[9px] font-bold text-slate-400">mm</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spek Min Ri per km -->
+                    <div class="relative group">
+                        <label for="spekMinRi" id="labelSpekRi"
+                            class="block text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-0.5">
+                            Spek Ri / km
+                        </label>
+                        <input type="text" id="spekMinRi" readonly value="0.2350"
+                            class="block w-full px-1 py-1.5 bg-slate-100/70 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700 rounded-xl text-cyan-600 dark:text-cyan-400 focus:outline-none transition-all font-mono text-xs font-bold text-center">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Result Card dengan Rumus Perhitungan R_kabel Terintegrasi -->
+            <div id="resultCard"
+                class="transition-all duration-300 rounded-2xl p-2.5 sm:p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 text-center relative overflow-hidden flex flex-col justify-between items-center flex-1 my-0.5">
+                
+                <div class="w-full flex items-center justify-between gap-1.5">
+                    <span id="resultTitle"
+                        class="text-[9px] sm:text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest truncate">
+                        BATAS KELULUSAN IR (SUHU OPERASI)
+                    </span>
+                    <span id="resultStandardBadge"
+                        class="text-[8px] sm:text-[9px] font-bold font-mono px-1.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-300 border border-cyan-500/20 shrink-0">
+                        IEC 60502-1
+                    </span>
+                </div>
+
+                <!-- Big Main Number -->
+                <div class="my-auto py-0.5 w-full">
+                    <input type="text" id="hasilKalkulasi" readonly
+                        class="w-full text-center bg-transparent border-none focus:outline-none focus:ring-0 font-extrabold text-2xl sm:text-3xl text-cyan-600 dark:text-cyan-400 transition-colors duration-300 py-0 font-mono tracking-tight"
+                        value="0.7508">
+                    <span id="resultUnit"
+                        class="text-[9px] sm:text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mt-0.5 font-mono">
+                        Mega-Ohm (MΩ) • 750.8 kΩ
+                    </span>
+                </div>
+
+                <!-- Rumus Perhitungan Live R_kabel Langsung di Card Hasil -->
+                <div id="resultFormulaBox" class="w-full text-center py-1 px-2 my-1 rounded-lg bg-slate-100 dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800 text-[10px] font-mono text-cyan-700 dark:text-cyan-300 truncate">
+                    R_kabel = Ri / L = 0.2350 / 0.313 km = 0.7508 MΩ
+                </div>
+
+                <!-- Status Evaluation Message Pill -->
+                <div id="evalBox" class="w-full py-1 px-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-between text-xs">
+                    <div class="flex items-center gap-1.5 text-left truncate">
+                        <span id="evalIcon" class="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-[10px] shrink-0">✓</span>
+                        <span id="pesanHasil" class="text-[10px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 truncate">
+                            LULUS: Nilai baca 10.00 MΩ &ge; spek min 0.7508 MΩ
+                        </span>
+                    </div>
+                    <span id="evalMargin" class="text-[10px] font-mono font-extrabold text-emerald-600 dark:text-emerald-400 shrink-0 ml-1">+25.2%</span>
+                </div>
+
+            </div>
+
+            <!-- Controls Menu: Detail Spek, Reset, Beranda -->
+            <div class="grid grid-cols-3 gap-2 pt-1.5 border-t border-slate-100 dark:border-slate-800 shrink-0">
+                <!-- Detail Spek Modal Button -->
+                <button type="button" id="btnOpenModal"
+                    class="flex items-center justify-center gap-1 py-2 px-2 border border-slate-200 dark:border-slate-700/80 rounded-xl text-[11px] font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-3.5 h-3.5 text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Detail Spek
+                </button>
+
+                <!-- Reset Button -->
+                <button type="button" id="btnReset"
+                    class="flex items-center justify-center gap-1 py-2 px-2 border border-transparent rounded-xl text-[11px] font-bold text-white bg-rose-500 hover:bg-rose-600 active:scale-95 transition-all shadow-md shadow-rose-200 dark:shadow-none">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Reset
+                </button>
+
+                <!-- Beranda Button (Referensi persis iec_final_v20261028.html) -->
+                <a href="./index.html"
+                    class="flex items-center justify-center gap-1.5 py-2 px-2 border border-slate-200 dark:border-slate-700/80 rounded-xl text-[11px] font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    Beranda
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer
+            class="text-center text-slate-400 dark:text-slate-600 text-[9px] mt-1 pt-1 border-t border-slate-100 dark:border-slate-800 font-medium shrink-0">
+            Williyanto Adi 2026
+        </footer>
+
+    </div>
+
+    <!-- MODAL POPUP: DETAIL SPEK & MASTER TABEL (High Contrast Dark Mode) -->
+    <div id="modalDetailSpek" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-md max-h-[85vh] shadow-2xl flex flex-col overflow-hidden">
+            
+            <!-- Modal Header -->
+            <div class="p-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0">
+                <div>
+                    <h3 id="modalTitleText" class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+                        Tabel Spesifikasi IR Kabel
+                    </h3>
+                    <p id="modalSubtitleText" class="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                        Batas Minimum Spec. Min. (MΩ·KM)
+                    </p>
+                </div>
+                <button type="button" id="btnCloseModal" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- Modal Content (High-Contrast for Dark Mode) -->
+            <div class="p-3 overflow-y-auto space-y-2.5 text-xs scrollbar-none flex-1">
+                
+                <!-- Table -->
+                <div class="border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden bg-white dark:bg-slate-950">
+                    <table class="w-full text-left text-[10px]">
+                        <thead class="bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+                            <tr id="modalTableHeadRow">
+                                <th class="p-2 text-slate-900 dark:text-white font-bold">SIZE (MM2)</th>
+                                <th class="p-2 text-right text-emerald-600 dark:text-emerald-400 font-bold">XLPE</th>
+                                <th class="p-2 text-right text-amber-600 dark:text-amber-400 font-bold">PVC</th>
+                                <th class="p-2 text-right text-cyan-600 dark:text-cyan-400 font-bold">LSOH</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modalTableBody" class="divide-y divide-slate-100 dark:divide-slate-800/80 font-mono">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Info Material Notes -->
+                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/70 text-[10px] space-y-1">
+                    <div class="font-bold text-slate-900 dark:text-slate-100 font-sans">Keterangan Rumus &amp; Parameter:</div>
+                    <ul class="list-disc pl-4 space-y-0.5 text-slate-600 dark:text-slate-300">
+                        <li><strong>Rumus Tahanan Insulasi Kabel</strong>: $R_{\text{kabel}} = \frac{R_i}{L_{\text{km}}} = \frac{R_i \times 1000}{L_{\text{meter}}}$ (karena tahanan insulasi berbanding terbalik dengan panjang kabel).</li>
+                        <li><strong>Standar SNI / IEC</strong>: Menampilkan batas kritis pengujian suhu operasi ($70^\circ\text{C} / 90^\circ\text{C}$).</li>
+                        <li><strong>Tabel Pabrik (LV 20°C)</strong>: Menampilkan batas pengujian rutin pada suhu $20^\circ\text{C}$ per sheet QC pabrik.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-2.5 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-center shrink-0">
+                <button type="button" id="btnModalCloseAction" class="w-full py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-white font-bold text-xs shadow-md transition-all">
+                    Tutup
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+/**
+ * Master Data Spesifikasi Insulation Resistance (IR) Kabel
+ * Menyediakan 2 Pilihan Acuan Standar:
+ * 1. STANDAR IEC / SNI / BS EN: Spesifikasi Resmi Standar Internasional (Suhu Operasi 70°C / 90°C & Ki 20°C)
+ * 2. TABEL PABRIK (LOW VOLTAGE 20°C): Acuan Sheet QC Pengujian Pabrik pada 20°C (XLPE ribuan MΩ·km, PVC puluhan MΩ·km)
+ */
+
+const CABLE_SPEC_DATA = [
+  {
+    size: "1.5",
+    label: "1.5 mm²",
+    condDia: 1.55,
+    rCondMax20: 12.1,
+    pvc:  { thickness: 0.8, minIrOp: 0.0110, minIr20Iec: 36.7, minIr20Pabrik: 96,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 0.8, minIrOp: 0.0110, minIr20Iec: 36.7, minIr20Pabrik: 96,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 0.7, minIrOp: 1.0260, minIr20Iec: 367,  minIr20Pabrik: 8505, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "2.5",
+    label: "2.5 mm²",
+    condDia: 1.95,
+    rCondMax20: 7.41,
+    pvc:  { thickness: 0.8, minIrOp: 0.0100, minIr20Iec: 36.7, minIr20Pabrik: 85,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 0.8, minIrOp: 0.0100, minIr20Iec: 36.7, minIr20Pabrik: 85,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 0.7, minIrOp: 0.8620, minIr20Iec: 367,  minIr20Pabrik: 6768, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "4",
+    label: "4 mm²",
+    condDia: 2.50,
+    rCondMax20: 4.61,
+    pvc:  { thickness: 0.8, minIrOp: 0.0085, minIr20Iec: 36.7, minIr20Pabrik: 80,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 0.8, minIrOp: 0.0085, minIr20Iec: 36.7, minIr20Pabrik: 80,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 0.7, minIrOp: 0.7090, minIr20Iec: 367,  minIr20Pabrik: 5626, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "6",
+    label: "6 mm²",
+    condDia: 3.05,
+    rCondMax20: 3.08,
+    pvc:  { thickness: 0.8, minIrOp: 0.0070, minIr20Iec: 36.7, minIr20Pabrik: 78,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 0.8, minIrOp: 0.0070, minIr20Iec: 36.7, minIr20Pabrik: 78,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 0.7, minIrOp: 0.6020, minIr20Iec: 367,  minIr20Pabrik: 4681, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "10",
+    label: "10 mm²",
+    condDia: 4.05,
+    rCondMax20: 1.83,
+    pvc:  { thickness: 1.0, minIrOp: 0.0070, minIr20Iec: 36.7, minIr20Pabrik: 77,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 1.0, minIrOp: 0.0070, minIr20Iec: 36.7, minIr20Pabrik: 77,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 0.7, minIrOp: 0.4730, minIr20Iec: 367,  minIr20Pabrik: 3741, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "16",
+    label: "16 mm²",
+    condDia: 5.10,
+    rCondMax20: 1.15,
+    pvc:  { thickness: 1.0, minIrOp: 0.0060, minIr20Iec: 36.7, minIr20Pabrik: 63,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 1.0, minIrOp: 0.0060, minIr20Iec: 36.7, minIr20Pabrik: 63,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 0.7, minIrOp: 0.3870, minIr20Iec: 367,  minIr20Pabrik: 3060, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "25",
+    label: "25 mm²",
+    condDia: 6.40,
+    rCondMax20: 0.727,
+    pvc:  { thickness: 1.2, minIrOp: 0.0060, minIr20Iec: 36.7, minIr20Pabrik: 46,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 1.2, minIrOp: 0.0060, minIr20Iec: 36.7, minIr20Pabrik: 46,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 0.9, minIrOp: 0.3950, minIr20Iec: 367,  minIr20Pabrik: 3432, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "35",
+    label: "35 mm²",
+    condDia: 7.50,
+    rCondMax20: 0.524,
+    pvc:  { thickness: 1.2, minIrOp: 0.0050, minIr20Iec: 36.7, minIr20Pabrik: 39,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 1.2, minIrOp: 0.0050, minIr20Iec: 36.7, minIr20Pabrik: 39,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 0.9, minIrOp: 0.3430, minIr20Iec: 367,  minIr20Pabrik: 2940, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "50",
+    label: "50 mm²",
+    condDia: 8.90,
+    rCondMax20: 0.387,
+    pvc:  { thickness: 1.4, minIrOp: 0.0045, minIr20Iec: 36.7, minIr20Pabrik: 40,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 1.4, minIrOp: 0.0045, minIr20Iec: 36.7, minIr20Pabrik: 40,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 1.0, minIrOp: 0.3230, minIr20Iec: 367,  minIr20Pabrik: 2837, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "70",
+    label: "70 mm²",
+    condDia: 10.70,
+    rCondMax20: 0.268,
+    pvc:  { thickness: 1.4, minIrOp: 0.0040, minIr20Iec: 36.7, minIr20Pabrik: 34,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 1.4, minIrOp: 0.0040, minIr20Iec: 36.7, minIr20Pabrik: 34,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 1.1, minIrOp: 0.2980, minIr20Iec: 367,  minIr20Pabrik: 2656, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "95",
+    label: "95 mm²",
+    condDia: 12.60,
+    rCondMax20: 0.193,
+    pvc:  { thickness: 1.6, minIrOp: 0.0040, minIr20Iec: 36.7, minIr20Pabrik: 34,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 1.6, minIrOp: 0.0040, minIr20Iec: 36.7, minIr20Pabrik: 34,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 1.1, minIrOp: 0.2570, minIr20Iec: 367,  minIr20Pabrik: 2328, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "120",
+    label: "120 mm²",
+    condDia: 14.20,
+    rCondMax20: 0.153,
+    pvc:  { thickness: 1.6, minIrOp: 0.0035, minIr20Iec: 36.7, minIr20Pabrik: 30,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 1.6, minIrOp: 0.0035, minIr20Iec: 36.7, minIr20Pabrik: 30,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 1.2, minIrOp: 0.2490, minIr20Iec: 367,  minIr20Pabrik: 2268, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "150",
+    label: "150 mm²",
+    condDia: 15.80,
+    rCondMax20: 0.124,
+    pvc:  { thickness: 1.8, minIrOp: 0.0035, minIr20Iec: 36.7, minIr20Pabrik: 31,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 1.8, minIrOp: 0.0035, minIr20Iec: 36.7, minIr20Pabrik: 31,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 1.4, minIrOp: 0.2600, minIr20Iec: 367,  minIr20Pabrik: 2408, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "185",
+    label: "185 mm²",
+    condDia: 17.60,
+    rCondMax20: 0.0991,
+    pvc:  { thickness: 2.0, minIrOp: 0.0035, minIr20Iec: 36.7, minIr20Pabrik: 31,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 2.0, minIrOp: 0.0035, minIr20Iec: 36.7, minIr20Pabrik: 31,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 1.6, minIrOp: 0.2660, minIr20Iec: 367,  minIr20Pabrik: 2508, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "240",
+    label: "240 mm²",
+    condDia: 20.30,
+    rCondMax20: 0.0754,
+    pvc:  { thickness: 2.2, minIrOp: 0.0032, minIr20Iec: 36.7, minIr20Pabrik: 30,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 2.2, minIrOp: 0.0032, minIr20Iec: 36.7, minIr20Pabrik: 30,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 1.7, minIrOp: 0.2470, minIr20Iec: 367,  minIr20Pabrik: 2335, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "300",
+    label: "300 mm²",
+    condDia: 22.70,
+    rCondMax20: 0.0601,
+    pvc:  { thickness: 2.4, minIrOp: 0.0030, minIr20Iec: 36.7, minIr20Pabrik: 32,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 2.4, minIrOp: 0.0030, minIr20Iec: 36.7, minIr20Pabrik: 32,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 1.8, minIrOp: 0.2350, minIr20Iec: 367,  minIr20Pabrik: 2231, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "400",
+    label: "400 mm²",
+    condDia: 25.80,
+    rCondMax20: 0.0470,
+    pvc:  { thickness: 2.6, minIrOp: 0.0028, minIr20Iec: 36.7, minIr20Pabrik: 30,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 2.6, minIrOp: 0.0028, minIr20Iec: 36.7, minIr20Pabrik: 30,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 2.0, minIrOp: 0.2300, minIr20Iec: 367,  minIr20Pabrik: 2212, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "500",
+    label: "500 mm²",
+    condDia: 29.00,
+    rCondMax20: 0.0366,
+    pvc:  { thickness: 2.8, minIrOp: 0.0025, minIr20Iec: 36.7, minIr20Pabrik: 28,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 2.8, minIrOp: 0.0025, minIr20Iec: 36.7, minIr20Pabrik: 28,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 2.2, minIrOp: 0.2100, minIr20Iec: 367,  minIr20Pabrik: 2142, std: "IEC 60502-1",   maxTemp: 90 }
+  },
+  {
+    size: "630",
+    label: "630 mm²",
+    condDia: 32.50,
+    rCondMax20: 0.0283,
+    pvc:  { thickness: 2.8, minIrOp: 0.0022, minIr20Iec: 36.7, minIr20Pabrik: 27,   std: "SNI 04-6629.3", maxTemp: 70 },
+    lsoh: { thickness: 2.8, minIrOp: 0.0022, minIr20Iec: 36.7, minIr20Pabrik: 27,   std: "BS EN 50525",   maxTemp: 90 },
+    xlpe: { thickness: 2.4, minIrOp: 0.2000, minIr20Iec: 367,  minIr20Pabrik: 2055, std: "IEC 60502-1",   maxTemp: 90 }
+  }
+];
+
+const INSULATION_MATERIALS = {
+  LSOH: {
+    key: "lsoh",
+    name: "LSOH (Low Smoke Zero Halogen)",
+    short: "LSOH",
+    standard: "BS EN 50525-3-31",
+    maxTemp: 90,
+    tempCoeff: 1.085,
+    color: "cyan",
+    desc: "Bebas halogen, asap rendah, suhu operasi 90°C."
+  },
+  PVC: {
+    key: "pvc",
+    name: "PVC (Polyvinyl Chloride)",
+    short: "PVC",
+    standard: "SNI 04-6629.3 / IEC 60227",
+    maxTemp: 70,
+    tempCoeff: 1.100,
+    color: "amber",
+    desc: "Termoplastik umum 70°C, dielektrik sensitif suhu."
+  },
+  XLPE: {
+    key: "xlpe",
+    name: "XLPE (Cross-linked Polyethylene)",
+    short: "XLPE",
+    standard: "IEC 60502-1 / Low Voltage",
+    maxTemp: 90,
+    tempCoeff: 1.070,
+    color: "emerald",
+    desc: "Termoset 90°C, tahanan insulasi sangat tinggi (GΩ)."
+  }
+};
+
+if (typeof window !== 'undefined') {
+  window.CABLE_SPEC_DATA = CABLE_SPEC_DATA;
+  window.INSULATION_MATERIALS = INSULATION_MATERIALS;
+}
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { CABLE_SPEC_DATA, INSULATION_MATERIALS };
+}
+
+
+/**
+ * Kalkulator Spek Insulation Resistance (IR) Kabel
+ * Mobile Single-Screen Fitting (Zero-Scroll)
+ * Fitur:
+ * - Pilihan Acuan: ⚡ Standar SNI/IEC vs 📋 Tabel Pabrik (LV 20°C)
+ * - Pilihan Mode: 🔥 Suhu Operasi (70/90°C) vs 🌡️ Suhu Ruang (Ambien)
+ * - Pilihan Material: LSOH, PVC, XLPE
+ * - Rumus Perhitungan R_kabel Terintegrasi Secara Real-Time
+ * - Custom Tebal Insulasi (Persamaan Medan Silinder)
+ * - Tombol Beranda (Model iec_final_v20261028.html)
+ */
+
+const CABLE_DATA = window.CABLE_SPEC_DATA || [];
+const INS_DATA = window.INSULATION_MATERIALS || {};
+
+// Application State
+const state = {
+  standardRef: 'iec',    // Default: 'iec' (Standar SNI/IEC)
+  material: 'LSOH',      // Default: 'LSOH'
+  mode: 'operasi',       // Default: 'operasi' (Suhu Operasi)
+  size: '1.5',           // Default: '1.5' mm²
+  reading: '',           // Kosong default
+  readingUnit: 'mohm',   // 'kohm' | 'mohm' | 'gohm'
+  length: '',            // Kosong default
+  ambientTemp: '',       // Kosong default
+  customThickness: null,
+  theme: localStorage.getItem('theme') || 'dark'
+};
+
+// DOM References
+const headerSubtitle = document.getElementById('headerSubtitle');
+const selectStandardRef = document.getElementById('selectStandardRef');
+
+const btnMatLsoh = document.getElementById('btnMatLsoh');
+const btnMatPvc = document.getElementById('btnMatPvc');
+const btnMatXlpe = document.getElementById('btnMatXlpe');
+
+const modeOperasiBtn = document.getElementById('modeOperasiBtn');
+const modeRuangBtn = document.getElementById('modeRuangBtn');
+const badgeOperasiTemp = document.getElementById('badgeOperasiTemp');
+const badgeRuangRef = document.getElementById('badgeRuangRef');
+
+const labelSuhu = document.getElementById('labelSuhu');
+const badgeSuhuMode = document.getElementById('badgeSuhuMode');
+const suhuUji = document.getElementById('suhuUji');
+const labelFaktor = document.getElementById('labelFaktor');
+const faktorKoreksiKt = document.getElementById('faktorKoreksiKt');
+
+const pembacaanAlat = document.getElementById('pembacaanAlat');
+const panjangKabel = document.getElementById('panjangKabel');
+const badgeKm = document.getElementById('badgeKm');
+const badgeSatuan = document.getElementById('badgeSatuan');
+
+const satuanKohmBtn = document.getElementById('satuanKohmBtn');
+const satuanMohmBtn = document.getElementById('satuanMohmBtn');
+const satuanGohmBtn = document.getElementById('satuanGohmBtn');
+
+const selectPenampang = document.getElementById('selectPenampang');
+const spekTebal = document.getElementById('spekTebal');
+const spekMinRi = document.getElementById('spekMinRi');
+const labelSpekRi = document.getElementById('labelSpekRi');
+
+const resultTitle = document.getElementById('resultTitle');
+const resultStandardBadge = document.getElementById('resultStandardBadge');
+const hasilKalkulasi = document.getElementById('hasilKalkulasi');
+const resultUnit = document.getElementById('resultUnit');
+const resultFormulaBox = document.getElementById('resultFormulaBox');
+const evalBox = document.getElementById('evalBox');
+const evalIcon = document.getElementById('evalIcon');
+const pesanHasil = document.getElementById('pesanHasil');
+const evalMargin = document.getElementById('evalMargin');
+
+// Bottom Buttons
+const btnReset = document.getElementById('btnReset');
+const themeToggle = document.getElementById('theme-toggle');
+const darkIcon = document.getElementById('theme-toggle-dark-icon');
+const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+// Modal Elements
+const btnOpenModal = document.getElementById('btnOpenModal');
+const modalDetailSpek = document.getElementById('modalDetailSpek');
+const btnCloseModal = document.getElementById('btnCloseModal');
+const btnModalCloseAction = document.getElementById('btnModalCloseAction');
+const modalTableBody = document.getElementById('modalTableBody');
+const modalTitleText = document.getElementById('modalTitleText');
+const modalSubtitleText = document.getElementById('modalSubtitleText');
+
+/**
+ * Sanitasi Input Numerik (Koma & Titik)
+ */
+function sanitizeNumeric(val) {
+  if (val === undefined || val === null) return '';
+  let clean = val.toString().replace(/,/g, '.');
+  const parts = clean.split('.');
+  if (parts.length > 2) {
+    clean = parts[0] + '.' + parts.slice(1).join('');
+  }
+  return clean.replace(/[^0-9.]/g, '');
+}
+
+/**
+ * Data Spesifikasi Ukuran Terpilih
+ */
+function getCurrentSpec() {
+  return CABLE_DATA.find(item => item.size === state.size) || CABLE_DATA[0];
+}
+
+/**
+ * Data Konfigurasi Material Terpilih
+ */
+function getCurrentMaterial() {
+  const matKey = state.material.toLowerCase();
+  const spec = getCurrentSpec();
+  const matConfig = INS_DATA[state.material] || INS_DATA['XLPE'];
+  const matSpec = spec[matKey] || spec.xlpe;
+  return {
+    ...matConfig,
+    stdThickness: matSpec.thickness,
+    minIrOp: matSpec.minIrOp,
+    minIr20Iec: matSpec.minIr20Iec,
+    minIr20Pabrik: matSpec.minIr20Pabrik,
+    std: matSpec.std,
+    maxTemp: matSpec.maxTemp
+  };
+}
+
+/**
+ * Hitung Nilai Ri dengan Memperhitungkan Custom Tebal Insulasi
+ */
+function getCalculatedRi(baseRi, thicknessMm) {
+  const spec = getCurrentSpec();
+  const matInfo = getCurrentMaterial();
+  const condDia = spec.condDia;
+  const stdThickness = matInfo.stdThickness;
+
+  if (isNaN(thicknessMm) || thicknessMm <= 0) {
+    return baseRi;
+  }
+
+  if (Math.abs(thicknessMm - stdThickness) < 0.001) {
+    return baseRi;
+  }
+
+  // Skalakan berdasarkan formula medan: log10(1 + 2*t/d)
+  const ratioStd = 1 + (2 * stdThickness / condDia);
+  const ratioCustom = 1 + (2 * thicknessMm / condDia);
+
+  const factorStd = Math.log10(ratioStd);
+  const factorCustom = Math.log10(ratioCustom);
+
+  if (factorStd <= 0) return baseRi;
+  return baseRi * (factorCustom / factorStd);
+}
+
+/**
+ * Inisialisasi Dropdown Penampang
+ */
+function initSelectPenampang() {
+  selectPenampang.innerHTML = '';
+  CABLE_DATA.forEach(item => {
+    const opt = document.createElement('option');
+    opt.value = item.size;
+    opt.textContent = `${item.label}`;
+    if (item.size === state.size) opt.selected = true;
+    selectPenampang.appendChild(opt);
+  });
+}
+
+/**
+ * Render Tabel Modal
+ */
+function renderModalTable() {
+  if (!modalTableBody) return;
+  modalTableBody.innerHTML = '';
+
+  const isPabrik = state.standardRef === 'pabrik';
+  if (modalTitleText && modalSubtitleText) {
+    modalTitleText.textContent = isPabrik 
+      ? 'Standard Insulation Resistance (LV 20°C)' 
+      : 'Standar Spesifikasi IR (IEC / SNI / BS EN)';
+    modalSubtitleText.textContent = isPabrik 
+      ? 'Tabel Acuan Spec. Min. (MΩ·KM) pada 20°C (Sheet QC Pabrik)' 
+      : 'Batas Minimum Ri per km (MΩ·km)';
+  }
+
+  CABLE_DATA.forEach(item => {
+    const tr = document.createElement('tr');
+    tr.className = 'hover:bg-slate-100 dark:hover:bg-slate-800/80 cursor-pointer transition-colors';
+
+    let xlpeVal, pvcVal, lsohVal;
+    if (isPabrik) {
+      xlpeVal = item.xlpe.minIr20Pabrik;
+      pvcVal = item.pvc.minIr20Pabrik;
+      lsohVal = item.lsoh.minIr20Pabrik;
+    } else {
+      xlpeVal = state.mode === 'operasi' ? item.xlpe.minIrOp.toFixed(4) : item.xlpe.minIr20Iec;
+      pvcVal = state.mode === 'operasi' ? item.pvc.minIrOp.toFixed(4) : item.pvc.minIr20Iec;
+      lsohVal = state.mode === 'operasi' ? item.lsoh.minIrOp.toFixed(4) : item.lsoh.minIr20Iec;
+    }
+
+    tr.innerHTML = `
+      <td class="p-2 font-bold text-slate-900 dark:text-white">${item.label}</td>
+      <td class="p-2 text-right font-mono font-bold text-emerald-600 dark:text-emerald-400">${xlpeVal}</td>
+      <td class="p-2 text-right font-mono font-bold text-amber-600 dark:text-amber-400">${pvcVal}</td>
+      <td class="p-2 text-right font-mono font-bold text-cyan-600 dark:text-cyan-400">${lsohVal}</td>
+    `;
+    tr.addEventListener('click', () => {
+      state.size = item.size;
+      selectPenampang.value = item.size;
+      state.customThickness = null;
+      updateDefaultThickness();
+      closeModal();
+      calculate();
+    });
+    modalTableBody.appendChild(tr);
+  });
+}
+
+/**
+ * Update Nilai Tebal Default saat Material atau Ukuran Berubah
+ */
+function updateDefaultThickness() {
+  const matInfo = getCurrentMaterial();
+  const currentThickness = state.customThickness !== null ? state.customThickness : matInfo.stdThickness;
+  spekTebal.value = currentThickness.toFixed(1);
+}
+
+/**
+ * Pilihan Acuan Standar (SNI/IEC vs Tabel Pabrik)
+ */
+function setStandardRef(ref) {
+  state.standardRef = ref;
+  if (selectStandardRef && selectStandardRef.value !== ref) {
+    selectStandardRef.value = ref;
+  }
+
+  if (ref === 'iec') {
+    badgeRuangRef.textContent = 'IEC 20°C';
+  } else {
+    badgeRuangRef.textContent = 'LV 20°C';
+  }
+
+  renderModalTable();
+  syncUI();
+  calculate();
+}
+
+/**
+ * Switch Material Insulasi (LSOH, PVC, XLPE)
+ */
+function setMaterial(mat) {
+  state.material = mat;
+
+  const matButtons = [
+    { btn: btnMatLsoh, key: 'LSOH' },
+    { btn: btnMatPvc,  key: 'PVC'  },
+    { btn: btnMatXlpe, key: 'XLPE' }
+  ];
+
+  matButtons.forEach(({ btn, key }) => {
+    if (key === mat) {
+      btn.className = 'text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30';
+    } else {
+      btn.className = 'text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200';
+    }
+  });
+
+  updateDefaultThickness();
+  syncUI();
+  calculate();
+}
+
+/**
+ * Switch Mode: Suhu Operasi vs Suhu Ruang
+ */
+function setMode(mode) {
+  state.mode = mode;
+
+  if (mode === 'operasi') {
+    modeOperasiBtn.className = 'flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 flex items-center justify-center gap-1.5';
+    modeRuangBtn.className = 'flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 flex items-center justify-center gap-1.5';
+  } else {
+    modeRuangBtn.className = 'flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 flex items-center justify-center gap-1.5';
+    modeOperasiBtn.className = 'flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 flex items-center justify-center gap-1.5';
+  }
+
+  renderModalTable();
+  syncUI();
+  calculate();
+}
+
+/**
+ * Sinkronisasi Elemen UI
+ */
+function syncUI() {
+  const matInfo = getCurrentMaterial();
+  const isPabrik = state.standardRef === 'pabrik';
+
+  badgeOperasiTemp.textContent = `${matInfo.maxTemp}°C`;
+
+  if (state.mode === 'operasi') {
+    labelSuhu.textContent = 'Suhu Desain Operasi';
+    badgeSuhuMode.textContent = 'Maks';
+    badgeSuhuMode.className = 'text-[8px] font-mono font-bold text-cyan-600 dark:text-cyan-400';
+    suhuUji.value = matInfo.maxTemp.toString();
+    suhuUji.readOnly = true;
+    suhuUji.classList.add('bg-slate-100/75', 'dark:bg-slate-800/40');
+    suhuUji.classList.remove('bg-slate-50', 'dark:bg-slate-800');
+
+    labelFaktor.textContent = 'Faktor Koreksi (Kt)';
+    faktorKoreksiKt.value = '1.00';
+    resultTitle.textContent = 'BATAS KELULUSAN IR (SUHU OPERASI)';
+    resultStandardBadge.textContent = `${matInfo.maxTemp}°C Max`;
+    labelSpekRi.textContent = `Ri (${matInfo.maxTemp}°C)`;
+    headerSubtitle.textContent = `${matInfo.standard} (${matInfo.short} ${matInfo.maxTemp}°C)`;
+  } else {
+    labelSuhu.textContent = 'Suhu Ruang Uji (°C)';
+    badgeSuhuMode.textContent = 'Ambien';
+    badgeSuhuMode.className = 'text-[8px] font-mono font-bold text-emerald-600 dark:text-emerald-400';
+    suhuUji.value = state.ambientTemp;
+    suhuUji.readOnly = false;
+    suhuUji.placeholder = 'celcius';
+    suhuUji.classList.remove('bg-slate-100/75', 'dark:bg-slate-800/40');
+    suhuUji.classList.add('bg-slate-50', 'dark:bg-slate-800');
+
+    labelFaktor.textContent = 'Faktor Koreksi (Kt)';
+    resultTitle.textContent = 'BATAS KELULUSAN IR (SUHU RUANG)';
+    resultStandardBadge.textContent = isPabrik ? 'Tabel Pabrik 20°C' : 'IEC/SNI 20°C';
+    labelSpekRi.textContent = isPabrik ? 'Ri (Tabel 20°C)' : 'Ri (IEC 20°C)';
+    headerSubtitle.textContent = isPabrik 
+      ? `Tabel QC Pabrik • ${matInfo.name} 20°C` 
+      : `Standar ${matInfo.standard} • 20°C`;
+  }
+}
+
+/**
+ * Switch Satuan Megger (kΩ, MΩ, GΩ)
+ */
+function setReadingUnit(unit) {
+  state.readingUnit = unit;
+
+  [satuanKohmBtn, satuanMohmBtn, satuanGohmBtn].forEach(b => {
+    b.className = 'px-1 py-0.2 rounded text-[8px] font-extrabold transition-all text-slate-400 dark:text-slate-500';
+  });
+
+  if (unit === 'kohm') {
+    satuanKohmBtn.className = 'px-1 py-0.2 rounded text-[8px] font-extrabold transition-all bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm';
+    badgeSatuan.textContent = 'kΩ';
+    pembacaanAlat.placeholder = 'kilo ohm';
+  } else if (unit === 'mohm') {
+    satuanMohmBtn.className = 'px-1 py-0.2 rounded text-[8px] font-extrabold transition-all bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm';
+    badgeSatuan.textContent = 'MΩ';
+    pembacaanAlat.placeholder = 'mega ohm';
+  } else if (unit === 'gohm') {
+    satuanGohmBtn.className = 'px-1 py-0.2 rounded text-[8px] font-extrabold transition-all bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 shadow-sm';
+    badgeSatuan.textContent = 'GΩ';
+    pembacaanAlat.placeholder = 'giga ohm';
+  }
+
+  calculate();
+}
+
+/**
+ * Kalkulasi Utama
+ */
+function calculate() {
+  const matInfo = getCurrentMaterial();
+  const isPabrik = state.standardRef === 'pabrik';
+
+  // Parse Tebal Insulasi
+  const inputThickness = parseFloat(sanitizeNumeric(spekTebal.value));
+  const activeThickness = (!isNaN(inputThickness) && inputThickness > 0) ? inputThickness : matInfo.stdThickness;
+  
+  if (Math.abs(activeThickness - matInfo.stdThickness) > 0.001) {
+    state.customThickness = activeThickness;
+  } else {
+    state.customThickness = null;
+  }
+
+  // Parse Panjang & Pembacaan
+  const lengthMeters = parseFloat(sanitizeNumeric(panjangKabel.value));
+  const readingVal = parseFloat(sanitizeNumeric(pembacaanAlat.value));
+
+  if (!isNaN(lengthMeters) && lengthMeters > 0) {
+    badgeKm.textContent = `${(lengthMeters / 1000).toFixed(3)} km`;
+  } else {
+    badgeKm.textContent = '- km';
+  }
+
+  // Normalisasi Pembacaan ke MΩ
+  let readingMohm = isNaN(readingVal) ? 0 : readingVal;
+  if (state.readingUnit === 'kohm') readingMohm /= 1000;
+  if (state.readingUnit === 'gohm') readingMohm *= 1000;
+
+  if (isNaN(lengthMeters) || lengthMeters <= 0) {
+    hasilKalkulasi.value = '---';
+    resultUnit.textContent = 'MASUKKAN PANJANG KABEL';
+    resultFormulaBox.textContent = 'R_kabel = Ri / L_km';
+    evalBox.className = 'w-full py-1 px-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center text-xs';
+    evalIcon.textContent = 'ℹ';
+    pesanHasil.textContent = 'Harap isi panjang kabel dalam meter';
+    evalMargin.textContent = '0%';
+    return;
+  }
+
+  const lengthKm = lengthMeters / 1000;
+
+  // TAB 1: SUHU OPERASI MAKSIMUM (70°C / 90°C)
+  if (state.mode === 'operasi') {
+    faktorKoreksiKt.value = '1.00';
+
+    const riOperasi = getCalculatedRi(matInfo.minIrOp, activeThickness);
+    spekMinRi.value = riOperasi.toFixed(4);
+
+    // R_kabel = Ri_operasi / L_km
+    const limitMohm = riOperasi / lengthKm;
+    const limitKohm = limitMohm * 1000;
+    const limitGohm = limitMohm / 1000;
+
+    let formattedLimit;
+    if (limitMohm < 0.01) {
+      formattedLimit = limitMohm.toFixed(5);
+    } else if (limitMohm < 1) {
+      formattedLimit = limitMohm.toFixed(4);
+    } else {
+      formattedLimit = limitMohm.toFixed(3);
+    }
+
+    hasilKalkulasi.value = formattedLimit;
+    resultUnit.textContent = `Mega-Ohm (MΩ) • ${limitKohm.toFixed(2)} kΩ (${limitGohm.toFixed(7)} GΩ)`;
+
+    // Tampilkan Rumus Perhitungan R_kabel Live di Card Hasil
+    resultFormulaBox.textContent = `R_kabel = Ri / L = ${riOperasi.toFixed(4)} / ${lengthKm.toFixed(3)} km = ${formattedLimit} MΩ`;
+
+    // Evaluasi
+    evaluateResult(readingMohm, limitMohm, formattedLimit);
+  }
+  // TAB 2: SUHU RUANG AMBIEN
+  else {
+    const rawTemp = sanitizeNumeric(suhuUji.value);
+    const tempVal = parseFloat(rawTemp);
+    const currentTemp = !isNaN(tempVal) ? tempVal : (rawTemp === '' ? 20 : 30);
+    state.ambientTemp = rawTemp;
+
+    // Hitung faktor koreksi suhu Kt = theta^(T - 20)
+    const theta = matInfo.tempCoeff;
+    const deltaT = currentTemp - 20;
+    const kt = Math.pow(theta, deltaT);
+    faktorKoreksiKt.value = kt.toFixed(2);
+
+    // Tentukan base Ri 20°C: apakah dari Tabel Pabrik atau Standar IEC
+    const baseRi20 = isPabrik ? matInfo.minIr20Pabrik : matInfo.minIr20Iec;
+    const ri20 = getCalculatedRi(baseRi20, activeThickness);
+    spekMinRi.value = ri20 >= 10 ? ri20.toFixed(0) : ri20.toFixed(2);
+
+    // Batas minimum kabel pada suhu ruang T: R_kabel = (Ri_20 / L_km) / Kt
+    const limitAmbientMohm = (ri20 / lengthKm) / kt;
+    const limitAmbientKohm = limitAmbientMohm * 1000;
+    const limitAmbientGohm = limitAmbientMohm / 1000;
+
+    let formattedAmbient;
+    if (limitAmbientMohm < 1) {
+      formattedAmbient = limitAmbientMohm.toFixed(3);
+    } else if (limitAmbientMohm < 100) {
+      formattedAmbient = limitAmbientMohm.toFixed(2);
+    } else {
+      formattedAmbient = limitAmbientMohm.toFixed(1);
+    }
+
+    hasilKalkulasi.value = formattedAmbient;
+    resultUnit.textContent = `Mega-Ohm pada ${currentTemp}°C • (Ref 20°C: ${(limitAmbientMohm * kt).toFixed(1)} MΩ)`;
+
+    // Tampilkan Rumus Perhitungan R_kabel Live di Card Hasil
+    resultFormulaBox.textContent = `R_kabel = (Ri / L) / Kt = (${spekMinRi.value} / ${lengthKm.toFixed(3)}) / ${kt.toFixed(2)} = ${formattedAmbient} MΩ`;
+
+    // Evaluasi
+    evaluateResult(readingMohm, limitAmbientMohm, formattedAmbient);
+  }
+}
+
+/**
+ * Evaluasi Hasil PASS vs FAIL
+ */
+function evaluateResult(readingMohm, limitMohm, formattedLimit) {
+  const readingVal = parseFloat(sanitizeNumeric(pembacaanAlat.value));
+  if (isNaN(readingVal) || readingVal <= 0) {
+    evalBox.className = 'w-full py-1 px-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-500 flex items-center justify-between text-xs';
+    evalIcon.className = 'w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 flex items-center justify-center font-bold text-[10px] shrink-0';
+    evalIcon.textContent = 'ℹ';
+    pesanHasil.className = 'text-[10px] sm:text-[11px] font-bold text-slate-500 truncate';
+    pesanHasil.textContent = `Batas kelulusan minimum: ${formattedLimit} MΩ`;
+    evalMargin.textContent = '0.0x';
+    hasilKalkulasi.className = 'w-full text-center bg-transparent border-none focus:outline-none focus:ring-0 font-extrabold text-2xl sm:text-3xl text-cyan-600 dark:text-cyan-400 transition-colors duration-300 py-0 font-mono tracking-tight';
+    return;
+  }
+
+  const isPass = readingMohm >= limitMohm;
+  const ratio = readingMohm / limitMohm;
+  const marginPercent = ((readingMohm - limitMohm) / limitMohm) * 100;
+
+  if (isPass) {
+    evalBox.className = 'w-full py-1 px-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-between text-xs transition-all';
+    evalIcon.className = 'w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-[10px] shrink-0';
+    evalIcon.textContent = '✓';
+    pesanHasil.className = 'text-[10px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 truncate';
+    pesanHasil.textContent = `LULUS: ${readingMohm.toFixed(2)} MΩ ≥ ${formattedLimit} MΩ`;
+    evalMargin.className = 'text-[10px] font-mono font-extrabold text-emerald-600 dark:text-emerald-400 shrink-0 ml-1';
+    evalMargin.textContent = ratio >= 10 ? `${ratio.toFixed(1)}x` : `+${marginPercent.toFixed(1)}%`;
+    hasilKalkulasi.className = 'w-full text-center bg-transparent border-none focus:outline-none focus:ring-0 font-extrabold text-2xl sm:text-3xl text-emerald-600 dark:text-emerald-400 transition-colors duration-300 py-0 font-mono tracking-tight';
+  } else {
+    evalBox.className = 'w-full py-1 px-2.5 rounded-xl bg-rose-500/10 border border-rose-500/25 flex items-center justify-between text-xs transition-all';
+    evalIcon.className = 'w-4 h-4 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold text-[10px] shrink-0';
+    evalIcon.textContent = '✗';
+    pesanHasil.className = 'text-[10px] sm:text-[11px] font-bold text-rose-600 dark:text-rose-400 truncate';
+    pesanHasil.textContent = `BOCOR: ${readingMohm.toFixed(2)} MΩ < ${formattedLimit} MΩ!`;
+    evalMargin.className = 'text-[10px] font-mono font-extrabold text-rose-600 dark:text-rose-400 shrink-0 ml-1';
+    evalMargin.textContent = `${marginPercent.toFixed(1)}%`;
+    hasilKalkulasi.className = 'w-full text-center bg-transparent border-none focus:outline-none focus:ring-0 font-extrabold text-2xl sm:text-3xl text-rose-600 dark:text-rose-400 transition-colors duration-300 py-0 font-mono tracking-tight';
+  }
+}
+
+/**
+ * Buka & Tutup Modal
+ */
+function openModal() {
+  modalDetailSpek.classList.remove('opacity-0', 'pointer-events-none');
+  modalDetailSpek.classList.add('opacity-100');
+}
+function closeModal() {
+  modalDetailSpek.classList.remove('opacity-100');
+  modalDetailSpek.classList.add('opacity-0', 'pointer-events-none');
+}
+
+/**
+ * Reset Default
+ */
+function resetCalculator() {
+  state.standardRef = 'iec';
+  state.material = 'LSOH';
+  state.size = '1.5';
+  state.mode = 'operasi';
+  state.reading = '';
+  state.readingUnit = 'mohm';
+  state.length = '';
+  state.ambientTemp = '';
+  state.customThickness = null;
+
+  selectPenampang.value = '1.5';
+  pembacaanAlat.value = '';
+  panjangKabel.value = '';
+  suhuUji.value = '';
+
+  setStandardRef('iec');
+  setMaterial('LSOH');
+  setMode('operasi');
+  setReadingUnit('mohm');
+}
+
+/**
+ * Setup Event Listeners
+ */
+function setupEventListeners() {
+  // Pilihan Acuan Standar
+  if (selectStandardRef) {
+    selectStandardRef.addEventListener('change', (e) => setStandardRef(e.target.value));
+  }
+
+  // Material Switcher
+  btnMatLsoh.addEventListener('click', () => setMaterial('LSOH'));
+  btnMatPvc.addEventListener('click',  () => setMaterial('PVC'));
+  btnMatXlpe.addEventListener('click', () => setMaterial('XLPE'));
+
+  // Mode Switcher: Suhu Operasi vs Suhu Ruang
+  modeOperasiBtn.addEventListener('click', () => setMode('operasi'));
+  modeRuangBtn.addEventListener('click',   () => setMode('ruang'));
+
+  // Unit Switcher
+  satuanKohmBtn.addEventListener('click', () => setReadingUnit('kohm'));
+  satuanMohmBtn.addEventListener('click', () => setReadingUnit('mohm'));
+  satuanGohmBtn.addEventListener('click', () => setReadingUnit('gohm'));
+
+  // Dropdown Penampang
+  selectPenampang.addEventListener('change', (e) => {
+    state.size = e.target.value;
+    state.customThickness = null;
+    updateDefaultThickness();
+    calculate();
+  });
+
+  // Custom Tebal Insulasi Input
+  spekTebal.addEventListener('input', () => {
+    calculate();
+  });
+
+  // Input Pembacaan, Panjang & Suhu
+  pembacaanAlat.addEventListener('input', calculate);
+  panjangKabel.addEventListener('input', calculate);
+  suhuUji.addEventListener('input', () => {
+    if (state.mode === 'ruang') {
+      calculate();
+    }
+  });
+
+  // Buttons
+  btnReset.addEventListener('click', resetCalculator);
+
+  // Modal
+  btnOpenModal.addEventListener('click', openModal);
+  btnCloseModal.addEventListener('click', closeModal);
+  btnModalCloseAction.addEventListener('click', closeModal);
+  modalDetailSpek.addEventListener('click', (e) => {
+    if (e.target === modalDetailSpek) closeModal();
+  });
+
+  // Dark Mode Toggle
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark');
+    state.theme = isDark ? 'dark' : 'light';
+    localStorage.setItem('theme', state.theme);
+    updateThemeIcons();
+  });
+}
+
+function updateThemeIcons() {
+  const isDark = document.documentElement.classList.contains('dark');
+  if (isDark) {
+    darkIcon.classList.remove('hidden');
+    lightIcon.classList.add('hidden');
+  } else {
+    darkIcon.classList.add('hidden');
+    lightIcon.classList.remove('hidden');
+  }
+}
+
+// Bootstrap saat DOM siap
+document.addEventListener('DOMContentLoaded', () => {
+  if (state.theme === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+  updateThemeIcons();
+
+  initSelectPenampang();
+  renderModalTable();
+  setupEventListeners();
+
+  // Load awal: Default Standar SNI/IEC, LSOH, Suhu Operasi, Penampang 1.5 mm²
+  setStandardRef('iec');
+  setMaterial('LSOH');
+  setMode('operasi');
+  setReadingUnit('mohm');
+});
+
+    </script>
+</body>
+</html>

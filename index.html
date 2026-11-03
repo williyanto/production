@@ -1067,22 +1067,23 @@
                 </div>
             </a>
 
-            <!-- Additional Projects Section (Proyek 26 - 50) -->
-            <div id="additional-projects">
-
-                <!-- Proyek 26 -->
-                <a href="./proyek_belum_tersedia.html?id=26" class="list-group-item list-group-item-action"
-                    data-category="Keuangan">
-                    <i class="bi bi-cash-coin project-icon"></i>
-                    <div>
-                        <strong>Proyek 26: Proyek Sedang Dikembangkan</strong><br>
-                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
-                        <div class="project-meta">
-                            <span class="meta-badge">Keuangan</span>
-                            <span class="meta-badge status-demo">Konsep</span>
-                        </div>
+            <!-- Proyek 26: Single Screen -->
+            <a href="./spek_ir_v20261103.html" class="list-group-item list-group-item-action"
+                data-category="Uji Material">
+                <i class="bi bi-shield-check project-icon"></i>
+                <div>
+                    <strong>Proyek 26: Kalkulator Spek IR Kabel (v20261103)</strong><br>
+                    <small class="text-muted">Perhitungan spesifikasi dan evaluasi batas kelulusan Insulation Resistance
+                        (IR) kabel (LSOH, PVC, XLPE) pada suhu operasi &amp; suhu ruang.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Uji Material</span>
+                        <span class="meta-badge status-ready">Aktif</span>
                     </div>
-                </a>
+                </div>
+            </a>
+
+            <!-- Additional Projects Section (Proyek 27 - 50) -->
+            <div id="additional-projects">
 
                 <!-- Proyek 27 -->
                 <a href="./proyek_belum_tersedia.html?id=27" class="list-group-item list-group-item-action"
@@ -1733,10 +1734,10 @@
                     return idA - idB;
                 });
 
-                // Tempatkan 25 proyek pertama di #project-list (sebelum #additional-projects)
-                // dan 25 sisanya di dalam #additional-projects
+                // Tempatkan 26 proyek pertama di #project-list (sebelum #additional-projects)
+                // dan 24 sisanya di dalam #additional-projects
                 sorted.forEach((item, index) => {
-                    if (index < 25) {
+                    if (index < 26) {
                         projectList.insertBefore(item, additionalProjects);
                     } else {
                         additionalProjects.appendChild(item);
