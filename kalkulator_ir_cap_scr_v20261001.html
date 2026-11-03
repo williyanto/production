@@ -7,6 +7,15 @@
     <title>Kalkulator Pengujian Kabel Terpadu v20261001</title>
     <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
 
+    <!-- Early Theme Detection to prevent flash -->
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || localStorage.getItem('theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,29 +53,16 @@
             -moz-appearance: textfield;
         }
 
-        /* Hilangkan style default select box pada browser */
-        select {
-            background-image: none !important;
-        }
-
-        /* Accordion transition */
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
-            opacity: 0;
-        }
-
-        .accordion-content.expanded {
-            max-height: 800px;
-            /* Cukup besar untuk muat rumus */
-            opacity: 1;
+        .tab-btn {
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            user-select: none;
         }
     </style>
 </head>
 
 <body
-    class="bg-gradient-to-tr from-slate-100 via-green-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] w-full max-w-[100vw] flex flex-col justify-center items-center py-6 px-3 overflow-x-hidden overflow-y-auto transition-colors duration-300">
+    class="bg-gradient-to-tr from-slate-100 via-green-50/40 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] w-full max-w-[100vw] flex flex-col justify-center items-center py-6 px-3 overflow-x-hidden overflow-y-auto transition-colors duration-300">
 
     <!-- Ambient Glowing Orbs Background -->
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
@@ -77,7 +73,7 @@
 
     <!-- Main Container -->
     <div
-        class="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-5 transition-all duration-300 flex flex-col my-auto overflow-hidden">
+        class="w-full max-w-lg mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-6 transition-all duration-300 flex flex-col my-auto overflow-hidden">
 
         <!-- Header -->
         <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
@@ -89,10 +85,9 @@
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Kalkulator
-                        Pengujian</h1>
+                    <h1 class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Kalkulator Pengujian</h1>
                     <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">
-                        Multi-Fungsi v20260915</p>
+                        Multi-Fungsi v20261001</p>
                 </div>
             </div>
             <button id="theme-toggle" type="button"
@@ -112,38 +107,37 @@
 
         <!-- Segmented Tab Switcher -->
         <div
-            class="grid grid-cols-3 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl my-3 border border-slate-200/50 dark:border-slate-700/50">
+            class="grid grid-cols-3 p-1.5 bg-slate-100 dark:bg-slate-800/80 rounded-2xl my-3 border border-slate-200/50 dark:border-slate-700/50 gap-1.5">
             <button id="tab-btn-ir" onclick="switchTab('ir')"
-                class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30">
-                IR Selubung
+                class="tab-btn text-center py-2 px-1 rounded-xl text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-tight">
+                Insulation Resistance
             </button>
             <button id="tab-btn-cap" onclick="switchTab('cap')"
-                class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50">
+                class="tab-btn text-center py-2 px-1 rounded-xl text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50 leading-tight">
                 Kapasitansi
             </button>
             <button id="tab-btn-scr" onclick="switchTab('scr')"
-                class="text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50">
-                Screen
+                class="tab-btn text-center py-2 px-1 rounded-xl text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50 leading-tight">
+                Screening
             </button>
         </div>
 
-        <!-- Tab Content 1: IR Selubung -->
+        <!-- Tab Content 1: Insulation Resistance -->
         <div id="tab-panel-ir" class="space-y-3 flex-1 flex flex-col transition-all duration-300 block">
             <span
                 class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-1">Kalkulasi
                 Insulation Resistance</span>
 
-            <div class="grid grid-cols-1 gap-3">
-                <!-- Input Nilai IR Aktual -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- Input Pembacaan Alat -->
                 <div>
                     <label
-                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Nilai
-                        IR Aktual Pengukuran</label>
-                    <div class="flex gap-2">
-                        <input type="number" id="irValue" placeholder="Contoh: 3.45" step="any"
-                            class="flex-1 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pembacaan Alat</label>
+                    <div class="flex gap-1.5">
+                        <input type="number" id="irValue" placeholder="mega ohm" step="any"
+                            class="flex-1 min-w-0 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
                         <select id="irUnit"
-                            class="w-24 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-sm text-center">
+                            class="w-20 px-2 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-xs text-center cursor-pointer">
                             <option value="k">kΩ</option>
                             <option value="M" selected>MΩ</option>
                             <option value="G">GΩ</option>
@@ -155,14 +149,15 @@
                 <!-- Input Panjang Kabel -->
                 <div>
                     <label
-                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Panjang
-                        Kabel (Meter)</label>
-                    <div class="relative">
-                        <input type="number" id="irLength" placeholder="Contoh: 315" step="any"
-                            class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
-                        <div
-                            class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 text-xs font-bold">
-                            m</div>
+                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Panjang Kabel</label>
+                    <div class="flex gap-1.5">
+                        <input type="number" id="irLength" placeholder="meter" step="any"
+                            class="flex-1 min-w-0 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <select id="irLengthUnit"
+                            class="w-20 px-2 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-xs text-center cursor-pointer">
+                            <option value="m" selected>Meter</option>
+                            <option value="ft">Feet</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -182,31 +177,31 @@
                 <span
                     class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase block mb-1">Rumus:</span>
                 <code
-                    class="text-xs text-emerald-600 dark:text-emerald-400 font-mono font-bold block break-all">Hasil = IR (MΩ) × (Panjang (m) / 1000)</code>
+                    class="text-xs text-emerald-600 dark:text-emerald-400 font-mono font-bold block break-all">Hasil (MΩ·km) = IR (MΩ) × Panjang (km)</code>
             </div>
 
-            <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex gap-2 w-full mt-1">
+            <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex gap-2 w-full mt-auto">
                 <button type="button" onclick="history.back()"
-                    class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors"><svg
-                        class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="m12 19-7-7 7-7" />
-                        <path d="M19 12H5" />
-                    </svg> Kembali</button>
+                    class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors flex items-center justify-center gap-1">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    <span>Kembali</span>
+                </button>
                 <button type="button" onclick="clearIR()"
-                    class="flex-1 py-2 rounded-xl text-xs font-bold bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400 border border-rose-200 dark:border-rose-800 hover:bg-rose-200 dark:hover:bg-rose-900/50 transition-colors"><svg
-                        class="w-4 h-4 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    class="flex-1 py-2 rounded-xl text-xs font-bold bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400 border border-rose-200 dark:border-rose-800 hover:bg-rose-200 dark:hover:bg-rose-900/50 transition-colors flex items-center justify-center gap-1">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg> Reset</button>
+                    </svg>
+                    <span>Reset</span>
+                </button>
                 <a href="index.html"
-                    class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors flex items-center justify-center"><svg
-                        class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                        <polyline points="9 22 9 12 15 12 15 22" />
-                    </svg> Beranda</a>
+                    class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors flex items-center justify-center gap-1">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    <span>Beranda</span>
+                </a>
             </div>
         </div>
 
@@ -216,23 +211,36 @@
                 class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-1">Konversi
                 Kapasitansi</span>
 
-            <div class="grid grid-cols-2 gap-3">
-                <!-- Input Pembacaan Alat (nF) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- Input Pembacaan Alat -->
                 <div>
                     <label
-                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pembacaan
-                        (nF)</label>
-                    <input type="text" inputmode="decimal" id="capValue" placeholder="Cth: 15.5"
-                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pembacaan Alat</label>
+                    <div class="flex gap-1.5">
+                        <input type="number" id="capValue" placeholder="nano farad" step="any"
+                            class="flex-1 min-w-0 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <select id="capUnit"
+                            class="w-20 px-2 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-xs text-center cursor-pointer">
+                            <option value="nF" selected>nF</option>
+                            <option value="pF">pF</option>
+                            <option value="uF">µF</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Input Panjang Kabel -->
                 <div>
                     <label
-                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Panjang
-                        (m)</label>
-                    <input type="text" inputmode="numeric" id="capLength" placeholder="Cth: 1000"
-                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Panjang Kabel</label>
+                    <div class="flex gap-1.5">
+                        <input type="number" id="capLength" placeholder="meter" step="any"
+                            class="flex-1 min-w-0 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <select id="capLengthUnit"
+                            class="w-20 px-2 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-xs text-center cursor-pointer">
+                            <option value="m" selected>Meter</option>
+                            <option value="ft">Feet</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -251,67 +259,70 @@
                 <span
                     class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase block mb-1">Rumus:</span>
                 <code
-                    class="text-xs text-emerald-600 dark:text-emerald-400 font-mono font-bold block break-all">Hasil = (Pembacaan × 1000) / Panjang</code>
+                    class="text-xs text-emerald-600 dark:text-emerald-400 font-mono font-bold block break-all">Hasil (nF/km) = Kapasitansi (nF) / Panjang (km)</code>
             </div>
 
             <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex gap-2 w-full mt-auto">
                 <button type="button" onclick="history.back()"
-                    class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors"><svg
-                        class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="m12 19-7-7 7-7" />
-                        <path d="M19 12H5" />
-                    </svg> Kembali</button>
+                    class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors flex items-center justify-center gap-1">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    <span>Kembali</span>
+                </button>
                 <button type="button" onclick="clearCap()"
-                    class="flex-1 py-2 rounded-xl text-xs font-bold bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400 border border-rose-200 dark:border-rose-800 hover:bg-rose-200 dark:hover:bg-rose-900/50 transition-colors"><svg
-                        class="w-4 h-4 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    class="flex-1 py-2 rounded-xl text-xs font-bold bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400 border border-rose-200 dark:border-rose-800 hover:bg-rose-200 dark:hover:bg-rose-900/50 transition-colors flex items-center justify-center gap-1">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg> Reset</button>
+                    </svg>
+                    <span>Reset</span>
+                </button>
                 <a href="index.html"
-                    class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors flex items-center justify-center"><svg
-                        class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                        <polyline points="9 22 9 12 15 12 15 22" />
-                    </svg> Beranda</a>
+                    class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors flex items-center justify-center gap-1">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    <span>Beranda</span>
+                </a>
             </div>
         </div>
 
-        <!-- Tab Content 3: Hambatan Screen -->
+        <!-- Tab Content 3: Screening -->
         <div id="tab-panel-scr" class="space-y-3 flex-1 flex flex-col transition-all duration-300 hidden">
             <span
                 class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-1">Kalkulator
-                Hambatan Screen</span>
+                Hambatan Screening</span>
 
-            <div class="grid grid-cols-2 gap-3">
-                <!-- Input Ohm -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- Input Pembacaan Alat -->
                 <div>
                     <label
-                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pembacaan
-                        (Ω)</label>
-                    <input type="text" inputmode="decimal" id="scrOhm" placeholder="Cth: 2"
-                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pembacaan Alat</label>
+                    <div class="flex gap-1.5">
+                        <input type="number" id="scrValue" placeholder="ohm" step="any"
+                            class="flex-1 min-w-0 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <select id="scrUnit"
+                            class="w-24 px-2 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-xs text-center cursor-pointer">
+                            <option value="ohm" selected>Ω (Ohm)</option>
+                            <option value="mohm">mΩ (mili)</option>
+                        </select>
+                    </div>
                 </div>
 
-                <!-- Input mOhm -->
+                <!-- Input Panjang Kabel -->
                 <div>
                     <label
-                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pembacaan
-                        (mΩ)</label>
-                    <input type="text" inputmode="decimal" id="scrMOhm" placeholder="Cth: 50"
-                        class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Panjang Kabel</label>
+                    <div class="flex gap-1.5">
+                        <input type="number" id="scrLength" placeholder="meter" step="any"
+                            class="flex-1 min-w-0 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <select id="scrLengthUnit"
+                            class="w-20 px-2 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-xs text-center cursor-pointer">
+                            <option value="m" selected>Meter</option>
+                            <option value="ft">Feet</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Input Panjang -->
-            <div>
-                <label
-                    class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Panjang
-                    Kabel (m)</label>
-                <input type="text" inputmode="numeric" id="scrLength" placeholder="Cth: 1000"
-                    class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
             </div>
 
             <!-- Hasil Konversi Screen -->
@@ -329,37 +340,33 @@
                 <span
                     class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase block mb-1">Rumus:</span>
                 <code
-                    class="text-xs text-emerald-600 dark:text-emerald-400 font-mono font-bold block break-all">Hasil = ((Ω + mΩ/1000) / Panjang) × 1000</code>
+                    class="text-xs text-emerald-600 dark:text-emerald-400 font-mono font-bold block break-all">Hasil (Ω/km) = Hambatan (Ω) / Panjang (km)</code>
             </div>
 
             <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex gap-2 w-full mt-auto">
                 <button type="button" onclick="history.back()"
-                    class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors"><svg
-                        class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="m12 19-7-7 7-7" />
-                        <path d="M19 12H5" />
-                    </svg> Kembali</button>
+                    class="flex-1 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors flex items-center justify-center gap-1">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    <span>Kembali</span>
+                </button>
                 <button type="button" onclick="clearScr()"
-                    class="flex-1 py-2 rounded-xl text-xs font-bold bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400 border border-rose-200 dark:border-rose-800 hover:bg-rose-200 dark:hover:bg-rose-900/50 transition-colors"><svg
-                        class="w-4 h-4 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    class="flex-1 py-2 rounded-xl text-xs font-bold bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400 border border-rose-200 dark:border-rose-800 hover:bg-rose-200 dark:hover:bg-rose-900/50 transition-colors flex items-center justify-center gap-1">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg> Reset</button>
+                    </svg>
+                    <span>Reset</span>
+                </button>
                 <a href="index.html"
-                    class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors flex items-center justify-center"><svg
-                        class="w-4 h-4 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                        <polyline points="9 22 9 12 15 12 15 22" />
-                    </svg> Beranda</a>
+                    class="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors flex items-center justify-center gap-1">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    <span>Beranda</span>
+                </a>
             </div>
         </div>
-
-        <!-- Footer -->
-
-
 
         <!-- Footer -->
         <footer
@@ -395,19 +402,6 @@
             }
         });
 
-        // ----------------- Accordion Toggle -----------------
-        function toggleAccordion(contentId, iconId) {
-            const content = document.getElementById(contentId);
-            const icon = document.getElementById(iconId);
-            if (content.classList.contains("expanded")) {
-                content.classList.remove("expanded");
-                icon.classList.remove("rotate-180");
-            } else {
-                content.classList.add("expanded");
-                icon.classList.add("rotate-180");
-            }
-        }
-
         // ----------------- Tab Navigation -----------------
         function switchTab(tabId) {
             const tabs = ['ir', 'cap', 'scr'];
@@ -417,57 +411,68 @@
                 const panel = document.getElementById(`tab-panel-${t}`);
 
                 if (t === tabId) {
-                    btn.className = "text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30";
+                    btn.className = "tab-btn text-center py-2 px-1 rounded-xl text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-tight";
                     panel.classList.remove("hidden");
                     panel.classList.add("block");
                 } else {
-                    btn.className = "text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50";
+                    btn.className = "tab-btn text-center py-2 px-1 rounded-xl text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50 leading-tight";
                     panel.classList.remove("block");
                     panel.classList.add("hidden");
                 }
             });
         }
 
-        // ----------------- Utility Functions -----------------
-        function validateDecimalInput(event) {
-            event.target.value = event.target.value.replace(/[^0-9.]/g, '');
+        // ----------------- Helper Konversi Panjang ke KM -----------------
+        function toKm(lengthVal, unit) {
+            if (isNaN(lengthVal) || lengthVal <= 0) return 0;
+            // 1 ft = 0.3048 m
+            const meters = (unit === 'ft') ? lengthVal * 0.3048 : lengthVal;
+            return meters / 1000;
         }
 
-        function formatRibuan(event) {
-            let cleanValue = event.target.value.replace(/\D/g, '');
-            if (cleanValue) {
-                event.target.value = parseInt(cleanValue, 10).toLocaleString('id-ID');
-            } else {
-                event.target.value = '';
-            }
+        function formatLocale(num, minDec = 2, maxDec = 4) {
+            return num.toLocaleString("id-ID", { minimumFractionDigits: minDec, maximumFractionDigits: maxDec });
         }
 
-        // ----------------- Logic Tab 1: IR Selubung -----------------
+        // ----------------- Logic Tab 1: Insulation Resistance -----------------
         const irInput = document.getElementById("irValue");
         const irUnitSelect = document.getElementById("irUnit");
         const irLengthInput = document.getElementById("irLength");
+        const irLengthUnitSelect = document.getElementById("irLengthUnit");
         const irResultDisplay = document.getElementById("irResult");
-        const unitFactors = { k: 0.001, M: 1, G: 1000, T: 1000000 };
 
-        function formatLocale(num) {
-            return num.toLocaleString("id-ID", { maximumFractionDigits: 4 });
+        const irPlaceholders = {
+            k: "kilo ohm",
+            M: "mega ohm",
+            G: "giga ohm",
+            T: "tera ohm"
+        };
+        const unitFactorsIR = { k: 0.001, M: 1, G: 1000, T: 1000000 };
+
+        function updateIRPlaceholders() {
+            irInput.placeholder = irPlaceholders[irUnitSelect.value] || "mega ohm";
+            irLengthInput.placeholder = (irLengthUnitSelect.value === 'ft') ? "feet" : "meter";
         }
 
         function calculateIR() {
+            updateIRPlaceholders();
             const rawIR = parseFloat(irInput.value);
             const rawLength = parseFloat(irLengthInput.value);
-            const unit = irUnitSelect.value;
+            const irUnit = irUnitSelect.value;
+            const lenUnit = irLengthUnitSelect.value;
 
-            if (isNaN(rawIR) || isNaN(rawLength) || rawLength <= 0 || rawIR <= 0) {
+            const km = toKm(rawLength, lenUnit);
+
+            if (isNaN(rawIR) || rawIR <= 0 || km <= 0) {
                 irResultDisplay.textContent = "-";
                 return;
             }
 
-            const irInMegaOhmAktual = rawIR * unitFactors[unit];
-            const lengthInKm = rawLength / 1000;
-            const resultM_OhmKm = irInMegaOhmAktual * lengthInKm;
+            const irInMegaOhm = rawIR * unitFactorsIR[irUnit];
+            // IR standard = IR (MΩ) × Length (km) -> MΩ·km
+            const resultM_OhmKm = irInMegaOhm * km;
 
-            irResultDisplay.textContent = formatLocale(Number(resultM_OhmKm.toFixed(4)));
+            irResultDisplay.textContent = formatLocale(resultM_OhmKm, 2, 4);
         }
 
         function clearIR() {
@@ -477,26 +482,54 @@
             irInput.focus();
         }
 
-        [irInput, irUnitSelect, irLengthInput].forEach(el => {
+        [irInput, irUnitSelect, irLengthInput, irLengthUnitSelect].forEach(el => {
             el.addEventListener("input", calculateIR);
             el.addEventListener("change", calculateIR);
         });
 
         // ----------------- Logic Tab 2: Kapasitansi -----------------
         const capValueInput = document.getElementById('capValue');
+        const capUnitSelect = document.getElementById('capUnit');
         const capLengthInput = document.getElementById('capLength');
+        const capLengthUnitSelect = document.getElementById('capLengthUnit');
         const capResultDisplay = document.getElementById('capResult');
 
-        function calculateCap() {
-            const nanoFarad = parseFloat(capValueInput.value);
-            const panjangMeter = parseFloat(capLengthInput.value.replace(/\./g, ''));
+        const capPlaceholders = {
+            nF: "nano farad",
+            pF: "piko farad",
+            uF: "mikro farad"
+        };
 
-            if (!isNaN(nanoFarad) && !isNaN(panjangMeter) && panjangMeter > 0) {
-                const hasil = (nanoFarad * 1000) / panjangMeter;
-                capResultDisplay.textContent = hasil.toLocaleString("id-ID", { minimumFractionDigits: 2, maximumFractionDigits: 3 });
-            } else {
+        function updateCapPlaceholders() {
+            capValueInput.placeholder = capPlaceholders[capUnitSelect.value] || "nano farad";
+            capLengthInput.placeholder = (capLengthUnitSelect.value === 'ft') ? "feet" : "meter";
+        }
+
+        function calculateCap() {
+            updateCapPlaceholders();
+            const rawCap = parseFloat(capValueInput.value);
+            const rawLength = parseFloat(capLengthInput.value);
+            const capUnit = capUnitSelect.value;
+            const lenUnit = capLengthUnitSelect.value;
+
+            const km = toKm(rawLength, lenUnit);
+
+            if (isNaN(rawCap) || rawCap <= 0 || km <= 0) {
                 capResultDisplay.textContent = '-';
+                return;
             }
+
+            // Konversi ke basis nanoFarad (nF)
+            let capIn_nF = rawCap;
+            if (capUnit === 'pF') {
+                capIn_nF = rawCap / 1000;
+            } else if (capUnit === 'uF') {
+                capIn_nF = rawCap * 1000;
+            }
+
+            // Hasil nF/km = Cap(nF) / Length(km)
+            const hasil_nF_per_km = capIn_nF / km;
+            capResultDisplay.textContent = formatLocale(hasil_nF_per_km, 2, 4);
         }
 
         function clearCap() {
@@ -506,51 +539,62 @@
             capValueInput.focus();
         }
 
-        capValueInput.addEventListener('input', validateDecimalInput);
-        capValueInput.addEventListener('input', calculateCap);
-        capLengthInput.addEventListener('input', formatRibuan);
-        capLengthInput.addEventListener('input', calculateCap);
+        [capValueInput, capUnitSelect, capLengthInput, capLengthUnitSelect].forEach(el => {
+            el.addEventListener('input', calculateCap);
+            el.addEventListener('change', calculateCap);
+        });
 
-
-        // ----------------- Logic Tab 3: Hambatan Screen -----------------
-        const scrOhmInput = document.getElementById('scrOhm');
-        const scrMOhmInput = document.getElementById('scrMOhm');
+        // ----------------- Logic Tab 3: Screening -----------------
+        const scrValueInput = document.getElementById('scrValue');
+        const scrUnitSelect = document.getElementById('scrUnit');
         const scrLengthInput = document.getElementById('scrLength');
+        const scrLengthUnitSelect = document.getElementById('scrLengthUnit');
         const scrResultDisplay = document.getElementById('scrResult');
 
+        function updateScrPlaceholders() {
+            scrValueInput.placeholder = (scrUnitSelect.value === 'mohm') ? "mili ohm" : "ohm";
+            scrLengthInput.placeholder = (scrLengthUnitSelect.value === 'ft') ? "feet" : "meter";
+        }
+
         function calculateScr() {
-            const ohms = parseFloat(scrOhmInput.value) || 0;
-            const milliOhms = parseFloat(scrMOhmInput.value) || 0;
-            const panjangMeter = parseFloat(scrLengthInput.value.replace(/\./g, '')) || 0;
+            updateScrPlaceholders();
+            const rawScr = parseFloat(scrValueInput.value);
+            const rawLength = parseFloat(scrLengthInput.value);
+            const scrUnit = scrUnitSelect.value;
+            const lenUnit = scrLengthUnitSelect.value;
 
-            if (panjangMeter > 0 && (ohms > 0 || milliOhms > 0)) {
-                const totalOhms = ohms + (milliOhms / 1000);
-                const ohmPerMeter = totalOhms / panjangMeter;
-                const ohmPerKm = ohmPerMeter * 1000;
+            const km = toKm(rawLength, lenUnit);
 
-                scrResultDisplay.textContent = ohmPerKm.toLocaleString("id-ID", { minimumFractionDigits: 3, maximumFractionDigits: 4 });
-            } else {
+            if (isNaN(rawScr) || rawScr <= 0 || km <= 0) {
                 scrResultDisplay.textContent = '-';
+                return;
             }
+
+            // Konversi ke basis Ohm (Ω)
+            const resistanceInOhm = (scrUnit === 'mohm') ? rawScr / 1000 : rawScr;
+
+            // Hasil Ω/km = Resistance(Ω) / Length(km)
+            const ohmPerKm = resistanceInOhm / km;
+            scrResultDisplay.textContent = formatLocale(ohmPerKm, 2, 4);
         }
 
         function clearScr() {
-            scrOhmInput.value = "";
-            scrMOhmInput.value = "";
+            scrValueInput.value = "";
             scrLengthInput.value = "";
             calculateScr();
-            scrOhmInput.focus();
+            scrValueInput.focus();
         }
 
-        [scrOhmInput, scrMOhmInput].forEach(el => {
-            el.addEventListener('input', validateDecimalInput);
+        [scrValueInput, scrUnitSelect, scrLengthInput, scrLengthUnitSelect].forEach(el => {
             el.addEventListener('input', calculateScr);
+            el.addEventListener('change', calculateScr);
         });
-        scrLengthInput.addEventListener('input', formatRibuan);
-        scrLengthInput.addEventListener('input', calculateScr);
 
         // Inisialisasi awal saat halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
+            updateIRPlaceholders();
+            updateCapPlaceholders();
+            updateScrPlaceholders();
             calculateIR();
             calculateCap();
             calculateScr();
