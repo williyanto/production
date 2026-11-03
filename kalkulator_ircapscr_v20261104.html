@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Pengujian Kabel Terpadu v20261001</title>
+    <title>Kalkulator Pengujian Kabel Terpadu v20261104</title>
     <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
 
     <!-- Early Theme Detection to prevent flash -->
@@ -71,9 +71,9 @@
             style="animation-delay: 2s;"></div>
     </div>
 
-    <!-- Main Container -->
+    <!-- Main Container (Lebar border disesuaikan persis seperti iec_final: max-w-md, p-4 sm:p-5) -->
     <div
-        class="w-full max-w-lg mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-6 transition-all duration-300 flex flex-col my-auto overflow-hidden">
+        class="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-5 transition-all duration-300 flex flex-col my-auto overflow-hidden">
 
         <!-- Header -->
         <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
@@ -86,8 +86,7 @@
                 </div>
                 <div>
                     <h1 class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Kalkulator Pengujian</h1>
-                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">
-                        Multi-Fungsi v20261001</p>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">I.R, Cap, Scr</p>
                 </div>
             </div>
             <button id="theme-toggle" type="button"
@@ -105,19 +104,19 @@
             </button>
         </div>
 
-        <!-- Segmented Tab Switcher -->
+        <!-- Segmented Tab Switcher (Insulation Resistance, Capacitance, Screening) -->
         <div
-            class="grid grid-cols-3 p-1.5 bg-slate-100 dark:bg-slate-800/80 rounded-2xl my-3 border border-slate-200/50 dark:border-slate-700/50 gap-1.5">
+            class="grid grid-cols-3 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl my-3 border border-slate-200/50 dark:border-slate-700/50 gap-1">
             <button id="tab-btn-ir" onclick="switchTab('ir')"
-                class="tab-btn text-center py-2 px-1 rounded-xl text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-tight">
+                class="tab-btn text-center py-2 px-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-tight">
                 Insulation Resistance
             </button>
             <button id="tab-btn-cap" onclick="switchTab('cap')"
-                class="tab-btn text-center py-2 px-1 rounded-xl text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50 leading-tight">
-                Kapasitansi
+                class="tab-btn text-center py-2 px-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50 leading-tight">
+                Capacitance
             </button>
             <button id="tab-btn-scr" onclick="switchTab('scr')"
-                class="tab-btn text-center py-2 px-1 rounded-xl text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50 leading-tight">
+                class="tab-btn text-center py-2 px-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50 leading-tight">
                 Screening
             </button>
         </div>
@@ -205,14 +204,14 @@
             </div>
         </div>
 
-        <!-- Tab Content 2: Kapasitansi -->
+        <!-- Tab Content 2: Capacitance -->
         <div id="tab-panel-cap" class="space-y-3 flex-1 flex flex-col transition-all duration-300 hidden">
             <span
                 class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-1">Konversi
                 Kapasitansi</span>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <!-- Input Pembacaan Alat -->
+                <!-- Input Pembacaan Alat (Urutan satuan: mikro Farad (uF), nano Farad (nF default), piko Farad (pF)) -->
                 <div>
                     <label
                         class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pembacaan Alat</label>
@@ -221,9 +220,9 @@
                             class="flex-1 min-w-0 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
                         <select id="capUnit"
                             class="w-20 px-2 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-xs text-center cursor-pointer">
+                            <option value="uF">µF</option>
                             <option value="nF" selected>nF</option>
                             <option value="pF">pF</option>
-                            <option value="uF">µF</option>
                         </select>
                     </div>
                 </div>
@@ -411,11 +410,11 @@
                 const panel = document.getElementById(`tab-panel-${t}`);
 
                 if (t === tabId) {
-                    btn.className = "tab-btn text-center py-2 px-1 rounded-xl text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-tight";
+                    btn.className = "tab-btn text-center py-2 px-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-tight";
                     panel.classList.remove("hidden");
                     panel.classList.add("block");
                 } else {
-                    btn.className = "tab-btn text-center py-2 px-1 rounded-xl text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50 leading-tight";
+                    btn.className = "tab-btn text-center py-2 px-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50 leading-tight";
                     panel.classList.remove("block");
                     panel.classList.add("hidden");
                 }
@@ -487,17 +486,18 @@
             el.addEventListener("change", calculateIR);
         });
 
-        // ----------------- Logic Tab 2: Kapasitansi -----------------
+        // ----------------- Logic Tab 2: Capacitance -----------------
         const capValueInput = document.getElementById('capValue');
         const capUnitSelect = document.getElementById('capUnit');
         const capLengthInput = document.getElementById('capLength');
         const capLengthUnitSelect = document.getElementById('capLengthUnit');
         const capResultDisplay = document.getElementById('capResult');
 
+        // Urutan: mikro farad (uF), nano farad (nF default), piko farad (pF)
         const capPlaceholders = {
+            uF: "mikro farad",
             nF: "nano farad",
-            pF: "piko farad",
-            uF: "mikro farad"
+            pF: "piko farad"
         };
 
         function updateCapPlaceholders() {
@@ -520,11 +520,14 @@
             }
 
             // Konversi ke basis nanoFarad (nF)
+            // 1 uF = 1000 nF
+            // 1 nF = 1 nF
+            // 1 pF = 1 / 1000 nF
             let capIn_nF = rawCap;
-            if (capUnit === 'pF') {
-                capIn_nF = rawCap / 1000;
-            } else if (capUnit === 'uF') {
+            if (capUnit === 'uF') {
                 capIn_nF = rawCap * 1000;
+            } else if (capUnit === 'pF') {
+                capIn_nF = rawCap / 1000;
             }
 
             // Hasil nF/km = Cap(nF) / Length(km)
@@ -571,6 +574,7 @@
             }
 
             // Konversi ke basis Ohm (Ω)
+            // 1 mohm = 1 / 1000 ohm
             const resistanceInOhm = (scrUnit === 'mohm') ? rawScr / 1000 : rawScr;
 
             // Hasil Ω/km = Resistance(Ω) / Length(km)

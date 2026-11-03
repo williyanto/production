@@ -69,7 +69,7 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 
 | Proyek | Deskripsi | File Utama | Status |
 | :--- | :--- | :--- | :---: |
-| **Kalkulator Pengujian Kabel Terpadu** | Perhitungan parameter pengujian insulasi kabel: Insulation Resistance (IR), Capacitance, & SCR. | [`kalkulator_ir_cap_scr_v20261001.html`](./kalkulator_ir_cap_scr_v20261001.html) | `Aktif` |
+| **Kalkulator Pengujian Kabel Terpadu** | Perhitungan parameter pengujian insulasi kabel: Insulation Resistance (IR), Capacitance, & SCR. | [`kalkulator_ircapscr_v20261104.html`](./kalkulator_ircapscr_v20261104.html) | `Aktif` |
 | **Kalkulator Spek IR Kabel** | Perhitungan spesifikasi dan evaluasi batas kelulusan Insulation Resistance (IR) kabel (LSOH, PVC, XLPE) pada suhu operasi & suhu ruang. | [`spek_ir_v20261103.html`](./spek_ir_v20261103.html) | `Aktif` |
 | **Kapasitas Rak Kabel (Flame Retardant)** | Analisis pembebanan & kapasitas penataan kabel tahan api (*Flame Retardant*) pada rak kabel. | [`flame_retardant_v20261031.html`](./flame_retardant_v20261031.html) | `Aktif` |
 | **Uji Bending Mandrel** | Perhitungan ukuran mandrel & keliling lap pengujian tekuk kabel (*Mandrel Bending Test*). | [`uji_bending_v20261031.html`](./uji_bending_v20261031.html) | `Aktif` |
