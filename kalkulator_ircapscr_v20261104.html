@@ -86,7 +86,7 @@
                 </div>
                 <div>
                     <h1 class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Kalkulator Pengujian</h1>
-                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">I.R, Cap, Scr</p>
+                    <p id="headerSubtitle" class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">Insulation Resistance</p>
                 </div>
             </div>
             <button id="theme-toggle" type="button"
@@ -109,7 +109,7 @@
             class="grid grid-cols-3 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl my-3 border border-slate-200/50 dark:border-slate-700/50 gap-1">
             <button id="tab-btn-ir" onclick="switchTab('ir')"
                 class="tab-btn text-center py-2 px-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-tight">
-                Insulation Resistance
+                Ins. Resistance
             </button>
             <button id="tab-btn-cap" onclick="switchTab('cap')"
                 class="tab-btn text-center py-2 px-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50 leading-tight">
@@ -127,29 +127,27 @@
                 class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-1">Kalkulasi
                 Insulation Resistance</span>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="grid grid-cols-2 gap-2 sm:gap-3">
                 <!-- Input Pembacaan Alat -->
                 <div class="relative group">
                     <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
                         <label id="irLabelPembacaan" for="irValue"
-                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Pembacaan (MΩ)</label>
+                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Pembacaan (MΩ)</label>
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
-                            <button type="button" onclick="setIrUnit('k')" id="irUnit_k" title="Kilo-Ohm"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">kΩ</button>
                             <button type="button" onclick="setIrUnit('M')" id="irUnit_M" title="Mega-Ohm"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">MΩ</button>
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">MΩ</button>
                             <button type="button" onclick="setIrUnit('G')" id="irUnit_G" title="Giga-Ohm"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">GΩ</button>
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">GΩ</button>
                             <button type="button" onclick="setIrUnit('T')" id="irUnit_T" title="Tera-Ohm"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">TΩ</button>
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">TΩ</button>
                         </div>
                     </div>
                     <div class="relative">
                         <input type="number" id="irValue" placeholder="mega ohm" step="any"
-                            class="w-full pl-3 pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <span id="irBadge" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">MΩ</span>
+                            class="w-full pl-2.5 sm:pl-3 pr-8 sm:pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs sm:text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <div class="absolute inset-y-0 right-0 pr-2 sm:pr-3 flex items-center pointer-events-none">
+                            <span id="irBadge" class="text-[9px] sm:text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">MΩ</span>
                         </div>
                     </div>
                 </div>
@@ -158,20 +156,20 @@
                 <div class="relative group">
                     <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
                         <label id="irLabelPanjang" for="irLength"
-                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Panjang (m)</label>
+                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Panjang (m)</label>
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
                             <button type="button" onclick="setIrLengthUnit('m')" id="irLen_m" title="Meter"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
+                                class="px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
                             <button type="button" onclick="setIrLengthUnit('ft')" id="irLen_ft" title="Feet"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
+                                class="px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
                         </div>
                     </div>
                     <div class="relative">
                         <input type="number" id="irLength" placeholder="meter" step="any"
-                            class="w-full pl-3 pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <span id="irLenBadge" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">m</span>
+                            class="w-full pl-2.5 sm:pl-3 pr-8 sm:pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs sm:text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <div class="absolute inset-y-0 right-0 pr-2 sm:pr-3 flex items-center pointer-events-none">
+                            <span id="irLenBadge" class="text-[9px] sm:text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">m</span>
                         </div>
                     </div>
                 </div>
@@ -226,27 +224,27 @@
                 class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-1">Konversi
                 Kapasitansi</span>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="grid grid-cols-2 gap-2 sm:gap-3">
                 <!-- Input Pembacaan Alat (Urutan satuan: mikro Farad (uF), nano Farad (nF default), piko Farad (pF)) -->
                 <div class="relative group">
                     <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
                         <label id="capLabelPembacaan" for="capValue"
-                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Pembacaan (nF)</label>
+                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Pembacaan (nF)</label>
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
                             <button type="button" onclick="setCapUnit('uF')" id="capUnit_uF" title="Mikro-Farad"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">µF</button>
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">µF</button>
                             <button type="button" onclick="setCapUnit('nF')" id="capUnit_nF" title="Nano-Farad"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">nF</button>
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">nF</button>
                             <button type="button" onclick="setCapUnit('pF')" id="capUnit_pF" title="Piko-Farad"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">pF</button>
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">pF</button>
                         </div>
                     </div>
                     <div class="relative">
                         <input type="number" id="capValue" placeholder="nano farad" step="any"
-                            class="w-full pl-3 pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <span id="capBadge" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">nF</span>
+                            class="w-full pl-2.5 sm:pl-3 pr-8 sm:pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs sm:text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <div class="absolute inset-y-0 right-0 pr-2 sm:pr-3 flex items-center pointer-events-none">
+                            <span id="capBadge" class="text-[9px] sm:text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">nF</span>
                         </div>
                     </div>
                 </div>
@@ -255,20 +253,20 @@
                 <div class="relative group">
                     <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
                         <label id="capLabelPanjang" for="capLength"
-                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Panjang (m)</label>
+                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Panjang (m)</label>
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
                             <button type="button" onclick="setCapLengthUnit('m')" id="capLen_m" title="Meter"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
+                                class="px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
                             <button type="button" onclick="setCapLengthUnit('ft')" id="capLen_ft" title="Feet"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
+                                class="px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
                         </div>
                     </div>
                     <div class="relative">
                         <input type="number" id="capLength" placeholder="meter" step="any"
-                            class="w-full pl-3 pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <span id="capLenBadge" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">m</span>
+                            class="w-full pl-2.5 sm:pl-3 pr-8 sm:pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs sm:text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <div class="absolute inset-y-0 right-0 pr-2 sm:pr-3 flex items-center pointer-events-none">
+                            <span id="capLenBadge" class="text-[9px] sm:text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">m</span>
                         </div>
                     </div>
                 </div>
@@ -323,25 +321,25 @@
                 class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-1">Kalkulator
                 Hambatan Screening</span>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="grid grid-cols-2 gap-2 sm:gap-3">
                 <!-- Input Pembacaan Alat -->
                 <div class="relative group">
                     <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
                         <label id="scrLabelPembacaan" for="scrValue"
-                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Pembacaan (Ω)</label>
+                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Pembacaan (Ω)</label>
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
                             <button type="button" onclick="setScrUnit('mohm')" id="scrUnit_mohm" title="mili-Ohm"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">mΩ</button>
+                                class="px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">mΩ</button>
                             <button type="button" onclick="setScrUnit('ohm')" id="scrUnit_ohm" title="Ohm"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">Ω</button>
+                                class="px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">Ω</button>
                         </div>
                     </div>
                     <div class="relative">
                         <input type="number" id="scrValue" placeholder="ohm" step="any"
-                            class="w-full pl-3 pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <span id="scrBadge" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">Ω</span>
+                            class="w-full pl-2.5 sm:pl-3 pr-8 sm:pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs sm:text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <div class="absolute inset-y-0 right-0 pr-2 sm:pr-3 flex items-center pointer-events-none">
+                            <span id="scrBadge" class="text-[9px] sm:text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">Ω</span>
                         </div>
                     </div>
                 </div>
@@ -350,20 +348,20 @@
                 <div class="relative group">
                     <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
                         <label id="scrLabelPanjang" for="scrLength"
-                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Panjang (m)</label>
+                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Panjang (m)</label>
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
                             <button type="button" onclick="setScrLengthUnit('m')" id="scrLen_m" title="Meter"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
+                                class="px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
                             <button type="button" onclick="setScrLengthUnit('ft')" id="scrLen_ft" title="Feet"
-                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
+                                class="px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
                         </div>
                     </div>
                     <div class="relative">
                         <input type="number" id="scrLength" placeholder="meter" step="any"
-                            class="w-full pl-3 pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <span id="scrLenBadge" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">m</span>
+                            class="w-full pl-2.5 sm:pl-3 pr-8 sm:pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs sm:text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <div class="absolute inset-y-0 right-0 pr-2 sm:pr-3 flex items-center pointer-events-none">
+                            <span id="scrLenBadge" class="text-[9px] sm:text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">m</span>
                         </div>
                     </div>
                 </div>
@@ -449,17 +447,27 @@
         // ----------------- Tab Navigation -----------------
         function switchTab(tabId) {
             const tabs = ['ir', 'cap', 'scr'];
+            const tabTitles = {
+                ir: 'Insulation Resistance',
+                cap: 'Capacitance',
+                scr: 'Screening'
+            };
+
+            const subtitleEl = document.getElementById('headerSubtitle');
+            if (subtitleEl && tabTitles[tabId]) {
+                subtitleEl.textContent = tabTitles[tabId];
+            }
 
             tabs.forEach(t => {
                 const btn = document.getElementById(`tab-btn-${t}`);
                 const panel = document.getElementById(`tab-panel-${t}`);
 
                 if (t === tabId) {
-                    btn.className = "tab-btn text-center py-2 px-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-tight";
+                    btn.className = "tab-btn text-center py-2 px-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-green-600 dark:text-green-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none py-2";
                     panel.classList.remove("hidden");
                     panel.classList.add("block");
                 } else {
-                    btn.className = "tab-btn text-center py-2 px-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50 leading-tight";
+                    btn.className = "tab-btn text-center py-2 px-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-700/50 leading-none py-2";
                     panel.classList.remove("block");
                     panel.classList.add("hidden");
                 }
@@ -494,20 +502,19 @@
         let currentIrLengthUnit = 'm';
 
         const irPlaceholders = {
-            k: "kilo ohm",
             M: "mega ohm",
             G: "giga ohm",
             T: "tera ohm"
         };
-        const unitFactorsIR = { k: 0.001, M: 1, G: 1000, T: 1000000 };
+        const unitFactorsIR = { M: 1, G: 1000, T: 1000000 };
 
         function setIrUnit(unit) {
             currentIrUnit = unit;
-            ['k', 'M', 'G', 'T'].forEach(u => {
+            ['M', 'G', 'T'].forEach(u => {
                 const btn = document.getElementById(`irUnit_${u}`);
                 if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
             });
-            const labelMap = { k: 'kΩ', M: 'MΩ', G: 'GΩ', T: 'TΩ' };
+            const labelMap = { M: 'MΩ', G: 'GΩ', T: 'TΩ' };
             if (irLabelPembacaan) irLabelPembacaan.textContent = `Pembacaan (${labelMap[unit]})`;
             if (irInput) irInput.placeholder = irPlaceholders[unit];
             if (irBadge) irBadge.textContent = labelMap[unit];
@@ -704,6 +711,7 @@
 
         // Inisialisasi awal saat halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
+            switchTab('ir');
             setIrUnit('M');
             setIrLengthUnit('m');
             setCapUnit('nF');
