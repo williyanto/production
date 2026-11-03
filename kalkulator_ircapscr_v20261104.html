@@ -129,34 +129,50 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <!-- Input Pembacaan Alat -->
-                <div>
-                    <label
-                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pembacaan Alat</label>
-                    <div class="flex gap-1.5">
+                <div class="relative group">
+                    <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
+                        <label id="irLabelPembacaan" for="irValue"
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Pembacaan (MΩ)</label>
+                        <div
+                            class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
+                            <button type="button" onclick="setIrUnit('k')" id="irUnit_k" title="Kilo-Ohm"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">kΩ</button>
+                            <button type="button" onclick="setIrUnit('M')" id="irUnit_M" title="Mega-Ohm"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">MΩ</button>
+                            <button type="button" onclick="setIrUnit('G')" id="irUnit_G" title="Giga-Ohm"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">GΩ</button>
+                            <button type="button" onclick="setIrUnit('T')" id="irUnit_T" title="Tera-Ohm"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">TΩ</button>
+                        </div>
+                    </div>
+                    <div class="relative">
                         <input type="number" id="irValue" placeholder="mega ohm" step="any"
-                            class="flex-1 min-w-0 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
-                        <select id="irUnit"
-                            class="w-20 px-2 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-xs text-center cursor-pointer">
-                            <option value="k">kΩ</option>
-                            <option value="M" selected>MΩ</option>
-                            <option value="G">GΩ</option>
-                            <option value="T">TΩ</option>
-                        </select>
+                            class="w-full pl-3 pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <span id="irBadge" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">MΩ</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Input Panjang Kabel -->
-                <div>
-                    <label
-                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Panjang Kabel</label>
-                    <div class="flex gap-1.5">
+                <div class="relative group">
+                    <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
+                        <label id="irLabelPanjang" for="irLength"
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Panjang (m)</label>
+                        <div
+                            class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
+                            <button type="button" onclick="setIrLengthUnit('m')" id="irLen_m" title="Meter"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
+                            <button type="button" onclick="setIrLengthUnit('ft')" id="irLen_ft" title="Feet"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
+                        </div>
+                    </div>
+                    <div class="relative">
                         <input type="number" id="irLength" placeholder="meter" step="any"
-                            class="flex-1 min-w-0 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
-                        <select id="irLengthUnit"
-                            class="w-20 px-2 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-xs text-center cursor-pointer">
-                            <option value="m" selected>Meter</option>
-                            <option value="ft">Feet</option>
-                        </select>
+                            class="w-full pl-3 pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <span id="irLenBadge" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">m</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -212,33 +228,48 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <!-- Input Pembacaan Alat (Urutan satuan: mikro Farad (uF), nano Farad (nF default), piko Farad (pF)) -->
-                <div>
-                    <label
-                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pembacaan Alat</label>
-                    <div class="flex gap-1.5">
+                <div class="relative group">
+                    <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
+                        <label id="capLabelPembacaan" for="capValue"
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Pembacaan (nF)</label>
+                        <div
+                            class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
+                            <button type="button" onclick="setCapUnit('uF')" id="capUnit_uF" title="Mikro-Farad"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">µF</button>
+                            <button type="button" onclick="setCapUnit('nF')" id="capUnit_nF" title="Nano-Farad"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">nF</button>
+                            <button type="button" onclick="setCapUnit('pF')" id="capUnit_pF" title="Piko-Farad"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">pF</button>
+                        </div>
+                    </div>
+                    <div class="relative">
                         <input type="number" id="capValue" placeholder="nano farad" step="any"
-                            class="flex-1 min-w-0 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
-                        <select id="capUnit"
-                            class="w-20 px-2 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-xs text-center cursor-pointer">
-                            <option value="uF">µF</option>
-                            <option value="nF" selected>nF</option>
-                            <option value="pF">pF</option>
-                        </select>
+                            class="w-full pl-3 pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <span id="capBadge" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">nF</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Input Panjang Kabel -->
-                <div>
-                    <label
-                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Panjang Kabel</label>
-                    <div class="flex gap-1.5">
+                <div class="relative group">
+                    <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
+                        <label id="capLabelPanjang" for="capLength"
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Panjang (m)</label>
+                        <div
+                            class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
+                            <button type="button" onclick="setCapLengthUnit('m')" id="capLen_m" title="Meter"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
+                            <button type="button" onclick="setCapLengthUnit('ft')" id="capLen_ft" title="Feet"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
+                        </div>
+                    </div>
+                    <div class="relative">
                         <input type="number" id="capLength" placeholder="meter" step="any"
-                            class="flex-1 min-w-0 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
-                        <select id="capLengthUnit"
-                            class="w-20 px-2 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-xs text-center cursor-pointer">
-                            <option value="m" selected>Meter</option>
-                            <option value="ft">Feet</option>
-                        </select>
+                            class="w-full pl-3 pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <span id="capLenBadge" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">m</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -294,32 +325,46 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <!-- Input Pembacaan Alat -->
-                <div>
-                    <label
-                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pembacaan Alat</label>
-                    <div class="flex gap-1.5">
+                <div class="relative group">
+                    <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
+                        <label id="scrLabelPembacaan" for="scrValue"
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Pembacaan (Ω)</label>
+                        <div
+                            class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
+                            <button type="button" onclick="setScrUnit('mohm')" id="scrUnit_mohm" title="mili-Ohm"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">mΩ</button>
+                            <button type="button" onclick="setScrUnit('ohm')" id="scrUnit_ohm" title="Ohm"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">Ω</button>
+                        </div>
+                    </div>
+                    <div class="relative">
                         <input type="number" id="scrValue" placeholder="ohm" step="any"
-                            class="flex-1 min-w-0 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
-                        <select id="scrUnit"
-                            class="w-24 px-2 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-xs text-center cursor-pointer">
-                            <option value="ohm" selected>Ω (Ohm)</option>
-                            <option value="mohm">mΩ (mili)</option>
-                        </select>
+                            class="w-full pl-3 pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <span id="scrBadge" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">Ω</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Input Panjang Kabel -->
-                <div>
-                    <label
-                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Panjang Kabel</label>
-                    <div class="flex gap-1.5">
+                <div class="relative group">
+                    <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
+                        <label id="scrLabelPanjang" for="scrLength"
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Panjang (m)</label>
+                        <div
+                            class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
+                            <button type="button" onclick="setScrLengthUnit('m')" id="scrLen_m" title="Meter"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
+                            <button type="button" onclick="setScrLengthUnit('ft')" id="scrLen_ft" title="Feet"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
+                        </div>
+                    </div>
+                    <div class="relative">
                         <input type="number" id="scrLength" placeholder="meter" step="any"
-                            class="flex-1 min-w-0 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
-                        <select id="scrLengthUnit"
-                            class="w-20 px-2 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-xs text-center cursor-pointer">
-                            <option value="m" selected>Meter</option>
-                            <option value="ft">Feet</option>
-                        </select>
+                            class="w-full pl-3 pr-10 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold placeholder-slate-400 dark:placeholder-slate-600" />
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <span id="scrLenBadge" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">m</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -433,12 +478,20 @@
             return num.toLocaleString("id-ID", { minimumFractionDigits: minDec, maximumFractionDigits: maxDec });
         }
 
-        // ----------------- Logic Tab 1: Insulation Resistance -----------------
+        const activeMiniTabClass = "px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none";
+        const inactiveMiniTabClass = "px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none";
+
+        // ----------------- Tab 1: Insulation Resistance -----------------
         const irInput = document.getElementById("irValue");
-        const irUnitSelect = document.getElementById("irUnit");
         const irLengthInput = document.getElementById("irLength");
-        const irLengthUnitSelect = document.getElementById("irLengthUnit");
         const irResultDisplay = document.getElementById("irResult");
+        const irBadge = document.getElementById("irBadge");
+        const irLenBadge = document.getElementById("irLenBadge");
+        const irLabelPembacaan = document.getElementById("irLabelPembacaan");
+        const irLabelPanjang = document.getElementById("irLabelPanjang");
+
+        let currentIrUnit = 'M';
+        let currentIrLengthUnit = 'm';
 
         const irPlaceholders = {
             k: "kilo ohm",
@@ -448,26 +501,43 @@
         };
         const unitFactorsIR = { k: 0.001, M: 1, G: 1000, T: 1000000 };
 
-        function updateIRPlaceholders() {
-            irInput.placeholder = irPlaceholders[irUnitSelect.value] || "mega ohm";
-            irLengthInput.placeholder = (irLengthUnitSelect.value === 'ft') ? "feet" : "meter";
+        function setIrUnit(unit) {
+            currentIrUnit = unit;
+            ['k', 'M', 'G', 'T'].forEach(u => {
+                const btn = document.getElementById(`irUnit_${u}`);
+                if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
+            });
+            const labelMap = { k: 'kΩ', M: 'MΩ', G: 'GΩ', T: 'TΩ' };
+            if (irLabelPembacaan) irLabelPembacaan.textContent = `Pembacaan (${labelMap[unit]})`;
+            if (irInput) irInput.placeholder = irPlaceholders[unit];
+            if (irBadge) irBadge.textContent = labelMap[unit];
+            calculateIR();
+        }
+
+        function setIrLengthUnit(unit) {
+            currentIrLengthUnit = unit;
+            ['m', 'ft'].forEach(u => {
+                const btn = document.getElementById(`irLen_${u}`);
+                if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
+            });
+            if (irLabelPanjang) irLabelPanjang.textContent = `Panjang (${unit})`;
+            if (irLengthInput) irLengthInput.placeholder = (unit === 'ft') ? "feet" : "meter";
+            if (irLenBadge) irLenBadge.textContent = unit;
+            calculateIR();
         }
 
         function calculateIR() {
-            updateIRPlaceholders();
             const rawIR = parseFloat(irInput.value);
             const rawLength = parseFloat(irLengthInput.value);
-            const irUnit = irUnitSelect.value;
-            const lenUnit = irLengthUnitSelect.value;
 
-            const km = toKm(rawLength, lenUnit);
+            const km = toKm(rawLength, currentIrLengthUnit);
 
             if (isNaN(rawIR) || rawIR <= 0 || km <= 0) {
                 irResultDisplay.textContent = "-";
                 return;
             }
 
-            const irInMegaOhm = rawIR * unitFactorsIR[irUnit];
+            const irInMegaOhm = rawIR * unitFactorsIR[currentIrUnit];
             // IR standard = IR (MΩ) × Length (km) -> MΩ·km
             const resultM_OhmKm = irInMegaOhm * km;
 
@@ -481,17 +551,20 @@
             irInput.focus();
         }
 
-        [irInput, irUnitSelect, irLengthInput, irLengthUnitSelect].forEach(el => {
-            el.addEventListener("input", calculateIR);
-            el.addEventListener("change", calculateIR);
-        });
+        irInput.addEventListener("input", calculateIR);
+        irLengthInput.addEventListener("input", calculateIR);
 
-        // ----------------- Logic Tab 2: Capacitance -----------------
+        // ----------------- Tab 2: Capacitance -----------------
         const capValueInput = document.getElementById('capValue');
-        const capUnitSelect = document.getElementById('capUnit');
         const capLengthInput = document.getElementById('capLength');
-        const capLengthUnitSelect = document.getElementById('capLengthUnit');
         const capResultDisplay = document.getElementById('capResult');
+        const capBadge = document.getElementById('capBadge');
+        const capLenBadge = document.getElementById('capLenBadge');
+        const capLabelPembacaan = document.getElementById('capLabelPembacaan');
+        const capLabelPanjang = document.getElementById('capLabelPanjang');
+
+        let currentCapUnit = 'nF';
+        let currentCapLengthUnit = 'm';
 
         // Urutan: mikro farad (uF), nano farad (nF default), piko farad (pF)
         const capPlaceholders = {
@@ -500,19 +573,36 @@
             pF: "piko farad"
         };
 
-        function updateCapPlaceholders() {
-            capValueInput.placeholder = capPlaceholders[capUnitSelect.value] || "nano farad";
-            capLengthInput.placeholder = (capLengthUnitSelect.value === 'ft') ? "feet" : "meter";
+        function setCapUnit(unit) {
+            currentCapUnit = unit;
+            ['uF', 'nF', 'pF'].forEach(u => {
+                const btn = document.getElementById(`capUnit_${u}`);
+                if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
+            });
+            const labelMap = { uF: 'µF', nF: 'nF', pF: 'pF' };
+            if (capLabelPembacaan) capLabelPembacaan.textContent = `Pembacaan (${labelMap[unit]})`;
+            if (capValueInput) capValueInput.placeholder = capPlaceholders[unit];
+            if (capBadge) capBadge.textContent = labelMap[unit];
+            calculateCap();
+        }
+
+        function setCapLengthUnit(unit) {
+            currentCapLengthUnit = unit;
+            ['m', 'ft'].forEach(u => {
+                const btn = document.getElementById(`capLen_${u}`);
+                if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
+            });
+            if (capLabelPanjang) capLabelPanjang.textContent = `Panjang (${unit})`;
+            if (capLengthInput) capLengthInput.placeholder = (unit === 'ft') ? "feet" : "meter";
+            if (capLenBadge) capLenBadge.textContent = unit;
+            calculateCap();
         }
 
         function calculateCap() {
-            updateCapPlaceholders();
             const rawCap = parseFloat(capValueInput.value);
             const rawLength = parseFloat(capLengthInput.value);
-            const capUnit = capUnitSelect.value;
-            const lenUnit = capLengthUnitSelect.value;
 
-            const km = toKm(rawLength, lenUnit);
+            const km = toKm(rawLength, currentCapLengthUnit);
 
             if (isNaN(rawCap) || rawCap <= 0 || km <= 0) {
                 capResultDisplay.textContent = '-';
@@ -524,9 +614,9 @@
             // 1 nF = 1 nF
             // 1 pF = 1 / 1000 nF
             let capIn_nF = rawCap;
-            if (capUnit === 'uF') {
+            if (currentCapUnit === 'uF') {
                 capIn_nF = rawCap * 1000;
-            } else if (capUnit === 'pF') {
+            } else if (currentCapUnit === 'pF') {
                 capIn_nF = rawCap / 1000;
             }
 
@@ -542,31 +632,51 @@
             capValueInput.focus();
         }
 
-        [capValueInput, capUnitSelect, capLengthInput, capLengthUnitSelect].forEach(el => {
-            el.addEventListener('input', calculateCap);
-            el.addEventListener('change', calculateCap);
-        });
+        capValueInput.addEventListener('input', calculateCap);
+        capLengthInput.addEventListener('input', calculateCap);
 
-        // ----------------- Logic Tab 3: Screening -----------------
+        // ----------------- Tab 3: Screening -----------------
         const scrValueInput = document.getElementById('scrValue');
-        const scrUnitSelect = document.getElementById('scrUnit');
         const scrLengthInput = document.getElementById('scrLength');
-        const scrLengthUnitSelect = document.getElementById('scrLengthUnit');
         const scrResultDisplay = document.getElementById('scrResult');
+        const scrBadge = document.getElementById('scrBadge');
+        const scrLenBadge = document.getElementById('scrLenBadge');
+        const scrLabelPembacaan = document.getElementById('scrLabelPembacaan');
+        const scrLabelPanjang = document.getElementById('scrLabelPanjang');
 
-        function updateScrPlaceholders() {
-            scrValueInput.placeholder = (scrUnitSelect.value === 'mohm') ? "mili ohm" : "ohm";
-            scrLengthInput.placeholder = (scrLengthUnitSelect.value === 'ft') ? "feet" : "meter";
+        let currentScrUnit = 'ohm';
+        let currentScrLengthUnit = 'm';
+
+        function setScrUnit(unit) {
+            currentScrUnit = unit;
+            ['mohm', 'ohm'].forEach(u => {
+                const btn = document.getElementById(`scrUnit_${u}`);
+                if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
+            });
+            const labelMap = { mohm: 'mΩ', ohm: 'Ω' };
+            if (scrLabelPembacaan) scrLabelPembacaan.textContent = `Pembacaan (${labelMap[unit]})`;
+            if (scrValueInput) scrValueInput.placeholder = (unit === 'mohm') ? "mili ohm" : "ohm";
+            if (scrBadge) scrBadge.textContent = labelMap[unit];
+            calculateScr();
+        }
+
+        function setScrLengthUnit(unit) {
+            currentScrLengthUnit = unit;
+            ['m', 'ft'].forEach(u => {
+                const btn = document.getElementById(`scrLen_${u}`);
+                if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
+            });
+            if (scrLabelPanjang) scrLabelPanjang.textContent = `Panjang (${unit})`;
+            if (scrLengthInput) scrLengthInput.placeholder = (unit === 'ft') ? "feet" : "meter";
+            if (scrLenBadge) scrLenBadge.textContent = unit;
+            calculateScr();
         }
 
         function calculateScr() {
-            updateScrPlaceholders();
             const rawScr = parseFloat(scrValueInput.value);
             const rawLength = parseFloat(scrLengthInput.value);
-            const scrUnit = scrUnitSelect.value;
-            const lenUnit = scrLengthUnitSelect.value;
 
-            const km = toKm(rawLength, lenUnit);
+            const km = toKm(rawLength, currentScrLengthUnit);
 
             if (isNaN(rawScr) || rawScr <= 0 || km <= 0) {
                 scrResultDisplay.textContent = '-';
@@ -575,7 +685,7 @@
 
             // Konversi ke basis Ohm (Ω)
             // 1 mohm = 1 / 1000 ohm
-            const resistanceInOhm = (scrUnit === 'mohm') ? rawScr / 1000 : rawScr;
+            const resistanceInOhm = (currentScrUnit === 'mohm') ? rawScr / 1000 : rawScr;
 
             // Hasil Ω/km = Resistance(Ω) / Length(km)
             const ohmPerKm = resistanceInOhm / km;
@@ -589,19 +699,17 @@
             scrValueInput.focus();
         }
 
-        [scrValueInput, scrUnitSelect, scrLengthInput, scrLengthUnitSelect].forEach(el => {
-            el.addEventListener('input', calculateScr);
-            el.addEventListener('change', calculateScr);
-        });
+        scrValueInput.addEventListener('input', calculateScr);
+        scrLengthInput.addEventListener('input', calculateScr);
 
         // Inisialisasi awal saat halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
-            updateIRPlaceholders();
-            updateCapPlaceholders();
-            updateScrPlaceholders();
-            calculateIR();
-            calculateCap();
-            calculateScr();
+            setIrUnit('M');
+            setIrLengthUnit('m');
+            setCapUnit('nF');
+            setCapLengthUnit('m');
+            setScrUnit('ohm');
+            setScrLengthUnit('m');
         });
     </script>
 </body>
