@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Berat Kawat (Stranding)</title>
+    <title>Kalkulator Berat Kawat v20261104</title>
     <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,10 +73,8 @@
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Kalkulator Berat
-                    </h1>
-                    <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">
-                        Kawat (Stranding)</p>
+                    <h1 class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Kalkulator Berat</h1>
+                    <p id="labelModeSubtitle" class="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider">Wire Tunggal</p>
                 </div>
             </div>
             <button id="theme-toggle" type="button"
@@ -115,29 +113,22 @@
                     Kawat Tunggal</span>
                 <div class="grid grid-cols-2 gap-3">
                     <div class="relative group">
-                        <label id="labelBeratInput" for="beratSatuan"
-                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Berat
-                            Kawat</label>
+                        <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
+                            <label id="labelBeratInput" for="beratSatuan"
+                                class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Berat Kawat</label>
+                            <div class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
+                                <button type="button" onclick="setBeratUnit('g')" id="beratUnit_g" title="Gram"
+                                    class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">g</button>
+                                <button type="button" onclick="setBeratUnit('kg')" id="beratUnit_kg" title="Kilogram"
+                                    class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">kg</button>
+                            </div>
+                        </div>
                         <div class="relative">
-                            <input type="number" step="0.01" id="beratSatuan"
-                                class="block w-full pl-3 pr-16 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-xs font-semibold"
-                                placeholder="Contoh: 20">
-                            <div class="absolute inset-y-0 right-0 flex items-center">
-                                <select id="satuanBerat"
-                                    class="h-full rounded-r-xl border-transparent bg-transparent py-0 pl-2 pr-6 text-slate-500 dark:text-slate-400 focus:ring-0 focus:outline-none text-xs font-bold appearance-none cursor-pointer">
-                                    <option value="gram"
-                                        class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200">g</option>
-                                    <option value="kg"
-                                        class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200">kg
-                                    </option>
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-slate-400 dark:text-slate-500">
-                                    <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                            d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </div>
+                            <input type="number" step="any" id="beratSatuan"
+                                class="block w-full pl-3 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-xs font-semibold"
+                                placeholder="gram">
+                            <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
+                                <span id="badgeBerat" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">g</span>
                             </div>
                         </div>
                     </div>
@@ -265,7 +256,6 @@
         document.addEventListener('DOMContentLoaded', () => {
 
             const beratSatuanInput = document.getElementById('beratSatuan');
-            const satuanBeratSelect = document.getElementById('satuanBerat');
             const panjangAcuanInput = document.getElementById('panjangAcuan');
             const jumlahWireInput = document.getElementById('jumlahWire');
             const panjangTotalInput = document.getElementById('panjangTotal');
@@ -284,10 +274,46 @@
             const labelBagianReferensi = document.getElementById('labelBagianReferensi');
             const labelBeratInput = document.getElementById('labelBeratInput');
             const labelParameter = document.getElementById('labelParameter');
+            const labelModeSubtitle = document.getElementById('labelModeSubtitle');
             const jumlahWireContainer = document.getElementById('jumlahWireContainer');
             const panjangTotalContainer = document.getElementById('panjangTotalContainer');
 
             let currentMode = 'wire';
+            let currentBeratUnit = 'g';
+            const activeMiniTabClass = "px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none";
+            const inactiveMiniTabClass = "px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none";
+
+            window.setBeratUnit = function(unit) {
+                if (currentBeratUnit === unit) return;
+                const oldUnit = currentBeratUnit;
+                currentBeratUnit = unit;
+
+                const btnG = document.getElementById('beratUnit_g');
+                const btnKg = document.getElementById('beratUnit_kg');
+                const badge = document.getElementById('badgeBerat');
+
+                if (unit === 'kg') {
+                    if (btnKg) btnKg.className = activeMiniTabClass;
+                    if (btnG) btnG.className = inactiveMiniTabClass;
+                    if (beratSatuanInput) beratSatuanInput.placeholder = "kilogram";
+                    if (badge) badge.textContent = "kg";
+                } else {
+                    if (btnG) btnG.className = activeMiniTabClass;
+                    if (btnKg) btnKg.className = inactiveMiniTabClass;
+                    if (beratSatuanInput) beratSatuanInput.placeholder = "gram";
+                    if (badge) badge.textContent = "g";
+                }
+
+                let rawVal = parseFloat(beratSatuanInput.value);
+                if (!isNaN(rawVal) && rawVal > 0) {
+                    if (oldUnit === 'g' && unit === 'kg') {
+                        beratSatuanInput.value = parseFloat((rawVal / 1000).toPrecision(6));
+                    } else if (oldUnit === 'kg' && unit === 'g') {
+                        beratSatuanInput.value = parseFloat((rawVal * 1000).toPrecision(6));
+                    }
+                }
+                triggerCalculation();
+            };
 
             function updateUIForMode() {
                 if (currentMode === 'wire') {
@@ -299,6 +325,7 @@
                     labelBagianReferensi.innerText = "Referensi Kawat Tunggal";
                     labelBeratInput.innerText = "Berat Kawat";
                     labelParameter.innerText = "Parameter Stranding";
+                    if (labelModeSubtitle) labelModeSubtitle.innerText = "Wire Tunggal";
 
                     // Show jumlah wire
                     jumlahWireContainer.classList.remove('hidden');
@@ -312,6 +339,7 @@
                     labelBagianReferensi.innerText = "Referensi Konduktor";
                     labelBeratInput.innerText = "Berat Konduktor";
                     labelParameter.innerText = "Parameter Kalkulasi";
+                    if (labelModeSubtitle) labelModeSubtitle.innerText = "Konduktor (Stranded)";
 
                     // Hide jumlah wire, make panjang total full width
                     jumlahWireContainer.classList.add('hidden');
@@ -336,7 +364,6 @@
 
             function hitungBerat() {
                 let berat = parseFloat(beratSatuanInput.value);
-                const satuan = satuanBeratSelect.value;
                 const pAcuan = parseFloat(panjangAcuanInput.value);
                 let jmlWire = currentMode === 'wire' ? parseInt(jumlahWireInput.value) : 1;
                 const pTotal = parseFloat(panjangTotalInput.value);
@@ -353,7 +380,7 @@
                 warningAlert.classList.remove('flex');
 
                 // Convert to grams if kg is selected
-                if (satuan === 'kg') {
+                if (currentBeratUnit === 'kg') {
                     berat = berat * 1000;
                 }
 
@@ -370,7 +397,7 @@
                     kgConversion.classList.add('hidden');
                 }
 
-                const originalBeratStr = `${parseFloat(beratSatuanInput.value)}${satuan === 'kg' ? 'kg' : 'g'}`;
+                const originalBeratStr = `${parseFloat(beratSatuanInput.value)} ${currentBeratUnit}`;
                 if (currentMode === 'wire') {
                     rumusDetail.innerHTML = `(${originalBeratStr} / ${pAcuan}m) &times; ${jmlWire} wire &times; ${pTotal}m = <b>${totalBeratGram.toLocaleString('id-ID', { maximumFractionDigits: 2 })} gram</b>`;
                 } else {
@@ -394,18 +421,19 @@
             }
 
             // Real-time calculation if all filled
-            [beratSatuanInput, panjangAcuanInput, jumlahWireInput, panjangTotalInput, satuanBeratSelect].forEach(input => {
+            [beratSatuanInput, panjangAcuanInput, jumlahWireInput, panjangTotalInput].forEach(input => {
                 input.addEventListener('input', triggerCalculation);
             });
 
             resetBtn.addEventListener('click', () => {
                 beratSatuanInput.value = '';
-                satuanBeratSelect.value = 'gram';
+                setBeratUnit('g');
                 panjangAcuanInput.value = '1';
                 jumlahWireInput.value = '';
                 panjangTotalInput.value = '1';
                 resultCard.classList.add('hidden');
                 warningAlert.classList.add('hidden');
+                beratSatuanInput.focus();
             });
 
             // Dark Mode Logic
