@@ -132,7 +132,7 @@
                 <div class="relative group">
                     <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
                         <label id="irLabelPembacaan" for="irValue"
-                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Pembacaan (MΩ)</label>
+                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider truncate">PEMBACAAN (MΩ)</label>
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
                             <button type="button" onclick="setIrUnit('M')" id="irUnit_M" title="Mega-Ohm"
@@ -156,7 +156,7 @@
                 <div class="relative group">
                     <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
                         <label id="irLabelPanjang" for="irLength"
-                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Panjang (m)</label>
+                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider truncate">PANJANG (m)</label>
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
                             <button type="button" onclick="setIrLengthUnit('m')" id="irLen_m" title="Meter"
@@ -229,7 +229,7 @@
                 <div class="relative group">
                     <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
                         <label id="capLabelPembacaan" for="capValue"
-                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Pembacaan (nF)</label>
+                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider truncate">PEMBACAAN (nF)</label>
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
                             <button type="button" onclick="setCapUnit('uF')" id="capUnit_uF" title="Mikro-Farad"
@@ -253,7 +253,7 @@
                 <div class="relative group">
                     <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
                         <label id="capLabelPanjang" for="capLength"
-                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Panjang (m)</label>
+                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider truncate">PANJANG (m)</label>
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
                             <button type="button" onclick="setCapLengthUnit('m')" id="capLen_m" title="Meter"
@@ -326,7 +326,7 @@
                 <div class="relative group">
                     <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
                         <label id="scrLabelPembacaan" for="scrValue"
-                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Pembacaan (Ω)</label>
+                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider truncate">PEMBACAAN (Ω)</label>
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
                             <button type="button" onclick="setScrUnit('mohm')" id="scrUnit_mohm" title="mili-Ohm"
@@ -348,7 +348,7 @@
                 <div class="relative group">
                     <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
                         <label id="scrLabelPanjang" for="scrLength"
-                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Panjang (m)</label>
+                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider truncate">PANJANG (m)</label>
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
                             <button type="button" onclick="setScrLengthUnit('m')" id="scrLen_m" title="Meter"
@@ -515,7 +515,7 @@
                 if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
             });
             const labelMap = { M: 'MΩ', G: 'GΩ', T: 'TΩ' };
-            if (irLabelPembacaan) irLabelPembacaan.textContent = `Pembacaan (${labelMap[unit]})`;
+            if (irLabelPembacaan) irLabelPembacaan.textContent = `PEMBACAAN (${labelMap[unit]})`;
             if (irInput) irInput.placeholder = irPlaceholders[unit];
             if (irBadge) irBadge.textContent = labelMap[unit];
             calculateIR();
@@ -527,7 +527,7 @@
                 const btn = document.getElementById(`irLen_${u}`);
                 if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
             });
-            if (irLabelPanjang) irLabelPanjang.textContent = `Panjang (${unit})`;
+            if (irLabelPanjang) irLabelPanjang.textContent = `PANJANG (${unit})`;
             if (irLengthInput) irLengthInput.placeholder = (unit === 'ft') ? "feet" : "meter";
             if (irLenBadge) irLenBadge.textContent = unit;
             calculateIR();
@@ -587,7 +587,7 @@
                 if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
             });
             const labelMap = { uF: 'µF', nF: 'nF', pF: 'pF' };
-            if (capLabelPembacaan) capLabelPembacaan.textContent = `Pembacaan (${labelMap[unit]})`;
+            if (capLabelPembacaan) capLabelPembacaan.textContent = `PEMBACAAN (${labelMap[unit]})`;
             if (capValueInput) capValueInput.placeholder = capPlaceholders[unit];
             if (capBadge) capBadge.textContent = labelMap[unit];
             calculateCap();
@@ -599,7 +599,7 @@
                 const btn = document.getElementById(`capLen_${u}`);
                 if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
             });
-            if (capLabelPanjang) capLabelPanjang.textContent = `Panjang (${unit})`;
+            if (capLabelPanjang) capLabelPanjang.textContent = `PANJANG (${unit})`;
             if (capLengthInput) capLengthInput.placeholder = (unit === 'ft') ? "feet" : "meter";
             if (capLenBadge) capLenBadge.textContent = unit;
             calculateCap();
@@ -661,7 +661,7 @@
                 if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
             });
             const labelMap = { mohm: 'mΩ', ohm: 'Ω' };
-            if (scrLabelPembacaan) scrLabelPembacaan.textContent = `Pembacaan (${labelMap[unit]})`;
+            if (scrLabelPembacaan) scrLabelPembacaan.textContent = `PEMBACAAN (${labelMap[unit]})`;
             if (scrValueInput) scrValueInput.placeholder = (unit === 'mohm') ? "mili ohm" : "ohm";
             if (scrBadge) scrBadge.textContent = labelMap[unit];
             calculateScr();
@@ -673,7 +673,7 @@
                 const btn = document.getElementById(`scrLen_${u}`);
                 if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
             });
-            if (scrLabelPanjang) scrLabelPanjang.textContent = `Panjang (${unit})`;
+            if (scrLabelPanjang) scrLabelPanjang.textContent = `PANJANG (${unit})`;
             if (scrLengthInput) scrLengthInput.placeholder = (unit === 'ft') ? "feet" : "meter";
             if (scrLenBadge) scrLenBadge.textContent = unit;
             calculateScr();

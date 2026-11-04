@@ -100,7 +100,7 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div class="relative group">
                         <div class="flex items-center justify-between mb-1 min-h-[20px]">
-                            <label id="labelPembacaan" for="pembacaanAlat" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Pembacaan (mΩ)</label>
+                            <label id="labelPembacaan" for="pembacaanAlat" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider">PEMBACAAN (mΩ)</label>
                             <div class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60">
                                 <button type="button" id="satuanMohmBtn" title="Satuan mili ohm" class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">mΩ</button>
                                 <button type="button" id="satuanOhmBtn" title="Satuan ohm" class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">Ω</button>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="relative group">
                         <div class="flex items-center justify-between mb-1 min-h-[20px]">
-                            <label id="labelPanjang" for="panjang" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Panjang (ft)</label>
+                            <label id="labelPanjang" for="panjang" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider">PANJANG (ft)</label>
                             <div id="panjangUnitWrapper" class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60">
                                 <button type="button" id="satuanFeetBtn" title="Satuan feet" class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">ft</button>
                                 <button type="button" id="satuanMeterBtn" title="Satuan meter" class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">m</button>
@@ -377,13 +377,13 @@
             if (satuan === 'ohm') {
                 satuanOhmBtn.className = activeUnitBtnClass;
                 satuanMohmBtn.className = inactiveUnitBtnClass;
-                labelPembacaan.innerText = "Pembacaan (Ω)";
+                labelPembacaan.innerText = "PEMBACAAN (Ω)";
                 pembacaanAlatInput.placeholder = "ohm";
                 if (badgeSatuan) badgeSatuan.innerText = "Ω";
             } else {
                 satuanMohmBtn.className = activeUnitBtnClass;
                 satuanOhmBtn.className = inactiveUnitBtnClass;
-                labelPembacaan.innerText = "Pembacaan (mΩ)";
+                labelPembacaan.innerText = "PEMBACAAN (mΩ)";
                 pembacaanAlatInput.placeholder = "mili ohm";
                 if (badgeSatuan) badgeSatuan.innerText = "mΩ";
             }
@@ -396,7 +396,7 @@
                 satuanMeterBtn.className = activeUnitBtnClass;
                 satuanFeetBtn.className = inactiveUnitBtnClass;
                 if (currentMode === 'hambatan') {
-                    labelPanjang.innerText = "Panjang (m)";
+                    labelPanjang.innerText = "PANJANG (m)";
                     panjangInput.placeholder = "meter";
                     if (badgePanjang) badgePanjang.innerText = "m";
                 } else {
@@ -406,7 +406,7 @@
                 satuanFeetBtn.className = activeUnitBtnClass;
                 satuanMeterBtn.className = inactiveUnitBtnClass;
                 if (currentMode === 'hambatan') {
-                    labelPanjang.innerText = "Panjang (ft)";
+                    labelPanjang.innerText = "PANJANG (ft)";
                     panjangInput.placeholder = "feet";
                     if (badgePanjang) badgePanjang.innerText = "ft";
                 } else {

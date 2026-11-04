@@ -57,7 +57,7 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 
 | Proyek | Deskripsi | File Utama | Status |
 | :--- | :--- | :--- | :---: |
-| **Hitung Panjang Kabel di Drum** | Estimasi total panjang kabel yang tergulung dalam drum kayu/besi (*CableMetrics*). | [`hitung_panjang_kabel_didrum_v20261103.html`](./hitung_panjang_kabel_didrum_v20261103.html) | `Aktif` |
+| **Kalkulator Drum Kabel** | Estimasi total panjang kabel yang tergulung dalam drum kayu/besi (*CableMetrics*). | [`kalkulator_drum_kabel_v20261104.html`](./kalkulator_drum_kabel_v20261104.html) | `Aktif` |
 | **Estimasi Waktu Rewind Kabel** | Kalkulasi durasi waktu proses penggulungan (*rewinding*) dan *coiling* kabel produksi. | [`hitung_waktu_rewind_v20261031.html`](./hitung_waktu_rewind_v20261031.html) | `Aktif` |
 | **Kalkulator Presisi Potongan Kabel** | Aplikasi perhitungan presisi untuk potongan kabel dan toleransi scrap. | [`slice_calculation_v20261031.html`](./slice_calculation_v20261031.html) | `Aktif` |
 | **Kalkulator Berat Kawat (Stranding)** | Aplikasi perhitungan berat kawat dan stranding untuk proses produksi kabel. | [`wire_weight_calculation_v20261031.html`](./wire_weight_calculation_v20261031.html) | `Aktif` |

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Panjang Kabel dalam Drum v20261103</title>
+    <title>Kalkulator Drum Kabel v20261104</title>
     <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -90,8 +90,8 @@
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-base font-extrabold text-slate-800 dark:text-slate-100 tracking-tight leading-tight">Panjang Kabel di Drum</h1>
-                    <p class="text-[11px] text-blue-600 dark:text-blue-400 font-semibold tracking-wider uppercase">CableMetrics Pro</p>
+                    <h1 class="text-base font-extrabold text-slate-800 dark:text-slate-100 tracking-tight leading-tight">Kalkulator Drum Kabel</h1>
+                    <p class="text-[11px] text-blue-600 dark:text-blue-400 font-bold tracking-wider uppercase">Estimasi Panjang &amp; Kapasitas Drum</p>
                 </div>
             </div>
             
@@ -127,27 +127,43 @@
                 
                 <!-- Diameter / Keliling Drum Input -->
                 <div id="groupDiameter" class="relative group transition-all">
-                    <label for="diameterDrum" class="block text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1">Diameter Drum (Meter)</label>
+                    <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
+                        <label id="labelDiameterDrum" for="diameterDrum" class="block text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Diameter Drum (m)</label>
+                        <div class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
+                            <button type="button" onclick="setDrumUnit('cm')" id="drumUnit_cm" title="Sentimeter"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">cm</button>
+                            <button type="button" onclick="setDrumUnit('m')" id="drumUnit_m" title="Meter"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
+                        </div>
+                    </div>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
                         </div>
-                        <input type="text" inputmode="decimal" id="diameterDrum" class="pl-10 block w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-xs font-bold" placeholder="Contoh: 1.25">
+                        <input type="text" inputmode="decimal" id="diameterDrum" class="pl-10 block w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-xs font-bold" placeholder="meter">
                     </div>
                 </div>
 
                 <div id="groupKeliling" class="relative group transition-all hidden">
-                    <label for="kelilingDrum" class="block text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1">Keliling Drum (Meter)</label>
+                    <div class="flex items-center justify-between mb-1 min-h-[20px] gap-1">
+                        <label id="labelKelilingDrum" for="kelilingDrum" class="block text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Keliling Drum (m)</label>
+                        <div class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
+                            <button type="button" onclick="setDrumUnit('cm')" id="drumUnit_kel_cm" title="Sentimeter"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">cm</button>
+                            <button type="button" onclick="setDrumUnit('m')" id="drumUnit_kel_m" title="Meter"
+                                class="px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
+                        </div>
+                    </div>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
                         </div>
-                        <input type="text" inputmode="decimal" id="kelilingDrum" class="pl-10 block w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-xs font-bold" placeholder="Contoh: 3.92">
+                        <input type="text" inputmode="decimal" id="kelilingDrum" class="pl-10 block w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-xs font-bold" placeholder="meter">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
-                    <!-- Lebar Drum + Satuan -->
+                    <!-- Lebar Drum + Satuan (Urutan: m, ft, cm, mm) -->
                     <div class="relative group">
                         <label for="lebarDrum" class="block text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1">Lebar Drum</label>
                         <div class="flex">
@@ -155,18 +171,18 @@
                                 <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors">
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
                                 </div>
-                                <input type="text" inputmode="decimal" id="lebarDrum" class="pl-8 block w-full px-2 py-2.5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-l-xl rounded-r-none border-r-0 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-xs font-bold" placeholder="Cth: 0.85">
+                                <input type="text" inputmode="decimal" id="lebarDrum" class="pl-8 block w-full px-2 py-2.5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-l-xl rounded-r-none border-r-0 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-xs font-bold" placeholder="meter">
                             </div>
                             <select id="satuanLebarDrum" class="w-16 px-1.5 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-r-xl rounded-l-none text-slate-800 dark:text-slate-200 text-xs font-bold text-center focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer">
                                 <option value="m" selected>m</option>
+                                <option value="ft">ft</option>
                                 <option value="cm">cm</option>
                                 <option value="mm">mm</option>
-                                <option value="ft">ft</option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- Diameter Kabel + Satuan -->
+                    <!-- Diameter Kabel + Satuan (Urutan: m, ft, cm, mm) -->
                     <div class="relative group">
                         <label for="nilaiDiameterKabel" class="block text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1">Diameter Kabel</label>
                         <div class="flex">
@@ -174,13 +190,13 @@
                                 <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors">
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                                 </div>
-                                <input type="text" inputmode="decimal" id="nilaiDiameterKabel" class="pl-8 block w-full px-2 py-2.5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-l-xl rounded-r-none border-r-0 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-xs font-bold" placeholder="Cth: 25">
+                                <input type="text" inputmode="decimal" id="nilaiDiameterKabel" class="pl-8 block w-full px-2 py-2.5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-l-xl rounded-r-none border-r-0 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-xs font-bold" placeholder="milimeter">
                             </div>
                             <select id="satuanDiameterKabel" class="w-16 px-1.5 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-r-xl rounded-l-none text-slate-800 dark:text-slate-200 text-xs font-bold text-center focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer">
-                                <option value="mm" selected>mm</option>
-                                <option value="cm">cm</option>
                                 <option value="m">m</option>
                                 <option value="ft">ft</option>
+                                <option value="cm">cm</option>
+                                <option value="mm" selected>mm</option>
                             </select>
                         </div>
                     </div>
@@ -188,44 +204,45 @@
             </div>
 
             <!-- Group 2: Opsi Estimasi Tambahan -->
-            <div class="space-y-3 pt-2 ">
+            <div class="space-y-3 pt-2">
                 <span class="text-[11px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Opsi Estimasi Spesifik (Opsional)</span>
                 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-3 gap-2 sm:gap-3">
                     <!-- Hitung Hingga Lilitan Ke- -->
                     <div class="relative group">
                         <label for="lilitanTanda" class="block text-[11px] font-bold text-slate-600 dark:text-slate-300 tracking-tight mb-1 truncate" title="Hitung Hingga Lilitan Ke-">Lilitan Ke-</label>
                         <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-500 transition-colors">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" /></svg>
+                            <div class="absolute inset-y-0 left-0 pl-2 sm:pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-500 transition-colors">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" /></svg>
                             </div>
-                            <input type="number" inputmode="numeric" min="1" id="lilitanTanda" class="pl-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-xs font-semibold" placeholder="Opsional">
+                            <input type="number" inputmode="numeric" min="1" id="lilitanTanda" class="pl-7 sm:pl-8 block w-full px-2 py-2 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-xs font-semibold h-[38px]" placeholder="Opsional">
                         </div>
-                        <p class="text-[9px] text-slate-400 dark:text-slate-500 mt-1">Kosongkan utk default.</p>
+                        <p class="text-[9px] text-slate-400 dark:text-slate-500 mt-1 truncate">Default 1 layer</p>
+                    </div>
+
+                    <!-- Mode Satuan Hasil (Di Antara Lilitan Ke dan Total Layer) -->
+                    <div class="relative group">
+                        <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-300 tracking-tight mb-1 truncate text-center" title="Satuan Hasil">Satuan Hasil</label>
+                        <input type="hidden" id="outputMode" value="meter">
+                        <div class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200/60 dark:border-slate-700/60 w-full h-[38px] items-center">
+                            <button type="button" id="btnOutMeter" onclick="setOutputMode('meter')" class="flex-1 h-full rounded-lg text-[11px] sm:text-xs font-bold transition-all bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-200/50 dark:border-slate-600/30 flex items-center justify-center">Meter</button>
+                            <button type="button" id="btnOutFeet" onclick="setOutputMode('feet')" class="flex-1 h-full rounded-lg text-[11px] sm:text-xs font-bold transition-all text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 flex items-center justify-center">Feet</button>
+                        </div>
+                        <p class="text-[9px] text-slate-400 dark:text-slate-500 mt-1 text-center truncate">m / ft</p>
                     </div>
 
                     <!-- Hitung Total Layer Penuh -->
                     <div class="relative group">
                         <label for="jumlahLayer" class="block text-[11px] font-bold text-slate-600 dark:text-slate-300 tracking-tight mb-1 truncate" title="Hitung Total Layer Penuh">Total Layer</label>
                         <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-500 transition-colors">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                            <div class="absolute inset-y-0 left-0 pl-2 sm:pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-500 transition-colors">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
                             </div>
-                            <input type="number" inputmode="numeric" min="1" id="jumlahLayer" class="pl-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-xs font-semibold" placeholder="Opsional">
+                            <input type="number" inputmode="numeric" min="1" id="jumlahLayer" class="pl-7 sm:pl-8 block w-full px-2 py-2 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-xs font-semibold h-[38px]" placeholder="Opsional">
                         </div>
-                        <p class="text-[9px] text-slate-400 dark:text-slate-500 mt-1">Kosongkan utk 1 layer.</p>
+                        <p class="text-[9px] text-slate-400 dark:text-slate-500 mt-1 truncate">Default 1 layer</p>
                     </div>
                 </div>
-            </div>
-
-            <!-- Papan Hasil Reaktif (Dynamic Output Cards) -->
-            
-            <div class="flex items-center justify-center gap-2 mt-2 pt-2 no-print">
-                <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400">Mode Satuan Hasil:</span>
-                <select id="outputMode" class="text-xs py-1 px-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-bold text-slate-700 dark:text-slate-300 focus:outline-none">
-                    <option value="meter" selected>Meter (m)</option>
-                    <option value="feet">Feet (ft)</option>
-                </select>
             </div>
 
             <div id="hasil" class="space-y-2 pt-1 transition-all duration-300"></div>
@@ -258,6 +275,11 @@
     <script>
         // --- sistem reaktivitas bebas dependensi (Vanilla JS) ---
         let modeInput = 'diameter'; // 'diameter' atau 'keliling'
+        let currentDrumUnit = 'm'; // 'cm' atau 'm' (default m)
+        let currentOutputMode = 'meter'; // 'meter' atau 'feet'
+
+        const activeMiniTabClass = "px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none";
+        const inactiveMiniTabClass = "px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none";
 
         const btnDiameter = document.getElementById('btnDiameter');
         const btnKeliling = document.getElementById('btnKeliling');
@@ -274,12 +296,62 @@
         const hasilDiv = document.getElementById('hasil');
         const btnReset = document.getElementById('btnReset');
 
+        const unitPlaceholderMap = {
+            m: "meter",
+            ft: "feet",
+            cm: "sentimeter",
+            mm: "milimeter"
+        };
+
+        function updatePlaceholders() {
+            const drumPlaceholder = (currentDrumUnit === 'cm') ? "sentimeter" : "meter";
+            if (diameterDrumInput) diameterDrumInput.placeholder = drumPlaceholder;
+            if (kelilingDrumInput) kelilingDrumInput.placeholder = drumPlaceholder;
+            if (lebarDrumInput && satuanLebarDrum) {
+                lebarDrumInput.placeholder = unitPlaceholderMap[satuanLebarDrum.value] || "meter";
+            }
+            if (nilaiDiameterKabelInput && satuanDiameterKabel) {
+                nilaiDiameterKabelInput.placeholder = unitPlaceholderMap[satuanDiameterKabel.value] || "milimeter";
+            }
+        }
+
+        function setDrumUnit(unit) {
+            currentDrumUnit = unit;
+            ['cm', 'm'].forEach(u => {
+                const btnDiam = document.getElementById('drumUnit_' + u);
+                const btnKel = document.getElementById('drumUnit_kel_' + u);
+                if (btnDiam) btnDiam.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
+                if (btnKel) btnKel.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
+            });
+            const labelDiam = document.getElementById('labelDiameterDrum');
+            const labelKel = document.getElementById('labelKelilingDrum');
+            if (labelDiam) labelDiam.textContent = `Diameter Drum (${unit})`;
+            if (labelKel) labelKel.textContent = `Keliling Drum (${unit})`;
+            updatePlaceholders();
+            hitungPanjang();
+        }
+
+        function setOutputMode(mode) {
+            currentOutputMode = mode;
+            const btnMeter = document.getElementById('btnOutMeter');
+            const btnFeet = document.getElementById('btnOutFeet');
+            const outHidden = document.getElementById('outputMode');
+            if (outHidden) outHidden.value = mode;
+
+            if (mode === 'meter') {
+                if (btnMeter) btnMeter.className = "flex-1 h-full rounded-lg text-[11px] sm:text-xs font-bold transition-all bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-200/50 dark:border-slate-600/30 flex items-center justify-center";
+                if (btnFeet) btnFeet.className = "flex-1 h-full rounded-lg text-[11px] sm:text-xs font-bold transition-all text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 flex items-center justify-center";
+            } else {
+                if (btnFeet) btnFeet.className = "flex-1 h-full rounded-lg text-[11px] sm:text-xs font-bold transition-all bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-200/50 dark:border-slate-600/30 flex items-center justify-center";
+                if (btnMeter) btnMeter.className = "flex-1 h-full rounded-lg text-[11px] sm:text-xs font-bold transition-all text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 flex items-center justify-center";
+            }
+            hitungPanjang();
+        }
+
         // Fungsi parsing input dengan penukaran tanda koma (',') menjadi titik ('.')
-        
         function formatOutput(meters) {
-            const mode = document.getElementById('outputMode') ? document.getElementById('outputMode').value : 'meter';
-            let val = mode === 'feet' ? meters * 3.28084 : meters;
-            let unit = mode === 'feet' ? 'feet' : 'meter';
+            let val = currentOutputMode === 'feet' ? meters * 3.28084 : meters;
+            let unit = currentOutputMode === 'feet' ? 'feet' : 'meter';
             let formattedStr = val.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             return formattedStr + ' ' + unit;
         }
@@ -336,12 +408,18 @@
         }
 
         function hitungPanjang() {
+            updatePlaceholders();
             const lebarDrumNilai = parseVal(lebarDrumInput);
             const nilaiDiameterKabel = parseVal(nilaiDiameterKabelInput);
             const lilitanVal = lilitanTandaInput.value ? parseInt(lilitanTandaInput.value) : NaN;
             const layerVal = jumlahLayerInput.value ? parseInt(jumlahLayerInput.value) : NaN;
 
             let diameterDrum = modeInput === 'diameter' ? parseVal(diameterDrumInput) : parseVal(kelilingDrumInput) / Math.PI;
+
+            // Konversi Satuan Diameter/Keliling Drum ke Meter jika cm
+            if (currentDrumUnit === 'cm') {
+                diameterDrum /= 100;
+            }
 
             // Bersihkan hasil sebelumnya
             hasilDiv.innerHTML = "";
@@ -426,18 +504,25 @@
         [diameterDrumInput, kelilingDrumInput, lebarDrumInput, nilaiDiameterKabelInput, lilitanTandaInput, jumlahLayerInput].forEach(el => {
             el.addEventListener('input', hitungPanjang);
         });
-        [satuanLebarDrum, satuanDiameterKabel].forEach(el => {
-            el.addEventListener('change', hitungPanjang);
+
+        satuanLebarDrum.addEventListener('change', () => {
+            updatePlaceholders();
+            hitungPanjang();
+        });
+
+        satuanDiameterKabel.addEventListener('change', () => {
+            updatePlaceholders();
+            hitungPanjang();
         });
 
         // Reset Tombol
-        const outputMode = document.getElementById('outputMode');
-        if (outputMode) outputMode.addEventListener('change', hitungPanjang);
-
         btnReset.addEventListener('click', () => {
             [diameterDrumInput, kelilingDrumInput, lebarDrumInput, nilaiDiameterKabelInput, lilitanTandaInput, jumlahLayerInput].forEach(el => el.value = '');
+            setDrumUnit('m');
             satuanLebarDrum.value = 'm';
             satuanDiameterKabel.value = 'mm';
+            setOutputMode('meter');
+            updatePlaceholders();
             hasilDiv.innerHTML = '';
             setMode('diameter');
         });
@@ -478,6 +563,9 @@
 
         // Inisialisasi awal
         initTheme();
+        setDrumUnit('m');
+        setOutputMode('meter');
+        updatePlaceholders();
         setMode('diameter');
     </script>
 </body>
