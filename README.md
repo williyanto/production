@@ -60,15 +60,17 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 
 
 
-- 🎯 **Pencarian Real-Time (Instant Live Search)**: Cari alat atau kalkulator berdasarkan nama, kata kunci, atau jenis perhitungan.
+- 🎯 **Pencarian Real-Time & Pintasan Keyboard**: Cari alat secara instan melalui kotak pencarian utama, *floating search bar*, atau tekan **`/`** / **`Ctrl + K`**.
 
-- 🎨 **Filter Kategori Dynamic**: Saring modul berdasarkan bidang (Kelistrikan, Produksi Kabel, Uji Material, Keuangan, Edukasi, Utility, dll).
+- 🎨 **Filter Kategori & Status Dinamis**: Saring modul berdasarkan bidang (Kelistrikan, Produksi Kabel, Uji Material, Keuangan, Edukasi, Utility, dll.) maupun status **Aktif Saja (27)** lengkap dengan penghitung otomatis.
 
-- 🌓 **Tema Mode Gelap / Terang (Dark/Light Theme)**: Beralih mode tampilan dengan mudah untuk kenyamanan mata.
+- ⭐ **Pin Proyek Favorit & Riwayat Terakhir Dibuka**: Tandai proyek favorit agar selalu berada di urutan teratas dan akses kembali 5 modul terakhir yang baru saja dibuka dengan cepat.
 
-- 🔲 **Tampilan Fleksibel (Grid & List View)**: Ubah tata letak tampilan daftar proyek sesuai preferensi visual Anda.
+- 🔃 **Pengurutan Multi-Kriteria (Sort)**: Urutkan daftar proyek berdasarkan Nomor (1–50), Nama (A–Z / Z–A), atau Versi Terbaru.
 
-- ⏰ **Live Clock & Widget**: Dilengkapi jam digital real-time dan indikator status keaktifan proyek.
+- 🌓 **Tema Mode Gelap / Terang & Tampilan Grid / List**: Beralih mode tampilan dan tata letak dengan penyimpanan preferensi otomatis (`localStorage`).
+
+- 📲 **Native Share & Mobile Floating Dock**: Bagikan tautan proyek langsung ke WhatsApp/Telegram melalui *Web Share API* di perangkat *mobile* dengan *floating dock* modern yang responsif.
 
 
 
