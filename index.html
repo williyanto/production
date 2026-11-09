@@ -2264,6 +2264,7 @@
                     }
 
                     if (currentSort === 'newest') {
+                        if (ma.isConcept !== mb.isConcept) return ma.isConcept - mb.isConcept;
                         if (ma.version !== mb.version) return mb.version - ma.version;
                         return ma.id - mb.id;
                     }
@@ -2275,7 +2276,7 @@
                 const addFrag = document.createDocumentFragment();
 
                 sorted.forEach((item, index) => {
-                    if (index < 27) {
+                    if (index < activeModuleCount) {
                         mainFrag.appendChild(item);
                     } else {
                         addFrag.appendChild(item);
