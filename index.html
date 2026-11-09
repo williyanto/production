@@ -464,7 +464,7 @@
             flex-direction: column;
             gap: 0.65rem;
             align-items: center;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateZ(0);
         }
 
         .btn-floating {
@@ -476,12 +476,10 @@
             justify-content: center;
             font-size: 1.15rem;
             border: 1px solid var(--border-color);
-            background: var(--header-bg-color);
+            background: var(--card-bg-color);
             color: var(--text-color);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 4px 16px var(--shadow-color), 0 2px 4px rgba(0, 0, 0, 0.08);
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 14px var(--shadow-color);
+            transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
             text-decoration: none;
             cursor: pointer;
             padding: 0;
@@ -519,15 +517,14 @@
         }
 
         .btn-floating.floating-search {
-            display: none;
             color: var(--primary-accent);
             opacity: 0;
+            transform: scale(0.75);
             pointer-events: none;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
         }
         .btn-floating.floating-search.show {
-            display: inline-flex;
             opacity: 1;
+            transform: scale(1);
             pointer-events: auto;
         }
         .btn-floating.floating-search:hover {
@@ -538,15 +535,17 @@
         }
 
         .btn-floating.floating-top {
-            display: none;
             opacity: 0;
+            transform: scale(0.75);
+            pointer-events: none;
             color: var(--primary-accent);
             font-size: 1.25rem;
             font-weight: 700;
         }
         .btn-floating.floating-top.show {
-            display: inline-flex;
             opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
         }
         .btn-floating.floating-top:hover {
             background-color: var(--primary-accent);
@@ -671,15 +670,14 @@
             border-radius: 50%;
             background-color: #10b981;
             box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.22);
-            animation: pulseLiveDot 2s infinite;
-        }
-
-        @keyframes pulseLiveDot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.55; transform: scale(0.85); }
         }
 
         @media (max-width: 768px) {
+            .header-section {
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+                background-color: var(--card-bg-color);
+            }
             .modern-footer {
                 margin-bottom: 4.75rem;
             }
@@ -690,16 +688,17 @@
             }
             .bottom-right-controls.footer-visible {
                 right: 50%;
-                transform: translateX(50%);
+                transform: translate3d(50%, 0, 0);
                 flex-direction: row;
-                background: var(--header-bg-color);
+                background-color: var(--card-bg-color);
                 padding: 0.35rem 0.65rem;
                 border-radius: 999px;
                 border: 1px solid var(--border-color);
-                box-shadow: 0 8px 24px var(--shadow-color);
-                backdrop-filter: blur(16px);
-                -webkit-backdrop-filter: blur(16px);
+                box-shadow: 0 6px 20px var(--shadow-color);
                 gap: 0.55rem;
+            }
+            .bottom-right-controls.footer-visible .btn-floating:not(.show) {
+                display: none;
             }
             .btn-floating {
                 width: 42px;
@@ -2306,36 +2305,34 @@
                     ? '<i class="bi bi-chevron-up me-1"></i>Sembunyikan'
                     : '<i class="bi bi-chevron-down me-1"></i>Tampilkan Lebih Banyak';
                 filterProjects();
-                requestAnimationFrame(updateFloatingControlsState);
             });
 
-            // --- 6. SCROLL LISTENER PASIF & RINGAN ---
+            // --- 6. SCROLL LISTENER PASIF & RINGAN + INTERSECTION OBSERVER ---
             const bottomRightControls = document.querySelector('.bottom-right-controls');
             const modernFooter = document.querySelector('.modern-footer');
             let lastScrollShow = false;
 
-            function updateFloatingControlsState() {
+            window.addEventListener('scroll', function () {
                 const show = window.scrollY > 250;
-                if (show !== lastScrollShow) {
-                    lastScrollShow = show;
-                    if (backToTopButton) {
-                        backToTopButton.classList.toggle('show', show);
-                    }
-                    if (floatingSearchBtn) {
-                        floatingSearchBtn.classList.toggle('show', show);
-                    }
-                }
+                if (show === lastScrollShow) return;
+                lastScrollShow = show;
 
-                if (modernFooter && bottomRightControls) {
-                    const footerRect = modernFooter.getBoundingClientRect();
-                    const isFooterNearBottom = footerRect.top < window.innerHeight - 20;
-                    bottomRightControls.classList.toggle('footer-visible', isFooterNearBottom);
+                if (backToTopButton) {
+                    backToTopButton.classList.toggle('show', show);
                 }
+                if (floatingSearchBtn) {
+                    floatingSearchBtn.classList.toggle('show', show);
+                }
+            }, { passive: true });
+
+            if ('IntersectionObserver' in window && modernFooter && bottomRightControls) {
+                const footerObserver = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        bottomRightControls.classList.toggle('footer-visible', entry.isIntersecting);
+                    });
+                }, { rootMargin: '0px 0px -10px 0px', threshold: 0.05 });
+                footerObserver.observe(modernFooter);
             }
-
-            window.addEventListener('scroll', updateFloatingControlsState, { passive: true });
-            window.addEventListener('resize', updateFloatingControlsState, { passive: true });
-            updateFloatingControlsState();
 
             if (floatingSearchBtn) {
                 floatingSearchBtn.addEventListener('click', () => {
