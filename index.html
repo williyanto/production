@@ -2309,19 +2309,32 @@
             });
 
             // --- 6. SCROLL LISTENER PASIF & RINGAN ---
+            const bottomRightControls = document.querySelector('.bottom-right-controls');
+            const modernFooter = document.querySelector('.modern-footer');
             let lastScrollShow = false;
-            window.addEventListener('scroll', function () {
-                const show = window.scrollY > 250;
-                if (show === lastScrollShow) return;
-                lastScrollShow = show;
 
-                if (backToTopButton) {
-                    backToTopButton.classList.toggle('show', show);
+            function updateFloatingControlsState() {
+                const show = window.scrollY > 250;
+                if (show !== lastScrollShow) {
+                    lastScrollShow = show;
+                    if (backToTopButton) {
+                        backToTopButton.classList.toggle('show', show);
+                    }
+                    if (floatingSearchBtn) {
+                        floatingSearchBtn.classList.toggle('show', show);
+                    }
                 }
-                if (floatingSearchBtn) {
-                    floatingSearchBtn.classList.toggle('show', show);
+
+                if (modernFooter && bottomRightControls) {
+                    const footerRect = modernFooter.getBoundingClientRect();
+                    const isFooterNearBottom = footerRect.top < window.innerHeight - 20;
+                    bottomRightControls.classList.toggle('footer-visible', isFooterNearBottom);
                 }
-            }, { passive: true });
+            }
+
+            window.addEventListener('scroll', updateFloatingControlsState, { passive: true });
+            window.addEventListener('resize', updateFloatingControlsState, { passive: true });
+            updateFloatingControlsState();
 
             if (floatingSearchBtn) {
                 floatingSearchBtn.addEventListener('click', () => {
