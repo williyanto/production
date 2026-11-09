@@ -1970,6 +1970,8 @@
             const floatingSearchContainer = document.getElementById('floating-search-container');
             const floatingSearchInput = document.getElementById('floating-search-input');
             const closeFloatingSearch = document.getElementById('close-floating-search');
+            const toggleProjectsWrapper = document.getElementById('toggle-projects-wrapper');
+            const footerActiveBadgeText = document.getElementById('footer-active-badge-text');
 
             let currentCategory = 'all';
             let currentSearchTerm = '';
@@ -2002,7 +2004,19 @@
                 }, 2200);
             }
 
-            async function copyOrShareUrl(url, toastText) {
+            async function copyOrShareUrl(url, toastText, shareTitle) {
+                const isMobileDevice = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '');
+                if (isMobileDevice && navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: shareTitle || 'Daftar Proyek - Williyanto Adi',
+                            url: url
+                        });
+                        return;
+                    } catch (err) {
+                        if (err && err.name === 'AbortError') return;
+                    }
+                }
                 try {
                     await navigator.clipboard.writeText(url);
                 } catch (err) {
@@ -2018,13 +2032,19 @@
 
             if (sharePageBtn) {
                 sharePageBtn.addEventListener('click', function () {
-                    copyOrShareUrl(window.location.href, '🔗 Link halaman Daftar Proyek berhasil disalin!');
+                    copyOrShareUrl(
+                        window.location.href,
+                        '🔗 Link halaman Daftar Proyek berhasil disalin!',
+                        'Daftar Proyek - Williyanto Adi'
+                    );
                 });
             }
 
             // --- INISIALISASI & CACHE METADATA KARTU PROYEK (SEKALI SAAT LOAD) ---
             const allProjectElements = Array.from(projectList.querySelectorAll('.list-group-item'));
             const totalCount = allProjectElements.length;
+            let activeModuleCount = 0;
+            const categoryCounts = {};
 
             allProjectElements.forEach((item, index) => {
                 const strongEl = item.querySelector('strong');
@@ -2042,10 +2062,17 @@
                 const href = item.getAttribute('href') || '';
                 const verMatch = rawTitle.match(/\(v(\d+)\)/i) || href.match(/_v(\d{8})\.html/i);
                 const versionNum = verMatch ? parseInt(verMatch[1], 10) : 0;
-                const isConcept = rawTitle.toLowerCase().includes('sedang dikembangkan') ? 1 : 0;
+                const isConcept = (rawTitle.toLowerCase().includes('sedang dikembangkan') || item.querySelector('.status-demo')) ? 1 : 0;
                 const category = item.getAttribute('data-category') || '';
                 const iconEl = item.querySelector('.project-icon');
                 const iconClass = iconEl ? iconEl.textContent.trim() : String(projectId);
+
+                if (!isConcept) {
+                    activeModuleCount++;
+                }
+                if (category) {
+                    categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+                }
 
                 // Cache seluruh metadata di properti objek agar pencarian & sort instan tanpa baca DOM berulang
                 item._meta = {
@@ -2061,14 +2088,37 @@
                 };
 
                 item.setAttribute('data-project-id', String(projectId));
+                if (isConcept) {
+                    item.classList.add('is-concept-card');
+                }
 
-                // Render tombol Pin & Share secara ringan
+                // Render tombol Pin & Share secara ringan (sembunyikan Share untuk proyek konsep)
                 const actionsDiv = document.createElement('div');
                 actionsDiv.className = 'project-card-actions';
                 actionsDiv.innerHTML =
                     '<button type="button" class="card-action-btn fav-btn" title="Pin / Simpan ke Favorit"><i class="bi bi-star"></i></button>' +
-                    '<button type="button" class="card-action-btn share-btn" title="Salin Link Proyek"><i class="bi bi-link-45deg"></i></button>';
+                    (isConcept ? '' : '<button type="button" class="card-action-btn share-btn" title="Bagikan / Salin Link Proyek"><i class="bi bi-link-45deg"></i></button>');
                 item.appendChild(actionsDiv);
+            });
+
+            // Bersihkan proyek konsep dari riwayat Terakhir Dibuka jika pernah tersimpan sebelumnya
+            const activeIdSet = new Set(allProjectElements.filter(el => !el._meta.isConcept).map(el => el._meta.id));
+            recentProjects = recentProjects.filter(p => activeIdSet.has(p.id));
+            localStorage.setItem('recentProjects', JSON.stringify(recentProjects));
+
+            // Update badge jumlah modul aktif di footer & tombol kategori secara dinamis
+            if (footerActiveBadgeText) {
+                footerActiveBadgeText.innerHTML = `${activeModuleCount} Modul Aktif &bull; v2026.11`;
+            }
+            categoryFilters.querySelectorAll('.category-btn').forEach(btn => {
+                const cat = btn.getAttribute('data-category');
+                if (cat === 'all') {
+                    btn.textContent = `Semua (${totalCount})`;
+                } else if (cat === 'Aktif') {
+                    btn.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i>Aktif Saja (${activeModuleCount})`;
+                } else if (cat !== 'Favorit' && categoryCounts[cat]) {
+                    btn.textContent = `${cat} (${categoryCounts[cat]})`;
+                }
             });
 
             // --- EVENT DELEGATION TUNGGAL PADA #project-list (HEMAT MEMORI) ---
@@ -2089,15 +2139,20 @@
                     e.preventDefault();
                     e.stopPropagation();
                     const card = shareBtn.closest('.list-group-item');
-                    if (card && card._meta) {
+                    if (card && card._meta && !card._meta.isConcept) {
                         const fullUrl = new URL(card._meta.href, window.location.href).href;
-                        copyOrShareUrl(fullUrl, `🔗 Link "${card._meta.name}" berhasil disalin!`);
+                        copyOrShareUrl(fullUrl, `🔗 Link "${card._meta.name}" berhasil disalin!`, card._meta.name);
                     }
                     return;
                 }
 
                 const card = e.target.closest('.list-group-item');
                 if (card && card._meta) {
+                    if (card._meta.isConcept) {
+                        e.preventDefault();
+                        showToast(`🚧 Proyek #${card._meta.id} masih dalam tahap pengembangan`);
+                        return;
+                    }
                     recordRecentProject({
                         id: card._meta.id,
                         name: card._meta.name,
@@ -2287,14 +2342,17 @@
             function updateCategoryStatusLabel() {
                 if (!categoryStatus) return;
                 const isCatOpen = categoryFilters.classList.contains('show');
-                categoryStatus.innerHTML = `Kategori: ${currentCategory === 'all' ? 'Semua' : currentCategory} <i class="bi bi-chevron-${isCatOpen ? 'up' : 'down'} ms-1"></i>`;
+                const labelMap = { 'all': 'Semua', 'Aktif': 'Aktif Saja' };
+                const displayCat = labelMap[currentCategory] || currentCategory;
+                categoryStatus.innerHTML = `Kategori: ${displayCat} <i class="bi bi-chevron-${isCatOpen ? 'up' : 'down'} ms-1"></i>`;
             }
 
             function filterProjects() {
-                let visibleCount = 0;
+                let matchingCount = 0;
+                let displayedNowCount = 0;
                 let hiddenMatchingInAdditional = false;
                 const favSet = new Set(favoriteIds);
-                const isAdditionalShown = additionalProjects.classList.contains('show');
+                const isFilterActive = currentSearchTerm !== '' || currentCategory !== 'all';
 
                 for (let i = 0; i < totalCount; i++) {
                     const item = allProjectElements[i];
@@ -2302,12 +2360,13 @@
 
                     const matchesSearch = currentSearchTerm === '' || meta.searchText.includes(currentSearchTerm);
                     const matchesCategory = currentCategory === 'all'
-                        || (currentCategory === 'Favorit' ? favSet.has(meta.id) : meta.category === currentCategory);
+                        || (currentCategory === 'Aktif' ? !meta.isConcept
+                            : (currentCategory === 'Favorit' ? favSet.has(meta.id) : meta.category === currentCategory));
 
                     if (matchesSearch && matchesCategory) {
                         if (item.style.display !== '') item.style.display = '';
-                        visibleCount++;
-                        if (!isAdditionalShown && item.parentNode === additionalProjects) {
+                        matchingCount++;
+                        if (item.parentNode === additionalProjects) {
                             hiddenMatchingInAdditional = true;
                         }
                     } else {
@@ -2315,15 +2374,34 @@
                     }
                 }
 
-                if (hiddenMatchingInAdditional && (currentSearchTerm !== '' || currentCategory !== 'all')) {
+                if (hiddenMatchingInAdditional && isFilterActive) {
                     additionalProjects.classList.add('show');
                     toggleBtn.innerHTML = '<i class="bi bi-chevron-up me-1"></i>Sembunyikan';
                 }
 
-                projectCounter.textContent = `Menampilkan ${visibleCount} dari ${totalCount} proyek`;
+                const isAdditionalShownNow = additionalProjects.classList.contains('show');
+                for (let i = 0; i < totalCount; i++) {
+                    const item = allProjectElements[i];
+                    if (item.style.display !== 'none') {
+                        if (item.parentNode !== additionalProjects || isAdditionalShownNow) {
+                            displayedNowCount++;
+                        }
+                    }
+                }
+
+                if (!isFilterActive && !isAdditionalShownNow) {
+                    projectCounter.textContent = `Menampilkan ${displayedNowCount} proyek aktif (dari ${totalCount} total)`;
+                } else {
+                    projectCounter.textContent = `Menampilkan ${displayedNowCount} dari ${totalCount} proyek`;
+                }
+
+                if (toggleProjectsWrapper) {
+                    toggleProjectsWrapper.classList.toggle('d-none', matchingCount === 0 || isFilterActive);
+                }
+
                 updateCategoryStatusLabel();
 
-                if (visibleCount === 0) {
+                if (matchingCount === 0) {
                     emptyState.classList.remove('d-none');
                     projectList.classList.add('d-none');
                 } else {
@@ -2414,23 +2492,18 @@
 
             if (floatingSearchBtn) {
                 floatingSearchBtn.addEventListener('click', () => {
-                    const isOpen = floatingSearchContainer.style.opacity === '1';
+                    const isOpen = floatingSearchContainer.classList.toggle('open');
                     if (isOpen) {
-                        floatingSearchContainer.style.transform = 'scale(0)';
-                        floatingSearchContainer.style.opacity = '0';
-                        floatingSearchInput.blur();
-                    } else {
-                        floatingSearchContainer.style.transform = 'scale(1)';
-                        floatingSearchContainer.style.opacity = '1';
                         floatingSearchInput.focus();
+                    } else {
+                        floatingSearchInput.blur();
                     }
                 });
             }
 
             if (closeFloatingSearch) {
                 closeFloatingSearch.addEventListener('click', () => {
-                    floatingSearchContainer.style.transform = 'scale(0)';
-                    floatingSearchContainer.style.opacity = '0';
+                    floatingSearchContainer.classList.remove('open');
                     floatingSearchInput.value = '';
                     searchInput.value = '';
                     currentSearchTerm = '';
@@ -2445,6 +2518,24 @@
                     filterProjects();
                 });
             }
+
+            // Pintasan Keyboard Cepat: '/' atau 'Ctrl+K' untuk Fokus Pencarian, 'Escape' untuk Tutup
+            document.addEventListener('keydown', function (e) {
+                if ((e.key === '/' || (e.ctrlKey && e.key.toLowerCase() === 'k')) &&
+                    document.activeElement !== searchInput &&
+                    document.activeElement !== floatingSearchInput) {
+                    e.preventDefault();
+                    if (window.scrollY > 250 && floatingSearchContainer) {
+                        floatingSearchContainer.classList.add('open');
+                        floatingSearchInput.focus();
+                    } else if (searchInput) {
+                        searchInput.focus();
+                    }
+                } else if (e.key === 'Escape' && floatingSearchContainer && floatingSearchContainer.classList.contains('open')) {
+                    floatingSearchContainer.classList.remove('open');
+                    floatingSearchInput.blur();
+                }
+            });
 
             backToTopButton.addEventListener('click', function (e) {
                 e.preventDefault();
