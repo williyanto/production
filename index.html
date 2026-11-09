@@ -443,31 +443,6 @@
                 height: 30px;
                 font-size: 0.82rem;
             }
-
-            .bottom-right-controls {
-                bottom: 14px;
-                right: 14px;
-                gap: 0.45rem;
-            }
-
-            .bottom-right-controls.footer-visible {
-                right: 50%;
-                transform: translateX(50%);
-                flex-direction: row;
-                background: var(--header-bg-color);
-                padding: 0.35rem 0.65rem;
-                border-radius: 999px;
-                border: 1px solid var(--border-color);
-                box-shadow: 0 8px 24px var(--shadow-color);
-                backdrop-filter: blur(16px);
-                -webkit-backdrop-filter: blur(16px);
-                gap: 0.55rem;
-            }
-
-            .btn-floating {
-                width: 42px;
-                height: 42px;
-            }
         }
 
         /* --- Empty State --- */
@@ -704,10 +679,35 @@
             50% { opacity: 0.55; transform: scale(0.85); }
         }
 
-        @media (max-width: 576px) {
+        @media (max-width: 768px) {
             .modern-footer {
-                margin-bottom: 4.5rem;
+                margin-bottom: 4.75rem;
             }
+            .bottom-right-controls {
+                bottom: 14px;
+                right: 14px;
+                gap: 0.45rem;
+            }
+            .bottom-right-controls.footer-visible {
+                right: 50%;
+                transform: translateX(50%);
+                flex-direction: row;
+                background: var(--header-bg-color);
+                padding: 0.35rem 0.65rem;
+                border-radius: 999px;
+                border: 1px solid var(--border-color);
+                box-shadow: 0 8px 24px var(--shadow-color);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                gap: 0.55rem;
+            }
+            .btn-floating {
+                width: 42px;
+                height: 42px;
+            }
+        }
+
+        @media (max-width: 576px) {
             .footer-card {
                 padding: 1.15rem 1rem;
                 border-radius: 1rem;
