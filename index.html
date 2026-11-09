@@ -445,9 +445,23 @@
             }
 
             .bottom-right-controls {
-                bottom: 16px;
-                right: 16px;
+                bottom: 14px;
+                right: 14px;
                 gap: 0.45rem;
+            }
+
+            .bottom-right-controls.footer-visible {
+                right: 50%;
+                transform: translateX(50%);
+                flex-direction: row;
+                background: var(--header-bg-color);
+                padding: 0.35rem 0.65rem;
+                border-radius: 999px;
+                border: 1px solid var(--border-color);
+                box-shadow: 0 8px 24px var(--shadow-color);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                gap: 0.55rem;
             }
 
             .btn-floating {
@@ -475,6 +489,7 @@
             flex-direction: column;
             gap: 0.65rem;
             align-items: center;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .btn-floating {
@@ -690,6 +705,9 @@
         }
 
         @media (max-width: 576px) {
+            .modern-footer {
+                margin-bottom: 4.5rem;
+            }
             .footer-card {
                 padding: 1.15rem 1rem;
                 border-radius: 1rem;
