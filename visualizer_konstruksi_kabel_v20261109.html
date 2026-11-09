@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="id" class="transition-all duration-300 w-full max-w-[100vw] overflow-x-hidden">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizer Konstruksi Penampang Kabel v20261109</title>
+    <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
+
+    <!-- Early Theme Detection -->
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || localStorage.getItem('theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        select {
+            background-image: none !important;
+        }
+
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Tactile Mode Tabs */
+        .view-tab-btn {
+            background-color: #ffffff;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .view-tab-btn:hover {
+            color: #0f172a;
+            border-color: #cbd5e1;
+            background-color: #f8fafc;
+            transform: translateY(-1px);
+        }
+
+        .dark .view-tab-btn {
+            background-color: #1e293b;
+            border-color: #334155;
+            color: #94a3b8;
+        }
+
+        .dark .view-tab-btn:hover {
+            background-color: #243247;
+            border-color: #475569;
+            color: #f8fafc;
+        }
+
+        .view-tab-btn.active {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+            color: #ffffff !important;
+            border-color: #4f46e5 !important;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+            transform: translateY(-1px);
+        }
+
+        .dark .view-tab-btn.active {
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%) !important;
+            color: #ffffff !important;
+            border-color: #818cf8 !important;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+        }
+
+        /* Interactive SVG Layer Styling */
+        .cable-layer-svg {
+            cursor: pointer;
+            transition: filter 0.2s ease, opacity 0.2s ease, stroke-width 0.2s ease;
+        }
+
+        .cable-layer-svg:hover {
+            filter: brightness(1.12);
+        }
+
+        .cable-layer-svg.selected-layer {
+            stroke: #38bdf8 !important;
+            stroke-width: 2.5px !important;
+            filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.65));
+        }
+
+        .layer-pill {
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .layer-pill.active {
+            border-color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.1) !important;
+            transform: translateX(2px);
+        }
+
+        .dark .layer-pill.active {
+            border-color: #818cf8 !important;
+            background-color: rgba(129, 140, 248, 0.16) !important;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gradient-to-tr from-slate-100 via-indigo-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] flex flex-col justify-center items-center py-2 px-3 overflow-x-hidden transition-colors duration-300">
+
+    <!-- Ambient Background Blobs -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
+        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-indigo-400 blur-[100px] animate-pulse"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-sky-400 blur-[100px] animate-pulse"
+            style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div
+        class="w-full max-w-lg mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-3.5 sm:p-5 transition-all duration-300 flex flex-col w-full max-h-[calc(100dvh-1rem)] my-auto overflow-hidden">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-2.5 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-md shadow-indigo-200 dark:shadow-none">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="9" />
+                        <circle cx="12" cy="12" r="5" />
+                        <circle cx="12" cy="12" r="2" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Visualizer Konstruksi Kabel
+                    </h1>
+                    <p id="headerSubtitle"
+                        class="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider">N2XSY • 12/20 kV (MV XLPE)</p>
+                </div>
+            </div>
+
+            <!-- Dark Mode Toggle Button -->
+            <button id="theme-toggle" type="button"
+                class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">
+                <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Body Container -->
+        <div class="space-y-2.5 flex-1 flex flex-col justify-between my-2 px-1 -mx-1 overflow-y-auto scrollbar-none">
+
+            <!-- Cable Type Selector & View Mode Row -->
+            <div class="space-y-2">
+                <div class="grid grid-cols-12 gap-2 items-end">
+                    <div class="col-span-7 relative">
+                        <label for="cableSelect"
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pilih
+                            Jenis Kabel (SPLN / IEC)</label>
+                        <div class="relative">
+                            <select id="cableSelect"
+                                class="appearance-none block w-full pl-2.5 pr-6 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-xs font-bold cursor-pointer">
+                                <optgroup label="Tegangan Menengah (MV)">
+                                    <option value="N2XSY" selected>N2XSY (12/20 kV - Single Core)</option>
+                                    <option value="N2XSEBY">N2XSEBY (12/20 kV - Steel Tape Armour)</option>
+                                    <option value="NA2XSEYBY">NA2XSEYBY (12/20 kV - Aluminium MV)</option>
+                                </optgroup>
+                                <optgroup label="Tegangan Rendah (LV) &amp; Armour">
+                                    <option value="NYFGBY">NYFGBY (0.6/1 kV - Flat Wire Armour)</option>
+                                    <option value="NYRGBY">NYRGBY (0.6/1 kV - Round Wire Armour)</option>
+                                    <option value="N2XY">N2XY (0.6/1 kV - LV XLPE Power)</option>
+                                    <option value="NYY">NYY (0.6/1 kV - LV PVC Power)</option>
+                                    <option value="NYM">NYM (300/500 V - Indoor Instalasi)</option>
+                                    <option value="NYA">NYA (450/750 V - Kabel Tunggal)</option>
+                                </optgroup>
+                                <optgroup label="Kabel Khusus &amp; Udara">
+                                    <option value="FRC">N2XH-FE180 (0.6/1 kV - Fire Resistant)</option>
+                                    <option value="NFA2X">NFA2X / TIC (0.6/1 kV - Kabel Udara)</option>
+                                </optgroup>
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400 dark:text-slate-500">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mode Tampilan (2D Cross-Section vs Cutaway) -->
+                    <div class="col-span-5">
+                        <label
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Mode
+                            Visual</label>
+                        <div class="grid grid-cols-2 gap-1 p-0.5 bg-slate-100 dark:bg-slate-800/70 rounded-xl border border-slate-200/70 dark:border-slate-700/60">
+                            <button type="button" data-view="cross"
+                                class="view-tab-btn active py-1 px-1.5 text-[10.5px] font-bold text-center">Penampang</button>
+                            <button type="button" data-view="cutaway"
+                                class="view-tab-btn py-1 px-1.5 text-[10.5px] font-bold text-center">Kupasan</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nomenclature Code Breakdown Badges -->
+                <div id="codeBreakdownBar"
+                    class="flex items-center gap-1 flex-wrap bg-slate-50 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-700/60 rounded-xl px-2.5 py-1.5 text-[10px]">
+                </div>
+            </div>
+
+            <!-- Interactive Visualizer & Layer List Grid -->
+            <div class="grid grid-cols-12 gap-2.5 items-stretch my-0.5">
+                <!-- Left: Interactive SVG Canvas -->
+                <div
+                    class="col-span-6 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60 rounded-2xl p-2 flex flex-col items-center justify-between relative overflow-hidden">
+                    <div class="w-full flex items-center justify-between text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider px-1">
+                        <span id="viewTitleLabel">Penampang 2D</span>
+                        <span id="layerCountBadge" class="text-indigo-600 dark:text-indigo-400">7 Lapisan</span>
+                    </div>
+
+                    <div class="w-full flex-1 flex items-center justify-center py-1">
+                        <svg id="cableSvg" viewBox="0 0 220 220" class="w-full max-w-[175px] h-auto select-none"></svg>
+                    </div>
+
+                    <span class="text-[9px] text-slate-400 dark:text-slate-500 italic text-center">Klik lapisan untuk detail</span>
+                </div>
+
+                <!-- Right: Ordered Layer Stack (Innermost to Outermost) -->
+                <div class="col-span-6 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-1 px-0.5">
+                        <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Urutan Lapisan (Dalam → Luar)</span>
+                    </div>
+                    <div id="layerListContainer"
+                        class="space-y-1 max-h-[180px] overflow-y-auto scrollbar-none pr-0.5 flex-1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Selected Layer Educational Detail Card -->
+            <div id="detailCard"
+                class="rounded-2xl p-3 bg-indigo-50/60 dark:bg-slate-800/60 border border-indigo-200/70 dark:border-slate-700/70 transition-all duration-300">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="flex items-center gap-1.5 min-w-0">
+                        <span id="detailColorDot" class="w-3 h-3 rounded-full shrink-0 border border-white/50 shadow-xs"></span>
+                        <h2 id="detailLayerTitle" class="text-xs font-extrabold text-slate-800 dark:text-slate-100 truncate">
+                            1. Konduktor Tembaga (N)
+                        </h2>
+                    </div>
+                    <span id="detailCodeBadge"
+                        class="text-[9.5px] font-extrabold px-2 py-0.5 rounded-md bg-indigo-600 text-white shrink-0">Kode: N</span>
+                </div>
+                <p id="detailMaterialText" class="text-[10.5px] font-bold text-indigo-700 dark:text-indigo-300 mb-0.5">
+                    Material: Stranded Compacted Annealed Copper (IEC 60228 Kelas 2)
+                </p>
+                <p id="detailDescText" class="text-[10.5px] text-slate-600 dark:text-slate-300 leading-snug">
+                    Inti penghantar arus listrik utama yang dipilin dan dipadatkan (compacted circular) untuk memperkecil diameter serta menghaluskan permukaan konduktor.
+                </p>
+            </div>
+
+            <!-- Controls Menu -->
+            <div class="grid grid-cols-3 gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+                <button type="button"
+                    onclick="if(window.top!==window.self&&window.parent.closePreviewModal){window.parent.closePreviewModal();}else{history.back();}"
+                    class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Kembali
+                </button>
+
+                <button type="button" id="btnReset"
+                    class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-transparent rounded-xl text-xs font-bold text-white bg-rose-500 hover:bg-rose-600 active:scale-95 transition-all shadow-md shadow-rose-100 dark:shadow-none">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Reset
+                </button>
+
+                <a href="index.html"
+                    class="flex items-center justify-center gap-1.5 py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    Beranda
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer
+            class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-1.5 pt-2 border-t border-slate-100 dark:border-slate-800 font-medium">
+            Williyanto Adi 2026
+        </footer>
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cableSelect = document.getElementById('cableSelect');
+            const headerSubtitle = document.getElementById('headerSubtitle');
+            const codeBreakdownBar = document.getElementById('codeBreakdownBar');
+            const cableSvg = document.getElementById('cableSvg');
+            const layerListContainer = document.getElementById('layerListContainer');
+            const viewTitleLabel = document.getElementById('viewTitleLabel');
+            const layerCountBadge = document.getElementById('layerCountBadge');
+            const detailColorDot = document.getElementById('detailColorDot');
+            const detailLayerTitle = document.getElementById('detailLayerTitle');
+            const detailCodeBadge = document.getElementById('detailCodeBadge');
+            const detailMaterialText = document.getElementById('detailMaterialText');
+            const detailDescText = document.getElementById('detailDescText');
+            const viewTabBtns = document.querySelectorAll('.view-tab-btn');
+            const btnReset = document.getElementById('btnReset');
+
+            // Database Konstruksi Kabel Lengkap (Dalam ke Luar)
+            const cableDatabase = {
+                N2XSY: {
+                    voltage: '12/20 kV (MV XLPE)',
+                    standard: 'SPLN D3.005-1 / IEC 60502-2',
+                    codes: [
+                        { code: 'N', mean: 'Konduktor Tembaga' },
+                        { code: '2X', mean: 'Isolasi XLPE' },
+                        { code: 'S', mean: 'Screen Kawat & Pita Cu' },
+                        { code: 'Y', mean: 'Selubung Luar PVC' }
+                    ],
+                    layers: [
+                        {
+                            name: 'Konduktor Tembaga (Cu)',
+                            code: 'N',
+                            radius: 26,
+                            color: '#d97706',
+                            pattern: 'stranded_cu',
+                            material: 'Stranded Compacted Annealed Copper (IEC 60228 Kelas 2)',
+                            desc: 'Inti penghantar arus utama yang dipilin dan dipadatkan (compacted) untuk meminimalkan celah udara dan menghaluskan permukaan.'
+                        },
+                        {
+                            name: 'Inner Semi-Conductive',
+                            code: 'Semi-In',
+                            radius: 33,
+                            color: '#1e293b',
+                            material: 'Extruded Semi-Conductive XLPE Compound',
+                            desc: 'Menghaluskan medan listrik antara permukaan kawat konduktor dengan isolasi XLPE guna mencegah Partial Discharge (peluahan sebagian).'
+                        },
+                        {
+                            name: 'Isolasi XLPE',
+                            code: '2X',
+                            radius: 56,
+                            color: '#e0f2fe',
+                            strokeColor: '#7dd3fc',
+                            material: 'Cross-Linked Polyethylene (XLPE 90°C)',
+                            desc: 'Penyekat dielektrik tegangan menengah (misal tebal 5,5 mm untuk 12/20 kV) yang diekstrusi secara Triple Extrusion (CCV Line).'
+                        },
+                        {
+                            name: 'Outer Semi-Conductive',
+                            code: 'Semi-Out',
+                            radius: 63,
+                            color: '#0f172a',
+                            material: 'Strippable Extruded Semi-Conductive Compound',
+                            desc: 'Membatasi medan listrik agar tetap seragam di dalam isolasi XLPE dan mudah dikupas (strippable) saat proses terminasi/jointing.'
+                        },
+                        {
+                            name: ' Copper Screen (Kawat & Pita)',
+                            code: 'S',
+                            radius: 72,
+                            color: '#ea580c',
+                            pattern: 'wire_screen',
+                            material: 'Helical Copper Wires + Counter-Helix Copper Equalizing Tape',
+                            desc: 'Jalur arus hubung singkat ke tanah (earth fault current) dan perisai elektrostatis agar bagian luar kabel aman disentuh.'
+                        },
+                        {
+                            name: 'Separator / Water Blocking Tape',
+                            code: 'Tape',
+                            radius: 78,
+                            color: '#f8fafc',
+                            material: 'Non-Hygroscopic Polyester / Swellable Tape',
+                            desc: 'Mencegah lengketnya selubung luar PVC ke kawat screen tembaga serta menahan rembesan air longitudinal.'
+                        },
+                        {
+                            name: 'Outer Sheath (Selubung Luar)',
+                            code: 'Y',
+                            radius: 94,
+                            color: '#dc2626',
+                            material: 'PVC ST2 (Merah / Hitam) tahan UV & Abrasi',
+                            desc: 'Pelindung mekanis terluar terhadap kelembaban tanah, gesekan saat penarikan kabel, dan pengaruh lingkungan.'
+                        }
+                    ]
+                },
+                N2XSEBY: {
+                    voltage: '12/20 kV (3-Core MV Armoured)',
+                    standard: 'SPLN D3.005-2 / IEC 60502-2',
+                    codes: [
+                        { code: 'N', mean: 'Konduktor Cu' },
+                        { code: '2X', mean: 'Isolasi XLPE' },
+                        { code: 'SE', mean: 'Screen Tiap Inti' },
+                        { code: 'B', mean: 'Steel Tape Armour' },
+                        { code: 'Y', mean: 'Outer Sheath PVC' }
+                    ],
+                    layers: [
+                        {
+                            name: 'Konduktor Tembaga (3 Inti)',
+                            code: 'N',
+                            radius: 24,
+                            color: '#d97706',
+                            pattern: 'stranded_cu',
+                            material: 'Compacted Circular Copper Conductor (Kelas 2)',
+                            desc: 'Tiga inti penghantar fasa (R, S, T) tembaga pilin padat untuk menyalurkan daya listrik tegangan menengah 3-fasa.'
+                        },
+                        {
+                            name: 'Inner & Outer Semi-Con + XLPE',
+                            code: '2X',
+                            radius: 46,
+                            color: '#bae6fd',
+                            material: 'Triple-Extruded Semi-Con + XLPE Insulation',
+                            desc: 'Sistem isolasi 3 lapis (Inner Semi-Con, Isolasi XLPE murni, dan Outer Semi-Con) pada masing-masing inti kabel.'
+                        },
+                        {
+                            name: 'Metallic Screen Tiap Inti',
+                            code: 'SE',
+                            radius: 54,
+                            color: '#ea580c',
+                            pattern: 'wire_screen',
+                            material: 'Copper Tape / Copper Wire Screen Individual',
+                            desc: 'Layar pelindung logam tembaga yang membungkus masing-masing inti kabel (Individual Core Screening).'
+                        },
+                        {
+                            name: 'Filler & Inner Bedding',
+                            code: 'Bedding',
+                            radius: 66,
+                            color: '#475569',
+                            material: 'Polypropylene Filler + Extruded PVC Bedding',
+                            desc: 'Mengisi celah antar 3 inti kabel agar bulat sempurna dan menjadi bantalan empuk sebelum dililit pita baja.'
+                        },
+                        {
+                            name: 'Double Steel Tape Armour',
+                            code: 'B',
+                            radius: 78,
+                            color: '#94a3b8',
+                            pattern: 'steel_tape',
+                            material: '2 Lapis Galvanized Steel Tape (Helical Gap Wrapping)',
+                            desc: 'Perisai mekanis pita baja galvanis ganda untuk menahan tekanan tanah, benturan benda tajam, dan gigitan hewan pengerat.'
+                        },
+                        {
+                            name: 'Outer Sheath (Selubung Luar)',
+                            code: 'Y',
+                            radius: 94,
+                            color: '#dc2626',
+                            material: 'PVC ST2 Flame Retardant (Merah / Hitam)',
+                            desc: 'Selubung pelindung luar kabel tegangan menengah untuk instalasi tanam langsung (direct burial) maupun di rak.'
+                        }
+                    ]
+                },
+                NA2XSEYBY: {
+                    voltage: '12/20 kV (Aluminium MV Armoured)',
+                    standard: 'SPLN D3.005 / IEC 60502-2',
+                    codes: [
+                        { code: 'NA', mean: 'Konduktor Aluminium' },
+                        { code: '2X', mean: 'Isolasi XLPE' },
+                        { code: 'SE', mean: 'Screen Tiap Inti' },
+                        { code: 'Y', mean: 'Inner Sheath PVC' },
+                        { code: 'B', mean: 'Steel Tape Armour' },
+                        { code: 'Y', mean: 'Outer Sheath PVC' }
+                    ],
+                    layers: [
+                        {
+                            name: 'Konduktor Aluminium (Al)',
+                            code: 'NA',
+                            radius: 26,
+                            color: '#cbd5e1',
+                            pattern: 'stranded_al',
+                            material: 'Compacted Stranded Aluminium (IEC 60228 Kelas 2)',
+                            desc: 'Penghantar aluminium pilin padat yang lebih ringan dan ekonomis dibanding tembaga untuk jaringan distribusi PLN.'
+                        },
+                        {
+                            name: 'Triple Extrusion Semicon & XLPE',
+                            code: '2X',
+                            radius: 48,
+                            color: '#e0f2fe',
+                            material: 'Inner Semi-Con + XLPE + Outer Semi-Con',
+                            desc: 'Lapisan semikonduktor dan isolasi XLPE tahan suhu kerja 90°C dan hubung singkat hingga 250°C.'
+                        },
+                        {
+                            name: 'Copper Screen Tiap Inti',
+                            code: 'SE',
+                            radius: 56,
+                            color: '#ea580c',
+                            pattern: 'wire_screen',
+                            material: 'Copper Wire + Equalizing Copper Tape',
+                            desc: 'Pelindung medan listrik dan penghantar arus gangguan tanah pada tiap inti.'
+                        },
+                        {
+                            name: 'Inner Sheath (Selubung Dalam)',
+                            code: 'Y',
+                            radius: 68,
+                            color: '#334155',
+                            material: 'Extruded PVC Inner Sheath',
+                            desc: 'Bantalan pelindung kedap air di atas susunan inti sebelum pemasangan perisai pita baja.'
+                        },
+                        {
+                            name: 'Steel Tape Armour',
+                            code: 'B',
+                            radius: 80,
+                            color: '#94a3b8',
+                            pattern: 'steel_tape',
+                            material: 'Double Galvanized Steel Tape',
+                            desc: 'Perisai baja pelindung terhadap beban tekan mekanis saat ditanam di bawah tanah.'
+                        },
+                        {
+                            name: 'Outer Sheath (Selubung Luar)',
+                            code: 'Y',
+                            radius: 94,
+                            color: '#1e293b',
+                            material: 'PVC ST2 (Hitam / Merah)',
+                            desc: 'Selubung terluar pelindung korosi, air tanah, dan gesekan mekanis.'
+                        }
+                    ]
+                },
+                NYFGBY: {
+                    voltage: '0.6/1 kV (LV Flat Wire Armoured)',
+                    standard: 'SPLN 43-2 / SNI IEC 60502-1',
+                    codes: [
+                        { code: 'N', mean: 'Konduktor Tembaga' },
+                        { code: 'Y', mean: 'Isolasi PVC' },
+                        { code: 'F', mean: 'Flat Steel Wire Armour' },
+                        { code: 'Gb', mean: 'Steel Tape Counter-Helix' },
+                        { code: 'Y', mean: 'Outer Sheath PVC' }
+                    ],
+                    layers: [
+                        {
+                            name: 'Konduktor Tembaga (Cu)',
+                            code: 'N',
+                            radius: 28,
+                            color: '#d97706',
+                            pattern: 'stranded_cu',
+                            material: 'Annealed Copper Conductor (Solid re / Stranded rm/sm)',
+                            desc: 'Penghantar arus listrik tegangan rendah (bulat atau sektor untuk ukuran besar).'
+                        },
+                        {
+                            name: 'Isolasi PVC (Warna Inti)',
+                            code: 'Y',
+                            radius: 46,
+                            color: '#3b82f6',
+                            material: 'PVC TI1 (Merah, Kuning, Hitam, Biru, Kuning-Hijau)',
+                            desc: 'Isolasi listrik masing-masing urat kabel dengan kode warna identifikasi fasa dan netral.'
+                        },
+                        {
+                            name: 'Inner Bedding / Filler PVC',
+                            code: 'Bedding',
+                            radius: 58,
+                            color: '#64748b',
+                            material: 'Extruded PVC Inner Covering',
+                            desc: 'Membulatkan pilinan inti (cabling) dan menjadi landasan agar kawat baja tidak melukai isolasi inti.'
+                        },
+                        {
+                            name: 'Flat Steel Wire Armour',
+                            code: 'F',
+                            radius: 70,
+                            color: '#94a3b8',
+                            pattern: 'flat_armour',
+                            material: 'Galvanized Flat Steel Wires (Kawat Baja Pipih)',
+                            desc: 'Perisai kawat baja pipih yang memberikan ketahanan tarik (tensile) sekaligus pelindung benturan mekanis.'
+                        },
+                        {
+                            name: 'Counter-Helix Steel Tape',
+                            code: 'Gb',
+                            radius: 78,
+                            color: '#cbd5e1',
+                            pattern: 'steel_tape',
+                            material: 'Galvanized Steel Binding Tape (Lilitan Berlawanan)',
+                            desc: 'Pita baja pengikat yang dililit berlawanan arah (counter-helix) agar kawat armour F tetap rapat dan tidak mekar saat kabel ditekuk.'
+                        },
+                        {
+                            name: 'Outer Sheath (Selubung Luar)',
+                            code: 'Y',
+                            radius: 94,
+                            color: '#1e293b',
+                            material: 'Black PVC ST1 / ST2',
+                            desc: 'Selubung terluar berwarna hitam tahan cuaca dan kelembaban untuk ditanam langsung di dalam tanah.'
+                        }
+                    ]
+                },
+                NYRGBY: {
+                    voltage: '0.6/1 kV (LV Round Wire Armoured)',
+                    standard: 'SPLN 43-2 / SNI IEC 60502-1',
+                    codes: [
+                        { code: 'N', mean: 'Konduktor Tembaga' },
+                        { code: 'Y', mean: 'Isolasi PVC' },
+                        { code: 'R', mean: 'Round Steel Wire Armour' },
+                        { code: 'Gb', mean: 'Steel Binding Tape' },
+                        { code: 'Y', mean: 'Outer Sheath PVC' }
+                    ],
+                    layers: [
+                        {
+                            name: 'Konduktor Tembaga (Cu)',
+                            code: 'N',
+                            radius: 28,
+                            color: '#d97706',
+                            pattern: 'stranded_cu',
+                            material: 'Stranded Annealed Copper (Kelas 2)',
+                            desc: 'Inti penghantar tembaga berpilin untuk distribusi daya tegangan rendah.'
+                        },
+                        {
+                            name: 'Isolasi PVC',
+                            code: 'Y',
+                            radius: 46,
+                            color: '#eab308',
+                            material: 'PVC TI1 (Thermoplastic Insulation 70°C)',
+                            desc: 'Lapisan isolasi dielektrik untuk memisahkan antar fasa.'
+                        },
+                        {
+                            name: 'PVC Bedding (Selubung Dalam)',
+                            code: 'Bedding',
+                            radius: 58,
+                            color: '#475569',
+                            material: 'Extruded PVC Bedding',
+                            desc: 'Lapisan bantalan pelindung di bawah kawat baja bulat.'
+                        },
+                        {
+                            name: 'Round Steel Wire Armour',
+                            code: 'R',
+                            radius: 72,
+                            color: '#94a3b8',
+                            pattern: 'round_armour',
+                            material: 'Galvanized Round Steel Wires (SWA)',
+                            desc: 'Kawat baja bulat galvanis dengan kekuatan mekanis dan daya tahan tarikan paling tinggi untuk medan berat/vertikal.'
+                        },
+                        {
+                            name: 'Counter-Helix Steel Tape',
+                            code: 'Gb',
+                            radius: 79,
+                            color: '#cbd5e1',
+                            material: 'Galvanized Steel Tape Binder',
+                            desc: 'Pengikat spiral berlawanan arah untuk mengunci posisi kawat baja bulat.'
+                        },
+                        {
+                            name: 'Outer Sheath (Selubung Luar)',
+                            code: 'Y',
+                            radius: 94,
+                            color: '#0f172a',
+                            material: 'Black PVC ST1 / ST2',
+                            desc: 'Pelindung luar terhadap air, bahan kimia tanah, dan abrasi.'
+                        }
+                    ]
+                },
+                N2XY: {
+                    voltage: '0.6/1 kV (LV XLPE Unarmoured)',
+                    standard: 'IEC 60502-1 / VDE 0276',
+                    codes: [
+                        { code: 'N', mean: 'Konduktor Tembaga' },
+                        { code: '2X', mean: 'Isolasi XLPE 90°C' },
+                        { code: 'Y', mean: 'Outer Sheath PVC' }
+                    ],
+                    layers: [
+                        {
+                            name: 'Konduktor Tembaga (Cu)',
+                            code: 'N',
+                            radius: 38,
+                            color: '#d97706',
+                            pattern: 'stranded_cu',
+                            material: 'Annealed Copper Conductor (IEC 60228)',
+                            desc: 'Konduktor tembaga murni dengan konduktivitas tinggi.'
+                        },
+                        {
+                            name: 'Isolasi XLPE',
+                            code: '2X',
+                            radius: 62,
+                            color: '#bae6fd',
+                            material: 'Cross-Linked Polyethylene (XLPE 90°C)',
+                            desc: 'Memiliki kapasitas hantar arus (KHA) lebih besar dan ketahanan suhu kerja lebih tinggi (90°C) dibanding PVC (70°C).'
+                        },
+                        {
+                            name: 'Filler / Inner Covering',
+                            code: 'Filler',
+                            radius: 74,
+                            color: '#64748b',
+                            material: 'Non-Hygroscopic Filler / Extruded Bedding',
+                            desc: 'Pengisi celah pada kabel multi-core agar penampang kabel tetap bulat dan padat.'
+                        },
+                        {
+                            name: 'Outer Sheath (Selubung Luar)',
+                            code: 'Y',
+                            radius: 94,
+                            color: '#1e293b',
+                            material: 'PVC ST2 Hitam',
+                            desc: 'Selubung luar tahan panas dan api untuk instalasi di cable tray, duct, maupun indoor/outdoor.'
+                        }
+                    ]
+                },
+                NYY: {
+                    voltage: '0.6/1 kV (LV PVC Power Cable)',
+                    standard: 'SPLN 43-1 / SNI 04-6629.4',
+                    codes: [
+                        { code: 'N', mean: 'Konduktor Tembaga' },
+                        { code: 'Y', mean: 'Isolasi PVC' },
+                        { code: 'Y', mean: 'Selubung Luar PVC Hitam' }
+                    ],
+                    layers: [
+                        {
+                            name: 'Konduktor Tembaga (Cu)',
+                            code: 'N',
+                            radius: 38,
+                            color: '#d97706',
+                            pattern: 'stranded_cu',
+                            material: 'Solid (re) / Stranded (rm) Annealed Copper',
+                            desc: 'Penghantar tembaga untuk instalasi distribusi daya gedung dan industri.'
+                        },
+                        {
+                            name: 'Isolasi PVC',
+                            code: 'Y',
+                            radius: 62,
+                            color: '#3b82f6',
+                            material: 'Polyvinyl Chloride (PVC TI1 70°C)',
+                            desc: 'Lapisan isolasi termoplastik pada inti konduktor.'
+                        },
+                        {
+                            name: 'Inner Sheath / Filler PVC',
+                            code: 'Filler',
+                            radius: 75,
+                            color: '#94a3b8',
+                            material: 'Extruded PVC Inner Covering',
+                            desc: 'Penyelubung bagian dalam untuk menyatukan urat-urat kabel dan menambah proteksi ganda.'
+                        },
+                        {
+                            name: 'Outer Sheath (PVC Hitam)',
+                            code: 'Y',
+                            radius: 94,
+                            color: '#1e293b',
+                            material: 'Black PVC ST1',
+                            desc: 'Selubung luar hitam yang lebih tebal dan tahan UV dibanding NYM sehingga aman untuk outdoor atau di dalam pipa tanah.'
+                        }
+                    ]
+                },
+                NYM: {
+                    voltage: '300/500 V (Kabel Instalasi Gedung)',
+                    standard: 'SPLN 42-2 / SNI 04-6629.4',
+                    codes: [
+                        { code: 'N', mean: 'Konduktor Tembaga' },
+                        { code: 'Y', mean: 'Isolasi PVC' },
+                        { code: 'M', mean: 'Selubung PVC Putih (Mantel)' }
+                    ],
+                    layers: [
+                        {
+                            name: 'Konduktor Tembaga (Cu)',
+                            code: 'N',
+                            radius: 38,
+                            color: '#d97706',
+                            pattern: 'stranded_cu',
+                            material: 'Solid / Stranded Annealed Copper',
+                            desc: 'Penghantar tembaga untuk instalasi penerangan dan stopkontak rumah/gedung.'
+                        },
+                        {
+                            name: 'Isolasi PVC Berwarna',
+                            code: 'Y',
+                            radius: 62,
+                            color: '#ef4444',
+                            material: 'PVC TI1 (Coklat/Hitam/Biru/Kuning-Hijau)',
+                            desc: 'Isolasi masing-masing inti kabel.'
+                        },
+                        {
+                            name: 'Filler Karet / Epdm PVC',
+                            code: 'Filler',
+                            radius: 75,
+                            color: '#cbd5e1',
+                            material: 'Soft Unvulcanized Rubber / PVC Compound',
+                            desc: 'Pengisi lunak di sekeliling inti agar kabel mudah dikupas saat instalasi.'
+                        },
+                        {
+                            name: 'Outer Sheath (PVC Putih)',
+                            code: 'M',
+                            radius: 94,
+                            color: '#f1f5f9',
+                            strokeColor: '#94a3b8',
+                            material: 'White PVC Sheath (Indoor Use)',
+                            desc: 'Selubung luar berwarna putih bersih khusus untuk instalasi di dalam ruangan kering/lembab (tidak untuk ditanam langsung).'
+                        }
+                    ]
+                },
+                NYA: {
+                    voltage: '450/750 V (Single Core Building Wire)',
+                    standard: 'SPLN 42-1 / SNI 04-6629.3',
+                    codes: [
+                        { code: 'N', mean: 'Konduktor Tembaga' },
+                        { code: 'Y', mean: 'Isolasi PVC' },
+                        { code: 'A', mean: 'Kabel Tunggal (Single Wire)' }
+                    ],
+                    layers: [
+                        {
+                            name: 'Konduktor Tembaga Tunggal/Pilin',
+                            code: 'N',
+                            radius: 54,
+                            color: '#d97706',
+                            pattern: 'stranded_cu',
+                            material: 'Annealed Copper (Kelas 1 Solid / Kelas 2 Stranded)',
+                            desc: 'Inti tembaga penghantar arus listrik untuk instalasi di dalam pipa conduit.'
+                        },
+                        {
+                            name: 'Isolasi PVC Tunggal',
+                            code: 'Y',
+                            radius: 94,
+                            color: '#2563eb',
+                            material: 'PVC TI1 (70°C)',
+                            desc: 'Satu-satunya lapisan pelindung dan isolasi listrik; wajib dipasang di dalam pipa pelindung (conduit) agar aman dari gigitan tikus/gesekan.'
+                        }
+                    ]
+                },
+                FRC: {
+                    voltage: '0.6/1 kV (Fire Resistant Cable)',
+                    standard: 'IEC 60331 (750°C - 950°C) & IEC 60332-3',
+                    codes: [
+                        { code: 'N', mean: 'Konduktor Tembaga' },
+                        { code: 'Mica', mean: 'Pita Tahan Api' },
+                        { code: '2X', mean: 'Isolasi XLPE' },
+                        { code: 'H / FE180', mean: 'LSOH Fire Resistant' }
+                    ],
+                    layers: [
+                        {
+                            name: 'Konduktor Tembaga (Cu)',
+                            code: 'N',
+                            radius: 30,
+                            color: '#d97706',
+                            pattern: 'stranded_cu',
+                            material: 'Plain Annealed Copper Conductor (Kelas 2)',
+                            desc: 'Penghantar arus untuk sirkuit darurat (pompa hidran, alarm kebakaran, exhaust fan).'
+                        },
+                        {
+                            name: 'Mica Glass Fire Barrier Tape',
+                            code: 'Mica',
+                            radius: 44,
+                            color: '#fbbf24',
+                            pattern: 'steel_tape',
+                            material: 'Phlogopite / Synthetic Mica Glass Tape (2 Lapis Overlap)',
+                            desc: 'Lapisan kunci tahan api hingga >950°C! Saat polimer terbakar menjadi abu, pita mika mencegah hubung singkat antar konduktor selama 180 menit (FE180).'
+                        },
+                        {
+                            name: 'Isolasi XLPE',
+                            code: '2X',
+                            radius: 66,
+                            color: '#bae6fd',
+                            material: 'Cross-Linked Polyethylene (XLPE 90°C)',
+                            desc: 'Isolasi dielektrik utama di atas lapisan pita mika.'
+                        },
+                        {
+                            name: 'LSOH Filler / Binder Tape',
+                            code: 'LSOH-In',
+                            radius: 76,
+                            color: '#cbd5e1',
+                            material: 'Glass Fiber Tape / LSOH Bedding',
+                            desc: 'Menjaga kebulatan konstruksi kabel dan menahan rambatan panas.'
+                        },
+                        {
+                            name: 'Outer Sheath LSOH (Oranye)',
+                            code: 'H',
+                            radius: 94,
+                            color: '#f97316',
+                            material: 'Low Smoke Zero Halogen (LSOH / HFFR ST8)',
+                            desc: 'Tidak mengeluarkan asap pekat maupun gas asam halogen beracun saat terjadi kebakaran gedung.'
+                        }
+                    ]
+                },
+                NFA2X: {
+                    voltage: '0.6/1 kV (LV-ABC Twisted Kabel Udara)',
+                    standard: 'SPLN D3.010-1',
+                    codes: [
+                        { code: 'NF', mean: 'Kabel Udara Pilin' },
+                        { code: 'A', mean: 'Konduktor Aluminium' },
+                        { code: '2X', mean: 'Isolasi XLPE Tahan Cuaca' }
+                    ],
+                    layers: [
+                        {
+                            name: 'Konduktor Aluminium Padat (Al)',
+                            code: 'A',
+                            radius: 56,
+                            color: '#cbd5e1',
+                            pattern: 'stranded_al',
+                            material: 'Hard-Drawn Stranded Compacted Aluminium (Kelas 2)',
+                            desc: 'Penghantar aluminium ringan berkuatan tarik tinggi untuk jaringan udara tegangan rendah (JTR) dari tiang PLN ke rumah.'
+                        },
+                        {
+                            name: 'Isolasi XLPE Tahan Cuaca & UV',
+                            code: '2X',
+                            radius: 94,
+                            color: '#1e293b',
+                            material: 'Weather-Resistant Carbon-Black XLPE (90°C)',
+                            desc: 'Isolasi sekaligus pelindung luar dengan kandungan Carbon Black tinggi agar tahan paparan sinar matahari (UV) dan hujan bertahun-tahun.'
+                        }
+                    ]
+                }
+            };
+
+            let currentCableKey = 'N2XSY';
+            let currentViewMode = 'cross'; // 'cross' | 'cutaway'
+            let selectedLayerIdx = 0;
+
+            function getCurrentCable() {
+                return cableDatabase[currentCableKey] || cableDatabase.N2XSY;
+            }
+
+            function renderCodeBreakdown() {
+                const cable = getCurrentCable();
+                headerSubtitle.textContent = `${currentCableKey} • ${cable.voltage}`;
+                layerCountBadge.textContent = `${cable.layers.length} Lapisan`;
+
+                codeBreakdownBar.innerHTML = `<span class="font-extrabold text-slate-400 dark:text-slate-500 uppercase mr-1">Arti Kode:</span>` +
+                    cable.codes.map(c =>
+                        `<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 font-semibold text-slate-700 dark:text-slate-300">
+                            <strong class="text-indigo-600 dark:text-indigo-400">${c.code}</strong>=${c.mean}
+                        </span>`
+                    ).join('');
+            }
+
+            function renderLayerList() {
+                const cable = getCurrentCable();
+                layerListContainer.innerHTML = '';
+
+                cable.layers.forEach((layer, idx) => {
+                    const isSelected = idx === selectedLayerIdx;
+                    const item = document.createElement('div');
+                    item.className = `layer-pill flex items-center justify-between gap-1.5 px-2.5 py-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700/70 bg-slate-50/70 dark:bg-slate-800/50 text-[11px] ${isSelected ? 'active' : ''}`;
+                    item.innerHTML = `
+                        <div class="flex items-center gap-2 min-w-0">
+                            <span class="w-3 h-3 rounded-full shrink-0 border border-slate-400/40" style="background-color: ${layer.color};"></span>
+                            <span class="font-bold text-slate-700 dark:text-slate-200 truncate">${idx + 1}. ${layer.name}</span>
+                        </div>
+                        <span class="text-[9.5px] font-extrabold px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-700 text-slate-600 dark:text-slate-300 shrink-0">${layer.code}</span>
+                    `;
+                    item.addEventListener('click', () => {
+                        selectLayer(idx);
+                    });
+                    layerListContainer.appendChild(item);
+                });
+            }
+
+            function renderDetailCard() {
+                const cable = getCurrentCable();
+                const layer = cable.layers[selectedLayerIdx] || cable.layers[0];
+                detailColorDot.style.backgroundColor = layer.color;
+                detailLayerTitle.textContent = `${selectedLayerIdx + 1}. ${layer.name}`;
+                detailCodeBadge.textContent = `Kode: ${layer.code}`;
+                detailMaterialText.textContent = `Material: ${layer.material}`;
+                detailDescText.textContent = layer.desc;
+            }
+
+            function renderSvgCrossSection() {
+                const cable = getCurrentCable();
+                const cx = 110;
+                const cy = 110;
+                let svgHtml = '';
+
+                // Render dari lapisan terluar ke terdalam agar lingkaran konsentris tertumpuk rapi
+                for (let i = cable.layers.length - 1; i >= 0; i--) {
+                    const layer = cable.layers[i];
+                    const isSelected = i === selectedLayerIdx;
+                    const strokeCol = layer.strokeColor || 'rgba(15, 23, 42, 0.25)';
+
+                    svgHtml += `<circle cx="${cx}" cy="${cy}" r="${layer.radius}" fill="${layer.color}" stroke="${strokeCol}" stroke-width="1.2" data-layer-idx="${i}" class="cable-layer-svg ${isSelected ? 'selected-layer' : ''}" />`;
+
+                    // Detail tekstur visual (kawat screen, round armour, flat armour, atau untaian konduktor)
+                    if (layer.pattern === 'wire_screen') {
+                        const prevR = i > 0 ? cable.layers[i - 1].radius : 0;
+                        const midR = (layer.radius + prevR) / 2;
+                        const dotR = Math.max(1.8, (layer.radius - prevR) * 0.35);
+                        const numDots = 24;
+                        for (let d = 0; d < numDots; d++) {
+                            const angle = (d / numDots) * Math.PI * 2;
+                            const dx = cx + midR * Math.cos(angle);
+                            const dy = cy + midR * Math.sin(angle);
+                            svgHtml += `<circle cx="${dx.toFixed(1)}" cy="${dy.toFixed(1)}" r="${dotR.toFixed(1)}" fill="#fb923c" pointer-events="none" />`;
+                        }
+                    } else if (layer.pattern === 'round_armour') {
+                        const prevR = i > 0 ? cable.layers[i - 1].radius : 0;
+                        const midR = (layer.radius + prevR) / 2;
+                        const dotR = Math.max(2.8, (layer.radius - prevR) * 0.42);
+                        const numDots = 20;
+                        for (let d = 0; d < numDots; d++) {
+                            const angle = (d / numDots) * Math.PI * 2;
+                            const dx = cx + midR * Math.cos(angle);
+                            const dy = cy + midR * Math.sin(angle);
+                            svgHtml += `<circle cx="${dx.toFixed(1)}" cy="${dy.toFixed(1)}" r="${dotR.toFixed(1)}" fill="#e2e8f0" stroke="#475569" stroke-width="0.7" pointer-events="none" />`;
+                        }
+                    } else if (layer.pattern === 'flat_armour') {
+                        const prevR = i > 0 ? cable.layers[i - 1].radius : 0;
+                        const midR = (layer.radius + prevR) / 2;
+                        svgHtml += `<circle cx="${cx}" cy="${cy}" r="${midR}" fill="none" stroke="#e2e8f0" stroke-width="${(layer.radius - prevR) * 0.65}" stroke-dasharray="8 3" pointer-events="none" />`;
+                    } else if (layer.pattern === 'stranded_cu' || layer.pattern === 'stranded_al') {
+                        const wireStroke = layer.pattern === 'stranded_cu' ? '#92400e' : '#64748b';
+                        const wireFill = layer.pattern === 'stranded_cu' ? '#f59e0b' : '#e2e8f0';
+                        const rInner = layer.radius * 0.32;
+                        const rRing = layer.radius * 0.64;
+                        for (let w = 0; w < 6; w++) {
+                            const ang = (w / 6) * Math.PI * 2;
+                            const wx = cx + rRing * Math.cos(ang);
+                            const wy = cy + rRing * Math.sin(ang);
+                            svgHtml += `<circle cx="${wx.toFixed(1)}" cy="${wy.toFixed(1)}" r="${rInner.toFixed(1)}" fill="${wireFill}" stroke="${wireStroke}" stroke-width="0.8" pointer-events="none" />`;
+                        }
+                        svgHtml += `<circle cx="${cx}" cy="${cy}" r="${rInner.toFixed(1)}" fill="${wireFill}" stroke="${wireStroke}" stroke-width="0.8" pointer-events="none" />`;
+                    }
+                }
+
+                cableSvg.innerHTML = svgHtml;
+                bindSvgClickEvents();
+            }
+
+            function renderSvgCutaway() {
+                const cable = getCurrentCable();
+                const n = cable.layers.length;
+                const startX = 12;
+                const totalWidth = 196;
+                const stepW = totalWidth / n;
+                const cy = 110;
+                let svgHtml = '';
+
+                // Gambar dari lapisan terluar (kiri) ke lapisan terdalam (kanan) seperti kupasan sampel kabel
+                for (let i = n - 1; i >= 0; i--) {
+                    const layer = cable.layers[i];
+                    const isSelected = i === selectedLayerIdx;
+                    const halfH = layer.radius * 0.85;
+                    const yTop = cy - halfH;
+                    const width = (n - i) * stepW;
+                    const strokeCol = layer.strokeColor || 'rgba(15, 23, 42, 0.3)';
+
+                    svgHtml += `<rect x="${startX}" y="${yTop.toFixed(1)}" width="${width.toFixed(1)}" height="${(halfH * 2).toFixed(1)}" rx="5" fill="${layer.color}" stroke="${strokeCol}" stroke-width="1.2" data-layer-idx="${i}" class="cable-layer-svg ${isSelected ? 'selected-layer' : ''}" />`;
+
+                    // Label kode kecil di tiap step kupasan
+                    const labelX = startX + width - (stepW / 2);
+                    svgHtml += `<text x="${labelX.toFixed(1)}" y="${(cy + 3).toFixed(1)}" text-anchor="middle" font-size="8.5" font-weight="800" fill="#ffffff" style="paint-order: stroke; stroke: #0f172a; stroke-width: 2.2px; pointer-events: none;">${layer.code}</text>`;
+                }
+
+                cableSvg.innerHTML = svgHtml;
+                bindSvgClickEvents();
+            }
+
+            function bindSvgClickEvents() {
+                cableSvg.querySelectorAll('.cable-layer-svg').forEach(el => {
+                    el.addEventListener('click', () => {
+                        const idx = parseInt(el.getAttribute('data-layer-idx'), 10);
+                        if (!isNaN(idx)) {
+                            selectLayer(idx);
+                        }
+                    });
+                });
+            }
+
+            function renderVisualizer() {
+                viewTitleLabel.textContent = currentViewMode === 'cross' ? 'Penampang 2D' : 'Kupasan Samping';
+                if (currentViewMode === 'cross') {
+                    renderSvgCrossSection();
+                } else {
+                    renderSvgCutaway();
+                }
+            }
+
+            function selectLayer(idx) {
+                const cable = getCurrentCable();
+                selectedLayerIdx = Math.max(0, Math.min(idx, cable.layers.length - 1));
+                renderVisualizer();
+                renderLayerList();
+                renderDetailCard();
+            }
+
+            cableSelect.addEventListener('change', () => {
+                currentCableKey = cableSelect.value;
+                selectedLayerIdx = 0;
+                renderCodeBreakdown();
+                renderVisualizer();
+                renderLayerList();
+                renderDetailCard();
+            });
+
+            viewTabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetView = btn.getAttribute('data-view');
+                    if (!targetView || targetView === currentViewMode) return;
+                    currentViewMode = targetView;
+                    viewTabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderVisualizer();
+                });
+            });
+
+            btnReset.addEventListener('click', () => {
+                cableSelect.value = 'N2XSY';
+                currentCableKey = 'N2XSY';
+                currentViewMode = 'cross';
+                selectedLayerIdx = 0;
+                viewTabBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-view') === 'cross'));
+                renderCodeBreakdown();
+                renderVisualizer();
+                renderLayerList();
+                renderDetailCard();
+            });
+
+            // Theme Toggle Logic
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+            const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+            function updateThemeIcons() {
+                if (document.documentElement.classList.contains('dark')) {
+                    themeToggleLightIcon.classList.remove('hidden');
+                    themeToggleDarkIcon.classList.add('hidden');
+                } else {
+                    themeToggleLightIcon.classList.add('hidden');
+                    themeToggleDarkIcon.classList.remove('hidden');
+                }
+            }
+            updateThemeIcons();
+
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    if (document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('color-theme', 'light');
+                        localStorage.setItem('theme', 'light');
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('color-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                    }
+                    updateThemeIcons();
+                });
+            }
+
+            // Initial Render
+            renderCodeBreakdown();
+            renderVisualizer();
+            renderLayerList();
+            renderDetailCard();
+        });
+    </script>
+</body>
+
+</html>
+

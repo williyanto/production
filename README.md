@@ -140,7 +140,7 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 
 | :--- | :--- | :--- | :---: |
 
-| **Kalkulator Pengujian Kabel Terpadu** | Perhitungan parameter pengujian insulasi kabel: Insulation Resistance (IR), Capacitance, & SCR. | [`kalkulator_ircapscr_v20261104.html`](./kalkulator_ircapscr_v20261104.html) | `Aktif` |
+| **Kalkulator Pengujian Kabel Terpadu** | Perhitungan parameter pengujian insulasi kabel: Insulation Resistance (IR), Capacitance, & SCR. | [`kalkulator_ircapscr_v20261109.html`](./kalkulator_ircapscr_v20261109.html) | `Aktif` |
 
 | **Kalkulator Spek IR Kabel** | Perhitungan spesifikasi dan evaluasi batas kelulusan Insulation Resistance (IR) kabel (LSOH, PVC, XLPE) pada suhu operasi & suhu ruang. | [`spek_ir_v20261103.html`](./spek_ir_v20261103.html) | `Aktif` |
 
@@ -170,7 +170,7 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 
 | **Generator Angka Acak** | Penghasil angka acak (*Random Number Generator*) dengan kustomisasi rentang & statistik. | [`generator_angka_v20261104.html`](./generator_angka_v20261104.html) | `Aktif` |
 
-| **Konverter Panjang** | Konversi presisi antar satuan panjang (Meter, Feet, Inch, Yard, mm, cm, KM, Mile). | [`konverter_panjang_v20261104.html`](./konverter_panjang_v20261104.html) | `Aktif` |
+| **Konverter Satuan Teknik** | Konversi presisi satuan Panjang (m, ft, in, mi), Tekanan (MPa, N/mm², Bar, PSI), Massa/Gaya (kgf, N, daN), & Suhu (°C, °F, K). | [`konverter_satuan_teknik_v20261109.html`](./konverter_satuan_teknik_v20261109.html) | `Aktif` |
 
 | **Kalkulator Persentase Pro** | Alat hitung persentase cepat untuk diskon, kenaikan/penurunan harga, dan rasio. | [`hitung_persen_v20261031.html`](./hitung_persen_v20261031.html) | `Aktif` |
 
@@ -220,6 +220,7 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 
 | :--- | :--- | :--- | :---: |
 
+| **Visualizer Konstruksi Penampang Kabel** | Simulasi visual 2D interaktif penampang & kupasan lapisan kabel (N2XSY, N2XSEBY, NYFGBY, NYRGBY, NYY, FRC, NFA2X) beserta arti kode nomenklatur. | [`visualizer_konstruksi_kabel_v20261109.html`](./visualizer_konstruksi_kabel_v20261109.html) | `Aktif` |
 | **Mainan Edukasi Anak** | Web game interaktif untuk pembelajaran dan melatih kreativitas anak. | `Mainan Edukasi/mainan_edukasianak.html` | `Aktif` |
 
 | **Pengenalan Warna** | Modul interaktif pengenalan warna untuk anak-anak. | `Mainan Edukasi/mainan edukasi warna/mainan_edukasi_warna.html` | `Aktif` |

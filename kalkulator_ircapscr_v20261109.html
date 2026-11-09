@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Pengujian Kabel Terpadu v20261104</title>
+    <title>Kalkulator Pengujian Kabel Terpadu v20261109</title>
     <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
 
     <!-- Early Theme Detection to prevent flash -->
@@ -160,9 +160,11 @@
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
                             <button type="button" onclick="setIrLengthUnit('m')" id="irLen_m" title="Meter"
-                                class="px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
+                            <button type="button" onclick="setIrLengthUnit('km')" id="irLen_km" title="Kilometer"
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">km</button>
                             <button type="button" onclick="setIrLengthUnit('ft')" id="irLen_ft" title="Feet"
-                                class="px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
                         </div>
                     </div>
                     <div class="relative">
@@ -257,9 +259,11 @@
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
                             <button type="button" onclick="setCapLengthUnit('m')" id="capLen_m" title="Meter"
-                                class="px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
+                            <button type="button" onclick="setCapLengthUnit('km')" id="capLen_km" title="Kilometer"
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">km</button>
                             <button type="button" onclick="setCapLengthUnit('ft')" id="capLen_ft" title="Feet"
-                                class="px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
                         </div>
                     </div>
                     <div class="relative">
@@ -352,9 +356,11 @@
                         <div
                             class="inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/60 dark:border-slate-700/60 shrink-0">
                             <button type="button" onclick="setScrLengthUnit('m')" id="scrLen_m" title="Meter"
-                                class="px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none">m</button>
+                            <button type="button" onclick="setScrLengthUnit('km')" id="scrLen_km" title="Kilometer"
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">km</button>
                             <button type="button" onclick="setScrLengthUnit('ft')" id="scrLen_ft" title="Feet"
-                                class="px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
+                                class="px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none">ft</button>
                         </div>
                     </div>
                     <div class="relative">
@@ -477,17 +483,28 @@
         // ----------------- Helper Konversi Panjang ke KM -----------------
         function toKm(lengthVal, unit) {
             if (isNaN(lengthVal) || lengthVal <= 0) return 0;
-            // 1 ft = 0.3048 m
-            const meters = (unit === 'ft') ? lengthVal * 0.3048 : lengthVal;
-            return meters / 1000;
+            if (unit === 'km') return lengthVal;
+            if (unit === 'ft') return (lengthVal * 0.3048) / 1000; // 1 ft = 0.3048 m exact
+            return lengthVal / 1000; // default 'm'
         }
 
+        const lengthPlaceholders = {
+            m: "meter",
+            km: "kilometer",
+            ft: "feet"
+        };
+
         function formatLocale(num, minDec = 2, maxDec = 4) {
+            if (!isFinite(num) || isNaN(num)) return "-";
+            const absVal = Math.abs(num);
+            if (absVal > 0 && absVal < 0.01) {
+                return num.toLocaleString("id-ID", { minimumFractionDigits: 2, maximumFractionDigits: 8 });
+            }
             return num.toLocaleString("id-ID", { minimumFractionDigits: minDec, maximumFractionDigits: maxDec });
         }
 
-        const activeMiniTabClass = "px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none";
-        const inactiveMiniTabClass = "px-1.5 py-0.5 rounded-md text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none";
+        const activeMiniTabClass = "px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30 leading-none";
+        const inactiveMiniTabClass = "px-1 sm:px-1.5 py-0.5 rounded-md text-[8.5px] sm:text-[9px] font-extrabold transition-all duration-150 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 leading-none";
 
         // ----------------- Tab 1: Insulation Resistance -----------------
         const irInput = document.getElementById("irValue");
@@ -523,12 +540,12 @@
 
         function setIrLengthUnit(unit) {
             currentIrLengthUnit = unit;
-            ['m', 'ft'].forEach(u => {
+            ['m', 'km', 'ft'].forEach(u => {
                 const btn = document.getElementById(`irLen_${u}`);
                 if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
             });
             if (irLabelPanjang) irLabelPanjang.textContent = `PANJANG (${unit})`;
-            if (irLengthInput) irLengthInput.placeholder = (unit === 'ft') ? "feet" : "meter";
+            if (irLengthInput) irLengthInput.placeholder = lengthPlaceholders[unit] || "meter";
             if (irLenBadge) irLenBadge.textContent = unit;
             calculateIR();
         }
@@ -595,12 +612,12 @@
 
         function setCapLengthUnit(unit) {
             currentCapLengthUnit = unit;
-            ['m', 'ft'].forEach(u => {
+            ['m', 'km', 'ft'].forEach(u => {
                 const btn = document.getElementById(`capLen_${u}`);
                 if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
             });
             if (capLabelPanjang) capLabelPanjang.textContent = `PANJANG (${unit})`;
-            if (capLengthInput) capLengthInput.placeholder = (unit === 'ft') ? "feet" : "meter";
+            if (capLengthInput) capLengthInput.placeholder = lengthPlaceholders[unit] || "meter";
             if (capLenBadge) capLenBadge.textContent = unit;
             calculateCap();
         }
@@ -669,12 +686,12 @@
 
         function setScrLengthUnit(unit) {
             currentScrLengthUnit = unit;
-            ['m', 'ft'].forEach(u => {
+            ['m', 'km', 'ft'].forEach(u => {
                 const btn = document.getElementById(`scrLen_${u}`);
                 if (btn) btn.className = (u === unit) ? activeMiniTabClass : inactiveMiniTabClass;
             });
             if (scrLabelPanjang) scrLabelPanjang.textContent = `PANJANG (${unit})`;
-            if (scrLengthInput) scrLengthInput.placeholder = (unit === 'ft') ? "feet" : "meter";
+            if (scrLengthInput) scrLengthInput.placeholder = lengthPlaceholders[unit] || "meter";
             if (scrLenBadge) scrLenBadge.textContent = unit;
             calculateScr();
         }

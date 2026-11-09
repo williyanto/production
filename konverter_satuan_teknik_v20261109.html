@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konverter Panjang v20261104</title>
+    <title>Konverter Satuan Teknik v20261109</title>
     <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,6 +39,52 @@
         .scrollbar-none {
             -ms-overflow-style: none;
             scrollbar-width: none;
+        }
+
+        /* Modern Tactile Category Tabs */
+        .cat-tab-btn {
+            background-color: #ffffff;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .cat-tab-btn:hover {
+            color: #0f172a;
+            border-color: #cbd5e1;
+            background-color: #f8fafc;
+            transform: translateY(-1px);
+        }
+
+        .dark .cat-tab-btn {
+            background-color: #1e293b;
+            border-color: #334155;
+            color: #94a3b8;
+        }
+
+        .dark .cat-tab-btn:hover {
+            background-color: #243247;
+            border-color: #475569;
+            color: #f8fafc;
+        }
+
+        .cat-tab-btn.active {
+            background: linear-gradient(135deg, #14b8a6 0%, #059669 100%) !important;
+            color: #ffffff !important;
+            border-color: #059669 !important;
+            box-shadow: 0 4px 12px rgba(20, 184, 166, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+            transform: translateY(-1px);
+        }
+
+        .dark .cat-tab-btn.active {
+            background: linear-gradient(135deg, #0d9488 0%, #047857 100%) !important;
+            color: #ffffff !important;
+            border-color: #14b8a6 !important;
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
         }
     </style>
     <script>
@@ -75,10 +121,10 @@
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Konverter Panjang
+                    <h1 id="headerTitle" class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Konverter Satuan Teknik
                     </h1>
                     <p id="headerSubtitle"
-                        class="text-[10px] text-teal-600 dark:text-teal-400 font-bold uppercase tracking-wider">Meter ke
+                        class="text-[10px] text-teal-600 dark:text-teal-400 font-bold uppercase tracking-wider">Panjang • Meter ke
                         Feet</p>
                 </div>
             </div>
@@ -99,13 +145,41 @@
             </button>
         </div>
 
+        <!-- Category Tabs -->
+        <div class="mt-2.5 p-1 bg-slate-100/90 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 rounded-2xl grid grid-cols-4 gap-1 text-center" role="tablist" aria-label="Kategori Konversi">
+            <button type="button" data-cat="length" class="cat-tab-btn active py-1.5 px-1.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight">
+                <svg class="w-3.5 h-3.5 shrink-0 hidden sm:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+                <span>Panjang</span>
+            </button>
+            <button type="button" data-cat="pressure" class="cat-tab-btn py-1.5 px-1.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight">
+                <svg class="w-3.5 h-3.5 shrink-0 hidden sm:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span>Tekanan</span>
+            </button>
+            <button type="button" data-cat="force" class="cat-tab-btn py-1.5 px-1.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight">
+                <svg class="w-3.5 h-3.5 shrink-0 hidden sm:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                </svg>
+                <span>Massa/Gaya</span>
+            </button>
+            <button type="button" data-cat="temperature" class="cat-tab-btn py-1.5 px-1.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight">
+                <svg class="w-3.5 h-3.5 shrink-0 hidden sm:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z" />
+                </svg>
+                <span>Suhu</span>
+            </button>
+        </div>
+
         <!-- Inputs and controls container -->
         <div class="space-y-3 flex-1 flex flex-col justify-between my-2 px-1 -mx-1 overflow-y-auto scrollbar-none">
 
             <div class="space-y-3">
                 <!-- Input Value -->
                 <div class="relative group">
-                    <label for="inputValueLength"
+                    <label id="labelInputValue" for="inputValueLength"
                         class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Nilai
                         Panjang</label>
                     <div class="relative">
@@ -131,17 +205,6 @@
                         <div class="relative">
                             <select id="selectSatuanMainLength"
                                 class="appearance-none block w-full pl-2.5 pr-6 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all text-xs font-bold cursor-pointer">
-                                <option value="km">Kilometer (km)</option>
-                                <option value="hm">Hektometer (hm)</option>
-                                <option value="dam">Dekameter (dam)</option>
-                                <option value="m" selected>Meter (m)</option>
-                                <option value="dm">Desimeter (dm)</option>
-                                <option value="cm">Centimeter (cm)</option>
-                                <option value="mm">Milimeter (mm)</option>
-                                <option value="mile">Mile (mi)</option>
-                                <option value="yard">Yard (yd)</option>
-                                <option value="ft">Feet (ft)</option>
-                                <option value="in">Inchi (in)</option>
                             </select>
                             <div
                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400 dark:text-slate-500">
@@ -169,17 +232,6 @@
                         <div class="relative">
                             <select id="selectSatuanOutputLength"
                                 class="appearance-none block w-full pl-2.5 pr-6 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all text-xs font-bold cursor-pointer">
-                                <option value="km">Kilometer (km)</option>
-                                <option value="hm">Hektometer (hm)</option>
-                                <option value="dam">Dekameter (dam)</option>
-                                <option value="m">Meter (m)</option>
-                                <option value="dm">Desimeter (dm)</option>
-                                <option value="cm">Centimeter (cm)</option>
-                                <option value="mm">Milimeter (mm)</option>
-                                <option value="mile">Mile (mi)</option>
-                                <option value="yard">Yard (yd)</option>
-                                <option value="ft" selected>Feet (ft)</option>
-                                <option value="in">Inchi (in)</option>
                             </select>
                             <div
                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400 dark:text-slate-500">
@@ -261,64 +313,150 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const headerSubtitle = document.getElementById('headerSubtitle');
-            const unitNameMap = {
-                km: 'Kilometer',
-                hm: 'Hektometer',
-                dam: 'Dekameter',
-                m: 'Meter',
-                dm: 'Desimeter',
-                cm: 'Centimeter',
-                mm: 'Milimeter',
-                mile: 'Mile',
-                yard: 'Yard',
-                ft: 'Feet',
-                in: 'Inchi'
-            };
-
-            function updateSubtitle() {
-                const satuanAsal = selectSatuanMainLength.value;
-                const satuanTujuan = selectSatuanOutputLength.value;
-                const fromName = unitNameMap[satuanAsal] || satuanAsal;
-                const toName = unitNameMap[satuanTujuan] || satuanTujuan;
-                if (headerSubtitle) {
-                    headerSubtitle.textContent = (satuanAsal === satuanTujuan) ? fromName : `${fromName} ke ${toName}`;
-                }
-            }
+            const labelInputValue = document.getElementById('labelInputValue');
             const inputValueLength = document.getElementById('inputValueLength');
             const selectSatuanMainLength = document.getElementById('selectSatuanMainLength');
             const selectSatuanOutputLength = document.getElementById('selectSatuanOutputLength');
             const btnSwitchLength = document.getElementById('btnSwitchLength');
             const resultInputLength = document.getElementById('result-length');
             const infoTextLength = document.getElementById('infoTextLength');
+            const catTabBtns = document.querySelectorAll('.cat-tab-btn');
 
-            const satuanPanjang = [
-                { value: "km", text: "Kilometer (km)", factor: 1000 },
-                { value: "hm", text: "Hektometer (hm)", factor: 100 },
-                { value: "dam", text: "Dekameter (dam)", factor: 10 },
-                { value: "m", text: "Meter (m)", factor: 1 },
-                { value: "dm", text: "Desimeter (dm)", factor: 0.1 },
-                { value: "cm", text: "Centimeter (cm)", factor: 0.01 },
-                { value: "mm", text: "Milimeter (mm)", factor: 0.001 },
-                { value: "mile", text: "Mile (mi)", factor: 1609.344 },
-                { value: "yard", text: "Yard (yd)", factor: 0.9144 },
-                { value: "ft", text: "Feet (ft)", factor: 0.3048 },
-                { value: "in", text: "Inchi (in)", factor: 0.0254 }
-            ];
+            const categoriesConfig = {
+                length: {
+                    label: 'Panjang',
+                    inputLabel: 'Nilai Panjang',
+                    placeholder: 'Masukkan nilai panjang...',
+                    emptyHint: 'Silahkan masukkan nilai panjang dan pilih satuan.',
+                    defaultFrom: 'm',
+                    defaultTo: 'ft',
+                    allowNegative: false,
+                    units: [
+                        { value: 'km', name: 'Kilometer', text: 'Kilometer (km)', factor: 1000 },
+                        { value: 'hm', name: 'Hektometer', text: 'Hektometer (hm)', factor: 100 },
+                        { value: 'dam', name: 'Dekameter', text: 'Dekameter (dam)', factor: 10 },
+                        { value: 'm', name: 'Meter', text: 'Meter (m)', factor: 1 },
+                        { value: 'dm', name: 'Desimeter', text: 'Desimeter (dm)', factor: 0.1 },
+                        { value: 'cm', name: 'Centimeter', text: 'Centimeter (cm)', factor: 0.01 },
+                        { value: 'mm', name: 'Milimeter', text: 'Milimeter (mm)', factor: 0.001 },
+                        { value: 'um', name: 'Mikrometer', text: 'Mikrometer (µm)', factor: 0.000001 },
+                        { value: 'mile', name: 'Mile', text: 'Mile (mi)', factor: 1609.344 },
+                        { value: 'yard', name: 'Yard', text: 'Yard (yd)', factor: 0.9144 },
+                        { value: 'ft', name: 'Feet', text: 'Feet (ft)', factor: 0.3048 },
+                        { value: 'in', name: 'Inchi', text: 'Inchi (in)', factor: 0.0254 }
+                    ]
+                },
+                pressure: {
+                    label: 'Tekanan',
+                    inputLabel: 'Nilai Tekanan / Tegangan Tarik',
+                    placeholder: 'Masukkan nilai tekanan (MPa, Bar, PSI)...',
+                    emptyHint: 'Silahkan masukkan nilai tekanan dan pilih satuan.',
+                    defaultFrom: 'MPa',
+                    defaultTo: 'psi',
+                    allowNegative: false,
+                    units: [
+                        { value: 'MPa', name: 'Megapascal', text: 'Megapascal (MPa)', factor: 1000000 },
+                        { value: 'N/mm2', name: 'Newton/mm²', text: 'Newton/mm² (N/mm²)', factor: 1000000 },
+                        { value: 'kgf/mm2', name: 'kgf/mm²', text: 'kgf/mm²', factor: 9806650 },
+                        { value: 'kgf/cm2', name: 'kgf/cm²', text: 'kgf/cm²', factor: 98066.5 },
+                        { value: 'bar', name: 'Bar', text: 'Bar (bar)', factor: 100000 },
+                        { value: 'psi', name: 'PSI', text: 'PSI (lbf/in²)', factor: 6894.757293168 },
+                        { value: 'kPa', name: 'Kilopascal', text: 'Kilopascal (kPa)', factor: 1000 },
+                        { value: 'Pa', name: 'Pascal', text: 'Pascal (Pa)', factor: 1 },
+                        { value: 'atm', name: 'Atmosfer', text: 'Atmosfer (atm)', factor: 101325 }
+                    ]
+                },
+                force: {
+                    label: 'Massa/Gaya',
+                    inputLabel: 'Nilai Massa / Gaya Beban',
+                    placeholder: 'Masukkan nilai gaya / beban (kgf, N, daN)...',
+                    emptyHint: 'Silahkan masukkan nilai massa/gaya dan pilih satuan.',
+                    defaultFrom: 'kgf',
+                    defaultTo: 'N',
+                    allowNegative: false,
+                    units: [
+                        { value: 'kgf', name: 'Kilogram-force', text: 'Kilogram-force (kgf)', factor: 9.80665 },
+                        { value: 'N', name: 'Newton', text: 'Newton (N)', factor: 1 },
+                        { value: 'daN', name: 'Dekanewton', text: 'Dekanewton (daN)', factor: 10 },
+                        { value: 'kN', name: 'Kilonewton', text: 'Kilonewton (kN)', factor: 1000 },
+                        { value: 'gf', name: 'Gram-force', text: 'Gram-force (gf)', factor: 0.00980665 },
+                        { value: 'tf', name: 'Ton-force', text: 'Ton-force (tf)', factor: 9806.65 },
+                        { value: 'lbf', name: 'Pound-force', text: 'Pound-force (lbf)', factor: 4.4482216152605 },
+                        { value: 'kg', name: 'Kilogram', text: 'Kilogram (kg)', factor: 9.80665 },
+                        { value: 'g', name: 'Gram', text: 'Gram (g)', factor: 0.00980665 },
+                        { value: 'ton', name: 'Ton Metrik', text: 'Ton Metrik (t)', factor: 9806.65 },
+                        { value: 'lb', name: 'Pound', text: 'Pound (lb)', factor: 4.4482216152605 },
+                        { value: 'oz', name: 'Ounce', text: 'Ounce (oz)', factor: 0.2780138509537812 }
+                    ]
+                },
+                temperature: {
+                    label: 'Suhu',
+                    inputLabel: 'Nilai Suhu (Temperatur)',
+                    placeholder: 'Masukkan nilai suhu (contoh: 20 atau -15)...',
+                    emptyHint: 'Silahkan masukkan nilai suhu dan pilih satuan.',
+                    defaultFrom: 'C',
+                    defaultTo: 'F',
+                    allowNegative: true,
+                    units: [
+                        { value: 'C', name: 'Celsius', text: 'Celsius (°C)' },
+                        { value: 'F', name: 'Fahrenheit', text: 'Fahrenheit (°F)' },
+                        { value: 'K', name: 'Kelvin', text: 'Kelvin (K)' },
+                        { value: 'Re', name: 'Reamur', text: 'Reamur (°Ré)' },
+                        { value: 'R', name: 'Rankine', text: 'Rankine (°R)' }
+                    ]
+                }
+            };
 
-            function satuanPanjangText(val) {
-                const found = satuanPanjang.find(s => s.value === val);
-                return found ? found.text : "";
+            let currentCategory = 'length';
+
+            function getActiveCatConfig() {
+                return categoriesConfig[currentCategory] || categoriesConfig.length;
             }
-            function satuanPanjangFactor(val) {
-                const found = satuanPanjang.find(s => s.value === val);
-                return found ? found.factor : 1;
+
+            function findUnitObj(val) {
+                const cfg = getActiveCatConfig();
+                return cfg.units.find(u => u.value === val) || cfg.units[0];
             }
-            function satuanPanjangIdx(val) {
-                return satuanPanjang.findIndex(s => s.value === val);
+
+            function populateUnitDropdowns() {
+                const cfg = getActiveCatConfig();
+                selectSatuanMainLength.innerHTML = '';
+                selectSatuanOutputLength.innerHTML = '';
+
+                cfg.units.forEach(u => {
+                    const optFrom = document.createElement('option');
+                    optFrom.value = u.value;
+                    optFrom.textContent = u.text;
+                    if (u.value === cfg.defaultFrom) optFrom.selected = true;
+                    selectSatuanMainLength.appendChild(optFrom);
+
+                    const optTo = document.createElement('option');
+                    optTo.value = u.value;
+                    optTo.textContent = u.text;
+                    if (u.value === cfg.defaultTo) optTo.selected = true;
+                    selectSatuanOutputLength.appendChild(optTo);
+                });
+
+                if (labelInputValue) labelInputValue.textContent = cfg.inputLabel;
+                if (inputValueLength) inputValueLength.placeholder = cfg.placeholder;
+            }
+
+            function updateSubtitle() {
+                const cfg = getActiveCatConfig();
+                const fromObj = findUnitObj(selectSatuanMainLength.value);
+                const toObj = findUnitObj(selectSatuanOutputLength.value);
+                const fromName = fromObj ? fromObj.name : selectSatuanMainLength.value;
+                const toName = toObj ? toObj.name : selectSatuanOutputLength.value;
+                if (headerSubtitle) {
+                    const pairText = (selectSatuanMainLength.value === selectSatuanOutputLength.value)
+                        ? fromName
+                        : `${fromName} ke ${toName}`;
+                    headerSubtitle.textContent = `${cfg.label} • ${pairText}`;
+                }
             }
 
             function formatHasil(hasil) {
-                if (hasil === 0) return '0';
+                if (hasil === 0 || Object.is(hasil, -0)) return '0';
                 const absVal = Math.abs(hasil);
                 if (absVal >= 0.01) {
                     return hasil.toLocaleString('id-ID', { maximumFractionDigits: 4 });
@@ -331,21 +469,59 @@
                 }
             }
 
-            function getInfoExtraLength(nilai, satuanFrom, satuanTo) {
-                if (!nilai || satuanFrom === satuanTo) return '';
-                const fromIdx = satuanPanjangIdx(satuanFrom);
-                const toIdx = satuanPanjangIdx(satuanTo);
-                if (fromIdx < 0 || toIdx < 0 || fromIdx === toIdx) return '';
+            // Konversi Suhu via basis Celsius
+            function toCelsius(val, unit) {
+                switch (unit) {
+                    case 'C': return val;
+                    case 'F': return (val - 32) * 5 / 9;
+                    case 'K': return val - 273.15;
+                    case 'Re': return val * 5 / 4;
+                    case 'R': return (val - 491.67) * 5 / 9;
+                    default: return val;
+                }
+            }
+
+            function fromCelsius(c, unit) {
+                switch (unit) {
+                    case 'C': return c;
+                    case 'F': return (c * 9 / 5) + 32;
+                    case 'K': return c + 273.15;
+                    case 'Re': return c * 4 / 5;
+                    case 'R': return (c + 273.15) * 9 / 5;
+                    default: return c;
+                }
+            }
+
+            function getTemperatureFormulaInfo(fromUnit, toUnit) {
+                if (fromUnit === toUnit) {
+                    const uObj = findUnitObj(fromUnit);
+                    return `Satuan asal dan tujuan sama (<span class="text-teal-600 dark:text-teal-300 font-bold">${uObj.text}</span>).`;
+                }
+                const refC = 0;
+                const refFrom = fromCelsius(refC, fromUnit);
+                const refTo = fromCelsius(refC, toUnit);
+                const fromObj = findUnitObj(fromUnit);
+                const toObj = findUnitObj(toUnit);
+                return `Acuan titik beku: <span class="text-teal-600 dark:text-teal-300 font-bold">${formatHasil(refFrom)} ${fromObj.text}</span> setara dengan <span class="text-teal-600 dark:text-teal-300 font-bold">${formatHasil(refTo)} ${toObj.text}</span>.`;
+            }
+
+            function getInfoExtraFactor(satuanFrom, satuanTo) {
+                if (satuanFrom === satuanTo) return '';
+                const fromObj = findUnitObj(satuanFrom);
+                const toObj = findUnitObj(satuanTo);
+                if (!fromObj || !toObj) return '';
 
                 let nilaiFrom = 1;
-                let nilaiTo = satuanPanjangFactor(satuanFrom) / satuanPanjangFactor(satuanTo);
-                let satuanFromText = satuanPanjangText(satuanFrom);
-                let satuanToText = satuanPanjangText(satuanTo);
+                let nilaiTo = fromObj.factor / toObj.factor;
+                let satuanFromText = fromObj.text;
+                let satuanToText = toObj.text;
 
                 if (Math.abs(nilaiTo) < 1) {
                     nilaiTo = 1;
-                    nilaiFrom = satuanPanjangFactor(satuanTo) / satuanPanjangFactor(satuanFrom);
-                    let temp = satuanFromText; satuanFromText = satuanToText; satuanToText = temp;
+                    nilaiFrom = toObj.factor / fromObj.factor;
+                    let temp = satuanFromText;
+                    satuanFromText = satuanToText;
+                    satuanToText = temp;
                 }
 
                 let nilaiToStr = formatHasil(nilaiTo);
@@ -356,24 +532,51 @@
 
             function updateResultLength() {
                 updateSubtitle();
-                let rawVal = inputValueLength.value.replace(/,/g, '.');
+                const cfg = getActiveCatConfig();
+                let rawVal = inputValueLength.value.trim().replace(/,/g, '.');
                 const val = parseFloat(rawVal);
                 const satuanAsal = selectSatuanMainLength.value;
                 const satuanTujuan = selectSatuanOutputLength.value;
+                const toObj = findUnitObj(satuanTujuan);
+                const fromObj = findUnitObj(satuanAsal);
 
-                if (isNaN(val) || val < 0) {
+                if (rawVal === '' || isNaN(val) || (!cfg.allowNegative && val < 0)) {
                     resultInputLength.value = "0";
-                    infoTextLength.innerHTML = `Silahkan masukkan nilai panjang dan pilih satuan.`;
+                    infoTextLength.innerHTML = cfg.emptyHint;
                     return;
                 }
 
-                const meter = val * satuanPanjangFactor(satuanAsal);
-                const hasil = meter / satuanPanjangFactor(satuanTujuan);
-
-                resultInputLength.value = `${formatHasil(hasil)} ${satuanPanjangText(satuanTujuan)}`;
-                let infoExtraStr = getInfoExtraLength(1, satuanAsal, satuanTujuan);
-                infoTextLength.innerHTML = (infoExtraStr ? infoExtraStr : `Konversi dari ${satuanPanjangText(satuanAsal)} ke ${satuanPanjangText(satuanTujuan)}.`);
+                let hasil = 0;
+                if (currentCategory === 'temperature') {
+                    const c = toCelsius(val, satuanAsal);
+                    hasil = fromCelsius(c, satuanTujuan);
+                    resultInputLength.value = `${formatHasil(hasil)} ${toObj.text}`;
+                    infoTextLength.innerHTML = getTemperatureFormulaInfo(satuanAsal, satuanTujuan);
+                } else {
+                    const baseVal = val * fromObj.factor;
+                    hasil = baseVal / toObj.factor;
+                    resultInputLength.value = `${formatHasil(hasil)} ${toObj.text}`;
+                    const infoExtraStr = getInfoExtraFactor(satuanAsal, satuanTujuan);
+                    infoTextLength.innerHTML = infoExtraStr
+                        ? infoExtraStr
+                        : `Konversi dari <span class="text-teal-600 dark:text-teal-300 font-bold">${fromObj.text}</span> ke <span class="text-teal-600 dark:text-teal-300 font-bold">${toObj.text}</span>.`;
+                }
             }
+
+            // Event Listeners untuk Tab Kategori
+            catTabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetCat = btn.getAttribute('data-cat');
+                    if (!targetCat || targetCat === currentCategory) return;
+
+                    currentCategory = targetCat;
+                    catTabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    populateUnitDropdowns();
+                    updateResultLength();
+                });
+            });
 
             inputValueLength.addEventListener('input', updateResultLength);
             selectSatuanMainLength.addEventListener('change', updateResultLength);
@@ -386,6 +589,8 @@
                 updateResultLength();
             });
 
+            // Inisialisasi awal
+            populateUnitDropdowns();
             updateResultLength();
 
             // Theme Toggle Logic
@@ -421,9 +626,10 @@
             const tombolReset = document.getElementById('tombolReset');
             if (tombolReset) {
                 tombolReset.addEventListener('click', function () {
+                    const cfg = getActiveCatConfig();
                     inputValueLength.value = '';
-                    selectSatuanMainLength.value = 'm';
-                    selectSatuanOutputLength.value = 'ft';
+                    selectSatuanMainLength.value = cfg.defaultFrom;
+                    selectSatuanOutputLength.value = cfg.defaultTo;
                     updateResultLength();
                 });
             }
