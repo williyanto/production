@@ -5,16 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Katalog Proyek & Web Suite - Williyanto Adi (v20261109)</title>
-    <meta name="description" content="Pusat aplikasi web terpadu, kalkulator teknik kabel (IEC, SPLN, ICEA, AS/NZS, BS EN), pengujian material laboratorium, manajemen keuangan, dan utility interaktif oleh Williyanto Adi.">
+    <title>Daftar Proyek - Williyanto Adi</title>
+    <meta name="description" content="Pusat aplikasi web terpadu, kalkulator teknik kabel (IEC, SPLN, ICEA), pengujian material laboratorium, manajemen keuangan, dan utility interaktif oleh Williyanto Adi.">
     <meta name="author" content="Williyanto Adi">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#0d6efd">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Daftar Proyek - Williyanto Adi | Cable Metrics & Multi-Utility Suite">
-    <meta property="og:description" content="Kumpulan 27+ aplikasi web aktif & 50 slot proyek: kalkulator teknik kabel, pengujian material lab, manajemen aset, keuangan, dan utility harian.">
+    <meta property="og:description" content="Kumpulan 27+ aplikasi web aktif: kalkulator teknik kabel, pengujian material lab, manajemen aset, keuangan, dan utility harian.">
     <meta property="og:image" content="./icons/williyanto_logo_rounded.png">
     <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -23,925 +22,558 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        /* ==========================================================================
-           1. THEME VARIABLES (LIGHT & DARK MODE)
-           ========================================================================== */
+        /* --- Variabel Tema & Desain --- */
         :root {
-            --bg-body: #f1f5f9;
-            --bg-surface: #ffffff;
-            --bg-surface-alt: #f8fafc;
-            --bg-navbar: rgba(255, 255, 255, 0.94);
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --border-hover: #3b82f6;
-            --primary: #2563eb;
-            --primary-soft: #eff6ff;
-            --primary-text: #1d4ed8;
-            --accent-amber: #f59e0b;
-            --accent-emerald: #10b981;
-            --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
-            --shadow-md: 0 10px 25px rgba(15, 23, 42, 0.07);
-            --shadow-lg: 0 16px 36px rgba(37, 99, 235, 0.12);
-            --hero-gradient: linear-gradient(135deg, #1e3a8a 0%, #2563eb 55%, #0284c7 100%);
+            --bg-color: #f8f9fa;
+            --card-bg-color: #ffffff;
+            --text-color: #212529;
+            --muted-text-color: #6c757d;
+            --border-color: #e9ecef;
+            --header-bg-color: rgba(255, 255, 255, 0.85);
+            --shadow-color: rgba(0, 0, 0, 0.06);
+            --primary-accent: #0d6efd;
+            --hover-bg: #f0f7ff;
+            --badge-bg: #e7f1ff;
+            --badge-text: #0d6efd;
         }
 
         body.dark-mode {
-            --bg-body: #0b0f19;
-            --bg-surface: #131b2e;
-            --bg-surface-alt: #1a243d;
-            --bg-navbar: rgba(19, 27, 46, 0.95);
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --border-color: #23304f;
-            --border-hover: #60a5fa;
-            --primary: #3b82f6;
-            --primary-soft: rgba(59, 130, 246, 0.14);
-            --primary-text: #93c5fd;
-            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.25);
-            --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 16px 36px rgba(59, 130, 246, 0.2);
-            --hero-gradient: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0369a1 100%);
-        }
-
-        * {
-            box-sizing: border-box;
+            --bg-color: #121214;
+            --card-bg-color: #1e1e24;
+            --text-color: #e9ecef;
+            --muted-text-color: #98a2b3;
+            --border-color: #2d2d38;
+            --header-bg-color: rgba(24, 24, 30, 0.85);
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --primary-accent: #3d8bfd;
+            --hover-bg: #1a273d;
+            --badge-bg: #1c2b46;
+            --badge-text: #6ea8fe;
         }
 
         body {
-            background-color: var(--bg-body);
-            color: var(--text-primary);
-            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-top: 130px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            margin: 0;
-            padding-top: 74px;
-            transition: background-color 0.25s ease, color 0.25s ease;
-            overflow-x: hidden;
         }
 
-        button, input, select {
+        button, input, select, textarea {
             font-family: inherit;
         }
 
-        /* ==========================================================================
-           2. STICKY MODERN TOP NAVBAR
-           ========================================================================== */
-        .top-navbar {
+        body.dark-mode .text-muted {
+            color: var(--muted-text-color) !important;
+        }
+
+        /* --- Header & Live Clock --- */
+        .header-section {
+            background-color: var(--header-bg-color);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px var(--shadow-color);
             position: fixed;
             top: 0;
-            left: 0;
-            right: 0;
-            height: 64px;
-            background-color: var(--bg-navbar);
+            width: 100%;
+            z-index: 1000;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
             border-bottom: 1px solid var(--border-color);
-            box-shadow: var(--shadow-sm);
-            z-index: 1020;
-            display: flex;
-            align-items: center;
         }
 
-        .navbar-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            gap: 1rem;
-        }
-
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
-            color: var(--text-primary);
-            min-width: 0;
-        }
-
-        .nav-brand-logo {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            object-fit: cover;
-            border: 1.5px solid rgba(59, 130, 246, 0.35);
-            flex-shrink: 0;
-        }
-
-        .nav-brand-text {
-            min-width: 0;
-        }
-
-        .nav-brand-title {
-            font-weight: 800;
-            font-size: 1.02rem;
-            letter-spacing: -0.3px;
-            margin: 0;
-            line-height: 1.2;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .nav-brand-sub {
-            font-size: 0.73rem;
-            color: var(--text-muted);
-            font-weight: 600;
-            margin: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            flex-shrink: 0;
-        }
-
-        .live-clock-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.45rem;
-            background-color: var(--bg-surface-alt);
-            border: 1px solid var(--border-color);
-            padding: 0.35rem 0.8rem;
-            border-radius: 999px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            font-variant-numeric: tabular-nums;
-        }
-
-        .nav-icon-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-surface-alt);
-            color: var(--text-primary);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.2s, border-color 0.2s, color 0.2s;
-        }
-
-        .nav-icon-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background-color: var(--primary-soft);
-        }
-
-        /* ==========================================================================
-           3. HERO BANNER & KPI SUMMARY
-           ========================================================================== */
-        .hero-banner {
-            background: var(--hero-gradient);
-            border-radius: 1.35rem;
-            padding: 1.65rem 1.85rem;
-            color: #ffffff;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 1.35rem;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-        }
-
-        .hero-banner::after {
-            content: '';
-            position: absolute;
-            right: -40px;
-            top: -50px;
-            width: 240px;
-            height: 240px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.14) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .hero-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1.25rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-text {
-            max-width: 640px;
-        }
-
-        .hero-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 0.25rem 0.75rem;
-            border-radius: 999px;
-            font-size: 0.74rem;
+        .header-section h1 {
+            color: var(--primary-accent);
             font-weight: 700;
-            letter-spacing: 0.4px;
-            text-transform: uppercase;
-            margin-bottom: 0.6rem;
-        }
-
-        .hero-title {
-            font-size: 1.65rem;
-            font-weight: 800;
+            font-size: 1.8rem;
             letter-spacing: -0.5px;
-            margin: 0 0 0.35rem;
-            line-height: 1.25;
+            margin-bottom: 0.25rem;
         }
 
-        .hero-desc {
-            font-size: 0.88rem;
-            color: rgba(255, 255, 255, 0.86);
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 0.65rem;
-            flex-wrap: wrap;
-        }
-
-        .stat-pill-box {
-            background: rgba(15, 23, 42, 0.28);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 1rem;
-            padding: 0.65rem 1rem;
-            min-width: 100px;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.2s ease, background-color 0.2s ease;
-        }
-
-        .stat-pill-box:hover {
-            transform: translateY(-2px);
-            background: rgba(15, 23, 42, 0.42);
-        }
-
-        .stat-pill-num {
-            display: block;
-            font-size: 1.35rem;
-            font-weight: 800;
-            line-height: 1.1;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .stat-pill-label {
-            font-size: 0.71rem;
-            color: rgba(255, 255, 255, 0.82);
-            font-weight: 600;
-        }
-
-        /* ==========================================================================
-           4. CONTROL PANEL (SEARCH, SORT, VIEW, CATEGORY SCROLL)
-           ========================================================================== */
-        .control-panel {
-            background-color: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 1.15rem;
-            padding: 1rem 1.15rem;
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 1.25rem;
-        }
-
-        .search-toolbar {
-            display: flex;
-            gap: 0.65rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .search-input-wrap {
-            position: relative;
-            flex: 1 1 280px;
-            display: flex;
-            align-items: center;
-        }
-
-        .search-input-wrap .search-icon {
-            position: absolute;
-            left: 0.9rem;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            pointer-events: none;
-        }
-
-        .search-input-modern {
-            width: 100%;
-            background-color: var(--bg-surface-alt);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
-            padding: 0.62rem 4.5rem 0.62rem 2.45rem;
+        #live-clock-container {
             font-size: 0.9rem;
             font-weight: 500;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+            color: var(--muted-text-color);
         }
 
-        .search-input-modern:focus {
-            background-color: var(--bg-surface);
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
-
-        .search-input-modern::placeholder {
-            color: var(--text-muted);
-        }
-
-        .search-kbd-badge {
-            position: absolute;
-            right: 0.65rem;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            background-color: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 0.35rem;
-            padding: 0.12rem 0.42rem;
-            pointer-events: none;
-        }
-
-        .search-clear-btn {
-            position: absolute;
-            right: 0.6rem;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            cursor: pointer;
-            padding: 0.2rem 0.35rem;
-            display: none;
-        }
-
-        .search-clear-btn.visible {
-            display: inline-flex;
-        }
-
-        .toolbar-actions {
+        /* --- Stats & Control Bar --- */
+        .controls-container {
             display: flex;
-            gap: 0.55rem;
-            align-items: center;
-        }
-
-        .sort-select-modern {
-            background-color: var(--bg-surface-alt);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
-            padding: 0.62rem 2rem 0.62rem 0.85rem;
-            font-size: 0.86rem;
-            font-weight: 600;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .sort-select-modern:focus {
-            border-color: var(--primary);
-        }
-
-        .view-toggle-group {
-            display: inline-flex;
-            background-color: var(--bg-surface-alt);
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
-            padding: 0.2rem;
-            gap: 0.15rem;
-        }
-
-        .view-mode-btn {
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
-            border-radius: 0.55rem;
-            padding: 0.4rem 0.68rem;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: background-color 0.15s, color 0.15s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            font-weight: 600;
-        }
-
-        .view-mode-btn.active {
-            background-color: var(--primary);
-            color: #ffffff;
-        }
-
-        /* Category Filter Chips Bar */
-        .category-scroll-wrap {
-            margin-top: 0.85rem;
-            padding-top: 0.85rem;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            gap: 0.45rem;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .category-chip {
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-surface-alt);
-            color: var(--text-secondary);
-            border-radius: 999px;
-            padding: 0.36rem 0.82rem;
-            font-size: 0.79rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.38rem;
-            white-space: nowrap;
-            transition: background-color 0.18s, border-color 0.18s, color 0.18s;
-        }
-
-        .category-chip:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .category-chip.active {
-            background-color: var(--primary);
-            border-color: var(--primary);
-            color: #ffffff;
-        }
-
-        .category-chip.chip-fav {
-            border-color: rgba(245, 158, 11, 0.45);
-            color: #d97706;
-        }
-
-        body.dark-mode .category-chip.chip-fav {
-            color: #fbbf24;
-        }
-
-        .category-chip.chip-fav.active {
-            background-color: #f59e0b;
-            border-color: #f59e0b;
-            color: #ffffff;
-        }
-
-        .category-chip.chip-active-only {
-            border-color: rgba(16, 185, 129, 0.45);
-            color: #059669;
-        }
-
-        body.dark-mode .category-chip.chip-active-only {
-            color: #34d399;
-        }
-
-        .category-chip.chip-active-only.active {
-            background-color: #10b981;
-            border-color: #10b981;
-            color: #ffffff;
-        }
-
-        /* Recently Used Bar */
-        .recent-projects-bar {
-            background-color: var(--bg-surface-alt);
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
-            padding: 0.55rem 0.85rem;
-            margin-top: 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.65rem;
-        }
-
-        .recent-header {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.45rem;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .recent-label {
-            font-size: 0.76rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            white-space: nowrap;
-        }
-
-        .recent-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.38rem;
-            align-items: center;
-        }
-
-        .recent-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            font-size: 0.74rem;
-            font-weight: 600;
-            padding: 0.22rem 0.6rem;
-            border-radius: 999px;
-            background-color: var(--primary-soft);
-            color: var(--primary-text);
-            text-decoration: none;
-            border: 1px solid transparent;
-            max-width: 210px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            transition: border-color 0.15s;
-        }
-
-        .recent-chip:hover {
-            border-color: var(--primary);
-        }
-
-        .clear-recent-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 0.78rem;
-            font-weight: 600;
-            padding: 0.2rem 0.45rem;
-            border-radius: 0.4rem;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .clear-recent-btn:hover {
-            color: #ef4444;
-        }
-
-        /* ==========================================================================
-           5. STATUS BAR & SECTION HEADERS
-           ========================================================================== */
-        .results-status-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 0.9rem;
-            padding: 0 0.25rem;
-            font-size: 0.84rem;
-            color: var(--text-secondary);
-            font-weight: 600;
-        }
-
-        .status-filter-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.76rem;
-            padding: 0.28rem 0.7rem;
-            border-radius: 999px;
-            background-color: var(--primary-soft);
-            color: var(--primary-text);
-            font-weight: 700;
-        }
-
-        /* ==========================================================================
-           6. MODERN PROJECT GRID & LIST CARDS
-           ========================================================================== */
-        .projects-container.grid-view {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            flex-direction: column;
             gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .projects-container.list-view {
+        .search-row {
             display: flex;
-            flex-direction: column;
-            gap: 0.65rem;
-        }
-
-        .project-card {
-            background-color: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 1.05rem;
-            padding: 1.15rem 1.2rem;
-            text-decoration: none;
-            color: var(--text-primary);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 0.85rem;
-            position: relative;
-            box-shadow: var(--shadow-sm);
-            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--border-hover);
-            box-shadow: var(--shadow-lg);
-            color: var(--text-primary);
-        }
-
-        .project-card.is-concept {
-            opacity: 0.82;
-            border-style: dashed;
-        }
-
-        .project-card.is-concept:hover {
-            opacity: 1;
-        }
-
-        /* Card Top Row: Number Badge, Category Pill, Actions */
-        .card-top-row {
-            display: flex;
+            gap: 0.75rem;
             align-items: center;
-            justify-content: space-between;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+            border-color: var(--border-color);
+            border-radius: 0.5rem;
+            padding: 0.6rem 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-input:focus {
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+            border-color: var(--primary-accent) !important;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        }
+
+        body.dark-mode .search-input::placeholder {
+            color: var(--muted-text-color);
+        }
+
+        /* --- Category Pills (Default Hidden, Toggleable) --- */
+        .category-filters {
+            display: none;
+            flex-wrap: wrap;
             gap: 0.5rem;
-        }
-
-        .card-num-group {
-            display: flex;
             align-items: center;
-            gap: 0.55rem;
-            min-width: 0;
+            padding-top: 0.25rem;
+            animation: fadeSlideDown 0.2s ease-out;
         }
 
-        .project-num-badge {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background-color: var(--primary-soft);
-            color: var(--primary);
-            font-weight: 800;
-            font-size: 0.9rem;
+        .category-filters.show {
+            display: flex;
+        }
+
+        @keyframes fadeSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-filter-toggle {
+            border-radius: 0.5rem;
+            padding: 0.6rem 0.85rem;
             display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            font-variant-numeric: tabular-nums;
-            border: 1px solid rgba(37, 99, 235, 0.18);
-        }
-
-        .project-card:hover .project-num-badge {
-            background-color: var(--primary);
-            color: #ffffff;
-        }
-
-        .cat-pill {
-            font-size: 0.71rem;
-            font-weight: 700;
-            padding: 0.22rem 0.6rem;
-            border-radius: 6px;
-            background-color: var(--bg-surface-alt);
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .card-actions {
-            display: flex;
             align-items: center;
             gap: 0.35rem;
-            flex-shrink: 0;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-color: var(--border-color);
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+            transition: all 0.2s ease;
         }
 
-        .card-action-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-surface-alt);
-            color: var(--text-muted);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85rem;
-            cursor: pointer;
-            padding: 0;
-            transition: border-color 0.15s, color 0.15s, background-color 0.15s;
-        }
-
-        .card-action-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background-color: var(--primary-soft);
-        }
-
-        .card-action-btn.fav-btn.active {
-            color: #f59e0b;
-            border-color: rgba(245, 158, 11, 0.5);
-            background-color: rgba(245, 158, 11, 0.14);
-        }
-
-        /* Card Body: Title & Description */
-        .card-body-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .project-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin: 0 0 0.32rem;
-            line-height: 1.35;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            flex-wrap: wrap;
-        }
-
-        .project-card:hover .project-title {
-            color: var(--primary);
-        }
-
-        .project-desc {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-            margin: 0;
-            line-height: 1.48;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* Sub-links for Multi-Standard Project #1 */
-        .sub-standards-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.32rem;
-            margin-top: 0.55rem;
-        }
-
-        .std-mini-link {
-            font-size: 0.68rem;
-            font-weight: 700;
-            padding: 0.16rem 0.5rem;
-            border-radius: 5px;
-            background-color: var(--primary-soft);
-            color: var(--primary-text);
-            border: 1px solid rgba(37, 99, 235, 0.25);
-            text-decoration: none;
-            transition: background-color 0.15s, color 0.15s;
-        }
-
-        .std-mini-link:hover {
-            background-color: var(--primary);
+        .btn-filter-toggle:hover,
+        .btn-filter-toggle.active {
+            background-color: var(--primary-accent);
+            border-color: var(--primary-accent);
             color: #ffffff;
         }
 
-        /* Card Footer Row: Status, Version, Fav tag */
-        .card-footer-meta {
+        #category-status {
+            cursor: pointer;
+            user-select: none;
+            transition: opacity 0.2s ease, transform 0.15s ease;
+        }
+
+        #category-status:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
+        }
+
+        .category-btn {
+            border-radius: 20px;
+            font-size: 0.85rem;
+            padding: 0.35rem 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .category-btn.active {
+            background-color: var(--primary-accent);
+            color: #ffffff !important;
+            border-color: var(--primary-accent) !important;
+        }
+
+        /* --- Project Stats Badge --- */
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--muted-text-color);
+            margin-bottom: 1rem;
+            padding: 0 0.25rem;
+        }
+
+        /* --- List & Grid View Items --- */
+        .list-group {
+            --bs-list-group-bg: var(--card-bg-color);
+            --bs-list-group-color: var(--text-color);
+            --bs-list-group-border-color: var(--border-color);
+            --bs-list-group-action-color: var(--text-color);
+            --bs-list-group-action-hover-color: var(--text-color);
+            --bs-list-group-action-hover-bg: var(--hover-bg);
+            --bs-list-group-action-active-color: var(--text-color);
+            --bs-list-group-action-active-bg: var(--hover-bg);
+        }
+
+        .list-group-item,
+        .list-group-item-action,
+        .list-group-item:focus,
+        .list-group-item-action:focus,
+        .list-group-item:visited {
+            border-radius: 0.75rem !important;
+            margin-bottom: 0.75rem;
+            border: 1px solid var(--border-color) !important;
+            border-top-width: 1px !important;
+            background-color: var(--card-bg-color) !important;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 0.5rem;
-            padding-top: 0.65rem;
-            border-top: 1px solid var(--border-color);
+            padding: 1.1rem 1.25rem;
+            text-decoration: none;
+            color: var(--text-color) !important;
+            outline: none !important;
+        }
+
+        .list-group-item:hover,
+        .list-group-item-action:hover,
+        .list-group-item:active,
+        .list-group-item-action:active {
+            background-color: var(--hover-bg) !important;
+            border-color: var(--primary-accent) !important;
+            color: var(--text-color) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px var(--shadow-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        .list-group-item strong {
+            color: var(--primary-accent);
+            font-size: 1.05rem;
+        }
+
+        .list-group-item .project-icon {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--primary-accent);
+            margin-right: 1.25rem;
+            flex-shrink: 0;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--badge-bg);
+            border: 1.5px solid rgba(13, 110, 253, 0.2);
+            border-radius: 50%;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.5px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            user-select: none;
+        }
+
+        body.dark-mode .list-group-item .project-icon {
+            border-color: rgba(61, 139, 253, 0.25);
+        }
+
+        .list-group-item:hover .project-icon {
+            background-color: var(--primary-accent);
+            color: #ffffff;
+            border-color: var(--primary-accent);
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.35);
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.3rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
             font-size: 0.72rem;
             font-weight: 600;
+            padding: 0.2rem 0.55rem;
+            border-radius: 6px;
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
         }
 
-        .meta-badges-left {
+        .meta-badge.status-ready {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+
+        body.dark-mode .meta-badge.status-ready {
+            background-color: #0f3822;
+            color: #75b798;
+        }
+
+        .meta-badge.status-demo {
+            background-color: #fff3cd;
+            color: #664d03;
+        }
+
+        body.dark-mode .meta-badge.status-demo {
+            background-color: #3d3106;
+            color: #ffda6a;
+        }
+
+        /* --- Fix untuk CSS Grid Layout & Additional Projects Container --- */
+        .list-group.grid-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .list-group.grid-view .list-group-item {
+            margin-bottom: 0;
+            flex-direction: column;
+            text-align: center;
+            padding: 1.5rem;
+            justify-content: space-between;
+        }
+
+        .list-group.grid-view .list-group-item .project-icon {
+            margin-right: 0;
+            margin-bottom: 1rem;
+            font-size: 1.35rem;
+            width: 54px;
+            height: 54px;
+        }
+
+        .list-group.grid-view .project-meta {
+            justify-content: center;
+        }
+
+        /* Penanganan khusus untuk container #additional-projects saat Grid Active */
+        #additional-projects {
+            display: none;
+        }
+
+        #additional-projects.show {
+            display: block;
+        }
+
+        .list-group.grid-view #additional-projects.show {
+            display: contents;
+            /* Memasukkan elemen anak langsung ke dalam induk Grid */
+        }
+
+        /* --- Optimasi Performa & Responsivitas Mobile --- */
+        .list-group-item {
+            transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 108px;
+            }
+
+            .header-section {
+                padding: 0.7rem 0;
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+            }
+
+            .header-section h1 {
+                font-size: 1.35rem;
+                margin-bottom: 0.15rem;
+            }
+
+            #live-clock-container {
+                font-size: 0.78rem;
+            }
+
+            .controls-container {
+                gap: 0.65rem;
+                margin-bottom: 1rem;
+            }
+
+            .list-group-item,
+            .list-group-item-action,
+            .list-group-item:focus,
+            .list-group-item-action:focus,
+            .list-group-item:visited {
+                padding: 0.85rem 0.95rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .list-group-item .project-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 0.95rem;
+                margin-right: 0.85rem;
+            }
+
+            /* Sembunyikan deskripsi pada layar mobile/sempit agar lebih ringkas, bersih & tidak sesak */
+            .list-group-item br {
+                display: none;
+            }
+
+            .list-group-item small.text-muted {
+                display: none !important;
+            }
+
+            .list-group-item strong {
+                font-size: 0.92rem;
+                display: block;
+                margin-bottom: 0.25rem;
+                line-height: 1.35;
+            }
+
+            .list-group-item .project-meta {
+                margin-top: 0.2rem;
+            }
+
+            .project-card-actions {
+                padding-left: 0.5rem;
+                gap: 0.3rem;
+            }
+
+            .card-action-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 0.82rem;
+            }
+        }
+
+        /* --- Empty State --- */
+        #empty-state {
+            background-color: var(--card-bg-color);
+            border: 1px dashed var(--border-color);
+            border-radius: 1rem;
+            padding: 3rem 1.5rem;
+            margin-top: 1rem;
+        }
+
+        /* --- Bottom Floating Controls (Modern Glassmorphic) --- */
+        .bottom-right-controls {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
             display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
             align-items: center;
-            gap: 0.4rem;
-            flex-wrap: wrap;
+            transform: translateZ(0);
         }
 
-        .status-pill {
+        .btn-floating {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
             display: inline-flex;
             align-items: center;
-            gap: 0.32rem;
-            padding: 0.18rem 0.55rem;
-            border-radius: 999px;
+            justify-content: center;
+            font-size: 1.15rem;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg-color);
+            color: var(--text-color);
+            box-shadow: 0 4px 14px var(--shadow-color);
+            transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 0;
+            position: relative;
+        }
+
+        .btn-floating:hover {
+            transform: translateY(-3px) scale(1.08);
+            box-shadow: 0 8px 24px var(--shadow-color), 0 3px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        .btn-floating:active {
+            transform: translateY(0) scale(0.95);
+        }
+
+        /* Specific Button Modern Hover Accents */
+        .btn-floating.floating-share {
+            color: #0ea5e9;
+        }
+        .btn-floating.floating-share:hover {
+            background-color: #0ea5e9;
+            color: #ffffff;
+            border-color: #0ea5e9;
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.45);
+        }
+
+        .btn-floating.floating-theme {
+            color: #f59e0b;
+        }
+        .btn-floating.floating-theme:hover {
+            background-color: #f59e0b;
+            color: #ffffff;
+            border-color: #f59e0b;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.45);
+        }
+
+        .btn-floating.floating-search {
+            color: var(--primary-accent);
+            opacity: 0;
+            transform: scale(0.75);
+            pointer-events: none;
+        }
+        .btn-floating.floating-search.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+        .btn-floating.floating-search:hover {
+            background-color: var(--primary-accent);
+            color: #ffffff;
+            border-color: var(--primary-accent);
+            box-shadow: 0 8px 25px rgba(13, 110, 253, 0.45);
+        }
+
+        .btn-floating.floating-top {
+            opacity: 0;
+            transform: scale(0.75);
+            pointer-events: none;
+            color: var(--primary-accent);
+            font-size: 1.25rem;
             font-weight: 700;
-            font-size: 0.7rem;
+        }
+        .btn-floating.floating-top.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+        .btn-floating.floating-top:hover {
+            background-color: var(--primary-accent);
+            color: #ffffff;
+            border-color: var(--primary-accent);
+            box-shadow: 0 8px 25px rgba(13, 110, 253, 0.45);
         }
 
-        .status-pill.ready {
-            background-color: rgba(16, 185, 129, 0.14);
-            color: #059669;
-        }
-
-        body.dark-mode .status-pill.ready {
-            background-color: rgba(16, 185, 129, 0.2);
-            color: #34d399;
-        }
-
-        .status-pill.concept {
-            background-color: rgba(245, 158, 11, 0.15);
-            color: #b45309;
-        }
-
-        body.dark-mode .status-pill.concept {
-            background-color: rgba(245, 158, 11, 0.2);
-            color: #fbbf24;
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: currentColor;
-        }
-
-        .version-tag {
-            color: var(--text-muted);
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.71rem;
-        }
-
-        .fav-pill-tag {
-            background-color: rgba(245, 158, 11, 0.16);
-            color: #d97706;
-            padding: 0.15rem 0.5rem;
-            border-radius: 999px;
-            font-size: 0.69rem;
-            font-weight: 700;
-        }
-
-        body.dark-mode .fav-pill-tag {
-            color: #fbbf24;
-        }
-
-        /* LIST VIEW ADAPTATION */
-        .projects-container.list-view .project-card {
-            flex-direction: row;
-            align-items: center;
-            padding: 0.85rem 1.1rem;
-            gap: 1rem;
-        }
-
-        .projects-container.list-view .card-top-row {
-            flex-shrink: 0;
-        }
-
-        .projects-container.list-view .card-top-row .cat-pill,
-        .projects-container.list-view .card-top-row .card-actions {
-            display: none;
-        }
-
-        .projects-container.list-view .card-body-content {
-            flex: 1;
-        }
-
-        .projects-container.list-view .project-desc {
-            -webkit-line-clamp: 1;
-        }
-
-        .projects-container.list-view .card-footer-meta {
-            border-top: none;
-            padding-top: 0;
-            flex-shrink: 0;
-            gap: 0.6rem;
-        }
-
-        .list-only-actions {
-            display: none;
-            align-items: center;
-            gap: 0.35rem;
-        }
-
-        .projects-container.list-view .list-only-actions {
-            display: flex;
-        }
-
-        /* ==========================================================================
-           7. EMPTY STATE
-           ========================================================================== */
-        #empty-state {
-            background-color: var(--bg-surface);
-            border: 1px dashed var(--border-color);
-            border-radius: 1.15rem;
-            padding: 3rem 1.5rem;
-            margin-top: 0.5rem;
-        }
-
-        /* ==========================================================================
-           8. MODERN FOOTER
-           ========================================================================== */
+        /* --- Modern Footer Section --- */
         .modern-footer {
             margin-top: 2.5rem;
-            padding-top: 0.5rem;
+            padding-top: 1rem;
         }
 
         .footer-card {
-            background-color: var(--bg-surface);
+            background-color: var(--card-bg-color);
             border: 1px solid var(--border-color);
             border-radius: 1.25rem;
-            padding: 1.4rem 1.65rem;
-            box-shadow: var(--shadow-sm);
+            padding: 1.5rem 1.75rem;
+            box-shadow: 0 8px 28px var(--shadow-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .footer-top {
@@ -949,8 +581,8 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 1rem;
-            padding-bottom: 1.1rem;
+            gap: 1.25rem;
+            padding-bottom: 1.15rem;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -958,6 +590,7 @@
             display: flex;
             align-items: center;
             gap: 0.85rem;
+            text-align: left;
         }
 
         .footer-logo {
@@ -965,21 +598,23 @@
             height: 42px;
             border-radius: 12px;
             object-fit: cover;
-            border: 1.5px solid rgba(37, 99, 235, 0.25);
+            border: 1.5px solid rgba(13, 110, 253, 0.25);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15);
             flex-shrink: 0;
         }
 
         .footer-brand-title {
             font-weight: 800;
             font-size: 1rem;
-            color: var(--text-primary);
+            color: var(--text-color);
+            letter-spacing: -0.3px;
             margin: 0;
             line-height: 1.25;
         }
 
         .footer-brand-sub {
             font-size: 0.78rem;
-            color: var(--text-muted);
+            color: var(--muted-text-color);
             margin: 0.15rem 0 0;
             font-weight: 500;
         }
@@ -995,20 +630,22 @@
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            padding: 0.42rem 0.9rem;
+            padding: 0.42rem 0.85rem;
             border-radius: 999px;
             font-size: 0.78rem;
             font-weight: 600;
-            color: var(--text-primary);
-            background-color: var(--bg-surface-alt);
+            color: var(--text-color);
+            background-color: var(--bg-color);
             border: 1px solid var(--border-color);
             text-decoration: none;
-            transition: border-color 0.2s, color 0.2s;
+            transition: all 0.2s ease;
         }
 
         .footer-pill-link:hover {
-            border-color: var(--primary);
-            color: var(--primary);
+            border-color: var(--primary-accent);
+            background-color: var(--hover-bg);
+            color: var(--primary-accent);
+            transform: translateY(-2px);
         }
 
         .footer-bottom {
@@ -1017,21 +654,21 @@
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 0.75rem;
-            padding-top: 0.95rem;
+            padding-top: 1rem;
             font-size: 0.78rem;
-            color: var(--text-muted);
+            color: var(--muted-text-color);
         }
 
         .footer-status-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.45rem;
-            padding: 0.25rem 0.75rem;
+            padding: 0.25rem 0.7rem;
             border-radius: 999px;
             font-size: 0.74rem;
-            font-weight: 700;
-            background-color: var(--primary-soft);
-            color: var(--primary-text);
+            font-weight: 600;
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
         }
 
         .status-dot-live {
@@ -1042,79 +679,325 @@
             box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.22);
         }
 
-        /* ==========================================================================
-           9. FLOATING CONTROLS, SEARCH BOX & TOAST (ZERO-LAG)
-           ========================================================================== */
-        .bottom-right-controls {
-            position: fixed;
-            bottom: 22px;
-            right: 22px;
-            z-index: 1010;
-            display: flex;
-            flex-direction: column;
-            gap: 0.55rem;
-            align-items: center;
-            transform: translateZ(0);
+        @media (max-width: 768px) {
+            .header-section {
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+                background-color: var(--card-bg-color);
+            }
+            .modern-footer {
+                margin-bottom: 4.75rem;
+            }
+            .bottom-right-controls {
+                bottom: 14px;
+                right: 14px;
+                gap: 0.45rem;
+            }
+            .bottom-right-controls.footer-visible {
+                right: 50%;
+                transform: translate3d(50%, 0, 0);
+                flex-direction: row;
+                background-color: var(--card-bg-color);
+                padding: 0.35rem 0.65rem;
+                border-radius: 999px;
+                border: 1px solid var(--border-color);
+                box-shadow: 0 6px 20px var(--shadow-color);
+                gap: 0.55rem;
+            }
+            .bottom-right-controls.footer-visible .floating-search:not(.show),
+            .bottom-right-controls.footer-visible .floating-top:not(.show) {
+                display: none;
+            }
+            .btn-floating {
+                width: 42px;
+                height: 42px;
+            }
         }
 
-        .btn-floating {
-            width: 46px;
-            height: 46px;
+        @media (max-width: 576px) {
+            .footer-card {
+                padding: 1.15rem 1rem;
+                border-radius: 1rem;
+            }
+            .footer-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.9rem;
+            }
+            .footer-links {
+                width: 100%;
+            }
+            .footer-pill-link {
+                flex: 1;
+                justify-content: center;
+            }
+            .footer-bottom {
+                flex-direction: column-reverse;
+                align-items: center;
+                text-align: center;
+                gap: 0.5rem;
+            }
+        }
+
+        /* --- Sort Select Dropdown --- */
+        .sort-select {
+            width: auto;
+            min-width: 175px;
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 0.6rem 2rem 0.6rem 0.85rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .sort-select:focus {
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+            border-color: var(--primary-accent) !important;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        }
+
+        @media (max-width: 576px) {
+            .search-row {
+                flex-wrap: wrap;
+            }
+            .search-input {
+                width: 100%;
+                flex-basis: 100%;
+            }
+            .sort-select {
+                flex-grow: 1;
+            }
+        }
+
+        /* --- Favorite Filter Pill --- */
+        .category-btn.fav-filter-btn {
+            border-color: #f59e0b;
+            color: #d97706;
+        }
+
+        body.dark-mode .category-btn.fav-filter-btn {
+            border-color: #f59e0b;
+            color: #fbbf24;
+        }
+
+        .category-btn.fav-filter-btn:hover,
+        .category-btn.fav-filter-btn.active {
+            background-color: #f59e0b !important;
+            border-color: #f59e0b !important;
+            color: #ffffff !important;
+        }
+
+        /* --- Recently Used Bar --- */
+        .recent-projects-bar {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 0.6rem 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .recent-header {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .recent-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--muted-text-color);
+            white-space: nowrap;
+        }
+
+        .recent-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            align-items: center;
+        }
+
+        .recent-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.76rem;
+            font-weight: 600;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            max-width: 220px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .recent-chip:hover {
+            border-color: var(--primary-accent);
+            background-color: var(--hover-bg);
+            color: var(--primary-accent);
+            transform: translateY(-1px);
+        }
+
+        .clear-recent-btn {
+            background: none;
+            border: none;
+            color: var(--muted-text-color);
+            font-size: 0.82rem;
+            padding: 0.2rem 0.45rem;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            transition: color 0.2s, background-color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .clear-recent-btn:hover {
+            color: #dc3545;
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+
+        /* --- Project Card Action Buttons (Pin & Quick Share) --- */
+        .list-group-item {
+            position: relative;
+        }
+
+        .list-group-item > div:first-of-type {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .project-card-actions {
+            margin-left: auto;
+            padding-left: 0.75rem;
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .list-group.grid-view .project-card-actions {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            margin-left: 0;
+            padding-left: 0;
+        }
+
+        .card-action-btn {
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--muted-text-color);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-surface);
-            color: var(--text-primary);
-            box-shadow: var(--shadow-md);
-            transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
             cursor: pointer;
             padding: 0;
         }
 
-        .btn-floating:hover {
-            transform: translateY(-2px);
-            border-color: var(--primary);
+        .card-action-btn:hover {
+            border-color: var(--primary-accent);
+            color: var(--primary-accent);
+            background-color: var(--badge-bg);
+            transform: scale(1.08);
         }
 
-        .btn-floating.floating-share { color: #0ea5e9; }
-        .btn-floating.floating-theme { color: #f59e0b; }
-
-        .btn-floating.floating-search,
-        .btn-floating.floating-top {
-            color: var(--primary);
-            opacity: 0;
-            transform: scale(0.75);
-            pointer-events: none;
+        .card-action-btn.fav-btn:hover {
+            border-color: #f59e0b;
+            color: #f59e0b;
+            background-color: rgba(245, 158, 11, 0.12);
         }
 
-        .btn-floating.floating-search.show,
-        .btn-floating.floating-top.show {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
+        .card-action-btn.fav-btn.active {
+            color: #f59e0b;
+            border-color: rgba(245, 158, 11, 0.5);
+            background-color: rgba(245, 158, 11, 0.15);
         }
 
-        .floating-search-box {
+        .meta-badge.fav-badge {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: #d97706;
+        }
+
+        body.dark-mode .meta-badge.fav-badge {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+        }
+
+        /* --- Toast Notification --- */
+        .custom-toast {
             position: fixed;
-            bottom: 82px;
-            right: 22px;
-            z-index: 1015;
-            transform: scale(0.85) translateY(10px);
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 0.6rem 1.2rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            z-index: 2000;
             opacity: 0;
             pointer-events: none;
-            transition: transform 0.2s ease, opacity 0.2s ease;
-            transform-origin: bottom right;
-            background-color: var(--bg-surface);
-            border-radius: 999px;
-            padding: 0.45rem 0.95rem;
-            box-shadow: var(--shadow-md);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
             display: flex;
             align-items: center;
-            border: 1.5px solid var(--primary);
+            gap: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            white-space: nowrap;
+        }
+
+        .custom-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* --- Concept Project Card Styling --- */
+        .list-group-item.is-concept-card {
+            opacity: 0.78;
+        }
+
+        .list-group-item.is-concept-card:hover {
+            opacity: 0.95;
+        }
+
+        /* --- Floating Search Box (Responsive) --- */
+        .floating-search-box {
+            position: fixed;
+            bottom: 84px;
+            right: 24px;
+            z-index: 1001;
+            transform: scale(0.85) translateY(12px);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+            transform-origin: bottom right;
+            background: var(--card-bg-color);
+            border-radius: 999px;
+            padding: 0.45rem 0.95rem;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+            display: flex;
+            align-items: center;
+            border: 1.5px solid var(--primary-accent);
         }
 
         .floating-search-box.open {
@@ -1127,7 +1010,7 @@
             border: none;
             outline: none;
             background: transparent;
-            color: var(--text-primary);
+            color: var(--text-color);
             width: 210px;
             font-size: 0.88rem;
         }
@@ -1135,191 +1018,23 @@
         .floating-search-box button {
             background: none;
             border: none;
-            color: var(--text-muted);
+            color: var(--muted-text-color);
             margin-left: 0.35rem;
             cursor: pointer;
             padding: 0.15rem 0.3rem;
+            line-height: 1;
         }
 
-        .custom-toast {
-            position: fixed;
-            bottom: 26px;
-            left: 50%;
-            transform: translateX(-50%) translateY(80px);
-            background-color: #0f172a;
-            color: #f8fafc;
-            padding: 0.6rem 1.2rem;
-            border-radius: 999px;
-            font-size: 0.84rem;
-            font-weight: 600;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            transition: transform 0.25s ease, opacity 0.25s ease;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            white-space: nowrap;
-        }
-
-        .custom-toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        /* ==========================================================================
-           10. MOBILE RESPONSIVE OPTIMIZATIONS
-           ========================================================================== */
         @media (max-width: 768px) {
-            body {
-                padding-top: 66px;
-            }
-
-            .hero-banner {
-                padding: 1.25rem 1.15rem;
-                border-radius: 1.1rem;
-            }
-
-            .hero-title {
-                font-size: 1.3rem;
-            }
-
-            .hero-desc {
-                font-size: 0.82rem;
-            }
-
-            .hero-stats {
-                width: 100%;
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 0.5rem;
-            }
-
-            .stat-pill-box {
-                min-width: 0;
-                padding: 0.5rem 0.4rem;
-            }
-
-            .stat-pill-num {
-                font-size: 1.15rem;
-            }
-
-            .search-kbd-badge {
-                display: none;
-            }
-
-            .category-scroll-wrap {
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                padding-bottom: 0.35rem;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-            }
-
-            .category-scroll-wrap::-webkit-scrollbar {
-                display: none;
-            }
-
-            .projects-container.grid-view {
-                grid-template-columns: 1fr;
-                gap: 0.75rem;
-            }
-
-            .projects-container.list-view .project-card {
-                padding: 0.75rem 0.9rem;
-                gap: 0.75rem;
-            }
-
-            .projects-container.list-view .project-desc {
-                display: none;
-            }
-
-            .projects-container.list-view .version-tag {
-                display: none;
-            }
-
-            .modern-footer {
-                margin-bottom: 4.75rem;
-            }
-
-            .bottom-right-controls {
-                bottom: 14px;
-                right: 14px;
-                gap: 0.45rem;
-            }
-
-            .bottom-right-controls.footer-visible {
-                right: 50%;
-                transform: translate3d(50%, 0, 0);
-                flex-direction: row;
-                background-color: var(--bg-surface);
-                padding: 0.35rem 0.65rem;
-                border-radius: 999px;
-                border: 1px solid var(--border-color);
-                box-shadow: var(--shadow-md);
-                gap: 0.55rem;
-            }
-
-            .bottom-right-controls.footer-visible .floating-search:not(.show),
-            .bottom-right-controls.footer-visible .floating-top:not(.show) {
-                display: none;
-            }
-
-            .btn-floating {
-                width: 42px;
-                height: 42px;
-            }
-
             .floating-search-box {
                 right: 14px;
                 left: 14px;
-                bottom: 72px;
+                bottom: 74px;
+                transform-origin: bottom center;
             }
-
             .floating-search-box input {
                 width: 100%;
                 flex: 1;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .live-clock-pill span.clock-date-part {
-                display: none;
-            }
-
-            .toolbar-actions {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .sort-select-modern {
-                flex: 1;
-            }
-
-            .footer-card {
-                padding: 1.15rem 1rem;
-                border-radius: 1rem;
-            }
-
-            .footer-top {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.85rem;
-            }
-
-            .footer-links {
-                width: 100%;
-            }
-
-            .footer-pill-link {
-                flex: 1;
-                justify-content: center;
-            }
-
-            .footer-bottom {
-                flex-direction: column-reverse;
-                align-items: center;
-                text-align: center;
-                gap: 0.5rem;
             }
         }
     </style>
@@ -1332,138 +1047,64 @@
         }
     </script>
 
-    <!-- 1. STICKY TOP NAVBAR -->
-    <header class="top-navbar">
-        <div class="container navbar-inner">
-            <a href="#top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="nav-brand">
-                <img src="./icons/williyanto_logo_rounded.png" alt="Logo Williyanto Adi" class="nav-brand-logo" onerror="this.style.display='none'">
-                <div class="nav-brand-text">
-                    <p class="nav-brand-title">Williyanto Adi</p>
-                    <p class="nav-brand-sub">Cable Metrics &amp; Multi-Utility Suite</p>
-                </div>
-            </a>
-
-            <div class="nav-right">
-                <div class="live-clock-pill" title="Waktu Sistem Real-Time">
-                    <i class="bi bi-clock text-primary"></i>
-                    <span id="live-clock">Memuat waktu...</span>
-                </div>
-                <button type="button" class="nav-icon-btn" id="nav-theme-toggle" title="Ubah Mode Gelap / Terang" aria-label="Mode Tema">
-                    <i class="bi bi-moon-stars-fill"></i>
-                </button>
-                <a href="https://github.com/williyanto/production" target="_blank" rel="noopener noreferrer" class="nav-icon-btn" title="Buka Repositori GitHub" aria-label="GitHub Repo">
-                    <i class="bi bi-github"></i>
-                </a>
+    <!-- Header Fixed Navbar -->
+    <div class="header-section text-center">
+        <div class="container position-relative">
+            <h1><i class="bi bi-folder-fill me-2"></i>Daftar Proyek Saya</h1>
+            <div id="live-clock-container">
+                <span id="live-clock"></span>
             </div>
         </div>
-    </header>
+    </div>
 
-    <!-- 2. MAIN CONTENT CONTAINER -->
-    <main class="container mb-5">
+    <!-- Main Container -->
+    <div class="container mb-5">
 
-        <!-- HERO BANNER -->
-        <section class="hero-banner">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <div class="hero-eyebrow">
-                        <i class="bi bi-lightning-charge-fill text-warning"></i>
-                        <span>Portal Aplikasi Terpadu &bull; v2026.11</span>
-                    </div>
-                    <h1 class="hero-title"><i class="bi bi-folder2-open me-2"></i>Katalog Semua Proyek Saya</h1>
-                    <p class="hero-desc">
-                        Koleksi lengkap kalkulator teknik kabel berstandar internasional (IEC, SPLN, ICEA, AS/NZS, BS EN), laboratorium uji material, manajemen aset, perencanaan keuangan, dan utility harian.
-                    </p>
-                </div>
-
-                <div class="hero-stats">
-                    <div class="stat-pill-box" data-quick-filter="Aktif" title="Klik untuk melihat proyek Aktif">
-                        <span class="stat-pill-num" id="stat-active-count">27</span>
-                        <span class="stat-pill-label">Modul Aktif</span>
-                    </div>
-                    <div class="stat-pill-box" data-quick-filter="all" title="Klik untuk melihat semua proyek">
-                        <span class="stat-pill-num" id="stat-total-count">50</span>
-                        <span class="stat-pill-label">Total Proyek</span>
-                    </div>
-                    <div class="stat-pill-box" data-quick-filter="Favorit" title="Klik untuk melihat proyek Favorit">
-                        <span class="stat-pill-num" id="stat-fav-count">0</span>
-                        <span class="stat-pill-label">Favorit Saya</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SEARCH, SORT, VIEW & CATEGORY BAR -->
-        <section class="control-panel">
-            <div class="search-toolbar">
-                <div class="search-input-wrap">
-                    <i class="bi bi-search search-icon"></i>
-                    <input type="search" id="search-input" class="search-input-modern" placeholder="Cari nomor, nama proyek, standar (IEC, SPLN), atau kategori...">
-                    <span class="search-kbd-badge" id="search-kbd-hint">Ctrl+K</span>
-                    <button type="button" class="search-clear-btn" id="search-clear-btn" title="Bersihkan Pencarian">
-                        <i class="bi bi-x-circle-fill"></i>
-                    </button>
-                </div>
-
-                <div class="toolbar-actions">
-                    <select id="sort-select" class="sort-select-modern" title="Urutkan Daftar Proyek">
-                        <option value="number">Urut: Nomor (1–50)</option>
-                        <option value="newest">Urut: Versi Terbaru</option>
-                        <option value="az">Urut: Nama (A–Z)</option>
-                        <option value="za">Urut: Nama (Z–A)</option>
-                    </select>
-
-                    <div class="view-toggle-group" role="group" aria-label="Pilih Tampilan">
-                        <button type="button" class="view-mode-btn active" id="btn-view-grid" title="Tampilan Kartu Grid">
-                            <i class="bi bi-grid-fill"></i>
-                            <span class="d-none d-md-inline">Grid</span>
-                        </button>
-                        <button type="button" class="view-mode-btn" id="btn-view-list" title="Tampilan Daftar Ringkas">
-                            <i class="bi bi-list-ul"></i>
-                            <span class="d-none d-md-inline">List</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Horizontal Scrollable / Wrapped Category Chips -->
-            <div class="category-scroll-wrap" id="category-filters">
-                <button type="button" class="category-chip active" data-category="all">Semua</button>
-                <button type="button" class="category-chip chip-active-only" data-category="Aktif">
-                    <i class="bi bi-check-circle-fill"></i>Aktif Saja
+        <!-- Controls Header (Search & Filter) -->
+        <div class="controls-container">
+            <div class="search-row">
+                <input type="search" id="search-input" class="form-control search-input"
+                    placeholder="Cari proyek (contoh: kabel, gaji, edukasi)...">
+                <button class="btn btn-outline-secondary btn-filter-toggle" id="filter-toggle"
+                    type="button" title="Tampilkan / Sembunyikan Filter Kategori" aria-expanded="false">
+                    <i class="bi bi-funnel"></i>
+                    <span class="d-none d-sm-inline">Kategori</span>
                 </button>
-                <button type="button" class="category-chip chip-fav" data-category="Favorit">
-                    <i class="bi bi-star-fill"></i>Favorit <span id="fav-count-badge">(0)</span>
-                </button>
-                <button type="button" class="category-chip" data-category="Kelistrikan & Teknik">
-                    <i class="bi bi-lightning-charge"></i>Kelistrikan &amp; Teknik
-                </button>
-                <button type="button" class="category-chip" data-category="Kabel & Produksi">
-                    <i class="bi bi-disc"></i>Kabel &amp; Produksi
-                </button>
-                <button type="button" class="category-chip" data-category="Uji Material">
-                    <i class="bi bi-shield-check"></i>Uji Material
-                </button>
-                <button type="button" class="category-chip" data-category="Keuangan">
-                    <i class="bi bi-wallet2"></i>Keuangan
-                </button>
-                <button type="button" class="category-chip" data-category="Edukasi">
-                    <i class="bi bi-mortarboard"></i>Edukasi
-                </button>
-                <button type="button" class="category-chip" data-category="Utility & Tools">
-                    <i class="bi bi-tools"></i>Utility &amp; Tools
-                </button>
-                <button type="button" class="category-chip" data-category="Manajemen">
-                    <i class="bi bi-kanban"></i>Manajemen
-                </button>
-                <button type="button" class="category-chip" data-category="Media">
-                    <i class="bi bi-collection-play"></i>Media
-                </button>
-                <button type="button" class="category-chip" data-category="Konsep">
-                    <i class="bi bi-cone-striped"></i>Riset &amp; Konsep
+                <select id="sort-select" class="form-select sort-select" title="Urutkan Proyek">
+                    <option value="number">Urut: Nomor (1–50)</option>
+                    <option value="az">Urut: Nama (A–Z)</option>
+                    <option value="za">Urut: Nama (Z–A)</option>
+                    <option value="newest">Urut: Versi Terbaru</option>
+                </select>
+                <button class="btn btn-outline-secondary btn-layout-toggle" id="layout-toggle"
+                    title="Ubah Tampilan Mode List / Grid">
+                    <i class="bi bi-grid-3x2-gap-fill"></i>
                 </button>
             </div>
 
-            <!-- Recently Opened Bar -->
+            <!-- Category Pills -->
+            <div class="category-filters" id="category-filters">
+                <button class="btn btn-outline-primary category-btn active" data-category="all">Semua</button>
+                <button class="btn btn-outline-success category-btn" data-category="Aktif">
+                    <i class="bi bi-check-circle-fill me-1"></i>Aktif Saja
+                </button>
+                <button class="btn btn-outline-warning category-btn fav-filter-btn" data-category="Favorit">
+                    <i class="bi bi-star-fill me-1"></i>Favorit <span id="fav-count-badge">(0)</span>
+                </button>
+                <button class="btn btn-outline-primary category-btn" data-category="Kelistrikan & Teknik">Kelistrikan &
+                    Teknik</button>
+                <button class="btn btn-outline-primary category-btn" data-category="Kabel & Produksi">Kabel &
+                    Produksi</button>
+                <button class="btn btn-outline-primary category-btn" data-category="Uji Material">Uji Material</button>
+                <button class="btn btn-outline-primary category-btn" data-category="Keuangan">Keuangan</button>
+                <button class="btn btn-outline-primary category-btn" data-category="Edukasi">Edukasi</button>
+                <button class="btn btn-outline-primary category-btn" data-category="Utility & Tools">Utility &
+                    Tools</button>
+                <button class="btn btn-outline-primary category-btn" data-category="Manajemen">Manajemen</button>
+                <button class="btn btn-outline-primary category-btn" data-category="Media">Media</button>
+            </div>
+
+            <!-- Recently Used Projects Bar -->
             <div id="recent-projects-bar" class="recent-projects-bar d-none">
                 <div class="recent-header">
                     <span class="recent-label"><i class="bi bi-clock-history me-1"></i>Terakhir Dibuka:</span>
@@ -1473,36 +1114,764 @@
                     <i class="bi bi-trash3 me-1"></i>Hapus
                 </button>
             </div>
-        </section>
-
-        <!-- RESULTS STATUS BAR -->
-        <div class="results-status-bar">
-            <span id="project-counter">Menampilkan 50 proyek (27 Aktif, 23 Konsep)</span>
-            <span id="category-status" class="status-filter-indicator">
-                <i class="bi bi-funnel-fill"></i>
-                <span>Filter: Semua Proyek</span>
-            </span>
         </div>
 
-        <!-- ALL 50 PROJECTS CONTAINER -->
-        <div class="projects-container grid-view" id="project-list"></div>
+        <!-- Project Counter Bar -->
+        <div class="stats-bar">
+            <span id="project-counter">Menampilkan 50 proyek</span>
+            <span id="category-status" class="badge bg-secondary" title="Klik untuk menampilkan/menyembunyikan filter kategori">Kategori: Semua <i class="bi bi-chevron-down ms-1"></i></span>
+        </div>
 
-        <!-- EMPTY STATE -->
-        <div id="empty-state" class="text-center d-none">
+        <!-- Project List Container -->
+        <div class="list-group" id="project-list">
+
+            <!-- Proyek 1: Long Screen -->
+            <a href="./kalkulator_hambatan_kabel/iec_final_v20261104.html"
+                class="list-group-item list-group-item-action" data-category="Kelistrikan & Teknik">
+                <span class="project-icon">1</span>
+                <div>
+                    <strong>Kalkulator Hambatan Konduktor Kabel (v20261104)</strong><br>
+                    <small class="text-muted">Aplikasi perhitungan hambatan konduktor kabel multi-standar (IEC 60228,
+                        ICEA, AS/NZS, SPLN, BS EN).</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Kelistrikan & Teknik</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 2: Long Screen -->
+            <a href="./kalkulator_drum_kabel_v20261104.html" class="list-group-item list-group-item-action"
+                data-category="Kabel & Produksi">
+                <span class="project-icon">2</span>
+                <div>
+                    <strong>Kalkulator Drum Kabel (v20261104)</strong><br>
+                    <small class="text-muted">Estimasi kapasitas lilitan, layer, dan total panjang kabel dalam drum (CableMetrics).</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Kabel & Produksi</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 3: Long Screen -->
+            <a href="./kalkulator_ircapscr_v20261109.html" class="list-group-item list-group-item-action"
+                data-category="Uji Material">
+                <span class="project-icon">3</span>
+                <div>
+                    <strong>Kalkulator Pengujian Kabel Terpadu (v20261109)</strong><br>
+                    <small class="text-muted">Perhitungan parameter pengujian kabel multi-standar: Insulation Resistance (IR), Capacitance, &amp; Screening (SCR).</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Uji Material</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 4: Long Screen -->
+            <a href="./kalkulator_waktu_v20261031.html" class="list-group-item list-group-item-action"
+                data-category="Utility & Tools">
+                <span class="project-icon">4</span>
+                <div>
+                    <strong>Kalkulator Waktu Pro (v20261031)</strong><br>
+                    <small class="text-muted">Aplikasi penghitung durasi, selisih tanggal, dan konversi interval
+                        waktu.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Utility & Tools</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 5: Long Screen -->
+            <a href="./pencari_rata_rata_v20261001.html" class="list-group-item list-group-item-action"
+                data-category="Utility & Tools">
+                <span class="project-icon">5</span>
+                <div>
+                    <strong>Pencari Rata-Rata (v20261001)</strong><br>
+                    <small class="text-muted">Aplikasi untuk menghitung nilai rata-rata dari sekumpulan data numerik
+                        dengan cepat dan mudah.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Utility & Tools</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 6: Long Screen -->
+            <a href="./slice_calculation_v20261104.html" class="list-group-item list-group-item-action"
+                data-category="Kabel & Produksi">
+                <span class="project-icon">6</span>
+                <div>
+                    <strong>Kalkulator Presisi Potongan Kabel (v20261104)</strong><br>
+                    <small class="text-muted">Aplikasi perhitungan presisi untuk potongan kabel dan toleransi scrap.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Kabel & Produksi</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 7: Medium Screen -->
+            <a href="./monitoring_bbm_v20261001.html" class="list-group-item list-group-item-action"
+                data-category="Utility & Tools">
+                <span class="project-icon">7</span>
+                <div>
+                    <strong>Monitoring Pengisian BBM (v20261001)</strong><br>
+                    <small class="text-muted">Aplikasi pencatatan dan analisis konsumsi bahan bakar kendaraan, rasio
+                        efisiensi km/liter, serta ekspor PDF & Excel.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Utility & Tools</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 8: Medium Screen -->
+            <a href="./rapihkan_teks_v20261007.html" class="list-group-item list-group-item-action"
+                data-category="Utility & Tools">
+                <span class="project-icon">8</span>
+                <div>
+                    <strong>Rapihkan Teks (v20261007)</strong><br>
+                    <small class="text-muted">Alat bantu untuk merapikan dan mengubah format teks (Uppercase, Lowercase,
+                        dll).</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Utility & Tools</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 9: Medium Screen -->
+            <a href="./trip_planner_v20261007.html" class="list-group-item list-group-item-action"
+                data-category="Keuangan">
+                <span class="project-icon">9</span>
+                <div>
+                    <strong>RoadTrip Budgeting (v20261007)</strong><br>
+                    <small class="text-muted">Perencanaan komprehensif perjalanan road trip, estimasi rute/jarak,
+                        konsumsi BBM, dan pembagian anggaran biaya.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Keuangan</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 10: Medium Screen -->
+            <a href="./generator_angka_v20261104.html" class="list-group-item list-group-item-action"
+                data-category="Utility & Tools">
+                <span class="project-icon">10</span>
+                <div>
+                    <strong>Generator Angka Acak (v20261104)</strong><br>
+                    <small class="text-muted">Aplikasi penghasil angka acak dengan kustomisasi parameter dan
+                        statistik.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Utility & Tools</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 11: Short Screen -->
+            <a href="./flame_retardant_v20261104.html" class="list-group-item list-group-item-action"
+                data-category="Uji Material">
+                <span class="project-icon">11</span>
+                <div>
+                    <strong>Kapasitas Rak Kabel (Flame Retardant) (v20261104)</strong><br>
+                    <small class="text-muted">Kalkulator kapasitas dan analisis pembebanan kabel tahan api pada
+                        rak.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Uji Material</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 12: Short Screen -->
+            <a href="./faktor_koreksi_suhu_v20261031.html" class="list-group-item list-group-item-action"
+                data-category="Kelistrikan & Teknik">
+                <span class="project-icon">12</span>
+                <div>
+                    <strong>Kalkulator Faktor Koreksi Suhu (v20261031)</strong><br>
+                    <small class="text-muted">Penghitung faktor koreksi suhu untuk penyesuaian hambatan
+                        konduktor.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Kelistrikan & Teknik</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 13: Short Screen -->
+            <a href="./hitung_lembur_v20261031.html" class="list-group-item list-group-item-action"
+                data-category="Manajemen">
+                <span class="project-icon">13</span>
+                <div>
+                    <strong>Kalkulator Lembur (v20261031)</strong><br>
+                    <small class="text-muted">Perhitungan upah lembur karyawan sesuai dengan standar peraturan yang
+                        berlaku.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Manajemen</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 14: Short Screen -->
+            <a href="./hitung_persen_v20261031.html" class="list-group-item list-group-item-action"
+                data-category="Utility & Tools">
+                <span class="project-icon">14</span>
+                <div>
+                    <strong>Kalkulator Persentase Pro (v20261031)</strong><br>
+                    <small class="text-muted">Aplikasi kalkulator persentase cepat, fleksibel, dan presisi
+                        tinggi.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Utility & Tools</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 15: Short Screen -->
+            <a href="./kalkulasi_dimensi_v20261104.html" class="list-group-item list-group-item-action"
+                data-category="Kelistrikan & Teknik">
+                <span class="project-icon">15</span>
+                <div>
+                    <strong>Kalkulasi Dimensi Kabel (v20261104)</strong><br>
+                    <small class="text-muted">Kalkulator dimensi kabel standar PLN &amp; IEC (Open GAP, Overlap Armour, Equalizing Tape, Wire Screen Area, &amp; Eccentricity 6 Titik).</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Kelistrikan & Teknik</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 16: Short Screen -->
+            <a href="./konverter_satuan_teknik_v20261109.html" class="list-group-item list-group-item-action"
+                data-category="Utility & Tools">
+                <span class="project-icon">16</span>
+                <div>
+                    <strong>Konverter Satuan Teknik (v20261109)</strong><br>
+                    <small class="text-muted">Konversi presisi satuan Panjang, Tekanan (MPa, N/mm², Bar, PSI), Massa/Gaya (kgf, N, daN), dan Suhu (°C, °F, K).</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Utility & Tools</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 17: Short Screen -->
+            <a href="./uji_bending_v20261031.html" class="list-group-item list-group-item-action"
+                data-category="Uji Material">
+                <span class="project-icon">17</span>
+                <div>
+                    <strong>Kalkulator Uji Bending Mandrel (v20261031)</strong><br>
+                    <small class="text-muted">Perhitungan ukuran mandrel dan keliling lap untuk pengujian bending
+                        kabel.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Uji Material</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 18: Very Short -->
+            <a href="./hitung_waktu_rewind_v20261104.html" class="list-group-item list-group-item-action"
+                data-category="Kabel & Produksi">
+                <span class="project-icon">18</span>
+                <div>
+                    <strong>Estimasi Waktu Rewind Kabel (v20261104)</strong><br>
+                    <small class="text-muted">Aplikasi web untuk menghitung estimasi waktu proses rewind & coiling
+                        kabel.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Kabel & Produksi</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 19: Very Short -->
+            <a href="./wire_weight_calculation_v20261104.html" class="list-group-item list-group-item-action"
+                data-category="Kabel & Produksi">
+                <span class="project-icon">19</span>
+                <div>
+                    <strong>Kalkulator Berat Kawat (Stranding) (v20261104)</strong><br>
+                    <small class="text-muted">Aplikasi perhitungan berat kawat dan stranding untuk proses produksi kabel.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Kabel & Produksi</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 20: Very Short -->
+            <a href="./coldbending_heatshock/coldbending_v20261031.html" class="list-group-item list-group-item-action"
+                data-category="Uji Material">
+                <span class="project-icon">20</span>
+                <div>
+                    <strong>Pengujian Cold Bending (v20261031)</strong><br>
+                    <small class="text-muted">Evaluasi & kalkulator pengujian Cold Bending material kabel.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Uji Material</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 21: Very Short -->
+            <a href="./coldbending_heatshock/heatshock_v20261031.html" class="list-group-item list-group-item-action"
+                data-category="Uji Material">
+                <span class="project-icon">21</span>
+                <div>
+                    <strong>Pengujian Heat Shock (v20261031)</strong><br>
+                    <small class="text-muted">Evaluasi & kalkulator pengujian Heat Shock material kabel.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Uji Material</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 22: Full Screen -->
+            <a href="./kalkulator_alokasi_gaji_v20261007.html" class="list-group-item list-group-item-action"
+                data-category="Keuangan">
+                <span class="project-icon">22</span>
+                <div>
+                    <strong>Kalkulator Alokasi Gaji (v20261007)</strong><br>
+                    <small class="text-muted">Aplikasi pintar untuk membantu mengalokasikan gaji dan perencanaan
+                        keuangan bulanan.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Keuangan</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 23: Medium Screen -->
+            <a href="./kalkulator_daya_listrik_v20261007.html" class="list-group-item list-group-item-action"
+                data-category="Kelistrikan & Teknik">
+                <span class="project-icon">23</span>
+                <div>
+                    <strong>Kalkulator Biaya Listrik Otomatis (v20261007)</strong><br>
+                    <small class="text-muted">Aplikasi perhitungan konsumsi daya alat elektronik & estimasi biaya
+                        tagihan listrik PLN harian/bulanan.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Kelistrikan & Teknik</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 24: Short Screen -->
+            <a href="./konversi_mm2_to_awg_v20261001.html" class="list-group-item list-group-item-action"
+                data-category="Kelistrikan & Teknik">
+                <span class="project-icon">24</span>
+                <div>
+                    <strong>Konversi Kabel: mm² ↔ AWG (v20261001)</strong><br>
+                    <small class="text-muted">Alat konversi presisi untuk ukuran penampang kabel antara milimeter
+                        persegi (mm²) dan standar AWG/kcmil.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Kelistrikan & Teknik</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 25: Full Screen -->
+            <a href="./manajemen_aset_v20261001.html" class="list-group-item list-group-item-action"
+                data-category="Manajemen">
+                <span class="project-icon">25</span>
+                <div>
+                    <strong>AssetPro – Sistem Manajemen Aset (v20261001)</strong><br>
+                    <small class="text-muted">Sistem manajemen & pendataan aset terpadu dengan Barcode, QR Code,
+                        statistik tahunan, dan ekspor PDF/Excel.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Manajemen</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 26: Single Screen -->
+            <a href="./spek_ir_v20261103.html" class="list-group-item list-group-item-action"
+                data-category="Uji Material">
+                <span class="project-icon">26</span>
+                <div>
+                    <strong>Kalkulator Spek IR Kabel (v20261103)</strong><br>
+                    <small class="text-muted">Perhitungan spesifikasi dan evaluasi batas kelulusan Insulation Resistance
+                        (IR) kabel (LSOH, PVC, XLPE) pada suhu operasi &amp; suhu ruang.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Uji Material</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Proyek 27: Single Screen -->
+            <a href="./visualizer_konstruksi_kabel_v20261109.html" class="list-group-item list-group-item-action"
+                data-category="Edukasi">
+                <span class="project-icon">27</span>
+                <div>
+                    <strong>Visualizer Konstruksi Penampang Kabel (v20261109)</strong><br>
+                    <small class="text-muted">Aplikasi edukasi teknik interaktif membedah lapisan konstruksi penampang &amp; kupasan kabel (N2XSY, N2XSEBY, NYFGBY, NYRGBY, NYY, FRC, NFA2X) beserta arti kode nomenklatur.</small>
+                    <div class="project-meta">
+                        <span class="meta-badge">Edukasi</span>
+                        <span class="meta-badge status-ready">Aktif</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Additional Projects Section (Proyek 28 - 50) -->
+            <div id="additional-projects">
+
+                <!-- Proyek 28 -->
+                <a href="./proyek_belum_tersedia.html?id=28" class="list-group-item list-group-item-action"
+                    data-category="Media">
+                    <span class="project-icon">28</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Media</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 29 -->
+                <a href="./proyek_belum_tersedia.html?id=29" class="list-group-item list-group-item-action"
+                    data-category="Keuangan">
+                    <span class="project-icon">29</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Keuangan</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 30 -->
+                <a href="./proyek_belum_tersedia.html?id=30" class="list-group-item list-group-item-action"
+                    data-category="Kabel & Produksi">
+                    <span class="project-icon">30</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Kabel & Produksi</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 31 -->
+                <a href="./proyek_belum_tersedia.html?id=31" class="list-group-item list-group-item-action"
+                    data-category="Keuangan">
+                    <span class="project-icon">31</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Keuangan</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 32 -->
+                <a href="./proyek_belum_tersedia.html?id=32" class="list-group-item list-group-item-action"
+                    data-category="Edukasi">
+                    <span class="project-icon">32</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Edukasi</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 33 -->
+                <a href="./proyek_belum_tersedia.html?id=33" class="list-group-item list-group-item-action"
+                    data-category="Edukasi">
+                    <span class="project-icon">33</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Edukasi</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 34 -->
+                <a href="./proyek_belum_tersedia.html?id=34" class="list-group-item list-group-item-action"
+                    data-category="Utility & Tools">
+                    <span class="project-icon">34</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Utility & Tools</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 35 -->
+                <a href="./proyek_belum_tersedia.html?id=35" class="list-group-item list-group-item-action"
+                    data-category="Keuangan">
+                    <span class="project-icon">35</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Keuangan</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 36 -->
+                <a href="./proyek_belum_tersedia.html?id=36" class="list-group-item list-group-item-action"
+                    data-category="Utility & Tools">
+                    <span class="project-icon">36</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Utility & Tools</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 37 -->
+                <a href="./proyek_belum_tersedia.html?id=37" class="list-group-item list-group-item-action"
+                    data-category="Edukasi">
+                    <span class="project-icon">37</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Edukasi</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 38 -->
+                <a href="./proyek_belum_tersedia.html?id=38" class="list-group-item list-group-item-action"
+                    data-category="Utility & Tools">
+                    <span class="project-icon">38</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Utility & Tools</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 39 -->
+                <a href="./proyek_belum_tersedia.html?id=39" class="list-group-item list-group-item-action"
+                    data-category="Manajemen">
+                    <span class="project-icon">39</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Manajemen</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 40 -->
+                <a href="./proyek_belum_tersedia.html?id=40" class="list-group-item list-group-item-action"
+                    data-category="Utility & Tools">
+                    <span class="project-icon">40</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Utility & Tools</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 41 -->
+                <a href="./proyek_belum_tersedia.html?id=41" class="list-group-item list-group-item-action"
+                    data-category="Utility & Tools">
+                    <span class="project-icon">41</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Utility & Tools</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 42 -->
+                <a href="./proyek_belum_tersedia.html?id=42" class="list-group-item list-group-item-action"
+                    data-category="Utility & Tools">
+                    <span class="project-icon">42</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Utility & Tools</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 43 -->
+                <a href="./proyek_belum_tersedia.html?id=43" class="list-group-item list-group-item-action"
+                    data-category="Media">
+                    <span class="project-icon">43</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Media</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 44 -->
+                <a href="./proyek_belum_tersedia.html?id=44" class="list-group-item list-group-item-action"
+                    data-category="Utility & Tools">
+                    <span class="project-icon">44</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Utility & Tools</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 45 -->
+                <a href="./proyek_belum_tersedia.html?id=45" class="list-group-item list-group-item-action"
+                    data-category="Keuangan">
+                    <span class="project-icon">45</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Keuangan</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 46 -->
+                <a href="./proyek_belum_tersedia.html?id=46" class="list-group-item list-group-item-action"
+                    data-category="Kabel & Produksi">
+                    <span class="project-icon">46</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Kabel & Produksi</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 47 -->
+                <a href="./proyek_belum_tersedia.html?id=47" class="list-group-item list-group-item-action"
+                    data-category="Edukasi">
+                    <span class="project-icon">47</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Edukasi</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 48 -->
+                <a href="./proyek_belum_tersedia.html?id=48" class="list-group-item list-group-item-action"
+                    data-category="Utility & Tools">
+                    <span class="project-icon">48</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Utility & Tools</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 49 -->
+                <a href="./proyek_belum_tersedia.html?id=49" class="list-group-item list-group-item-action"
+                    data-category="Manajemen">
+                    <span class="project-icon">49</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Manajemen</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Proyek 50 -->
+                <a href="./proyek_belum_tersedia.html?id=50" class="list-group-item list-group-item-action"
+                    data-category="Keuangan">
+                    <span class="project-icon">50</span>
+                    <div>
+                        <strong>Proyek Sedang Dikembangkan</strong><br>
+                        <small class="text-muted">Aplikasi ini sedang dalam tahap riset dan pengembangan aktif.</small>
+                        <div class="project-meta">
+                            <span class="meta-badge">Keuangan</span>
+                            <span class="meta-badge status-demo">Konsep</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Empty State UI -->
+        <div id="empty-state" class="text-center py-5 d-none">
             <i class="bi bi-search fs-1 text-muted mb-3 d-block"></i>
             <h5 class="fw-bold mb-1">Proyek Tidak Ditemukan</h5>
-            <p class="text-muted mb-3">Tidak ada proyek yang cocok dengan kata kunci atau filter kategori yang dipilih.</p>
-            <button id="reset-filter-btn" type="button" class="btn btn-sm btn-primary rounded-pill px-4 py-2 fw-semibold">
-                <i class="bi bi-arrow-counterclockwise me-1"></i>Tampilkan Semua Proyek
+            <p class="text-muted mb-3">Tidak ada proyek yang cocok dengan kata kunci atau kategori yang dipilih.</p>
+            <button id="reset-filter-btn" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                <i class="bi bi-arrow-counterclockwise me-1"></i>Reset Filter
             </button>
         </div>
 
-        <!-- MODERN FOOTER -->
+        <!-- Toggle Expand Button -->
+        <div id="toggle-projects-wrapper" class="text-center mt-4 mb-4">
+            <button id="toggle-projects-btn" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
+                <i class="bi bi-chevron-down me-1"></i>Tampilkan Lebih Banyak
+            </button>
+        </div>
+
+        <!-- Footer Section -->
         <footer class="modern-footer">
             <div class="footer-card">
                 <div class="footer-top">
                     <div class="footer-brand">
-                        <img src="./icons/williyanto_logo_rounded.png" alt="Logo Williyanto Adi" class="footer-logo" onerror="this.style.display='none'">
+                        <img src="./icons/williyanto_logo_rounded.png" alt="Logo Williyanto Adi" class="footer-logo"
+                            onerror="this.style.display='none'">
                         <div>
                             <p class="footer-brand-title">Williyanto Adi</p>
                             <p class="footer-brand-sub">Cable Metrics &amp; Multi-Utility Web Suite</p>
@@ -1510,11 +1879,13 @@
                     </div>
 
                     <div class="footer-links">
-                        <a href="https://github.com/williyanto/production" target="_blank" rel="noopener noreferrer" class="footer-pill-link" title="Lihat Repositori di GitHub">
+                        <a href="https://github.com/williyanto/production" target="_blank" rel="noopener noreferrer"
+                            class="footer-pill-link" title="Lihat Repositori di GitHub">
                             <i class="bi bi-github"></i>
                             <span>GitHub Repo</span>
                         </a>
-                        <a href="#top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="footer-pill-link" title="Kembali ke Atas">
+                        <a href="#top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;"
+                            class="footer-pill-link" title="Kembali ke Atas">
                             <i class="bi bi-arrow-up-circle"></i>
                             <span>Ke Atas</span>
                         </a>
@@ -1525,345 +1896,70 @@
                     <span>&copy; 2026 <strong>Williyanto Adi</strong>. All rights reserved.</span>
                     <span class="footer-status-badge">
                         <span class="status-dot-live"></span>
-                        <span id="footer-active-badge-text">27 Modul Aktif &bull; 50 Total Proyek &bull; v2026.11</span>
+                        <span id="footer-active-badge-text">27 Modul Aktif &bull; v2026.11</span>
                     </span>
                 </div>
             </div>
         </footer>
 
-    </main>
+    </div>
 
-    <!-- FLOATING SEARCH CONTAINER -->
+    <!-- Floating Search Container -->
     <div id="floating-search-container" class="floating-search-box">
         <i class="bi bi-search text-primary me-2"></i>
         <input type="text" id="floating-search-input" placeholder="Cari proyek cepat...">
         <button id="close-floating-search" type="button" title="Tutup Pencarian"><i class="bi bi-x-lg"></i></button>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
+    <!-- Toast Notification -->
     <div id="toast-notification" class="custom-toast" role="status" aria-live="polite">
         <span id="toast-message">Tautan berhasil disalin!</span>
     </div>
 
-    <!-- FLOATING BOTTOM CONTROLS -->
+    <!-- Floating Bottom Controls (Modern) -->
     <div class="bottom-right-controls">
+        <!-- Quick Share Button -->
         <button class="btn-floating floating-share" id="share-page-btn" type="button" title="Bagikan / Salin Tautan Halaman" aria-label="Bagikan Halaman">
             <i class="bi bi-share-fill"></i>
         </button>
+
+        <!-- Dark/Light Mode Toggle Button -->
         <button class="btn-floating floating-theme" id="theme-toggle" type="button" title="Ubah Mode Gelap / Terang" aria-label="Mode Tema">
             <i class="bi bi-moon-stars-fill"></i>
         </button>
+
+        <!-- Floating Search Button -->
         <button class="btn-floating floating-search" id="floating-search-btn" type="button" title="Cari Proyek Cepat" aria-label="Pencarian Cepat">
             <i class="bi bi-search"></i>
         </button>
-        <a href="#top" class="btn-floating floating-top" id="back-to-top" title="Kembali ke Paling Atas" aria-label="Kembali ke Atas">
+
+        <!-- Back to Top Button -->
+        <a href="#" class="btn-floating floating-top" id="back-to-top" title="Kembali ke Paling Atas" aria-label="Kembali ke Atas">
             <i class="bi bi-chevron-up"></i>
         </a>
     </div>
 
-    <!-- APPLICATION LOGIC -->
+    <!-- JavaScript Application Logic (Optimized for Speed & Responsiveness) -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-
-            // --- DATA LENGKAP 50 PROYEK ---
-            const PROJECTS_DATA = [
-                {
-                    id: 1,
-                    title: "Kalkulator Hambatan Konduktor Kabel",
-                    version: "v20261104",
-                    category: "Kelistrikan & Teknik",
-                    href: "./kalkulator_hambatan_kabel/iec_final_v20261104.html",
-                    desc: "Aplikasi perhitungan hambatan konduktor kabel multi-standar internasional (IEC 60228, SPLN, ICEA, AS/NZS 1125, BS EN).",
-                    status: "Aktif",
-                    subLinks: [
-                        { label: "IEC 60228", href: "./kalkulator_hambatan_kabel/iec_final_v20261104.html" },
-                        { label: "SPLN", href: "./kalkulator_hambatan_kabel/spln_final_v20261104.html" },
-                        { label: "ICEA", href: "./kalkulator_hambatan_kabel/icea_final_v20261104.html" },
-                        { label: "AS/NZS", href: "./kalkulator_hambatan_kabel/as_final_v20261104.html" },
-                        { label: "BS EN", href: "./kalkulator_hambatan_kabel/bsen_final_v20261028.html" }
-                    ]
-                },
-                {
-                    id: 2,
-                    title: "Kalkulator Drum Kabel",
-                    version: "v20261104",
-                    category: "Kabel & Produksi",
-                    href: "./kalkulator_drum_kabel_v20261104.html",
-                    desc: "Estimasi kapasitas lilitan, jumlah layer, dimensi flensa, dan total panjang kabel dalam drum (CableMetrics).",
-                    status: "Aktif"
-                },
-                {
-                    id: 3,
-                    title: "Kalkulator Pengujian Kabel Terpadu",
-                    version: "v20261109",
-                    category: "Uji Material",
-                    href: "./kalkulator_ircapscr_v20261109.html",
-                    desc: "Perhitungan parameter pengujian kabel multi-standar: Insulation Resistance (IR), Capacitance, & Screening (SCR).",
-                    status: "Aktif"
-                },
-                {
-                    id: 4,
-                    title: "Kalkulator Waktu Pro",
-                    version: "v20261031",
-                    category: "Utility & Tools",
-                    href: "./kalkulator_waktu_v20261031.html",
-                    desc: "Aplikasi penghitung durasi waktu, selisih tanggal/jam kerja, dan konversi interval waktu presisi.",
-                    status: "Aktif"
-                },
-                {
-                    id: 5,
-                    title: "Pencari Rata-Rata Statistik",
-                    version: "v20261001",
-                    category: "Utility & Tools",
-                    href: "./pencari_rata_rata_v20261001.html",
-                    desc: "Aplikasi untuk menghitung nilai rata-rata (mean), nilai tengah, dan statistik dari sekumpulan data numerik.",
-                    status: "Aktif"
-                },
-                {
-                    id: 6,
-                    title: "Kalkulator Presisi Potongan Kabel",
-                    version: "v20261104",
-                    category: "Kabel & Produksi",
-                    href: "./slice_calculation_v20261104.html",
-                    desc: "Aplikasi perhitungan presisi untuk pembagian potongan panjang kabel produksi dan toleransi scrap.",
-                    status: "Aktif"
-                },
-                {
-                    id: 7,
-                    title: "Monitoring Pengisian BBM",
-                    version: "v20261001",
-                    category: "Utility & Tools",
-                    href: "./monitoring_bbm_v20261001.html",
-                    desc: "Pencatatan dan analisis konsumsi bahan bakar kendaraan, rasio efisiensi km/liter, serta ekspor PDF & Excel.",
-                    status: "Aktif"
-                },
-                {
-                    id: 8,
-                    title: "Rapihkan Teks Otomatis",
-                    version: "v20261007",
-                    category: "Utility & Tools",
-                    href: "./rapihkan_teks_v20261007.html",
-                    desc: "Alat bantu merapikan spasi berlebih, baris kosong, dan mengubah format teks (Uppercase, Lowercase, Title Case).",
-                    status: "Aktif"
-                },
-                {
-                    id: 9,
-                    title: "RoadTrip Budgeting & Planner",
-                    version: "v20261007",
-                    category: "Keuangan",
-                    href: "./trip_planner_v20261007.html",
-                    desc: "Perencanaan komprehensif perjalanan road trip, estimasi rute/jarak, konsumsi BBM, tol, dan pembagian biaya.",
-                    status: "Aktif"
-                },
-                {
-                    id: 10,
-                    title: "Generator Angka Acak Pro",
-                    version: "v20261104",
-                    category: "Utility & Tools",
-                    href: "./generator_angka_v20261104.html",
-                    desc: "Aplikasi penghasil angka acak (Random Number Generator) dengan kustomisasi rentang desimal dan statistik.",
-                    status: "Aktif"
-                },
-                {
-                    id: 11,
-                    title: "Kapasitas Rak Kabel (Flame Retardant)",
-                    version: "v20261104",
-                    category: "Uji Material",
-                    href: "./flame_retardant_v20261104.html",
-                    desc: "Kalkulator kapasitas volume bahan non-logam dan analisis pembebanan kabel tahan api pada ladder/tray uji.",
-                    status: "Aktif"
-                },
-                {
-                    id: 12,
-                    title: "Kalkulator Faktor Koreksi Suhu",
-                    version: "v20261031",
-                    category: "Kelistrikan & Teknik",
-                    href: "./faktor_koreksi_suhu_v20261031.html",
-                    desc: "Penghitung faktor koreksi suhu (kt) untuk penyesuaian nilai hambatan konduktor Tembaga dan Aluminium pada 20°C.",
-                    status: "Aktif"
-                },
-                {
-                    id: 13,
-                    title: "Kalkulator Upah Lembur",
-                    version: "v20261031",
-                    category: "Manajemen",
-                    href: "./hitung_lembur_v20261031.html",
-                    desc: "Perhitungan indeks jam dan upah lembur karyawan hari kerja maupun hari libur sesuai standar peraturan.",
-                    status: "Aktif"
-                },
-                {
-                    id: 14,
-                    title: "Kalkulator Persentase Pro",
-                    version: "v20261031",
-                    category: "Utility & Tools",
-                    href: "./hitung_persen_v20261031.html",
-                    desc: "Aplikasi kalkulator persentase cepat, perubahan naik/turun persen, diskon, dan selisih rasio presisi tinggi.",
-                    status: "Aktif"
-                },
-                {
-                    id: 15,
-                    title: "Kalkulasi Dimensi Kabel (PLN & IEC)",
-                    version: "v20261104",
-                    category: "Kelistrikan & Teknik",
-                    href: "./kalkulasi_dimensi_v20261104.html",
-                    desc: "Kalkulator dimensi teknis kabel: Open GAP, Overlap Armour, Equalizing Tape, Wire Screen Area, & Eccentricity 6 Titik.",
-                    status: "Aktif"
-                },
-                {
-                    id: 16,
-                    title: "Konverter Satuan Teknik Lengkap",
-                    version: "v20261109",
-                    category: "Utility & Tools",
-                    href: "./konverter_satuan_teknik_v20261109.html",
-                    desc: "Konversi presisi satuan Panjang, Tekanan (MPa, N/mm², Bar, PSI), Massa/Gaya (kgf, N, daN), dan Suhu (°C, °F, K).",
-                    status: "Aktif"
-                },
-                {
-                    id: 17,
-                    title: "Kalkulator Uji Bending Mandrel",
-                    version: "v20261031",
-                    category: "Uji Material",
-                    href: "./uji_bending_v20261031.html",
-                    desc: "Perhitungan diameter ukuran mandrel dan keliling lap untuk pengujian tekuk (bending test) sampel kabel.",
-                    status: "Aktif"
-                },
-                {
-                    id: 18,
-                    title: "Estimasi Waktu Rewind Kabel",
-                    version: "v20261104",
-                    category: "Kabel & Produksi",
-                    href: "./hitung_waktu_rewind_v20261104.html",
-                    desc: "Aplikasi web untuk menghitung estimasi durasi waktu proses rewinding & coiling kabel berdasarkan RPM/line speed.",
-                    status: "Aktif"
-                },
-                {
-                    id: 19,
-                    title: "Kalkulator Berat Kawat (Stranding)",
-                    version: "v20261104",
-                    category: "Kabel & Produksi",
-                    href: "./wire_weight_calculation_v20261104.html",
-                    desc: "Aplikasi perhitungan berat jenis kawat konduktor dan susunan stranding untuk perencanaan produksi kabel.",
-                    status: "Aktif"
-                },
-                {
-                    id: 20,
-                    title: "Pengujian Cold Bending Material",
-                    version: "v20261031",
-                    category: "Uji Material",
-                    href: "./coldbending_heatshock/coldbending_v20261031.html",
-                    desc: "Evaluasi spesifikasi dan kalkulator parameter pengujian ketahanan suhu dingin (Cold Bending Test) kabel.",
-                    status: "Aktif"
-                },
-                {
-                    id: 21,
-                    title: "Pengujian Heat Shock Material",
-                    version: "v20261031",
-                    category: "Uji Material",
-                    href: "./coldbending_heatshock/heatshock_v20261031.html",
-                    desc: "Evaluasi spesifikasi dan kalkulator parameter pengujian kejutan suhu panas (Heat Shock Test) isolasi/selubung.",
-                    status: "Aktif"
-                },
-                {
-                    id: 22,
-                    title: "Kalkulator Alokasi Gaji Bulanan",
-                    version: "v20261007",
-                    category: "Keuangan",
-                    href: "./kalkulator_alokasi_gaji_v20261007.html",
-                    desc: "Aplikasi pintar untuk membagi alokasi gaji, pos tabungan, investasi, dan perencanaan anggaran bulanan.",
-                    status: "Aktif"
-                },
-                {
-                    id: 23,
-                    title: "Kalkulator Biaya Listrik Otomatis",
-                    version: "v20261007",
-                    category: "Kelistrikan & Teknik",
-                    href: "./kalkulator_daya_listrik_v20261007.html",
-                    desc: "Perhitungan konsumsi daya (kWh) peralatan elektronik & estimasi tagihan listrik PLN harian serta bulanan.",
-                    status: "Aktif"
-                },
-                {
-                    id: 24,
-                    title: "Konversi Ukuran Kabel: mm² ↔ AWG",
-                    version: "v20261001",
-                    category: "Kelistrikan & Teknik",
-                    href: "./konversi_mm2_to_awg_v20261001.html",
-                    desc: "Alat konversi presisi ukuran penampang konduktor kabel antara milimeter persegi (mm²) dan standar AWG/kcmil.",
-                    status: "Aktif"
-                },
-                {
-                    id: 25,
-                    title: "AssetPro – Sistem Manajemen Aset",
-                    version: "v20261001",
-                    category: "Manajemen",
-                    href: "./manajemen_aset_v20261001.html",
-                    desc: "Sistem manajemen & pendataan inventaris aset terpadu dengan Barcode, QR Code, statistik, dan ekspor PDF/Excel.",
-                    status: "Aktif"
-                },
-                {
-                    id: 26,
-                    title: "Kalkulator Spek IR Kabel",
-                    version: "v20261103",
-                    category: "Uji Material",
-                    href: "./spek_ir_v20261103.html",
-                    desc: "Perhitungan spesifikasi minimum dan evaluasi kelulusan Insulation Resistance (IR) kabel (LSOH, PVC, XLPE).",
-                    status: "Aktif"
-                },
-                {
-                    id: 27,
-                    title: "Visualizer Konstruksi Penampang Kabel",
-                    version: "v20261109",
-                    category: "Edukasi",
-                    href: "./visualizer_konstruksi_kabel_v20261109.html",
-                    desc: "Visualisasi interaktif 2D & kupasan lapisan konstruksi kabel (N2XSY, N2XSEBY, NYFGBY, NYRGBY, NYY, FRC, NFA2X).",
-                    status: "Aktif"
-                },
-                // Proyek 28 - 50 (Riset & Konsep)
-                { id: 28, title: "Proyek #28 – Sedang Dikembangkan", version: "Konsep", category: "Media", href: "./proyek_belum_tersedia.html?id=28", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 29, title: "Proyek #29 – Sedang Dikembangkan", version: "Konsep", category: "Keuangan", href: "./proyek_belum_tersedia.html?id=29", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 30, title: "Proyek #30 – Sedang Dikembangkan", version: "Konsep", category: "Kabel & Produksi", href: "./proyek_belum_tersedia.html?id=30", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 31, title: "Proyek #31 – Sedang Dikembangkan", version: "Konsep", category: "Keuangan", href: "./proyek_belum_tersedia.html?id=31", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 32, title: "Proyek #32 – Sedang Dikembangkan", version: "Konsep", category: "Edukasi", href: "./proyek_belum_tersedia.html?id=32", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 33, title: "Proyek #33 – Sedang Dikembangkan", version: "Konsep", category: "Edukasi", href: "./proyek_belum_tersedia.html?id=33", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 34, title: "Proyek #34 – Sedang Dikembangkan", version: "Konsep", category: "Utility & Tools", href: "./proyek_belum_tersedia.html?id=34", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 35, title: "Proyek #35 – Sedang Dikembangkan", version: "Konsep", category: "Keuangan", href: "./proyek_belum_tersedia.html?id=35", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 36, title: "Proyek #36 – Sedang Dikembangkan", version: "Konsep", category: "Utility & Tools", href: "./proyek_belum_tersedia.html?id=36", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 37, title: "Proyek #37 – Sedang Dikembangkan", version: "Konsep", category: "Edukasi", href: "./proyek_belum_tersedia.html?id=37", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 38, title: "Proyek #38 – Sedang Dikembangkan", version: "Konsep", category: "Utility & Tools", href: "./proyek_belum_tersedia.html?id=38", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 39, title: "Proyek #39 – Sedang Dikembangkan", version: "Konsep", category: "Manajemen", href: "./proyek_belum_tersedia.html?id=39", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 40, title: "Proyek #40 – Sedang Dikembangkan", version: "Konsep", category: "Utility & Tools", href: "./proyek_belum_tersedia.html?id=40", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 41, title: "Proyek #41 – Sedang Dikembangkan", version: "Konsep", category: "Utility & Tools", href: "./proyek_belum_tersedia.html?id=41", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 42, title: "Proyek #42 – Sedang Dikembangkan", version: "Konsep", category: "Utility & Tools", href: "./proyek_belum_tersedia.html?id=42", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 43, title: "Proyek #43 – Sedang Dikembangkan", version: "Konsep", category: "Media", href: "./proyek_belum_tersedia.html?id=43", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 44, title: "Proyek #44 – Sedang Dikembangkan", version: "Konsep", category: "Utility & Tools", href: "./proyek_belum_tersedia.html?id=44", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 45, title: "Proyek #45 – Sedang Dikembangkan", version: "Konsep", category: "Keuangan", href: "./proyek_belum_tersedia.html?id=45", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 46, title: "Proyek #46 – Sedang Dikembangkan", version: "Konsep", category: "Kabel & Produksi", href: "./proyek_belum_tersedia.html?id=46", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 47, title: "Proyek #47 – Sedang Dikembangkan", version: "Konsep", category: "Edukasi", href: "./proyek_belum_tersedia.html?id=47", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 48, title: "Proyek #48 – Sedang Dikembangkan", version: "Konsep", category: "Utility & Tools", href: "./proyek_belum_tersedia.html?id=48", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 49, title: "Proyek #49 – Sedang Dikembangkan", version: "Konsep", category: "Manajemen", href: "./proyek_belum_tersedia.html?id=49", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" },
-                { id: 50, title: "Proyek #50 – Sedang Dikembangkan", version: "Konsep", category: "Keuangan", href: "./proyek_belum_tersedia.html?id=50", desc: "Modul aplikasi ini sedang dalam tahap riset arsitektur, desain UI/UX, dan pengembangan aktif.", status: "Konsep" }
-            ];
 
             // --- ELEMEN DOM ---
             const clockElement = document.getElementById('live-clock');
             const themeToggle = document.getElementById('theme-toggle');
-            const navThemeToggle = document.getElementById('nav-theme-toggle');
             const searchInput = document.getElementById('search-input');
-            const searchClearBtn = document.getElementById('search-clear-btn');
-            const searchKbdHint = document.getElementById('search-kbd-hint');
-            const btnViewGrid = document.getElementById('btn-view-grid');
-            const btnViewList = document.getElementById('btn-view-list');
+            const layoutToggle = document.getElementById('layout-toggle');
             const projectList = document.getElementById('project-list');
             const backToTopButton = document.getElementById('back-to-top');
+            const toggleBtn = document.getElementById('toggle-projects-btn');
+            const additionalProjects = document.getElementById('additional-projects');
             const categoryFilters = document.getElementById('category-filters');
             const projectCounter = document.getElementById('project-counter');
             const categoryStatus = document.getElementById('category-status');
             const emptyState = document.getElementById('empty-state');
             const resetFilterBtn = document.getElementById('reset-filter-btn');
+            const filterToggleBtn = document.getElementById('filter-toggle');
             const sortSelect = document.getElementById('sort-select');
             const favCountBadge = document.getElementById('fav-count-badge');
-            const statActiveCount = document.getElementById('stat-active-count');
-            const statTotalCount = document.getElementById('stat-total-count');
-            const statFavCount = document.getElementById('stat-fav-count');
             const recentProjectsBar = document.getElementById('recent-projects-bar');
             const recentChipsContainer = document.getElementById('recent-chips');
             const clearRecentBtn = document.getElementById('clear-recent-btn');
@@ -1874,6 +1970,7 @@
             const floatingSearchContainer = document.getElementById('floating-search-container');
             const floatingSearchInput = document.getElementById('floating-search-input');
             const closeFloatingSearch = document.getElementById('close-floating-search');
+            const toggleProjectsWrapper = document.getElementById('toggle-projects-wrapper');
             const footerActiveBadgeText = document.getElementById('footer-active-badge-text');
 
             let currentCategory = 'all';
@@ -1895,7 +1992,7 @@
                 recentProjects = [];
             }
 
-            // --- NOTIFIKASI TOAST ---
+            // --- NOTIFIKASI TOAST RINGAN ---
             let toastTimeout = null;
             function showToast(msg) {
                 if (!toastEl || !toastMessageEl) return;
@@ -1912,7 +2009,7 @@
                 if (isMobileDevice && navigator.share) {
                     try {
                         await navigator.share({
-                            title: shareTitle || 'Katalog Proyek - Williyanto Adi',
+                            title: shareTitle || 'Daftar Proyek - Williyanto Adi',
                             url: url
                         });
                         return;
@@ -1943,151 +2040,94 @@
                 });
             }
 
-            // --- BUILD DOM CARDS FOR ALL 50 PROJECTS ONCE ---
-            const totalCount = PROJECTS_DATA.length;
+            // --- INISIALISASI & CACHE METADATA KARTU PROYEK (SEKALI SAAT LOAD) ---
+            const allProjectElements = Array.from(projectList.querySelectorAll('.list-group-item'));
+            const totalCount = allProjectElements.length;
             let activeModuleCount = 0;
-            let conceptModuleCount = 0;
             const categoryCounts = {};
-            const allProjectElements = [];
 
-            const initialFrag = document.createDocumentFragment();
+            allProjectElements.forEach((item, index) => {
+                const strongEl = item.querySelector('strong');
+                const rawTitle = strongEl ? strongEl.textContent.trim() : `Proyek ${index + 1}`;
+                const numEl = item.querySelector('.project-icon');
+                const numFromBadge = numEl ? parseInt(numEl.textContent.trim(), 10) : null;
+                const numMatch = rawTitle.match(/Proyek\s+(\d+)/i);
+                const projectId = numFromBadge || (numMatch ? parseInt(numMatch[1], 10) : (index + 1));
 
-            PROJECTS_DATA.forEach(proj => {
-                const isConcept = proj.status === 'Konsep' ? 1 : 0;
-                if (!isConcept) activeModuleCount++;
-                else conceptModuleCount++;
+                const cleanName = rawTitle
+                    .replace(/^Proyek\s+\d+\s*:\s*/i, '')
+                    .replace(/\s*\(v\d+\)\s*$/i, '')
+                    .trim();
 
-                categoryCounts[proj.category] = (categoryCounts[proj.category] || 0) + 1;
-                const versionNumMatch = proj.version.match(/v(\d+)/i);
-                const versionNum = versionNumMatch ? parseInt(versionNumMatch[1], 10) : 0;
+                const href = item.getAttribute('href') || '';
+                const verMatch = rawTitle.match(/\(v(\d+)\)/i) || href.match(/_v(\d{8})\.html/i);
+                const versionNum = verMatch ? parseInt(verMatch[1], 10) : 0;
+                const isConcept = (rawTitle.toLowerCase().includes('sedang dikembangkan') || item.querySelector('.status-demo')) ? 1 : 0;
+                const category = item.getAttribute('data-category') || '';
+                const iconEl = item.querySelector('.project-icon');
+                const iconClass = iconEl ? iconEl.textContent.trim() : String(projectId);
 
-                const card = document.createElement('a');
-                card.href = proj.href;
-                card.className = 'project-card' + (isConcept ? ' is-concept' : '');
-                card.setAttribute('data-project-id', String(proj.id));
-                card.setAttribute('data-category', proj.category);
+                if (!isConcept) {
+                    activeModuleCount++;
+                }
+                if (category) {
+                    categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+                }
 
-                const subLinksHtml = proj.subLinks
-                    ? `<div class="sub-standards-row">${proj.subLinks.map(s => `<span class="std-mini-link" data-sub-href="${s.href}" title="Buka Standar ${s.label}">${s.label}</span>`).join('')}</div>`
-                    : '';
-
-                const shareBtnHtml = isConcept
-                    ? ''
-                    : '<button type="button" class="card-action-btn share-btn" title="Bagikan / Salin Link Proyek"><i class="bi bi-link-45deg"></i></button>';
-
-                card.innerHTML = `
-                    <div class="card-top-row">
-                        <div class="card-num-group">
-                            <span class="project-num-badge">${proj.id}</span>
-                            <span class="cat-pill">${proj.category}</span>
-                        </div>
-                        <div class="card-actions">
-                            <button type="button" class="card-action-btn fav-btn" title="Simpan ke Favorit"><i class="bi bi-star"></i></button>
-                            ${shareBtnHtml}
-                        </div>
-                    </div>
-                    <div class="card-body-content">
-                        <h2 class="project-title">${proj.title}</h2>
-                        <p class="project-desc">${proj.desc}</p>
-                        ${subLinksHtml}
-                    </div>
-                    <div class="card-footer-meta">
-                        <div class="meta-badges-left">
-                            <span class="status-pill ${isConcept ? 'concept' : 'ready'}">
-                                <span class="status-dot"></span>
-                                <span>${proj.status}</span>
-                            </span>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="version-tag">${proj.version}</span>
-                            <div class="list-only-actions">
-                                <button type="button" class="card-action-btn fav-btn" title="Simpan ke Favorit"><i class="bi bi-star"></i></button>
-                                ${shareBtnHtml}
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                const extraSearchTerms = proj.subLinks ? proj.subLinks.map(s => s.label).join(' ') : '';
-                card._meta = {
-                    id: proj.id,
-                    name: proj.title,
-                    nameLower: proj.title.toLowerCase(),
-                    searchText: (`proyek ${proj.id} #${proj.id} ${proj.title} ${proj.desc} ${proj.category} ${proj.version} ${proj.status} ${extraSearchTerms}`).toLowerCase(),
-                    category: proj.category,
+                // Cache seluruh metadata di properti objek agar pencarian & sort instan tanpa baca DOM berulang
+                item._meta = {
+                    id: projectId,
+                    name: cleanName,
+                    nameLower: cleanName.toLowerCase(),
+                    searchText: (item.textContent + ' proyek ' + projectId + ' ' + cleanName).toLowerCase(),
+                    category: category,
                     version: versionNum,
                     isConcept: isConcept,
-                    href: proj.href,
-                    icon: String(proj.id)
+                    href: href,
+                    icon: iconClass
                 };
 
-                allProjectElements.push(card);
-                initialFrag.appendChild(card);
+                item.setAttribute('data-project-id', String(projectId));
+                if (isConcept) {
+                    item.classList.add('is-concept-card');
+                }
+
+                // Render tombol Pin & Share secara ringan (sembunyikan Share untuk proyek konsep)
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'project-card-actions';
+                actionsDiv.innerHTML =
+                    '<button type="button" class="card-action-btn fav-btn" title="Pin / Simpan ke Favorit"><i class="bi bi-star"></i></button>' +
+                    (isConcept ? '' : '<button type="button" class="card-action-btn share-btn" title="Bagikan / Salin Link Proyek"><i class="bi bi-link-45deg"></i></button>');
+                item.appendChild(actionsDiv);
             });
 
-            projectList.appendChild(initialFrag);
-
-            // Bersihkan riwayat dari proyek konsep
-            const activeIdSet = new Set(PROJECTS_DATA.filter(p => p.status === 'Aktif').map(p => p.id));
+            // Bersihkan proyek konsep dari riwayat Terakhir Dibuka jika pernah tersimpan sebelumnya
+            const activeIdSet = new Set(allProjectElements.filter(el => !el._meta.isConcept).map(el => el._meta.id));
             recentProjects = recentProjects.filter(p => activeIdSet.has(p.id));
             localStorage.setItem('recentProjects', JSON.stringify(recentProjects));
 
-            // Update Statistik Header, Footer & Tombol Kategori
-            if (statActiveCount) statActiveCount.textContent = String(activeModuleCount);
-            if (statTotalCount) statTotalCount.textContent = String(totalCount);
+            // Update badge jumlah modul aktif di footer & tombol kategori secara dinamis
             if (footerActiveBadgeText) {
-                footerActiveBadgeText.innerHTML = `${activeModuleCount} Modul Aktif &bull; ${totalCount} Total Proyek &bull; v2026.11`;
+                footerActiveBadgeText.innerHTML = `${activeModuleCount} Modul Aktif &bull; v2026.11`;
             }
-
-            categoryFilters.querySelectorAll('.category-chip').forEach(btn => {
+            categoryFilters.querySelectorAll('.category-btn').forEach(btn => {
                 const cat = btn.getAttribute('data-category');
                 if (cat === 'all') {
-                    btn.innerHTML = `<i class="bi bi-layers-fill"></i>Semua (${totalCount})`;
+                    btn.textContent = `Semua (${totalCount})`;
                 } else if (cat === 'Aktif') {
-                    btn.innerHTML = `<i class="bi bi-check-circle-fill"></i>Aktif (${activeModuleCount})`;
-                } else if (cat === 'Konsep') {
-                    btn.innerHTML = `<i class="bi bi-cone-striped"></i>Konsep (${conceptModuleCount})`;
+                    btn.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i>Aktif Saja (${activeModuleCount})`;
                 } else if (cat !== 'Favorit' && categoryCounts[cat]) {
-                    const iconEl = btn.querySelector('i');
-                    const iconHtml = iconEl ? iconEl.outerHTML : '';
-                    btn.innerHTML = `${iconHtml}${cat} (${categoryCounts[cat]})`;
+                    btn.textContent = `${cat} (${categoryCounts[cat]})`;
                 }
             });
 
-            // Klik KPI Box di Hero untuk Filter Cepat
-            document.querySelectorAll('.stat-pill-box[data-quick-filter]').forEach(box => {
-                box.addEventListener('click', function () {
-                    const targetCat = box.getAttribute('data-quick-filter');
-                    const targetChip = categoryFilters.querySelector(`.category-chip[data-category="${targetCat}"]`);
-                    if (targetChip) targetChip.click();
-                });
-            });
-
-            // --- EVENT DELEGATION TUNGGAL PADA #project-list ---
+            // --- EVENT DELEGATION TUNGGAL PADA #project-list (HEMAT MEMORI) ---
             projectList.addEventListener('click', function (e) {
-                const subLink = e.target.closest('.std-mini-link');
-                if (subLink) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const subHref = subLink.getAttribute('data-sub-href');
-                    const card = subLink.closest('.project-card');
-                    if (card && card._meta) {
-                        recordRecentProject({
-                            id: card._meta.id,
-                            name: `${card._meta.name} (${subLink.textContent})`,
-                            href: subHref,
-                            icon: card._meta.icon
-                        });
-                    }
-                    window.location.href = subHref;
-                    return;
-                }
-
                 const favBtn = e.target.closest('.fav-btn');
                 if (favBtn) {
                     e.preventDefault();
                     e.stopPropagation();
-                    const card = favBtn.closest('.project-card');
+                    const card = favBtn.closest('.list-group-item');
                     if (card && card._meta) {
                         toggleFavorite(card._meta.id, card._meta.name);
                     }
@@ -2098,7 +2138,7 @@
                 if (shareBtn) {
                     e.preventDefault();
                     e.stopPropagation();
-                    const card = shareBtn.closest('.project-card');
+                    const card = shareBtn.closest('.list-group-item');
                     if (card && card._meta && !card._meta.isConcept) {
                         const fullUrl = new URL(card._meta.href, window.location.href).href;
                         copyOrShareUrl(fullUrl, `🔗 Link "${card._meta.name}" berhasil disalin!`, card._meta.name);
@@ -2106,8 +2146,13 @@
                     return;
                 }
 
-                const card = e.target.closest('.project-card');
-                if (card && card._meta && !card._meta.isConcept) {
+                const card = e.target.closest('.list-group-item');
+                if (card && card._meta) {
+                    if (card._meta.isConcept) {
+                        e.preventDefault();
+                        showToast(`🚧 Proyek #${card._meta.id} masih dalam tahap pengembangan`);
+                        return;
+                    }
                     recordRecentProject({
                         id: card._meta.id,
                         name: card._meta.name,
@@ -2117,28 +2162,26 @@
                 }
             });
 
-            // --- FAVORIT & RIWAYAT TERAKHIR DIBUKA ---
             function updateFavoriteUI() {
-                if (favCountBadge) favCountBadge.textContent = `(${favoriteIds.length})`;
-                if (statFavCount) statFavCount.textContent = String(favoriteIds.length);
-
+                if (favCountBadge) {
+                    favCountBadge.textContent = `(${favoriteIds.length})`;
+                }
                 const favSet = new Set(favoriteIds);
                 allProjectElements.forEach(item => {
                     const isFav = favSet.has(item._meta.id);
-                    const favBtns = item.querySelectorAll('.fav-btn');
-                    const metaLeft = item.querySelector('.meta-badges-left');
-                    let favBadge = item.querySelector('.fav-pill-tag');
+                    const favBtn = item.querySelector('.fav-btn');
+                    const metaContainer = item.querySelector('.project-meta');
+                    let favBadge = item.querySelector('.fav-badge');
 
-                    favBtns.forEach(btn => {
-                        btn.classList.toggle('active', isFav);
-                        btn.innerHTML = isFav ? '<i class="bi bi-star-fill"></i>' : '<i class="bi bi-star"></i>';
-                    });
-
-                    if (isFav && metaLeft && !favBadge) {
+                    if (favBtn) {
+                        favBtn.classList.toggle('active', isFav);
+                        favBtn.innerHTML = isFav ? '<i class="bi bi-star-fill"></i>' : '<i class="bi bi-star"></i>';
+                    }
+                    if (isFav && metaContainer && !favBadge) {
                         favBadge = document.createElement('span');
-                        favBadge.className = 'fav-pill-tag';
+                        favBadge.className = 'meta-badge fav-badge';
                         favBadge.innerHTML = '<i class="bi bi-star-fill me-1"></i>Favorit';
-                        metaLeft.appendChild(favBadge);
+                        metaContainer.prepend(favBadge);
                     } else if (!isFav && favBadge) {
                         favBadge.remove();
                     }
@@ -2182,8 +2225,8 @@
                     const chip = document.createElement('a');
                     chip.href = proj.href;
                     chip.className = 'recent-chip';
-                    chip.title = `Proyek #${proj.id}: ${proj.name}`;
-                    chip.innerHTML = `<span class="badge rounded-pill bg-primary" style="font-size: 0.66rem;">#${proj.id}</span><span>${proj.name}</span>`;
+                    chip.title = `Proyek ${proj.id}: ${proj.name}`;
+                    chip.innerHTML = `<span class="badge rounded-pill bg-primary me-1" style="font-size: 0.68rem; padding: 0.22em 0.55em; font-weight: 700;">#${proj.id}</span><span>${proj.name}</span>`;
                     chip.addEventListener('click', function () {
                         recordRecentProject(proj);
                     });
@@ -2202,7 +2245,7 @@
                 });
             }
 
-            // --- SORTING SEMUA 50 PROYEK ---
+            // --- SORTING DENGAN DOCUMENT FRAGMENT (SINGLE REFLOW) ---
             function sortAndRenderProjects() {
                 const favSet = new Set(favoriteIds);
                 const sorted = [...allProjectElements].sort((a, b) => {
@@ -2229,9 +2272,19 @@
                     return ma.id - mb.id;
                 });
 
-                const frag = document.createDocumentFragment();
-                sorted.forEach(item => frag.appendChild(item));
-                projectList.appendChild(frag);
+                const mainFrag = document.createDocumentFragment();
+                const addFrag = document.createDocumentFragment();
+
+                sorted.forEach((item, index) => {
+                    if (index < activeModuleCount) {
+                        mainFrag.appendChild(item);
+                    } else {
+                        addFrag.appendChild(item);
+                    }
+                });
+
+                projectList.insertBefore(mainFrag, additionalProjects);
+                additionalProjects.appendChild(addFrag);
             }
 
             if (sortSelect) {
@@ -2243,114 +2296,113 @@
                 });
             }
 
-            // --- JAM DIGITAL REAL-TIME ---
+            // --- 1. JAM DIGITAL REAL-TIME ---
             const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
             function updateClock() {
                 if (!clockElement) return;
                 const now = new Date();
                 const hours = String(now.getHours()).padStart(2, '0');
                 const minutes = String(now.getMinutes()).padStart(2, '0');
                 const seconds = String(now.getSeconds()).padStart(2, '0');
-                clockElement.innerHTML = `<span class="clock-date-part">${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()} &bull; </span><span>${hours}:${minutes}:${seconds}</span>`;
+                clockElement.textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()} - ${hours}:${minutes}:${seconds}`;
             }
             setInterval(updateClock, 1000);
             updateClock();
 
-            // --- DARK / LIGHT THEME TOGGLE ---
-            function updateThemeIcons() {
+            // --- 2. FITUR TEMA (DARK MODE) PERSISTENCE & MODERN ICONS ---
+            function updateThemeToggleIcon() {
                 const isDark = document.body.classList.contains('dark-mode');
-                const iconClass = isDark ? 'bi bi-sun-fill' : 'bi bi-moon-stars-fill';
-                if (themeToggle) {
-                    const i1 = themeToggle.querySelector('i');
-                    if (i1) i1.className = iconClass;
-                }
-                if (navThemeToggle) {
-                    const i2 = navThemeToggle.querySelector('i');
-                    if (i2) i2.className = iconClass;
+                const themeIcon = themeToggle.querySelector('i');
+                if (themeIcon) {
+                    themeIcon.className = isDark ? 'bi bi-sun-fill' : 'bi bi-moon-stars-fill';
                 }
             }
 
-            function toggleTheme() {
+            themeToggle.addEventListener('click', function () {
                 const isDark = document.body.classList.toggle('dark-mode');
                 localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                updateThemeIcons();
+                updateThemeToggleIcon();
+            });
+
+            // --- 3. FITUR TOGGLE LAYOUT (LIST/GRID) PERSISTENCE ---
+            const savedLayout = localStorage.getItem('layoutPreference');
+            const layoutIcon = layoutToggle.querySelector('i');
+            if (savedLayout === 'grid') {
+                projectList.classList.add('grid-view');
+                layoutIcon.className = 'bi bi-list-ul';
             }
 
-            if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
-            if (navThemeToggle) navThemeToggle.addEventListener('click', toggleTheme);
+            layoutToggle.addEventListener('click', function () {
+                const isGridView = projectList.classList.toggle('grid-view');
+                layoutIcon.className = isGridView ? 'bi bi-list-ul' : 'bi bi-grid-3x2-gap-fill';
+                localStorage.setItem('layoutPreference', isGridView ? 'grid' : 'list');
+            });
 
-            // --- VIEW MODE TOGGLE (GRID / LIST) ---
-            const savedLayout = localStorage.getItem('layoutPreference') || 'grid';
-            function applyLayoutMode(mode) {
-                const isList = mode === 'list';
-                projectList.classList.toggle('list-view', isList);
-                projectList.classList.toggle('grid-view', !isList);
-                if (btnViewGrid) btnViewGrid.classList.toggle('active', !isList);
-                if (btnViewList) btnViewList.classList.toggle('active', isList);
-                localStorage.setItem('layoutPreference', mode);
+            // --- 4. LOGIKA FILTER PENCARIAN & KATEGORI (INSTAN DARI CACHE) ---
+            function updateCategoryStatusLabel() {
+                if (!categoryStatus) return;
+                const isCatOpen = categoryFilters.classList.contains('show');
+                const labelMap = { 'all': 'Semua', 'Aktif': 'Aktif Saja' };
+                const displayCat = labelMap[currentCategory] || currentCategory;
+                categoryStatus.innerHTML = `Kategori: ${displayCat} <i class="bi bi-chevron-${isCatOpen ? 'up' : 'down'} ms-1"></i>`;
             }
-            applyLayoutMode(savedLayout);
 
-            if (btnViewGrid) btnViewGrid.addEventListener('click', () => applyLayoutMode('grid'));
-            if (btnViewList) btnViewList.addEventListener('click', () => applyLayoutMode('list'));
-
-            // --- FILTER PENCARIAN & KATEGORI ---
             function filterProjects() {
-                let visibleCount = 0;
-                let visibleActive = 0;
-                let visibleConcept = 0;
+                let matchingCount = 0;
+                let displayedNowCount = 0;
+                let hiddenMatchingInAdditional = false;
                 const favSet = new Set(favoriteIds);
+                const isFilterActive = currentSearchTerm !== '' || currentCategory !== 'all';
 
                 for (let i = 0; i < totalCount; i++) {
                     const item = allProjectElements[i];
                     const meta = item._meta;
 
                     const matchesSearch = currentSearchTerm === '' || meta.searchText.includes(currentSearchTerm);
-                    let matchesCategory = false;
-
-                    if (currentCategory === 'all') {
-                        matchesCategory = true;
-                    } else if (currentCategory === 'Aktif') {
-                        matchesCategory = !meta.isConcept;
-                    } else if (currentCategory === 'Konsep') {
-                        matchesCategory = meta.isConcept === 1;
-                    } else if (currentCategory === 'Favorit') {
-                        matchesCategory = favSet.has(meta.id);
-                    } else {
-                        matchesCategory = meta.category === currentCategory;
-                    }
+                    const matchesCategory = currentCategory === 'all'
+                        || (currentCategory === 'Aktif' ? !meta.isConcept
+                            : (currentCategory === 'Favorit' ? favSet.has(meta.id) : meta.category === currentCategory));
 
                     if (matchesSearch && matchesCategory) {
                         if (item.style.display !== '') item.style.display = '';
-                        visibleCount++;
-                        if (meta.isConcept) visibleConcept++;
-                        else visibleActive++;
+                        matchingCount++;
+                        if (item.parentNode === additionalProjects) {
+                            hiddenMatchingInAdditional = true;
+                        }
                     } else {
                         if (item.style.display !== 'none') item.style.display = 'none';
                     }
                 }
 
-                if (currentCategory === 'all' && currentSearchTerm === '') {
-                    projectCounter.textContent = `Menampilkan semua ${visibleCount} proyek (${visibleActive} Aktif, ${visibleConcept} Konsep)`;
+                if (hiddenMatchingInAdditional && isFilterActive) {
+                    additionalProjects.classList.add('show');
+                    toggleBtn.innerHTML = '<i class="bi bi-chevron-up me-1"></i>Sembunyikan';
+                }
+
+                const isAdditionalShownNow = additionalProjects.classList.contains('show');
+                for (let i = 0; i < totalCount; i++) {
+                    const item = allProjectElements[i];
+                    if (item.style.display !== 'none') {
+                        if (item.parentNode !== additionalProjects || isAdditionalShownNow) {
+                            displayedNowCount++;
+                        }
+                    }
+                }
+
+                if (!isFilterActive && !isAdditionalShownNow) {
+                    projectCounter.textContent = `Menampilkan ${displayedNowCount} proyek aktif (dari ${totalCount} total)`;
                 } else {
-                    projectCounter.textContent = `Menampilkan ${visibleCount} dari ${totalCount} proyek`;
+                    projectCounter.textContent = `Menampilkan ${displayedNowCount} dari ${totalCount} proyek`;
                 }
 
-                const labelMap = { 'all': 'Semua Proyek', 'Aktif': 'Hanya Proyek Aktif', 'Konsep': 'Riset & Konsep' };
-                const displayCat = labelMap[currentCategory] || currentCategory;
-                if (categoryStatus) {
-                    categoryStatus.innerHTML = `<i class="bi bi-funnel-fill"></i><span>Filter: ${displayCat}</span>`;
+                if (toggleProjectsWrapper) {
+                    toggleProjectsWrapper.classList.toggle('d-none', matchingCount === 0 || isFilterActive);
                 }
 
-                if (searchClearBtn) {
-                    searchClearBtn.classList.toggle('visible', currentSearchTerm !== '');
-                }
-                if (searchKbdHint) {
-                    searchKbdHint.style.display = currentSearchTerm !== '' ? 'none' : '';
-                }
+                updateCategoryStatusLabel();
 
-                if (visibleCount === 0) {
+                if (matchingCount === 0) {
                     emptyState.classList.remove('d-none');
                     projectList.classList.add('d-none');
                 } else {
@@ -2359,51 +2411,60 @@
                 }
             }
 
-            if (searchInput) {
-                searchInput.addEventListener('input', function (e) {
-                    currentSearchTerm = e.target.value.toLowerCase().trim();
-                    if (floatingSearchInput) floatingSearchInput.value = e.target.value;
-                    filterProjects();
-                });
-            }
+            searchInput.addEventListener('input', function (e) {
+                currentSearchTerm = e.target.value.toLowerCase().trim();
+                filterProjects();
+            });
 
-            if (searchClearBtn) {
-                searchClearBtn.addEventListener('click', function () {
-                    searchInput.value = '';
-                    if (floatingSearchInput) floatingSearchInput.value = '';
-                    currentSearchTerm = '';
-                    filterProjects();
-                    searchInput.focus();
-                });
+            // Toggle tampil/sembunyikan Filter Kategori
+            function toggleCategoryFilters() {
+                const isShown = categoryFilters.classList.toggle('show');
+                if (filterToggleBtn) {
+                    filterToggleBtn.classList.toggle('active', isShown);
+                    filterToggleBtn.setAttribute('aria-expanded', String(isShown));
+                }
+                updateCategoryStatusLabel();
+            }
+            if (filterToggleBtn) {
+                filterToggleBtn.addEventListener('click', toggleCategoryFilters);
+            }
+            if (categoryStatus) {
+                categoryStatus.addEventListener('click', toggleCategoryFilters);
             }
 
             categoryFilters.addEventListener('click', function (e) {
-                const btn = e.target.closest('.category-chip');
+                const btn = e.target.closest('.category-btn');
                 if (!btn) return;
 
-                categoryFilters.querySelectorAll('.category-chip').forEach(b => b.classList.remove('active'));
+                categoryFilters.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
 
                 currentCategory = btn.getAttribute('data-category');
                 filterProjects();
             });
 
-            if (resetFilterBtn) {
-                resetFilterBtn.addEventListener('click', function () {
-                    currentSearchTerm = '';
-                    currentCategory = 'all';
-                    searchInput.value = '';
-                    if (floatingSearchInput) floatingSearchInput.value = '';
+            resetFilterBtn.addEventListener('click', function () {
+                currentSearchTerm = '';
+                currentCategory = 'all';
+                searchInput.value = '';
+                if (floatingSearchInput) floatingSearchInput.value = '';
 
-                    categoryFilters.querySelectorAll('.category-chip').forEach(b => b.classList.remove('active'));
-                    const allBtn = categoryFilters.querySelector('.category-chip[data-category="all"]');
-                    if (allBtn) allBtn.classList.add('active');
+                categoryFilters.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                categoryFilters.querySelector('.category-btn[data-category="all"]').classList.add('active');
 
-                    filterProjects();
-                });
-            }
+                filterProjects();
+            });
 
-            // --- SCROLL LISTENER PASIF & INTERSECTION OBSERVER (BEBAS LAG) ---
+            // --- 5. FITUR TOMBOL TAMPILKAN LAINNYA ---
+            toggleBtn.addEventListener('click', function () {
+                const isShown = additionalProjects.classList.toggle('show');
+                toggleBtn.innerHTML = isShown
+                    ? '<i class="bi bi-chevron-up me-1"></i>Sembunyikan'
+                    : '<i class="bi bi-chevron-down me-1"></i>Tampilkan Lebih Banyak';
+                filterProjects();
+            });
+
+            // --- 6. SCROLL LISTENER PASIF & RINGAN + INTERSECTION OBSERVER ---
             const bottomRightControls = document.querySelector('.bottom-right-controls');
             const modernFooter = document.querySelector('.modern-footer');
             let lastScrollShow = false;
@@ -2413,8 +2474,12 @@
                 if (show === lastScrollShow) return;
                 lastScrollShow = show;
 
-                if (backToTopButton) backToTopButton.classList.toggle('show', show);
-                if (floatingSearchBtn) floatingSearchBtn.classList.toggle('show', show);
+                if (backToTopButton) {
+                    backToTopButton.classList.toggle('show', show);
+                }
+                if (floatingSearchBtn) {
+                    floatingSearchBtn.classList.toggle('show', show);
+                }
             }, { passive: true });
 
             if ('IntersectionObserver' in window && modernFooter && bottomRightControls) {
@@ -2426,12 +2491,14 @@
                 footerObserver.observe(modernFooter);
             }
 
-            // --- FLOATING SEARCH & KEYBOARD SHORTCUTS ---
             if (floatingSearchBtn) {
                 floatingSearchBtn.addEventListener('click', () => {
                     const isOpen = floatingSearchContainer.classList.toggle('open');
-                    if (isOpen) floatingSearchInput.focus();
-                    else floatingSearchInput.blur();
+                    if (isOpen) {
+                        floatingSearchInput.focus();
+                    } else {
+                        floatingSearchInput.blur();
+                    }
                 });
             }
 
@@ -2453,6 +2520,7 @@
                 });
             }
 
+            // Pintasan Keyboard Cepat: '/' atau 'Ctrl+K' untuk Fokus Pencarian, 'Escape' untuk Tutup
             document.addEventListener('keydown', function (e) {
                 if ((e.key === '/' || (e.ctrlKey && e.key.toLowerCase() === 'k')) &&
                     document.activeElement !== searchInput &&
@@ -2470,21 +2538,27 @@
                 }
             });
 
-            if (backToTopButton) {
-                backToTopButton.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
-            }
+            backToTopButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
 
-            // --- INITIAL RENDER ---
-            updateThemeIcons();
+            window.addEventListener('pageshow', function () {
+                if (document.activeElement && document.activeElement.classList.contains('list-group-item')) {
+                    document.activeElement.blur();
+                }
+            });
+
+            // Initial Render
+            updateThemeToggleIcon();
             updateFavoriteUI();
             renderRecentProjects();
             sortAndRenderProjects();
             filterProjects();
+
         });
     </script>
+
 </body>
 
 </html>
