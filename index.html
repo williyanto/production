@@ -1879,6 +1879,10 @@
                     </div>
 
                     <div class="footer-links">
+                        <a href="./index2.html" class="footer-pill-link" title="Buka Tampilan Dashboard Modern (Index v2)">
+                            <i class="bi bi-grid-1x2-fill text-primary"></i>
+                            <span>Index v2</span>
+                        </a>
                         <a href="https://github.com/williyanto/production" target="_blank" rel="noopener noreferrer"
                             class="footer-pill-link" title="Lihat Repositori di GitHub">
                             <i class="bi bi-github"></i>
@@ -2147,12 +2151,7 @@
                 }
 
                 const card = e.target.closest('.list-group-item');
-                if (card && card._meta) {
-                    if (card._meta.isConcept) {
-                        e.preventDefault();
-                        showToast(`🚧 Proyek #${card._meta.id} masih dalam tahap pengembangan`);
-                        return;
-                    }
+                if (card && card._meta && !card._meta.isConcept) {
                     recordRecentProject({
                         id: card._meta.id,
                         name: card._meta.name,
