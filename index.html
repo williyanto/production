@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Daftar Proyek - Williyanto Adi</title>
+    <meta name="description" content="Pusat aplikasi web terpadu, kalkulator teknik kabel (IEC, SPLN, ICEA), pengujian material laboratorium, manajemen keuangan, dan utility interaktif oleh Williyanto Adi.">
+    <meta name="author" content="Williyanto Adi">
+    <meta name="theme-color" content="#0d6efd">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Daftar Proyek - Williyanto Adi | Cable Metrics & Multi-Utility Suite">
+    <meta property="og:description" content="Kumpulan 27+ aplikasi web aktif: kalkulator teknik kabel, pengujian material lab, manajemen aset, keuangan, dan utility harian.">
+    <meta property="og:image" content="./icons/williyanto_logo_rounded.png">
     <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -963,6 +970,73 @@
             transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
+
+        /* --- Concept Project Card Styling --- */
+        .list-group-item.is-concept-card {
+            opacity: 0.78;
+        }
+
+        .list-group-item.is-concept-card:hover {
+            opacity: 0.95;
+        }
+
+        /* --- Floating Search Box (Responsive) --- */
+        .floating-search-box {
+            position: fixed;
+            bottom: 84px;
+            right: 24px;
+            z-index: 1001;
+            transform: scale(0.85) translateY(12px);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+            transform-origin: bottom right;
+            background: var(--card-bg-color);
+            border-radius: 999px;
+            padding: 0.45rem 0.95rem;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+            display: flex;
+            align-items: center;
+            border: 1.5px solid var(--primary-accent);
+        }
+
+        .floating-search-box.open {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .floating-search-box input {
+            border: none;
+            outline: none;
+            background: transparent;
+            color: var(--text-color);
+            width: 210px;
+            font-size: 0.88rem;
+        }
+
+        .floating-search-box button {
+            background: none;
+            border: none;
+            color: var(--muted-text-color);
+            margin-left: 0.35rem;
+            cursor: pointer;
+            padding: 0.15rem 0.3rem;
+            line-height: 1;
+        }
+
+        @media (max-width: 768px) {
+            .floating-search-box {
+                right: 14px;
+                left: 14px;
+                bottom: 74px;
+                transform-origin: bottom center;
+            }
+            .floating-search-box input {
+                width: 100%;
+                flex: 1;
+            }
+        }
     </style>
 </head>
 
@@ -1011,6 +1085,9 @@
             <!-- Category Pills -->
             <div class="category-filters" id="category-filters">
                 <button class="btn btn-outline-primary category-btn active" data-category="all">Semua</button>
+                <button class="btn btn-outline-success category-btn" data-category="Aktif">
+                    <i class="bi bi-check-circle-fill me-1"></i>Aktif Saja
+                </button>
                 <button class="btn btn-outline-warning category-btn fav-filter-btn" data-category="Favorit">
                     <i class="bi bi-star-fill me-1"></i>Favorit <span id="fav-count-badge">(0)</span>
                 </button>
@@ -1782,7 +1859,7 @@
         </div>
 
         <!-- Toggle Expand Button -->
-        <div class="text-center mt-4 mb-4">
+        <div id="toggle-projects-wrapper" class="text-center mt-4 mb-4">
             <button id="toggle-projects-btn" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
                 <i class="bi bi-chevron-down me-1"></i>Tampilkan Lebih Banyak
             </button>
@@ -1819,7 +1896,7 @@
                     <span>&copy; 2026 <strong>Williyanto Adi</strong>. All rights reserved.</span>
                     <span class="footer-status-badge">
                         <span class="status-dot-live"></span>
-                        <span>27 Modul Aktif &bull; v2026.11</span>
+                        <span id="footer-active-badge-text">27 Modul Aktif &bull; v2026.11</span>
                     </span>
                 </div>
             </div>
@@ -1828,10 +1905,10 @@
     </div>
 
     <!-- Floating Search Container -->
-    <div id="floating-search-container" style="position: fixed; bottom: 80px; right: 24px; z-index: 1000; transform: scale(0); opacity: 0; transition: all 0.3s ease; transform-origin: bottom right; background: var(--card-bg-color); border-radius: 50px; padding: 5px 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; align-items: center; border: 1px solid var(--border-color);">
-        <i class="bi bi-search text-muted me-2"></i>
-        <input type="text" id="floating-search-input" placeholder="Cari proyek..." style="border: none; outline: none; background: transparent; color: var(--text-color); width: 200px;">
-        <button id="close-floating-search" style="background: none; border: none; color: var(--muted-text-color); margin-left: 5px; cursor: pointer;"><i class="bi bi-x-lg"></i></button>
+    <div id="floating-search-container" class="floating-search-box">
+        <i class="bi bi-search text-primary me-2"></i>
+        <input type="text" id="floating-search-input" placeholder="Cari proyek cepat...">
+        <button id="close-floating-search" type="button" title="Tutup Pencarian"><i class="bi bi-x-lg"></i></button>
     </div>
 
     <!-- Toast Notification -->
