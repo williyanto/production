@@ -223,17 +223,17 @@
                 <!-- 3 Quick Level Acuan Indicator Pills -->
                 <div class="grid grid-cols-3 gap-1 w-full mt-0.5 pt-1 border-t border-slate-200/50 dark:border-slate-700/50">
                     <button type="button" onclick="selectStep(1)" id="btnPill1"
-                        class="p-1 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 text-center transition-all hover:bg-slate-200/60">
+                        class="p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 text-center transition-all hover:bg-slate-200/60">
                         <div class="text-[8.5px] font-bold text-amber-600 dark:text-amber-400">Step 1 (100)</div>
                         <div id="valPill1" class="text-[10px] sm:text-[10.5px] font-mono font-extrabold text-slate-800 dark:text-slate-200">- kV</div>
                     </button>
                     <button type="button" onclick="selectStep(8)" id="btnPill8"
-                        class="p-1 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 text-center transition-all hover:bg-slate-200/60">
+                        class="p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 text-center transition-all hover:bg-slate-200/60">
                         <div class="text-[8.5px] font-bold text-amber-600 dark:text-amber-400">* Step 8 (380)</div>
                         <div id="valPill8" class="text-[10px] sm:text-[10.5px] font-mono font-extrabold text-slate-800 dark:text-slate-200">- kV</div>
                     </button>
                     <button type="button" onclick="selectStep(12)" id="btnPill12"
-                        class="p-1 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 text-center transition-all hover:bg-slate-200/60">
+                        class="p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 text-center transition-all hover:bg-slate-200/60">
                         <div class="text-[8.5px] font-bold text-purple-600 dark:text-purple-400">*** Step 12 (540)</div>
                         <div id="valPill12" class="text-[10px] sm:text-[10.5px] font-mono font-extrabold text-slate-800 dark:text-slate-200">- kV</div>
                     </button>
@@ -522,8 +522,8 @@
         }
 
         function updatePillHighlight() {
-            const activePillClass = "p-1 rounded-lg bg-amber-500/20 border border-amber-500/50 text-center shadow-sm transition-all";
-            const inactivePillClass = "p-1 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 text-center transition-all hover:bg-slate-200/60";
+            const activePillClass = "p-1 rounded-2xl bg-amber-500/20 border border-amber-500/50 text-center shadow-sm transition-all";
+            const inactivePillClass = "p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 text-center transition-all hover:bg-slate-200/60";
 
             if (btnPill1) btnPill1.className = (selectedStepNum === 1) ? activePillClass : inactivePillClass;
             if (btnPill8) btnPill8.className = (selectedStepNum === 8) ? activePillClass : inactivePillClass;
