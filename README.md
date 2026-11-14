@@ -62,7 +62,7 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 
 - 🎯 **Pencarian Real-Time & Pintasan Keyboard**: Cari alat secara instan melalui kotak pencarian utama, *floating search bar*, atau tekan **`/`** / **`Ctrl + K`**.
 
-- 🎨 **Filter Kategori & Status Dinamis**: Saring modul berdasarkan bidang (Kelistrikan, Produksi Kabel, Uji Material, Keuangan, Edukasi, Utility, dll.) maupun status **Aktif Saja (27)** lengkap dengan penghitung otomatis.
+- 🎨 **Filter Kategori & Status Dinamis**: Saring modul berdasarkan bidang (Kelistrikan, Produksi Kabel, Uji Material, Keuangan, Edukasi, Utility, dll.) maupun status **Aktif Saja (28)** lengkap dengan penghitung otomatis.
 
 - ⭐ **Pin Proyek Favorit & Riwayat Terakhir Dibuka**: Tandai proyek favorit agar selalu berada di urutan teratas dan akses kembali 5 modul terakhir yang baru saja dibuka dengan cepat.
 
