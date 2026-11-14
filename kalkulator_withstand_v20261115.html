@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id" class="h-full overflow-hidden transition-all duration-300">
 
 <head>
@@ -135,102 +135,56 @@
         <!-- Inputs and table container (Compact & Auto-fitting) -->
         <div class="space-y-2 flex-1 min-h-0 flex flex-col my-1.5 px-0.5 overflow-hidden">
 
-            <!-- Group 1: Parameter Tebal Isolasi & Step Uji -->
-            <div class="shrink-0 space-y-1.5">
-                <div>
-                    <div class="flex items-center justify-between mb-1">
-                        <span class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">
-                            Tebal Isolasi (Insulation Thickness)
-                        </span>
-                        <span class="text-[8.5px] sm:text-[9px] font-mono text-slate-400 dark:text-slate-500">1 mm = 39.3701 mil</span>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-2">
-                        <!-- Input Milimeter (mm) -->
-                        <div class="relative group">
-                            <label for="inputMm"
-                                class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider mb-0.5">
-                                TEBAL (mm)
-                            </label>
-                            <div class="relative">
-                                <div
-                                    class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-amber-500 transition-colors">
-                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
-                                    </svg>
-                                </div>
-                                <input type="text" inputmode="decimal" id="inputMm" value=""
-                                    class="pl-8 pr-9 block w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-xs font-mono font-bold"
-                                    placeholder="milimeter">
-                                <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
-                                    <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 font-mono">mm</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Input Mil (mils) -->
-                        <div class="relative group">
-                            <label for="inputMil"
-                                class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider mb-0.5">
-                                TEBAL (mil)
-                            </label>
-                            <div class="relative">
-                                <div
-                                    class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-amber-500 transition-colors">
-                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                                    </svg>
-                                </div>
-                                <input type="text" inputmode="decimal" id="inputMil" value=""
-                                    class="pl-8 pr-9 block w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-xs font-mono font-bold"
-                                    placeholder="mil/inci">
-                                <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
-                                    <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 font-mono">mil</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Group 1: Parameter Tebal Isolasi (mm <-> mil) -->
+            <div class="shrink-0">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">
+                        Tebal Isolasi (Insulation Thickness)
+                    </span>
+                    <span class="text-[8.5px] sm:text-[9px] font-mono text-slate-400 dark:text-slate-500">1 mm = 39.3701 mil</span>
                 </div>
 
-                <!-- Baris Input Step Uji & Volt / mil -->
                 <div class="grid grid-cols-2 gap-2">
-                    <!-- Input Step Uji -->
+                    <!-- Input Milimeter (mm) -->
                     <div class="relative group">
-                        <label for="inputStep"
+                        <label for="inputMm"
                             class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider mb-0.5">
-                            STEP UJI
+                            TEBAL (mm)
                         </label>
                         <div class="relative">
                             <div
                                 class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-amber-500 transition-colors">
                                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
                                 </svg>
                             </div>
-                            <input type="text" id="inputStep" value=""
-                                class="pl-8 pr-2.5 block w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-xs font-mono font-bold"
-                                placeholder="Pilih Step" title="Pilih step pada tabel atau ketik no. step">
+                            <input type="text" inputmode="decimal" id="inputMm" value=""
+                                class="pl-8 pr-9 block w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-xs font-mono font-bold"
+                                placeholder="milimeter">
+                            <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+                                <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 font-mono">mm</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Input Volt / mil -->
+                    <!-- Input Mil (mils) -->
                     <div class="relative group">
-                        <label for="inputStress"
+                        <label for="inputMil"
                             class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider mb-0.5">
-                            VOLT / MIL
+                            TEBAL (mil)
                         </label>
                         <div class="relative">
                             <div
                                 class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-amber-500 transition-colors">
                                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                                 </svg>
                             </div>
-                            <input type="text" inputmode="numeric" id="inputStress" value=""
-                                class="pl-8 pr-11 block w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-xs font-mono font-bold"
-                                placeholder="Volt / mil">
+                            <input type="text" inputmode="decimal" id="inputMil" value=""
+                                class="pl-8 pr-9 block w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-xs font-mono font-bold"
+                                placeholder="mil/inci">
                             <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
-                                <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 font-mono">V/mil</span>
+                                <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 font-mono">mil</span>
                             </div>
                         </div>
                     </div>
@@ -399,13 +353,11 @@
 
         let currentMil = NaN;
         let currentMm = NaN;
-        let selectedStepNum = null; // Blank saat awal muat
+        let selectedStepNum = 1; // Default Step 1
 
         // Elements
         const inputMm = document.getElementById('inputMm');
         const inputMil = document.getElementById('inputMil');
-        const inputStep = document.getElementById('inputStep');
-        const inputStress = document.getElementById('inputStress');
         const hasilKalkulasi = document.getElementById('hasilKalkulasi');
         const resultTitle = document.getElementById('resultTitle');
         const activeStepBadge = document.getElementById('activeStepBadge');
@@ -463,39 +415,25 @@
         function calculate() {
             tableBody.innerHTML = '';
 
-            const isThicknessValid = !isNaN(currentMil) && currentMil > 0;
-            const currentStressVal = parseInputVal(inputStress.value);
-            const isStressValid = !isNaN(currentStressVal) && currentStressVal > 0;
-
-            let selectedKv = null;
-            let displayLabel = 'Step Uji';
-            let displayStress = null;
-
-            if (selectedStepNum !== null) {
-                const found = stepsData.find(s => s.step === selectedStepNum);
-                if (found) {
-                    displayLabel = found.label;
-                    displayStress = found.stress;
-                    if (isThicknessValid) {
-                        selectedKv = (currentMil * found.stress) / 1000;
-                    }
-                }
-            } else if (isStressValid) {
-                displayLabel = inputStep.value || 'Custom';
-                displayStress = currentStressVal;
-                if (isThicknessValid) {
-                    selectedKv = (currentMil * currentStressVal) / 1000;
-                }
-            }
+            const isValid = !isNaN(currentMil) && currentMil > 0;
+            let selectedKv = 0;
+            let selectedLabel = '';
+            let selectedStress = 100;
 
             stepsData.forEach(item => {
                 // Rumus: Test Volts (KV) = (Thickness mil * Stress Volt/mil) / 1000
-                const testVoltsKv = isThicknessValid ? ((currentMil * item.stress) / 1000) : null;
+                const testVoltsKv = isValid ? ((currentMil * item.stress) / 1000) : null;
 
                 // Capture quick pills
-                if (item.step === 1 && valPill1) valPill1.textContent = isThicknessValid ? `${formatId(testVoltsKv)} kV` : '-';
-                if (item.step === 8 && valPill8) valPill8.textContent = isThicknessValid ? `${formatId(testVoltsKv)} kV` : '-';
-                if (item.step === 12 && valPill12) valPill12.textContent = isThicknessValid ? `${formatId(testVoltsKv)} kV` : '-';
+                if (item.step === 1 && valPill1) valPill1.textContent = isValid ? `${formatId(testVoltsKv)} kV` : '-';
+                if (item.step === 8 && valPill8) valPill8.textContent = isValid ? `${formatId(testVoltsKv)} kV` : '-';
+                if (item.step === 12 && valPill12) valPill12.textContent = isValid ? `${formatId(testVoltsKv)} kV` : '-';
+
+                if (item.step === selectedStepNum) {
+                    selectedKv = testVoltsKv;
+                    selectedLabel = item.label;
+                    selectedStress = item.stress;
+                }
 
                 const tr = document.createElement('tr');
                 tr.id = `row-step-${item.step}`;
@@ -522,7 +460,6 @@
                 }
 
                 tr.className = rowClass;
-                tr.title = `Klik untuk memilih ${item.label} (${item.stress} V/mil)`;
                 tr.onclick = () => selectStep(item.step);
 
                 tr.innerHTML = `
@@ -533,7 +470,7 @@
                         ${item.stress}
                     </td>
                     <td class="py-1 px-2.5 text-right font-extrabold text-amber-600 dark:text-amber-400">
-                        ${isThicknessValid ? formatId(testVoltsKv) : '-'}
+                        ${isValid ? formatId(testVoltsKv) : '-'}
                     </td>
                 `;
 
@@ -541,23 +478,18 @@
             });
 
             // Update Big Display
-            if (isThicknessValid && selectedKv !== null) {
+            if (isValid) {
                 hasilKalkulasi.textContent = formatId(selectedKv);
-                activeStepBadge.textContent = `${displayLabel} (${displayStress} V/mil)`;
-                resultTitle.textContent = `Tegangan Uji ${displayLabel}`;
+                activeStepBadge.textContent = `${selectedLabel} (${selectedStress} V/mil)`;
+                resultTitle.textContent = `Tegangan Uji Step ${selectedStepNum}`;
 
                 // Update Formula Detail
                 const milDisplay = Math.round(currentMil * 100) / 100;
-                formulaDetail.innerHTML = `${milDisplay} mil &times; ${displayStress} V/mil = <strong class="text-amber-600 dark:text-amber-400">${formatId(selectedKv)} kV</strong>`;
-            } else if (isThicknessValid && !isStressValid) {
-                hasilKalkulasi.textContent = '---';
-                activeStepBadge.textContent = 'Pilih Step';
-                resultTitle.textContent = 'Tegangan Uji AC';
-                formulaDetail.innerHTML = '<span class="text-slate-400 dark:text-slate-500 font-sans text-[10px]">Silakan klik salah satu Step pada tabel di bawah</span>';
+                formulaDetail.innerHTML = `${milDisplay} mil &times; ${selectedStress} V/mil = <strong class="text-amber-600 dark:text-amber-400">${formatId(selectedKv)} kV</strong>`;
             } else {
                 hasilKalkulasi.textContent = '---';
-                activeStepBadge.textContent = (displayStress !== null) ? `${displayLabel} (${displayStress} V/mil)` : 'Menunggu Input';
-                resultTitle.textContent = (displayStress !== null) ? `Tegangan Uji ${displayLabel}` : 'Tegangan Uji AC';
+                activeStepBadge.textContent = 'Menunggu Input';
+                resultTitle.textContent = 'Tegangan Uji AC';
                 formulaDetail.innerHTML = '<span class="text-slate-400 dark:text-slate-500 font-sans text-[10px]">Silakan masukkan nilai tebal isolasi kabel di atas</span>';
             }
 
@@ -575,11 +507,7 @@
         }
 
         function selectStep(stepNum) {
-            const stepItem = stepsData.find(s => s.step === stepNum);
-            if (!stepItem) return;
             selectedStepNum = stepNum;
-            inputStep.value = stepItem.label;
-            inputStress.value = stepItem.stress;
             calculate();
             const targetRow = document.getElementById(`row-step-${stepNum}`);
             if (targetRow) {
@@ -632,69 +560,12 @@
             }
         });
 
-        // Input Listeners: Step & Volt/mil
-        inputStress.addEventListener('input', () => {
-            const raw = inputStress.value.trim();
-            if (raw === '') {
-                inputStep.value = '';
-                selectedStepNum = null;
-                calculate();
-                return;
-            }
-            const val = parseInputVal(raw);
-            if (!isNaN(val) && val > 0) {
-                const matched = stepsData.find(s => s.stress === val);
-                if (matched) {
-                    selectedStepNum = matched.step;
-                    inputStep.value = matched.label;
-                    const targetRow = document.getElementById(`row-step-${matched.step}`);
-                    if (targetRow) {
-                        targetRow.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-                    }
-                } else {
-                    selectedStepNum = null;
-                    inputStep.value = 'Custom';
-                }
-                calculate();
-            } else {
-                selectedStepNum = null;
-                calculate();
-            }
-        });
-
-        inputStep.addEventListener('input', () => {
-            const raw = inputStep.value.trim().toLowerCase();
-            if (raw === '') {
-                inputStress.value = '';
-                selectedStepNum = null;
-                calculate();
-                return;
-            }
-            const digits = raw.replace(/\D/g, '');
-            if (digits) {
-                const stepInt = parseInt(digits, 10);
-                const matched = stepsData.find(s => s.step === stepInt);
-                if (matched) {
-                    selectedStepNum = matched.step;
-                    inputStress.value = matched.stress;
-                    calculate();
-                    const targetRow = document.getElementById(`row-step-${matched.step}`);
-                    if (targetRow) {
-                        targetRow.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-                    }
-                    return;
-                }
-            }
-        });
-
         function resetForm() {
             currentMil = NaN;
             currentMm = NaN;
-            selectedStepNum = null;
+            selectedStepNum = 1;
             inputMm.value = '';
             inputMil.value = '';
-            inputStep.value = '';
-            inputStress.value = '';
             calculate();
             if (window.innerWidth >= 640) {
                 inputMm.focus();
@@ -702,11 +573,11 @@
         }
 
         function copyTableData() {
-            const isThicknessValid = !isNaN(currentMil) && currentMil > 0;
+            const isValid = !isNaN(currentMil) && currentMil > 0;
             let tsv = "Step\tVolt / mil\tTest Volts (KV)\n";
             stepsData.forEach(item => {
-                const kv = isThicknessValid ? ((currentMil * item.stress) / 1000) : null;
-                tsv += `${item.label}\t${item.stress}\t${isThicknessValid ? formatId(kv) : '-'}\n`;
+                const kv = isValid ? ((currentMil * item.stress) / 1000) : null;
+                tsv += `${item.label}\t${item.stress}\t${isValid ? formatId(kv) : '-'}\n`;
             });
 
             const copySuccess = () => {
@@ -746,11 +617,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             currentMil = NaN;
             currentMm = NaN;
-            selectedStepNum = null;
+            selectedStepNum = 1;
             inputMm.value = '';
             inputMil.value = '';
-            inputStep.value = '';
-            inputStress.value = '';
             calculate();
         });
     </script>
