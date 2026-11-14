@@ -1,0 +1,17 @@
+[{
+  "data": {
+    "viewer": null
+  },
+  "errors": [{
+    "message": "Internal error encountered.",
+    "errorType": "DATA_FETCHING_EXCEPTION",
+    "path": ["viewer"],
+    "extensions": {
+      "status": {
+        "code": 13,
+        "message": "Internal error encountered."
+      }
+    }
+  }],
+  "path": []
+}]
