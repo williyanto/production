@@ -18,7 +18,13 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  
+  <script>
+    if (localStorage.getItem('color-theme') === 'dark' || localStorage.getItem('assetpro_theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
 
   <script>
     tailwind.config = {
@@ -1101,7 +1107,7 @@
 
     // --- THEME MANAGEMENT ---
     function initTheme() {
-      const savedTheme = localStorage.getItem('assetpro_theme') || 'dark';
+      const savedTheme = localStorage.getItem('color-theme') || localStorage.getItem('assetpro_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       if (savedTheme === 'dark') {
         document.documentElement.classList.add('dark');
         document.getElementById('themeMoonIcon').classList.remove('hidden');
@@ -1115,6 +1121,7 @@
 
     function toggleTheme() {
       const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('color-theme', isDark ? 'dark' : 'light');
       localStorage.setItem('assetpro_theme', isDark ? 'dark' : 'light');
       document.getElementById('themeMoonIcon').classList.toggle('hidden', !isDark);
       document.getElementById('themeSunIcon').classList.toggle('hidden', isDark);
