@@ -408,13 +408,13 @@
         }
         updateThemeIcons();
 
-        // Format number Indonesia (koma untuk desimal)
+        // Format number Indonesia (koma untuk desimal, seragam 1 angka di belakang koma)
         function formatId(num) {
             if (num === null || num === undefined || isNaN(num)) return '-';
-            const rounded = Number(Number(num).toFixed(2));
-            return rounded.toLocaleString('id-ID', {
+            const val = Number(num);
+            return val.toLocaleString('id-ID', {
                 minimumFractionDigits: 1,
-                maximumFractionDigits: 2
+                maximumFractionDigits: 1
             });
         }
 
