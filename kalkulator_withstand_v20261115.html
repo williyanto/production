@@ -426,29 +426,46 @@
 
         // Format number Indonesia (koma untuk desimal)
         function formatId(num) {
-            const rounded = Math.round(num * 100) / 100;
+            if (num === null || num === undefined || isNaN(num)) return '-';
+            const rounded = Number(Number(num).toFixed(2));
             return rounded.toLocaleString('id-ID', {
                 minimumFractionDigits: 1,
                 maximumFractionDigits: 2
             });
         }
 
+        function parseInputVal(str) {
+            if (!str) return NaN;
+            const cleaned = str.toString().trim().replace(',', '.');
+            return parseFloat(cleaned);
+        }
+
+        const presets = [
+            { id: 'preset-420mil', mil: 420 },
+            { id: 'preset-1mm', mm: 1.0 },
+            { id: 'preset-14mm', mm: 1.4 },
+            { id: 'preset-18mm', mm: 1.8 },
+            { id: 'preset-2mm', mm: 2.0 },
+            { id: 'preset-25mm', mm: 2.5 }
+        ];
+
         // Kalkulasi Utama: Test Volts (KV) = (mil * volt/mil) / 1000
         function calculate() {
             tableBody.innerHTML = '';
 
+            const isValid = !isNaN(currentMil) && currentMil > 0;
             let selectedKv = 0;
             let selectedLabel = '';
             let selectedStress = 100;
 
             stepsData.forEach(item => {
                 // Rumus: Test Volts (KV) = (Thickness mil * Stress Volt/mil) / 1000
-                const testVoltsKv = (currentMil * item.stress) / 1000;
+                const testVoltsKv = isValid ? ((currentMil * item.stress) / 1000) : null;
 
                 // Capture quick pills
-                if (item.step === 1 && valPill1) valPill1.textContent = `${formatId(testVoltsKv)} kV`;
-                if (item.step === 8 && valPill8) valPill8.textContent = `${formatId(testVoltsKv)} kV`;
-                if (item.step === 12 && valPill12) valPill12.textContent = `${formatId(testVoltsKv)} kV`;
+                if (item.step === 1 && valPill1) valPill1.textContent = isValid ? `${formatId(testVoltsKv)} kV` : '-';
+                if (item.step === 8 && valPill8) valPill8.textContent = isValid ? `${formatId(testVoltsKv)} kV` : '-';
+                if (item.step === 12 && valPill12) valPill12.textContent = isValid ? `${formatId(testVoltsKv)} kV` : '-';
 
                 if (item.step === selectedStepNum) {
                     selectedKv = testVoltsKv;
@@ -457,6 +474,7 @@
                 }
 
                 const tr = document.createElement('tr');
+                tr.id = `row-step-${item.step}`;
                 const isSelected = item.step === selectedStepNum;
                 
                 let rowClass = "cursor-pointer transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50";
@@ -490,7 +508,7 @@
                         ${item.stress}
                     </td>
                     <td class="py-1 px-2.5 text-right font-extrabold text-amber-600 dark:text-amber-400">
-                        ${formatId(testVoltsKv)}
+                        ${isValid ? formatId(testVoltsKv) : '-'}
                     </td>
                 `;
 
@@ -498,13 +516,20 @@
             });
 
             // Update Big Display
-            hasilKalkulasi.textContent = formatId(selectedKv);
-            activeStepBadge.textContent = `${selectedLabel} (${selectedStress} V/mil)`;
-            resultTitle.textContent = `Tegangan Uji ${selectedLabel}`;
+            if (isValid) {
+                hasilKalkulasi.textContent = formatId(selectedKv);
+                activeStepBadge.textContent = `${selectedLabel} (${selectedStress} V/mil)`;
+                resultTitle.textContent = `Tegangan Uji Step ${selectedStepNum}`;
 
-            // Update Formula Detail
-            const milDisplay = Math.round(currentMil * 100) / 100;
-            formulaDetail.innerHTML = `${milDisplay} mil &times; ${selectedStress} V/mil = <strong class="text-amber-600 dark:text-amber-400">${formatId(selectedKv)} kV</strong>`;
+                // Update Formula Detail
+                const milDisplay = Math.round(currentMil * 100) / 100;
+                formulaDetail.innerHTML = `${milDisplay} mil &times; ${selectedStress} V/mil = <strong class="text-amber-600 dark:text-amber-400">${formatId(selectedKv)} kV</strong>`;
+            } else {
+                hasilKalkulasi.textContent = '---';
+                activeStepBadge.textContent = 'Tebal Belum Diisi';
+                resultTitle.textContent = 'Tegangan Uji AC';
+                formulaDetail.innerHTML = '<span class="text-slate-400 dark:text-slate-500">Masukkan tebal isolasi kabel di atas</span>';
+            }
 
             // Update Quick Pill Highlight
             updatePillHighlight();
@@ -522,26 +547,58 @@
         function selectStep(stepNum) {
             selectedStepNum = stepNum;
             calculate();
+            const targetRow = document.getElementById(`row-step-${stepNum}`);
+            if (targetRow) {
+                targetRow.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
         }
 
         // Input Listeners: Sinkronisasi 2 Arah mm <-> mil
         inputMm.addEventListener('input', () => {
-            const val = parseFloat(inputMm.value);
+            const raw = inputMm.value;
+            if (raw.trim() === '') {
+                inputMil.value = '';
+                currentMm = NaN;
+                currentMil = NaN;
+                clearActivePresets();
+                calculate();
+                return;
+            }
+            const val = parseInputVal(raw);
             if (!isNaN(val) && val > 0) {
                 currentMm = val;
                 currentMil = val * MM_TO_MIL;
                 inputMil.value = (Math.round(currentMil * 100) / 100).toString();
+                updatePresetButtons();
+                calculate();
+            } else {
+                currentMm = NaN;
+                currentMil = NaN;
                 clearActivePresets();
                 calculate();
             }
         });
 
         inputMil.addEventListener('input', () => {
-            const val = parseFloat(inputMil.value);
+            const raw = inputMil.value;
+            if (raw.trim() === '') {
+                inputMm.value = '';
+                currentMil = NaN;
+                currentMm = NaN;
+                clearActivePresets();
+                calculate();
+                return;
+            }
+            const val = parseInputVal(raw);
             if (!isNaN(val) && val > 0) {
                 currentMil = val;
                 currentMm = val * MIL_TO_MM;
                 inputMm.value = (Math.round(currentMm * 1000) / 1000).toString();
+                updatePresetButtons();
+                calculate();
+            } else {
+                currentMil = NaN;
+                currentMm = NaN;
                 clearActivePresets();
                 calculate();
             }
@@ -566,13 +623,22 @@
         }
 
         function updatePresetButtons() {
-            document.querySelectorAll('.preset-btn').forEach(btn => {
-                btn.className = "preset-btn px-2 py-0.5 rounded-lg text-[9.5px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all shrink-0";
+            presets.forEach(p => {
+                const btn = document.getElementById(p.id);
+                if (!btn) return;
+                let isActive = false;
+                if (p.mil !== undefined && !isNaN(currentMil)) {
+                    isActive = Math.abs(currentMil - p.mil) < 0.2;
+                } else if (p.mm !== undefined && !isNaN(currentMm)) {
+                    isActive = Math.abs(currentMm - p.mm) < 0.03;
+                }
+
+                if (isActive) {
+                    btn.className = "preset-btn active-preset px-2 py-0.5 rounded-lg text-[9.5px] font-mono font-bold bg-amber-500 text-white shadow-sm transition-all shrink-0";
+                } else {
+                    btn.className = "preset-btn px-2 py-0.5 rounded-lg text-[9.5px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all shrink-0";
+                }
             });
-            if (Math.abs(currentMil - 420) < 0.1) {
-                const b = document.getElementById('preset-420mil');
-                if (b) b.className = "preset-btn active-preset px-2 py-0.5 rounded-lg text-[9.5px] font-mono font-bold bg-amber-500 text-white shadow-sm transition-all shrink-0";
-            }
         }
 
         function clearActivePresets() {
@@ -584,27 +650,57 @@
         function resetForm() {
             setPresetMil(420);
             selectStep(1);
-            inputMil.focus();
+            if (window.innerWidth >= 640) {
+                inputMil.focus();
+            }
         }
 
         function copyTableData() {
+            const isValid = !isNaN(currentMil) && currentMil > 0;
             let tsv = "Step\tVolt / mil\tTest Volts (KV)\n";
             stepsData.forEach(item => {
-                const kv = (currentMil * item.stress) / 1000;
-                tsv += `${item.label}\t${item.stress}\t${formatId(kv)}\n`;
+                const kv = isValid ? ((currentMil * item.stress) / 1000) : null;
+                tsv += `${item.label}\t${item.stress}\t${isValid ? formatId(kv) : '-'}\n`;
             });
 
-            navigator.clipboard.writeText(tsv).then(() => {
-                alert("Data tabel Step 1 - 27 berhasil disalin! Siap di-paste ke Excel.");
-            }).catch(() => {
+            const copySuccess = () => {
+                const btnText = document.getElementById('copyBtnText');
+                if (btnText) {
+                    btnText.innerHTML = '<span class="text-emerald-500 font-bold">✓ Tersalin!</span>';
+                    setTimeout(() => {
+                        btnText.textContent = 'Salin Tabel';
+                    }, 2000);
+                }
+            };
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(tsv).then(copySuccess).catch(() => fallbackCopy(tsv, copySuccess));
+            } else {
+                fallbackCopy(tsv, copySuccess);
+            }
+        }
+
+        function fallbackCopy(text, callback) {
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.left = '-9999px';
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                if (callback) callback();
+            } catch (e) {
                 alert("Gagal menyalin tabel.");
-            });
+            }
         }
 
         // Init
         document.addEventListener('DOMContentLoaded', () => {
             setPresetMil(420);
-            selectStep(1);
+            selectedStepNum = 1;
+            calculate();
         });
     </script>
 </body>
