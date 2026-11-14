@@ -382,8 +382,8 @@
         const MM_TO_MIL = 1 / 0.0254; // ~39.37007874
         const MIL_TO_MM = 0.0254;
 
-        let currentMil = 420;
-        let currentMm = 420 * MIL_TO_MM; // 10.668 mm
+        let currentMil = NaN;
+        let currentMm = NaN;
         let selectedStepNum = 1; // Default Step 1
 
         // Elements
@@ -528,9 +528,9 @@
                 formulaDetail.innerHTML = `${milDisplay} mil &times; ${selectedStress} V/mil = <strong class="text-amber-600 dark:text-amber-400">${formatId(selectedKv)} kV</strong>`;
             } else {
                 hasilKalkulasi.textContent = '---';
-                activeStepBadge.textContent = 'Tebal Belum Diisi';
+                activeStepBadge.textContent = 'Menunggu Input';
                 resultTitle.textContent = 'Tegangan Uji AC';
-                formulaDetail.innerHTML = '<span class="text-slate-400 dark:text-slate-500">Masukkan tebal isolasi kabel di atas</span>';
+                formulaDetail.innerHTML = '<span class="text-slate-400 dark:text-slate-500 font-sans text-[10px]">Silakan masukkan tebal isolasi atau pilih preset di atas</span>';
             }
 
             // Update Quick Pill Highlight
