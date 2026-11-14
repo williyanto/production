@@ -29,7 +29,7 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* Hilangkan spinner input number */
+        /* Hilangkan panah spinner bawaan input number */
         input[type=number]::-webkit-inner-spin-button,
         input[type=number]::-webkit-outer-spin-button {
             -webkit-appearance: none;
@@ -148,9 +148,9 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
                                 </svg>
                             </div>
-                            <input type="number" step="0.01" min="0.01" max="50" id="inputMm" value="1.00"
+                            <input type="number" step="any" min="0.001" id="inputMm" value="10.668"
                                 class="pl-9 pr-10 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-xs font-mono font-bold"
-                                placeholder="1.00">
+                                placeholder="10.668">
                             <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
                                 <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">mm</span>
                             </div>
@@ -170,9 +170,9 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                                 </svg>
                             </div>
-                            <input type="number" step="0.01" min="0.1" max="2000" id="inputMil" value="39.37"
+                            <input type="number" step="any" min="0.001" id="inputMil" value="420"
                                 class="pl-9 pr-10 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-xs font-mono font-bold"
-                                placeholder="39.37">
+                                placeholder="420">
                             <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
                                 <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">mil</span>
                             </div>
@@ -180,35 +180,31 @@
                     </div>
                 </div>
 
-                <!-- Preset Cepat Tebal Kabel -->
+                <!-- Preset Cepat Tebal Kabel (mm & mil) -->
                 <div class="flex items-center gap-1.5 overflow-x-auto scrollbar-none pt-2 pb-0.5">
-                    <button type="button" onclick="setPreset(0.7)"
-                        class="preset-btn px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all shrink-0">
-                        0.7mm
-                    </button>
-                    <button type="button" onclick="setPreset(0.8)"
-                        class="preset-btn px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all shrink-0">
-                        0.8mm
-                    </button>
-                    <button type="button" onclick="setPreset(1.0)"
+                    <button type="button" onclick="setPresetMil(420)" id="preset-420mil"
                         class="preset-btn active-preset px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-amber-500 text-white shadow-sm transition-all shrink-0">
-                        1.0mm
+                        420 mil (10.67mm)
                     </button>
-                    <button type="button" onclick="setPreset(1.2)"
+                    <button type="button" onclick="setPresetMm(1.0)" id="preset-1mm"
                         class="preset-btn px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all shrink-0">
-                        1.2mm
+                        1.0mm (39.4mil)
                     </button>
-                    <button type="button" onclick="setPreset(1.4)"
+                    <button type="button" onclick="setPresetMm(1.4)" id="preset-14mm"
                         class="preset-btn px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all shrink-0">
-                        1.4mm
+                        1.4mm (55.1mil)
                     </button>
-                    <button type="button" onclick="setPreset(1.8)"
+                    <button type="button" onclick="setPresetMm(1.8)" id="preset-18mm"
                         class="preset-btn px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all shrink-0">
-                        1.8mm
+                        1.8mm (70.9mil)
                     </button>
-                    <button type="button" onclick="setPreset(2.0)"
+                    <button type="button" onclick="setPresetMm(2.0)" id="preset-2mm"
                         class="preset-btn px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all shrink-0">
-                        2.0mm
+                        2.0mm (78.7mil)
+                    </button>
+                    <button type="button" onclick="setPresetMm(2.5)" id="preset-25mm"
+                        class="preset-btn px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all shrink-0">
+                        2.5mm (98.4mil)
                     </button>
                 </div>
             </div>
@@ -220,39 +216,44 @@
 
                 <div class="w-full flex items-center justify-between mb-0.5">
                     <span id="resultTitle" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-                        Tegangan Uji Acuan Kunci
+                        Test Volts Step Terpilih
                     </span>
                     <span id="activeStepBadge" class="text-[9px] font-mono font-bold text-amber-600 dark:text-amber-400 bg-amber-100/70 dark:bg-amber-900/40 px-1.5 py-0.5 rounded-md">
-                        * Step 8
+                        Step 1 (100 V/mil)
                     </span>
                 </div>
 
                 <div class="py-1 w-full flex items-baseline justify-center gap-1.5">
                     <span id="hasilKalkulasi"
                         class="font-extrabold text-3xl sm:text-4xl text-amber-600 dark:text-amber-400 font-mono tracking-tight transition-all">
-                        0,594
+                        42,0
                     </span>
                     <span id="resultUnit" class="text-xs font-bold text-slate-500 dark:text-slate-400 font-mono">
                         kV AC
                     </span>
                 </div>
 
+                <!-- Rumus detail bar -->
+                <div class="text-[10px] font-mono text-slate-500 dark:text-slate-400 mt-0.5 mb-1">
+                    <span id="formulaDetail">420 mil &times; 100 V/mil &divide; 1000 = 42,0 kV</span>
+                </div>
+
                 <!-- 3 Quick Level Acuan Indicator Pills -->
-                <div class="grid grid-cols-3 gap-1.5 w-full mt-1.5 pt-1.5 border-t border-slate-200/50 dark:border-slate-700/50">
-                    <button type="button" onclick="selectStep(8)" id="btnPill8"
-                        class="p-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-center transition-all">
-                        <div class="text-[9px] font-bold text-amber-600 dark:text-amber-400">* Step 8</div>
-                        <div id="valPill8" class="text-[11px] font-mono font-extrabold text-slate-800 dark:text-slate-200">0,594 kV</div>
+                <div class="grid grid-cols-3 gap-1.5 w-full mt-1 pt-1.5 border-t border-slate-200/50 dark:border-slate-700/50">
+                    <button type="button" onclick="selectStep(1)" id="btnPill1"
+                        class="p-1 rounded-lg bg-amber-500/20 border border-amber-500/50 text-center transition-all shadow-sm">
+                        <div class="text-[9px] font-bold text-amber-600 dark:text-amber-400">Step 1 (100)</div>
+                        <div id="valPill1" class="text-[11px] font-mono font-extrabold text-slate-800 dark:text-slate-200">42,0 kV</div>
                     </button>
-                    <button type="button" onclick="selectStep(9)" id="btnPill9"
+                    <button type="button" onclick="selectStep(8)" id="btnPill8"
                         class="p-1 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 text-center transition-all hover:bg-slate-200/60">
-                        <div class="text-[9px] font-bold text-sky-600 dark:text-sky-400">** Step 9</div>
-                        <div id="valPill9" class="text-[11px] font-mono font-extrabold text-slate-800 dark:text-slate-200">0,657 kV</div>
+                        <div class="text-[9px] font-bold text-amber-600 dark:text-amber-400">* Step 8 (380)</div>
+                        <div id="valPill8" class="text-[11px] font-mono font-extrabold text-slate-800 dark:text-slate-200">159,6 kV</div>
                     </button>
                     <button type="button" onclick="selectStep(12)" id="btnPill12"
                         class="p-1 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 text-center transition-all hover:bg-slate-200/60">
-                        <div class="text-[9px] font-bold text-purple-600 dark:text-purple-400">*** Step 12</div>
-                        <div id="valPill12" class="text-[11px] font-mono font-extrabold text-slate-800 dark:text-slate-200">0,846 kV</div>
+                        <div class="text-[9px] font-bold text-purple-600 dark:text-purple-400">*** Step 12 (540)</div>
+                        <div id="valPill12" class="text-[11px] font-mono font-extrabold text-slate-800 dark:text-slate-200">226,8 kV</div>
                     </button>
                 </div>
             </div>
@@ -261,7 +262,7 @@
             <div>
                 <div class="flex items-center justify-between mb-1">
                     <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">
-                        Tabel Step 1 s/d Step 27
+                        Tabel Step 1 s/d Step 27 (Volt / mil)
                     </span>
                     <button type="button" onclick="copyTableData()"
                         class="text-[10px] font-bold text-amber-600 dark:text-amber-400 hover:underline inline-flex items-center gap-1">
@@ -280,7 +281,7 @@
                             <thead class="sticky top-0 bg-slate-100 dark:bg-slate-800 text-[10px] font-extrabold uppercase tracking-wider text-slate-600 dark:text-slate-300 font-mono border-b border-slate-200 dark:border-slate-700 z-10">
                                 <tr>
                                     <th class="py-1.5 px-3">Step</th>
-                                    <th class="py-1.5 px-3 text-center">Avg Stress (V/mil)</th>
+                                    <th class="py-1.5 px-3 text-center">Volt / mil</th>
                                     <th class="py-1.5 px-3 text-right text-amber-600 dark:text-amber-400">Test Volts (KV)</th>
                                 </tr>
                             </thead>
@@ -333,44 +334,45 @@
 
     <!-- Script Logic -->
     <script>
-        // Master Data Step 1 sampai Step 27
+        // Master Data Step 1 sampai Step 27 sesuai spesifikasi gambar (Volt / mil):
+        // 100 s/d 1140 (+40 volt/mil per step)
         const stepsData = [
-            { step: 1, label: "Step 1", stress: 3.9, star: 0 },
-            { step: 2, label: "Step 2", stress: 5.5, star: 0 },
-            { step: 3, label: "Step 3", stress: 7.1, star: 0 },
-            { step: 4, label: "Step 4", stress: 8.7, star: 0 },
-            { step: 5, label: "Step 5", stress: 10.3, star: 0 },
-            { step: 6, label: "Step 6", stress: 11.9, star: 0 },
-            { step: 7, label: "Step 7", stress: 13.5, star: 0 },
-            { step: 8, label: "* Step 8", stress: 15.1, star: 1 },
-            { step: 9, label: "** Step 9", stress: 16.7, star: 2 },
-            { step: 10, label: "Step 10", stress: 18.3, star: 0 },
-            { step: 11, label: "Step 11", stress: 19.9, star: 0 },
-            { step: 12, label: "*** Step 12", stress: 21.5, star: 3 },
-            { step: 13, label: "Step 13", stress: 23.1, star: 0 },
-            { step: 14, label: "Step 14", stress: 24.7, star: 0 },
-            { step: 15, label: "Step 15", stress: 26.3, star: 0 },
-            { step: 16, label: "Step 16", stress: 27.9, star: 0 },
-            { step: 17, label: "Step 17", stress: 29.5, star: 0 },
-            { step: 18, label: "Step 18", stress: 31.1, star: 0 },
-            { step: 19, label: "Step 19", stress: 32.7, star: 0 },
-            { step: 20, label: "Step 20", stress: 34.3, star: 0 },
-            { step: 21, label: "Step 21", stress: 35.9, star: 0 },
-            { step: 22, label: "Step 22", stress: 37.5, star: 0 },
-            { step: 23, label: "Step 23", stress: 39.1, star: 0 },
-            { step: 24, label: "Step 24", stress: 40.7, star: 0 },
-            { step: 25, label: "Step 25", stress: 42.3, star: 0 },
-            { step: 26, label: "Step 26", stress: 43.9, star: 0 },
-            { step: 27, label: "Step 27", stress: 45.5, star: 0 }
+            { step: 1, label: "Step 1", stress: 100, star: 0 },
+            { step: 2, label: "Step 2", stress: 140, star: 0 },
+            { step: 3, label: "Step 3", stress: 180, star: 0 },
+            { step: 4, label: "Step 4", stress: 220, star: 0 },
+            { step: 5, label: "Step 5", stress: 260, star: 0 },
+            { step: 6, label: "Step 6", stress: 300, star: 0 },
+            { step: 7, label: "Step 7", stress: 340, star: 0 },
+            { step: 8, label: "* Step 8", stress: 380, star: 1 },
+            { step: 9, label: "** Step 9", stress: 420, star: 2 },
+            { step: 10, label: "Step 10", stress: 460, star: 0 },
+            { step: 11, label: "Step 11", stress: 500, star: 0 },
+            { step: 12, label: "*** Step 12", stress: 540, star: 3 },
+            { step: 13, label: "Step 13", stress: 580, star: 0 },
+            { step: 14, label: "Step 14", stress: 620, star: 0 },
+            { step: 15, label: "Step 15", stress: 660, star: 0 },
+            { step: 16, label: "Step 16", stress: 700, star: 0 },
+            { step: 17, label: "Step 17", stress: 740, star: 0 },
+            { step: 18, label: "Step 18", stress: 780, star: 0 },
+            { step: 19, label: "Step 19", stress: 820, star: 0 },
+            { step: 20, label: "Step 20", stress: 860, star: 0 },
+            { step: 21, label: "Step 21", stress: 900, star: 0 },
+            { step: 22, label: "Step 22", stress: 940, star: 0 },
+            { step: 23, label: "Step 23", stress: 980, star: 0 },
+            { step: 24, label: "Step 24", stress: 1020, star: 0 },
+            { step: 25, label: "Step 25", stress: 1060, star: 0 },
+            { step: 26, label: "Step 26", stress: 1100, star: 0 },
+            { step: 27, label: "Step 27", stress: 1140, star: 0 }
         ];
 
-        // Conversion Constant
+        // Konstanta Konversi: 1 mil = 0.0254 mm => 1 mm = 1 / 0.0254 mil
         const MM_TO_MIL = 1 / 0.0254; // ~39.37007874
         const MIL_TO_MM = 0.0254;
 
-        let currentMm = 1.00;
-        let currentMil = 39.3700787;
-        let selectedStepNum = 8; // Default selected step (* Step 8)
+        let currentMil = 420;
+        let currentMm = 420 * MIL_TO_MM; // 10.668 mm
+        let selectedStepNum = 1; // Default Step 1 (sesuai contoh user)
 
         // Elements
         const inputMm = document.getElementById('inputMm');
@@ -378,12 +380,13 @@
         const hasilKalkulasi = document.getElementById('hasilKalkulasi');
         const resultTitle = document.getElementById('resultTitle');
         const activeStepBadge = document.getElementById('activeStepBadge');
+        const formulaDetail = document.getElementById('formulaDetail');
         const tableBody = document.getElementById('tableBody');
+        const valPill1 = document.getElementById('valPill1');
         const valPill8 = document.getElementById('valPill8');
-        const valPill9 = document.getElementById('valPill9');
         const valPill12 = document.getElementById('valPill12');
+        const btnPill1 = document.getElementById('btnPill1');
         const btnPill8 = document.getElementById('btnPill8');
-        const btnPill9 = document.getElementById('btnPill9');
         const btnPill12 = document.getElementById('btnPill12');
 
         // Theme Management
@@ -412,32 +415,37 @@
         updateThemeIcons();
 
         // Format number Indonesia (koma untuk desimal)
-        function formatId(num, dec = 3) {
-            return num.toLocaleString('id-ID', {
-                minimumFractionDigits: dec,
-                maximumFractionDigits: dec
+        // Jika angka bulat/desimal 1 digit tampilkan rapi e.g. 42,0 atau 58,8
+        function formatId(num) {
+            // Tampilkan 1 desimal jika genap atau 2 desimal jika tidak genap
+            const rounded = Math.round(num * 100) / 100;
+            return rounded.toLocaleString('id-ID', {
+                minimumFractionDigits: (rounded % 1 === 0) ? 1 : 1,
+                maximumFractionDigits: 2
             });
         }
 
-        // Kalkulasi & Render
+        // Kalkulasi Utama: Test Volts (KV) = (mil * volt/mil) / 1000
         function calculate() {
             tableBody.innerHTML = '';
 
             let selectedKv = 0;
             let selectedLabel = '';
+            let selectedStress = 100;
 
             stepsData.forEach(item => {
-                // Test Volts (KV) = (Avg Stress * mils) / 1000
-                const kv = (item.stress * currentMil) / 1000;
+                // Rumus: Test Volts (KV) = (Thickness mil * Stress Volt/mil) / 1000
+                const testVoltsKv = (currentMil * item.stress) / 1000;
 
-                // Capture key level values
-                if (item.step === 8 && valPill8) valPill8.textContent = `${formatId(kv)} kV`;
-                if (item.step === 9 && valPill9) valPill9.textContent = `${formatId(kv)} kV`;
-                if (item.step === 12 && valPill12) valPill12.textContent = `${formatId(kv)} kV`;
+                // Capture quick pills
+                if (item.step === 1 && valPill1) valPill1.textContent = `${formatId(testVoltsKv)} kV`;
+                if (item.step === 8 && valPill8) valPill8.textContent = `${formatId(testVoltsKv)} kV`;
+                if (item.step === 12 && valPill12) valPill12.textContent = `${formatId(testVoltsKv)} kV`;
 
                 if (item.step === selectedStepNum) {
-                    selectedKv = kv;
+                    selectedKv = testVoltsKv;
                     selectedLabel = item.label;
+                    selectedStress = item.stress;
                 }
 
                 const tr = document.createElement('tr');
@@ -470,11 +478,11 @@
                     <td class="py-1.5 px-3 font-semibold ${textClass}">
                         ${badgeStar}Step ${item.step}
                     </td>
-                    <td class="py-1.5 px-3 text-center text-slate-500 dark:text-slate-400">
-                        ${item.stress.toString().replace('.', ',')}
+                    <td class="py-1.5 px-3 text-center text-slate-600 dark:text-slate-300 font-bold">
+                        ${item.stress}
                     </td>
-                    <td class="py-1.5 px-3 text-right font-bold text-amber-600 dark:text-amber-400">
-                        ${formatId(kv)}
+                    <td class="py-1.5 px-3 text-right font-extrabold text-amber-600 dark:text-amber-400">
+                        ${formatId(testVoltsKv)}
                     </td>
                 `;
 
@@ -483,8 +491,12 @@
 
             // Update Big Display
             hasilKalkulasi.textContent = formatId(selectedKv);
-            activeStepBadge.textContent = selectedLabel;
+            activeStepBadge.textContent = `${selectedLabel} (${selectedStress} V/mil)`;
             resultTitle.textContent = `Tegangan Uji ${selectedLabel}`;
+
+            // Update Formula Detail: misal "420 mil x 100 V/mil = 42,0 kV"
+            const milDisplay = Math.round(currentMil * 100) / 100;
+            formulaDetail.innerHTML = `${milDisplay} mil &times; ${selectedStress} V/mil = <strong class="text-amber-600 dark:text-amber-400">${formatId(selectedKv)} kV</strong>`;
 
             // Update Quick Pill Highlight
             updatePillHighlight();
@@ -494,8 +506,8 @@
             const activePillClass = "p-1 rounded-lg bg-amber-500/20 border border-amber-500/50 text-center shadow-sm transition-all";
             const inactivePillClass = "p-1 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 text-center transition-all hover:bg-slate-200/60";
 
+            if (btnPill1) btnPill1.className = (selectedStepNum === 1) ? activePillClass : inactivePillClass;
             if (btnPill8) btnPill8.className = (selectedStepNum === 8) ? activePillClass : inactivePillClass;
-            if (btnPill9) btnPill9.className = (selectedStepNum === 9) ? activePillClass : inactivePillClass;
             if (btnPill12) btnPill12.className = (selectedStepNum === 12) ? activePillClass : inactivePillClass;
         }
 
@@ -504,13 +516,13 @@
             calculate();
         }
 
-        // Input Listeners
+        // Input Listeners: Sinkronisasi 2 Arah mm <-> mil
         inputMm.addEventListener('input', () => {
             const val = parseFloat(inputMm.value);
             if (!isNaN(val) && val > 0) {
                 currentMm = val;
                 currentMil = val * MM_TO_MIL;
-                inputMil.value = currentMil.toFixed(2);
+                inputMil.value = (Math.round(currentMil * 100) / 100).toString();
                 clearActivePresets();
                 calculate();
             }
@@ -521,28 +533,38 @@
             if (!isNaN(val) && val > 0) {
                 currentMil = val;
                 currentMm = val * MIL_TO_MM;
-                inputMm.value = currentMm.toFixed(2);
+                inputMm.value = (Math.round(currentMm * 1000) / 1000).toString();
                 clearActivePresets();
                 calculate();
             }
         });
 
-        function setPreset(mm) {
-            currentMm = mm;
-            currentMil = mm * MM_TO_MIL;
-            inputMm.value = mm.toFixed(2);
-            inputMil.value = currentMil.toFixed(2);
-
-            document.querySelectorAll('.preset-btn').forEach(btn => {
-                const text = btn.textContent.trim();
-                if (text === `${mm}mm` || text === `${mm.toFixed(1)}mm`) {
-                    btn.className = "preset-btn active-preset px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-amber-500 text-white shadow-sm transition-all shrink-0";
-                } else {
-                    btn.className = "preset-btn px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all shrink-0";
-                }
-            });
-
+        function setPresetMil(milVal) {
+            currentMil = milVal;
+            currentMm = milVal * MIL_TO_MM;
+            inputMil.value = milVal;
+            inputMm.value = (Math.round(currentMm * 1000) / 1000).toString();
+            updatePresetButtons();
             calculate();
+        }
+
+        function setPresetMm(mmVal) {
+            currentMm = mmVal;
+            currentMil = mmVal * MM_TO_MIL;
+            inputMm.value = mmVal;
+            inputMil.value = (Math.round(currentMil * 100) / 100).toString();
+            updatePresetButtons();
+            calculate();
+        }
+
+        function updatePresetButtons() {
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                btn.className = "preset-btn px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all shrink-0";
+            });
+            if (Math.abs(currentMil - 420) < 0.1) {
+                const b = document.getElementById('preset-420mil');
+                if (b) b.className = "preset-btn active-preset px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-amber-500 text-white shadow-sm transition-all shrink-0";
+            }
         }
 
         function clearActivePresets() {
@@ -552,16 +574,16 @@
         }
 
         function resetForm() {
-            setPreset(1.0);
-            selectStep(8);
-            inputMm.focus();
+            setPresetMil(420);
+            selectStep(1);
+            inputMil.focus();
         }
 
         function copyTableData() {
-            let tsv = "Step\tAvg Stress (volt/mil)\tTest Volts (KV)\n";
+            let tsv = "Step\tVolt / mil\tTest Volts (KV)\n";
             stepsData.forEach(item => {
-                const kv = (item.stress * currentMil) / 1000;
-                tsv += `${item.label}\t${item.stress.toString().replace('.', ',')}\t${formatId(kv)}\n`;
+                const kv = (currentMil * item.stress) / 1000;
+                tsv += `${item.label}\t${item.stress}\t${formatId(kv)}\n`;
             });
 
             navigator.clipboard.writeText(tsv).then(() => {
@@ -573,8 +595,8 @@
 
         // Init
         document.addEventListener('DOMContentLoaded', () => {
-            setPreset(1.0);
-            selectStep(8);
+            setPresetMil(420);
+            selectStep(1);
         });
     </script>
 </body>
