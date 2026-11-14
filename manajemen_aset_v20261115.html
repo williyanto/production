@@ -2272,54 +2272,55 @@
 
       function doPrint(codeImgSrc) {
         const win = window.open('', '_blank', 'width=450,height=600');
-        win.document.write(`
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="UTF-8"/>
-            <title>Label QR Aset - ${asset.id}</title>
-            <style>
-              * { box-sizing: border-box; margin: 0; padding: 0; }
-              body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
-              .label-card { background: #fff; border-radius: 12px; border: 1px solid #cbd5e1; padding: 16px; width: 320px; text-align: center; font-size: 12px; color: #0f172a; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-              .label-header { border-bottom: 2px solid #0f172a; padding-bottom: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-              .label-title { font-weight: 900; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
-              .label-id { font-family: monospace; font-weight: 700; color: #0284c7; }
-              .label-name { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
-              .label-cat { font-size: 11px; color: #475569; margin-bottom: 8px; }
-              .label-code { display: flex; justify-content: center; margin: 10px 0; }
-              .label-code img { max-width: 140px; max-height: 140px; }
-              .label-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; text-align: left; font-size: 10px; border-top: 1px dashed #cbd5e1; margin-top: 8px; padding-top: 8px; }
-              .lg-lbl { color: #64748b; font-weight: 600; text-transform: uppercase; }
-              .lg-val { font-weight: 700; color: #0f172a; }
-              @media print {
-                body { background: white; }
-                .label-card { box-shadow: none; border: 1px solid #000; }
-              }
-            </style>
-          </head>
-          <body onload="window.print()">
-            <div class="label-card">
-              <div class="label-header">
-                <span class="label-title">ASSET LABEL</span>
-                <span class="label-id">${asset.id}</span>
-              </div>
-              <div class="label-name">${asset.nama}</div>
-              <div class="label-cat">${asset.kategori} &bull; ${asset.status}</div>
-              <div class="label-code">
-                <img src="${codeImgSrc}"/>
-              </div>
-              <div class="label-grid">
-                <div><span class="lg-lbl">Harga:</span> <span class="lg-val">${formatRupiah(asset.harga)}</span></div>
-                <div><span class="lg-lbl">Tanggal Beli:</span> <span class="lg-val">${formatDate(asset.tanggal)}</span></div>
-                <div><span class="lg-lbl">Lokasi:</span> <span class="lg-val">${asset.lokasi || '-'}</span></div>
-                <div><span class="lg-lbl">Owner:</span> <span class="lg-val">Williyanto Adi</span></div>
-              </div>
+        if (!win) {
+          alert('Popup diblokir browser. Izinkan popup untuk mencetak label.');
+          return;
+        }
+        win.document.title = 'Label QR Aset - ' + asset.id;
+        const style = win.document.createElement('style');
+        style.textContent = `
+          * { box-sizing: border-box; margin: 0; padding: 0; }
+          body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+          .label-card { background: #fff; border-radius: 12px; border: 1px solid #cbd5e1; padding: 16px; width: 320px; text-align: center; font-size: 12px; color: #0f172a; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+          .label-header { border-bottom: 2px solid #0f172a; padding-bottom: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+          .label-title { font-weight: 900; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+          .label-id { font-family: monospace; font-weight: 700; color: #0284c7; }
+          .label-name { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+          .label-cat { font-size: 11px; color: #475569; margin-bottom: 8px; }
+          .label-code { display: flex; justify-content: center; margin: 10px 0; }
+          .label-code img { max-width: 140px; max-height: 140px; }
+          .label-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; text-align: left; font-size: 10px; border-top: 1px dashed #cbd5e1; margin-top: 8px; padding-top: 8px; }
+          .lg-lbl { color: #64748b; font-weight: 600; text-transform: uppercase; }
+          .lg-val { font-weight: 700; color: #0f172a; }
+          @media print {
+            body { background: white; }
+            .label-card { box-shadow: none; border: 1px solid #000; }
+          }
+        `;
+        win.document.head.appendChild(style);
+        win.document.body.innerHTML = `
+          <div class="label-card">
+            <div class="label-header">
+              <span class="label-title">ASSET LABEL</span>
+              <span class="label-id">${asset.id}</span>
             </div>
-          </body>
-          </html>
-        `);
-        win.document.close();
+            <div class="label-name">${asset.nama}</div>
+            <div class="label-cat">${asset.kategori} &bull; ${asset.status}</div>
+            <div class="label-code">
+              <img src="${codeImgSrc}"/>
+            </div>
+            <div class="label-grid">
+              <div><span class="lg-lbl">Harga:</span> <span class="lg-val">${formatRupiah(asset.harga)}</span></div>
+              <div><span class="lg-lbl">Tanggal Beli:</span> <span class="lg-val">${formatDate(asset.tanggal)}</span></div>
+              <div><span class="lg-lbl">Lokasi:</span> <span class="lg-val">${asset.lokasi || '-'}</span></div>
+              <div><span class="lg-lbl">Owner:</span> <span class="lg-val">Williyanto Adi</span></div>
+            </div>
+          </div>
+        `;
+        setTimeout(() => {
+          win.focus();
+          win.print();
+        }, 300);
       }
 
       if (window.QRCode && typeof QRCode.toDataURL === 'function') {
