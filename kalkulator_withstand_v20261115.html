@@ -399,11 +399,13 @@
 
         let currentMil = NaN;
         let currentMm = NaN;
-        let selectedStepNum = 1; // Default Step 1
+        let selectedStepNum = null; // Blank saat awal muat
 
         // Elements
         const inputMm = document.getElementById('inputMm');
         const inputMil = document.getElementById('inputMil');
+        const inputStep = document.getElementById('inputStep');
+        const inputStress = document.getElementById('inputStress');
         const hasilKalkulasi = document.getElementById('hasilKalkulasi');
         const resultTitle = document.getElementById('resultTitle');
         const activeStepBadge = document.getElementById('activeStepBadge');
@@ -461,25 +463,39 @@
         function calculate() {
             tableBody.innerHTML = '';
 
-            const isValid = !isNaN(currentMil) && currentMil > 0;
-            let selectedKv = 0;
-            let selectedLabel = '';
-            let selectedStress = 100;
+            const isThicknessValid = !isNaN(currentMil) && currentMil > 0;
+            const currentStressVal = parseInputVal(inputStress.value);
+            const isStressValid = !isNaN(currentStressVal) && currentStressVal > 0;
+
+            let selectedKv = null;
+            let displayLabel = 'Step Uji';
+            let displayStress = null;
+
+            if (selectedStepNum !== null) {
+                const found = stepsData.find(s => s.step === selectedStepNum);
+                if (found) {
+                    displayLabel = found.label;
+                    displayStress = found.stress;
+                    if (isThicknessValid) {
+                        selectedKv = (currentMil * found.stress) / 1000;
+                    }
+                }
+            } else if (isStressValid) {
+                displayLabel = inputStep.value || 'Custom';
+                displayStress = currentStressVal;
+                if (isThicknessValid) {
+                    selectedKv = (currentMil * currentStressVal) / 1000;
+                }
+            }
 
             stepsData.forEach(item => {
                 // Rumus: Test Volts (KV) = (Thickness mil * Stress Volt/mil) / 1000
-                const testVoltsKv = isValid ? ((currentMil * item.stress) / 1000) : null;
+                const testVoltsKv = isThicknessValid ? ((currentMil * item.stress) / 1000) : null;
 
                 // Capture quick pills
-                if (item.step === 1 && valPill1) valPill1.textContent = isValid ? `${formatId(testVoltsKv)} kV` : '-';
-                if (item.step === 8 && valPill8) valPill8.textContent = isValid ? `${formatId(testVoltsKv)} kV` : '-';
-                if (item.step === 12 && valPill12) valPill12.textContent = isValid ? `${formatId(testVoltsKv)} kV` : '-';
-
-                if (item.step === selectedStepNum) {
-                    selectedKv = testVoltsKv;
-                    selectedLabel = item.label;
-                    selectedStress = item.stress;
-                }
+                if (item.step === 1 && valPill1) valPill1.textContent = isThicknessValid ? `${formatId(testVoltsKv)} kV` : '-';
+                if (item.step === 8 && valPill8) valPill8.textContent = isThicknessValid ? `${formatId(testVoltsKv)} kV` : '-';
+                if (item.step === 12 && valPill12) valPill12.textContent = isThicknessValid ? `${formatId(testVoltsKv)} kV` : '-';
 
                 const tr = document.createElement('tr');
                 tr.id = `row-step-${item.step}`;
@@ -506,6 +522,7 @@
                 }
 
                 tr.className = rowClass;
+                tr.title = `Klik untuk memilih ${item.label} (${item.stress} V/mil)`;
                 tr.onclick = () => selectStep(item.step);
 
                 tr.innerHTML = `
@@ -516,7 +533,7 @@
                         ${item.stress}
                     </td>
                     <td class="py-1 px-2.5 text-right font-extrabold text-amber-600 dark:text-amber-400">
-                        ${isValid ? formatId(testVoltsKv) : '-'}
+                        ${isThicknessValid ? formatId(testVoltsKv) : '-'}
                     </td>
                 `;
 
@@ -524,18 +541,23 @@
             });
 
             // Update Big Display
-            if (isValid) {
+            if (isThicknessValid && selectedKv !== null) {
                 hasilKalkulasi.textContent = formatId(selectedKv);
-                activeStepBadge.textContent = `${selectedLabel} (${selectedStress} V/mil)`;
-                resultTitle.textContent = `Tegangan Uji Step ${selectedStepNum}`;
+                activeStepBadge.textContent = `${displayLabel} (${displayStress} V/mil)`;
+                resultTitle.textContent = `Tegangan Uji ${displayLabel}`;
 
                 // Update Formula Detail
                 const milDisplay = Math.round(currentMil * 100) / 100;
-                formulaDetail.innerHTML = `${milDisplay} mil &times; ${selectedStress} V/mil = <strong class="text-amber-600 dark:text-amber-400">${formatId(selectedKv)} kV</strong>`;
+                formulaDetail.innerHTML = `${milDisplay} mil &times; ${displayStress} V/mil = <strong class="text-amber-600 dark:text-amber-400">${formatId(selectedKv)} kV</strong>`;
+            } else if (isThicknessValid && !isStressValid) {
+                hasilKalkulasi.textContent = '---';
+                activeStepBadge.textContent = 'Pilih Step';
+                resultTitle.textContent = 'Tegangan Uji AC';
+                formulaDetail.innerHTML = '<span class="text-slate-400 dark:text-slate-500 font-sans text-[10px]">Silakan klik salah satu Step pada tabel di bawah</span>';
             } else {
                 hasilKalkulasi.textContent = '---';
-                activeStepBadge.textContent = 'Menunggu Input';
-                resultTitle.textContent = 'Tegangan Uji AC';
+                activeStepBadge.textContent = (displayStress !== null) ? `${displayLabel} (${displayStress} V/mil)` : 'Menunggu Input';
+                resultTitle.textContent = (displayStress !== null) ? `Tegangan Uji ${displayLabel}` : 'Tegangan Uji AC';
                 formulaDetail.innerHTML = '<span class="text-slate-400 dark:text-slate-500 font-sans text-[10px]">Silakan masukkan nilai tebal isolasi kabel di atas</span>';
             }
 
@@ -553,7 +575,11 @@
         }
 
         function selectStep(stepNum) {
+            const stepItem = stepsData.find(s => s.step === stepNum);
+            if (!stepItem) return;
             selectedStepNum = stepNum;
+            inputStep.value = stepItem.label;
+            inputStress.value = stepItem.stress;
             calculate();
             const targetRow = document.getElementById(`row-step-${stepNum}`);
             if (targetRow) {
@@ -606,12 +632,69 @@
             }
         });
 
+        // Input Listeners: Step & Volt/mil
+        inputStress.addEventListener('input', () => {
+            const raw = inputStress.value.trim();
+            if (raw === '') {
+                inputStep.value = '';
+                selectedStepNum = null;
+                calculate();
+                return;
+            }
+            const val = parseInputVal(raw);
+            if (!isNaN(val) && val > 0) {
+                const matched = stepsData.find(s => s.stress === val);
+                if (matched) {
+                    selectedStepNum = matched.step;
+                    inputStep.value = matched.label;
+                    const targetRow = document.getElementById(`row-step-${matched.step}`);
+                    if (targetRow) {
+                        targetRow.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                    }
+                } else {
+                    selectedStepNum = null;
+                    inputStep.value = 'Custom';
+                }
+                calculate();
+            } else {
+                selectedStepNum = null;
+                calculate();
+            }
+        });
+
+        inputStep.addEventListener('input', () => {
+            const raw = inputStep.value.trim().toLowerCase();
+            if (raw === '') {
+                inputStress.value = '';
+                selectedStepNum = null;
+                calculate();
+                return;
+            }
+            const digits = raw.replace(/\D/g, '');
+            if (digits) {
+                const stepInt = parseInt(digits, 10);
+                const matched = stepsData.find(s => s.step === stepInt);
+                if (matched) {
+                    selectedStepNum = matched.step;
+                    inputStress.value = matched.stress;
+                    calculate();
+                    const targetRow = document.getElementById(`row-step-${matched.step}`);
+                    if (targetRow) {
+                        targetRow.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                    }
+                    return;
+                }
+            }
+        });
+
         function resetForm() {
             currentMil = NaN;
             currentMm = NaN;
-            selectedStepNum = 1;
+            selectedStepNum = null;
             inputMm.value = '';
             inputMil.value = '';
+            inputStep.value = '';
+            inputStress.value = '';
             calculate();
             if (window.innerWidth >= 640) {
                 inputMm.focus();
@@ -619,11 +702,11 @@
         }
 
         function copyTableData() {
-            const isValid = !isNaN(currentMil) && currentMil > 0;
+            const isThicknessValid = !isNaN(currentMil) && currentMil > 0;
             let tsv = "Step\tVolt / mil\tTest Volts (KV)\n";
             stepsData.forEach(item => {
-                const kv = isValid ? ((currentMil * item.stress) / 1000) : null;
-                tsv += `${item.label}\t${item.stress}\t${isValid ? formatId(kv) : '-'}\n`;
+                const kv = isThicknessValid ? ((currentMil * item.stress) / 1000) : null;
+                tsv += `${item.label}\t${item.stress}\t${isThicknessValid ? formatId(kv) : '-'}\n`;
             });
 
             const copySuccess = () => {
