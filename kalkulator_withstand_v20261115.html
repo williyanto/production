@@ -135,56 +135,102 @@
         <!-- Inputs and table container (Compact & Auto-fitting) -->
         <div class="space-y-2 flex-1 min-h-0 flex flex-col my-1.5 px-0.5 overflow-hidden">
 
-            <!-- Group 1: Parameter Tebal Isolasi (mm <-> mil) -->
-            <div class="shrink-0">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">
-                        Tebal Isolasi (Insulation Thickness)
-                    </span>
-                    <span class="text-[8.5px] sm:text-[9px] font-mono text-slate-400 dark:text-slate-500">1 mm = 39.3701 mil</span>
-                </div>
+            <!-- Group 1: Parameter Tebal Isolasi & Step Uji -->
+            <div class="shrink-0 space-y-1.5">
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-[9px] sm:text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">
+                            Tebal Isolasi (Insulation Thickness)
+                        </span>
+                        <span class="text-[8.5px] sm:text-[9px] font-mono text-slate-400 dark:text-slate-500">1 mm = 39.3701 mil</span>
+                    </div>
 
-                <div class="grid grid-cols-2 gap-2">
-                    <!-- Input Milimeter (mm) -->
-                    <div class="relative group">
-                        <label for="inputMm"
-                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider mb-0.5">
-                            TEBAL (mm)
-                        </label>
-                        <div class="relative">
-                            <div
-                                class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-amber-500 transition-colors">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
-                                </svg>
+                    <div class="grid grid-cols-2 gap-2">
+                        <!-- Input Milimeter (mm) -->
+                        <div class="relative group">
+                            <label for="inputMm"
+                                class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider mb-0.5">
+                                TEBAL (mm)
+                            </label>
+                            <div class="relative">
+                                <div
+                                    class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-amber-500 transition-colors">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
+                                    </svg>
+                                </div>
+                                <input type="text" inputmode="decimal" id="inputMm" value=""
+                                    class="pl-8 pr-9 block w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-xs font-mono font-bold"
+                                    placeholder="milimeter">
+                                <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+                                    <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 font-mono">mm</span>
+                                </div>
                             </div>
-                            <input type="text" inputmode="decimal" id="inputMm" value=""
-                                class="pl-8 pr-9 block w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-xs font-mono font-bold"
-                                placeholder="milimeter">
-                            <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
-                                <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 font-mono">mm</span>
+                        </div>
+
+                        <!-- Input Mil (mils) -->
+                        <div class="relative group">
+                            <label for="inputMil"
+                                class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider mb-0.5">
+                                TEBAL (mil)
+                            </label>
+                            <div class="relative">
+                                <div
+                                    class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-amber-500 transition-colors">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                    </svg>
+                                </div>
+                                <input type="text" inputmode="decimal" id="inputMil" value=""
+                                    class="pl-8 pr-9 block w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-xs font-mono font-bold"
+                                    placeholder="mil/inci">
+                                <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+                                    <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 font-mono">mil</span>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Input Mil (mils) -->
+                <!-- Baris Input Step Uji & Volt / mil -->
+                <div class="grid grid-cols-2 gap-2">
+                    <!-- Input Step Uji -->
                     <div class="relative group">
-                        <label for="inputMil"
+                        <label for="inputStep"
                             class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider mb-0.5">
-                            TEBAL (mil)
+                            STEP UJI
                         </label>
                         <div class="relative">
                             <div
                                 class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-amber-500 transition-colors">
                                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                                 </svg>
                             </div>
-                            <input type="text" inputmode="decimal" id="inputMil" value=""
-                                class="pl-8 pr-9 block w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-xs font-mono font-bold"
-                                placeholder="mil/inci">
+                            <input type="text" id="inputStep" value=""
+                                class="pl-8 pr-2.5 block w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-xs font-mono font-bold"
+                                placeholder="Pilih Step" title="Pilih step pada tabel atau ketik no. step">
+                        </div>
+                    </div>
+
+                    <!-- Input Volt / mil -->
+                    <div class="relative group">
+                        <label for="inputStress"
+                            class="block text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider mb-0.5">
+                            VOLT / MIL
+                        </label>
+                        <div class="relative">
+                            <div
+                                class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-amber-500 transition-colors">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                            </div>
+                            <input type="text" inputmode="numeric" id="inputStress" value=""
+                                class="pl-8 pr-11 block w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-xs font-mono font-bold"
+                                placeholder="Volt / mil">
                             <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
-                                <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 font-mono">mil</span>
+                                <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 font-mono">V/mil</span>
                             </div>
                         </div>
                     </div>
