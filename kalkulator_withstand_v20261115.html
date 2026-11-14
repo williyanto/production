@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="id" class="transition-colors duration-200">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator AC Withstand Test (Test Volts kV) - Williyanto Adi</title>
+    <meta name="description"
+        content="Aplikasi kalkulator pengujian AC Withstand Test: menghitung Test Volts (kV) bertingkat dari Step 1 sampai Step 27 berdasarkan konversi tebal isolasi (mm ke mil) dan tegangan stress (Avg Stress volt/mil).">
+    <meta name="author" content="Williyanto Adi">
+    <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
+
+    <!-- Theme Detection -->
+    <script>
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.05);
+        }
+
+        .dark ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.4);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.5);
+            border-radius: 999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 116, 139, 0.8);
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+            }
+
+            .print-table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+            }
+
+            .print-table th,
+            .print-table td {
+                border: 1px solid #cbd5e1 !important;
+                padding: 6px 10px !important;
+                color: #000000 !important;
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white transition-colors duration-200">
+
+    <!-- Top Navigation Bar -->
+    <header
+        class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 px-4 py-3 no-print">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <a href="./index.html"
+                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all"
+                    title="Kembali ke Beranda">
+                    <i class="bi bi-arrow-left"></i>
+                    <span>Daftar Proyek</span>
+                </a>
+                <span class="text-slate-300 dark:text-slate-700">|</span>
+                <div class="flex items-center gap-2">
+                    <div
+                        class="w-7 h-7 rounded-lg bg-gradient-to-tr from-brand-600 to-cyan-500 flex items-center justify-center text-white text-xs font-bold shadow-sm shadow-brand-500/20">
+                        28
+                    </div>
+                    <span class="font-heading font-bold text-sm tracking-tight hidden sm:inline">AC Withstand
+                        Test</span>
+                </div>
+            </div>
+
+            <!-- Right Controls: Theme Toggle & Actions -->
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="printReport()"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700/80 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                    <i class="bi bi-printer"></i>
+                    <span class="hidden md:inline">Cetak</span>
+                </button>
+                <button type="button" onclick="exportCSV()"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700/80 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                    <i class="bi bi-file-earmark-spreadsheet"></i>
+                    <span class="hidden md:inline">CSV</span>
+                </button>
+                <button type="button" onclick="copyTableData()" id="btn-copy-clipboard"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700/80 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                    <i class="bi bi-clipboard"></i>
+                    <span class="hidden md:inline">Salin</span>
+                </button>
+                <button type="button" id="theme-toggle-btn"
+                    class="w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-700/80 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
+                    title="Ubah Tema">
+                    <i id="theme-toggle-icon" class="bi bi-sun-fill text-amber-500"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl mx-auto w-full px-4 py-6 md:py-8 space-y-6">
+
+        <!-- Hero Title Section -->
+        <div class="text-center max-w-3xl mx-auto space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-600 dark:text-brand-400 text-xs font-bold tracking-wide uppercase">
+                <i class="bi bi-lightning-charge-fill"></i>
+                <span>High Voltage Dielectric Evaluation Suite</span>
+            </div>
+            <h1 class="font-heading font-black text-2xl md:text-4xl tracking-tight text-slate-900 dark:text-white">
+                Kalkulator AC Withstand Test
+            </h1>
+            <p class="text-slate-500 dark:text-slate-400 text-xs md:text-sm leading-relaxed">
+                Penentuan nilai <strong class="text-slate-700 dark:text-slate-200">Test Volts (KV)</strong> bertingkat
+                dari <strong class="text-brand-600 dark:text-brand-400">Step 1 sampai Step 27</strong> berdasarkan
+                konversi tebal isolasi kabel (<strong class="font-mono">mm &harr; mil</strong>) dan gradien medan listrik
+                <strong class="font-mono">Avg Stress (volt/mil)</strong>.
+            </p>
+        </div>
+
+        <!-- Input Card (Conversion & Parameters) -->
+        <div
+            class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm p-4 sm:p-6 transition-all">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+
+                <!-- Left Column: Primary Conversion Inputs (mm <-> mil) -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
+                            <i class="bi bi-rulers"></i>
+                            <span>Tebal Isolasi Kabel (Wall Thickness)</span>
+                        </label>
+                        <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md">
+                            1 mm = 39.3701 mil
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                        <!-- Input Millimeter (mm) -->
+                        <div class="relative group">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs font-bold text-slate-600 dark:text-slate-300">Milimeter (mm)</span>
+                                <span class="text-[10px] text-brand-600 dark:text-brand-400 font-semibold">Metrik</span>
+                            </div>
+                            <div class="relative">
+                                <input type="number" id="input-thickness-mm" step="0.01" min="0.01" max="100"
+                                    placeholder="Contoh: 1.00" value="1.00"
+                                    class="w-full pl-3 pr-12 py-2.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white font-mono font-bold text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-all">
+                                <span
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-extrabold text-slate-400 dark:text-slate-500 font-mono">
+                                    mm
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Input Mil (mils) -->
+                        <div class="relative group">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs font-bold text-slate-600 dark:text-slate-300">Mil / Thou (mils)</span>
+                                <span class="text-[10px] text-amber-600 dark:text-amber-400 font-semibold">Imperial</span>
+                            </div>
+                            <div class="relative">
+                                <input type="number" id="input-thickness-mil" step="0.01" min="0.1" max="5000"
+                                    placeholder="Contoh: 39.37" value="39.37"
+                                    class="w-full pl-3 pr-12 py-2.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white font-mono font-bold text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 transition-all">
+                                <span
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-extrabold text-slate-400 dark:text-slate-500 font-mono">
+                                    mil
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Thickness Range Slider -->
+                    <div class="space-y-1 pt-1">
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500 font-mono">
+                            <span>0.1 mm (3.9 mil)</span>
+                            <span class="font-bold text-brand-600 dark:text-brand-400" id="slider-current-label">1.00 mm</span>
+                            <span>5.0 mm (196.9 mil)</span>
+                        </div>
+                        <input type="range" id="thickness-range" min="0.1" max="5.0" step="0.05" value="1.0"
+                            class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-500">
+                    </div>
+
+                    <!-- Quick Preset Thickness Buttons -->
+                    <div class="pt-1">
+                        <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 mb-1.5 flex items-center gap-1">
+                            <i class="bi bi-lightning"></i>
+                            <span>Preset Cepat Tebal Isolasi Standar:</span>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5">
+                            <button type="button" onclick="setPreset(0.7)"
+                                class="preset-btn px-2.5 py-1 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-brand-50 hover:text-brand-600 dark:hover:bg-brand-900/30 dark:hover:text-brand-300 border border-slate-200/60 dark:border-slate-700/60 transition-all font-mono">
+                                0.7 mm
+                            </button>
+                            <button type="button" onclick="setPreset(0.8)"
+                                class="preset-btn px-2.5 py-1 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-brand-50 hover:text-brand-600 dark:hover:bg-brand-900/30 dark:hover:text-brand-300 border border-slate-200/60 dark:border-slate-700/60 transition-all font-mono">
+                                0.8 mm
+                            </button>
+                            <button type="button" onclick="setPreset(1.0)"
+                                class="preset-btn active-preset px-2.5 py-1 rounded-xl text-xs font-semibold bg-brand-500 text-white border border-brand-500 transition-all font-mono">
+                                1.0 mm
+                            </button>
+                            <button type="button" onclick="setPreset(1.2)"
+                                class="preset-btn px-2.5 py-1 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-brand-50 hover:text-brand-600 dark:hover:bg-brand-900/30 dark:hover:text-brand-300 border border-slate-200/60 dark:border-slate-700/60 transition-all font-mono">
+                                1.2 mm
+                            </button>
+                            <button type="button" onclick="setPreset(1.4)"
+                                class="preset-btn px-2.5 py-1 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-brand-50 hover:text-brand-600 dark:hover:bg-brand-900/30 dark:hover:text-brand-300 border border-slate-200/60 dark:border-slate-700/60 transition-all font-mono">
+                                1.4 mm
+                            </button>
+                            <button type="button" onclick="setPreset(1.8)"
+                                class="preset-btn px-2.5 py-1 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-brand-50 hover:text-brand-600 dark:hover:bg-brand-900/30 dark:hover:text-brand-300 border border-slate-200/60 dark:border-slate-700/60 transition-all font-mono">
+                                1.8 mm
+                            </button>
+                            <button type="button" onclick="setPreset(2.0)"
+                                class="preset-btn px-2.5 py-1 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-brand-50 hover:text-brand-600 dark:hover:bg-brand-900/30 dark:hover:text-brand-300 border border-slate-200/60 dark:border-slate-700/60 transition-all font-mono">
+                                2.0 mm
+                            </button>
+                            <button type="button" onclick="setPreset(2.5)"
+                                class="preset-btn px-2.5 py-1 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-brand-50 hover:text-brand-600 dark:hover:bg-brand-900/30 dark:hover:text-brand-300 border border-slate-200/60 dark:border-slate-700/60 transition-all font-mono">
+                                2.5 mm
+                            </button>
+                            <button type="button" onclick="setPreset(3.4)"
+                                class="preset-btn px-2.5 py-1 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-brand-50 hover:text-brand-600 dark:hover:bg-brand-900/30 dark:hover:text-brand-300 border border-slate-200/60 dark:border-slate-700/60 transition-all font-mono">
+                                3.4 mm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Formula & Key Reference Levels Card -->
+                <div class="lg:col-span-5 bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-200/70 dark:border-slate-700/60 space-y-3">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-700/60">
+                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+                            <i class="bi bi-calculator text-brand-500"></i>
+                            <span>Rumus Dasar Perhitungan</span>
+                        </span>
+                        <span class="text-[10px] font-mono bg-brand-50 dark:bg-brand-900/40 text-brand-600 dark:text-brand-300 px-2 py-0.5 rounded-full font-bold">
+                            Formula
+                        </span>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-900/90 rounded-xl p-3 border border-slate-200/80 dark:border-slate-700/80 font-mono text-xs space-y-1.5">
+                        <div class="text-slate-400 dark:text-slate-500 text-[10px] uppercase font-bold">1. Konversi mm ke mil:</div>
+                        <div class="text-brand-600 dark:text-brand-400 font-bold">
+                            Thickness (mil) = Thickness (mm) / 0.0254
+                        </div>
+                        <div class="text-slate-400 dark:text-slate-500 text-[10px] uppercase font-bold pt-1">2. Tegangan Uji Test Volts:</div>
+                        <div class="text-emerald-600 dark:text-emerald-400 font-bold">
+                            Test Volts (KV) = (Avg Stress &times; Thickness (mil)) / 1000
+                        </div>
+                    </div>
+
+                    <!-- Highlighted Key Steps (*, **, ***) Summary Pills -->
+                    <div class="space-y-1.5 pt-1">
+                        <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400">Level Tegangan Acuan Kunci:</div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <!-- * Step 8 -->
+                            <div class="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-center">
+                                <div class="text-[10px] font-black text-amber-600 dark:text-amber-400">* Step 8</div>
+                                <div class="text-[10px] text-slate-400 font-mono">15.1 V/mil</div>
+                                <div class="text-xs sm:text-sm font-mono font-black text-slate-900 dark:text-white mt-0.5" id="summary-step-8">
+                                    0.59 kV
+                                </div>
+                            </div>
+
+                            <!-- ** Step 9 -->
+                            <div class="p-2 rounded-xl bg-sky-500/10 border border-sky-500/20 text-center">
+                                <div class="text-[10px] font-black text-sky-600 dark:text-sky-400">** Step 9</div>
+                                <div class="text-[10px] text-slate-400 font-mono">16.7 V/mil</div>
+                                <div class="text-xs sm:text-sm font-mono font-black text-slate-900 dark:text-white mt-0.5" id="summary-step-9">
+                                    0.66 kV
+                                </div>
+                            </div>
+
+                            <!-- *** Step 12 -->
+                            <div class="p-2 rounded-xl bg-purple-500/10 border border-purple-500/20 text-center">
+                                <div class="text-[10px] font-black text-purple-600 dark:text-purple-400">*** Step 12</div>
+                                <div class="text-[10px] text-slate-400 font-mono">21.5 V/mil</div>
+                                <div class="text-xs sm:text-sm font-mono font-black text-slate-900 dark:text-white mt-0.5" id="summary-step-12">
+                                    0.85 kV
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Table Controls & Filter Bar -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 no-print">
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                    Tabel Evaluasi (Step 1 s/d Step 27)
+                </span>
+                <span class="text-xs font-mono bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full font-bold" id="total-steps-badge">
+                    27 Step
+                </span>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+                <!-- Precision Selector -->
+                <div class="flex items-center gap-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-2 py-1 text-xs">
+                    <span class="text-slate-400 text-[11px] font-semibold">Desimal:</span>
+                    <select id="select-decimals" onchange="renderTable()"
+                        class="bg-transparent font-mono font-bold text-slate-700 dark:text-slate-200 outline-none cursor-pointer">
+                        <option value="2">2 Desimal</option>
+                        <option value="3" selected>3 Desimal</option>
+                        <option value="4">4 Desimal</option>
+                    </select>
+                </div>
+
+                <!-- Step Filter Tabs -->
+                <div class="inline-flex p-1 bg-slate-200/80 dark:bg-slate-800 rounded-xl gap-1 text-xs font-semibold">
+                    <button type="button" onclick="setStepFilter('all')" id="filter-all"
+                        class="filter-tab-btn px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-brand-600 dark:text-brand-300 shadow-sm font-bold transition-all">
+                        Semua (27)
+                    </button>
+                    <button type="button" onclick="setStepFilter('starred')" id="filter-starred"
+                        class="filter-tab-btn px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all">
+                        Acuan (*, **, ***)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full Interactive Results Table (Step 1 to Step 27) -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse print-table">
+                    <thead>
+                        <tr class="bg-slate-100/80 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-800 text-[11px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 font-mono">
+                            <th class="py-3.5 px-4 w-16 text-center">No</th>
+                            <th class="py-3.5 px-4">Step Identifier</th>
+                            <th class="py-3.5 px-4 text-right">Avg Stress (volt/mil)</th>
+                            <th class="py-3.5 px-4 text-right text-brand-600 dark:text-brand-400">Test Volts (KV)</th>
+                            <th class="py-3.5 px-4 text-right text-slate-400 hidden sm:table-cell">Ekuivalen (Volt)</th>
+                            <th class="py-3.5 px-4 text-center">Status / Catatan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y divide-slate-100 dark:divide-slate-800/60 text-xs font-sans">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table Footer Quick Information -->
+            <div class="p-4 bg-slate-50 dark:bg-slate-800/40 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400 no-print">
+                <div class="flex items-center gap-3">
+                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span> * Level 1</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-sky-500 inline-block"></span> ** Level 2</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-purple-500 inline-block"></span> *** Level 3</span>
+                </div>
+                <div class="font-mono text-[11px]">
+                    Step increment: <strong class="text-slate-700 dark:text-slate-200">+1.6 volt/mil</strong> per tahap
+                </div>
+            </div>
+        </div>
+
+        <!-- Voltage Visual Curve Preview Section -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm p-4 sm:p-6 no-print space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="font-heading font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="bi bi-graph-up text-brand-500"></i>
+                        <span>Kurva Kenaikan Tegangan Uji (Voltage Ramp Profile)</span>
+                    </h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                        Profil kenaikan linier nilai Test Volts (KV) dari Step 1 (awal) hingga Step 27 (maksimum).
+                    </p>
+                </div>
+                <span class="text-xs font-mono font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-xl" id="curve-peak-label">
+                    Puncak: - kV
+                </span>
+            </div>
+
+            <div class="w-full h-48 bg-slate-50 dark:bg-slate-800/40 rounded-2xl p-2 relative flex items-center justify-center overflow-hidden border border-slate-200/60 dark:border-slate-700/60">
+                <canvas id="voltageCanvas" class="w-full h-full block"></canvas>
+            </div>
+        </div>
+
+        <!-- Technical Reference Documentation -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm p-4 sm:p-6 no-print space-y-3">
+            <h3 class="font-heading font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                <i class="bi bi-info-circle text-brand-500"></i>
+                <span>Panduan Teknis Pengujian AC Withstand Test</span>
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                <div class="p-3 bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-slate-200/60 dark:border-slate-700/60 space-y-1">
+                    <strong class="text-slate-800 dark:text-slate-200 font-bold block">1. Tujuan Pengujian</strong>
+                    <p>Memverifikasi kekuatan dielektrik isolasi kabel agar tahan terhadap tegangan lebih operasional tanpa mengalami tembus listrik (breakdown) atau flashover.</p>
+                </div>
+                <div class="p-3 bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-slate-200/60 dark:border-slate-700/60 space-y-1">
+                    <strong class="text-slate-800 dark:text-slate-200 font-bold block">2. Tingkat Tegangan Bertahap</strong>
+                    <p>Penerapan tegangan secara bertahap dari Step 1 hingga step acuan (*, **, ***) mencegah timbulnya surge transien mendadak yang dapat merusak material isolasi.</p>
+                </div>
+                <div class="p-3 bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-slate-200/60 dark:border-slate-700/60 space-y-1">
+                    <strong class="text-slate-800 dark:text-slate-200 font-bold block">3. Evaluasi Kelulusan</strong>
+                    <p>Kabel dinyatakan <strong>LULUS (PASS)</strong> jika selama dwell time pada step target tidak terjadi lonjakan arus, trip circuit breaker, atau kerusakan fisik isolasi.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 px-4 no-print text-center text-xs text-slate-500 dark:text-slate-400">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <img src="./icons/williyanto_logo_rounded.png" alt="Williyanto Logo" class="w-5 h-5 rounded-full">
+                <span class="font-bold text-slate-700 dark:text-slate-300">Williyanto Adi</span>
+                <span>&bull; Cable Metrics & Multi-Utility Web Suite</span>
+            </div>
+            <div>
+                &copy; 2026 Williyanto Adi. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Element -->
+    <div id="toast"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2 rounded-2xl shadow-xl text-xs font-bold transition-all duration-300 opacity-0 pointer-events-none translate-y-4 flex items-center gap-2">
+        <i class="bi bi-check-circle-fill text-emerald-500"></i>
+        <span id="toast-message">Pesan notifikasi</span>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        // --- MASTER DATA STEP 1 SAMPAI STEP 27 SESUAI STANDAR TABEL ---
+        const stepsMaster = [
+            { step: 1, label: "Step 1", stress: 3.9, star: 0, tag: "" },
+            { step: 2, label: "Step 2", stress: 5.5, star: 0, tag: "" },
+            { step: 3, label: "Step 3", stress: 7.1, star: 0, tag: "" },
+            { step: 4, label: "Step 4", stress: 8.7, star: 0, tag: "" },
+            { step: 5, label: "Step 5", stress: 10.3, star: 0, tag: "" },
+            { step: 6, label: "Step 6", stress: 11.9, star: 0, tag: "" },
+            { step: 7, label: "Step 7", stress: 13.5, star: 0, tag: "" },
+            { step: 8, label: "* Step 8", stress: 15.1, star: 1, tag: "Level Acuan 1" },
+            { step: 9, label: "** Step 9", stress: 16.7, star: 2, tag: "Level Acuan 2" },
+            { step: 10, label: "Step 10", stress: 18.3, star: 0, tag: "" },
+            { step: 11, label: "Step 11", stress: 19.9, star: 0, tag: "" },
+            { step: 12, label: "*** Step 12", stress: 21.5, star: 3, tag: "Level Acuan 3" },
+            { step: 13, label: "Step 13", stress: 23.1, star: 0, tag: "" },
+            { step: 14, label: "Step 14", stress: 24.7, star: 0, tag: "" },
+            { step: 15, label: "Step 15", stress: 26.3, star: 0, tag: "" },
+            { step: 16, label: "Step 16", stress: 27.9, star: 0, tag: "" },
+            { step: 17, label: "Step 17", stress: 29.5, star: 0, tag: "" },
+            { step: 18, label: "Step 18", stress: 31.1, star: 0, tag: "" },
+            { step: 19, label: "Step 19", stress: 32.7, star: 0, tag: "" },
+            { step: 20, label: "Step 20", stress: 34.3, star: 0, tag: "" },
+            { step: 21, label: "Step 21", stress: 35.9, star: 0, tag: "" },
+            { step: 22, label: "Step 22", stress: 37.5, star: 0, tag: "" },
+            { step: 23, label: "Step 23", stress: 39.1, star: 0, tag: "" },
+            { step: 24, label: "Step 24", stress: 40.7, star: 0, tag: "" },
+            { step: 25, label: "Step 25", stress: 42.3, star: 0, tag: "" },
+            { step: 26, label: "Step 26", stress: 43.9, star: 0, tag: "" },
+            { step: 27, label: "Step 27", stress: 45.5, star: 0, tag: "Tegangan Puncak Maks" }
+        ];
+
+        // State variables
+        let currentThicknessMm = 1.00;
+        let currentThicknessMil = 39.3700787;
+        let currentFilter = 'all'; // 'all' or 'starred'
+
+        // DOM Elements
+        const inputMm = document.getElementById('input-thickness-mm');
+        const inputMil = document.getElementById('input-thickness-mil');
+        const rangeSlider = document.getElementById('thickness-range');
+        const sliderLabel = document.getElementById('slider-current-label');
+        const tableBody = document.getElementById('table-body');
+        const selectDecimals = document.getElementById('select-decimals');
+        const summaryStep8 = document.getElementById('summary-step-8');
+        const summaryStep9 = document.getElementById('summary-step-9');
+        const summaryStep12 = document.getElementById('summary-step-12');
+        const curvePeakLabel = document.getElementById('curve-peak-label');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+
+        // Conversion constant: 1 inch = 25.4 mm => 1 mil = 0.0254 mm
+        const MM_TO_MIL = 1 / 0.0254; // ~39.37007874015748
+        const MIL_TO_MM = 0.0254;
+
+        // --- THEME MANAGEMENT ---
+        function updateThemeIcon() {
+            const isDark = document.documentElement.classList.contains('dark');
+            if (themeToggleIcon) {
+                themeToggleIcon.className = isDark ? 'bi bi-sun-fill text-amber-500' : 'bi bi-moon-stars-fill text-brand-600';
+            }
+        }
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                updateThemeIcon();
+                drawVoltageCurve();
+            });
+        }
+        updateThemeIcon();
+
+        // --- TOAST NOTIFICATION ---
+        let toastTimeout = null;
+        function showToast(msg) {
+            if (!toast || !toastMessage) return;
+            toastMessage.textContent = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+            }, 2500);
+        }
+
+        // --- CONVERSION & INPUT HANDLERS ---
+        function onMmInput(e) {
+            const val = parseFloat(inputMm.value);
+            if (!isNaN(val) && val > 0) {
+                currentThicknessMm = val;
+                currentThicknessMil = val * MM_TO_MIL;
+                inputMil.value = currentThicknessMil.toFixed(2);
+                if (val <= 5.0) rangeSlider.value = val;
+                sliderLabel.textContent = `${val.toFixed(2)} mm`;
+                clearActivePreset();
+                renderTable();
+            }
+        }
+
+        function onMilInput(e) {
+            const val = parseFloat(inputMil.value);
+            if (!isNaN(val) && val > 0) {
+                currentThicknessMil = val;
+                currentThicknessMm = val * MIL_TO_MM;
+                inputMm.value = currentThicknessMm.toFixed(2);
+                if (currentThicknessMm <= 5.0) rangeSlider.value = currentThicknessMm;
+                sliderLabel.textContent = `${currentThicknessMm.toFixed(2)} mm`;
+                clearActivePreset();
+                renderTable();
+            }
+        }
+
+        function onSliderInput(e) {
+            const val = parseFloat(rangeSlider.value);
+            currentThicknessMm = val;
+            currentThicknessMil = val * MM_TO_MIL;
+            inputMm.value = val.toFixed(2);
+            inputMil.value = currentThicknessMil.toFixed(2);
+            sliderLabel.textContent = `${val.toFixed(2)} mm`;
+            clearActivePreset();
+            renderTable();
+        }
+
+        function setPreset(mmValue) {
+            currentThicknessMm = mmValue;
+            currentThicknessMil = mmValue * MM_TO_MIL;
+            inputMm.value = mmValue.toFixed(2);
+            inputMil.value = currentThicknessMil.toFixed(2);
+            rangeSlider.value = mmValue;
+            sliderLabel.textContent = `${mmValue.toFixed(2)} mm`;
+
+            // Update active preset button highlight
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                if (btn.textContent.trim() === `${mmValue} mm` || btn.textContent.trim() === `${mmValue.toFixed(1)} mm`) {
+                    btn.className = "preset-btn active-preset px-2.5 py-1 rounded-xl text-xs font-semibold bg-brand-500 text-white border border-brand-500 transition-all font-mono";
+                } else {
+                    btn.className = "preset-btn px-2.5 py-1 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-brand-50 hover:text-brand-600 dark:hover:bg-brand-900/30 dark:hover:text-brand-300 border border-slate-200/60 dark:border-slate-700/60 transition-all font-mono";
+                }
+            });
+
+            renderTable();
+        }
+
+        function clearActivePreset() {
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                btn.className = "preset-btn px-2.5 py-1 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-brand-50 hover:text-brand-600 dark:hover:bg-brand-900/30 dark:hover:text-brand-300 border border-slate-200/60 dark:border-slate-700/60 transition-all font-mono";
+            });
+        }
+
+        inputMm.addEventListener('input', onMmInput);
+        inputMil.addEventListener('input', onMilInput);
+        rangeSlider.addEventListener('input', onSliderInput);
+
+        // --- FILTER STEP HANDLERS ---
+        function setStepFilter(filterType) {
+            currentFilter = filterType;
+            const btnAll = document.getElementById('filter-all');
+            const btnStarred = document.getElementById('filter-starred');
+
+            if (filterType === 'all') {
+                btnAll.className = "filter-tab-btn px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-brand-600 dark:text-brand-300 shadow-sm font-bold transition-all";
+                btnStarred.className = "filter-tab-btn px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all";
+            } else {
+                btnStarred.className = "filter-tab-btn px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-brand-600 dark:text-brand-300 shadow-sm font-bold transition-all";
+                btnAll.className = "filter-tab-btn px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all";
+            }
+            renderTable();
+        }
+
+        // --- FORMATTING UTILITY ---
+        function formatNumber(num, decimals) {
+            return num.toLocaleString('id-ID', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            });
+        }
+
+        // --- RENDER TABLE & SUMMARY ---
+        function renderTable() {
+            const decimals = parseInt(selectDecimals.value, 10) || 3;
+            tableBody.innerHTML = '';
+
+            let displayedCount = 0;
+            const voltageList = [];
+
+            stepsMaster.forEach(item => {
+                // Test Volts (KV) = (Avg Stress * mils) / 1000
+                const testVoltsKv = (item.stress * currentThicknessMil) / 1000;
+                const testVoltsV = item.stress * currentThicknessMil;
+                voltageList.push({ step: item.step, label: item.label, kv: testVoltsKv });
+
+                // Update summary badges
+                if (item.step === 8 && summaryStep8) summaryStep8.textContent = `${testVoltsKv.toFixed(3)} kV`;
+                if (item.step === 9 && summaryStep9) summaryStep9.textContent = `${testVoltsKv.toFixed(3)} kV`;
+                if (item.step === 12 && summaryStep12) summaryStep12.textContent = `${testVoltsKv.toFixed(3)} kV`;
+
+                // Filtering check
+                if (currentFilter === 'starred' && item.star === 0) {
+                    return;
+                }
+                displayedCount++;
+
+                // Table row creation
+                const tr = document.createElement('tr');
+                let rowBgClass = 'hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors';
+                let stepBadgeClass = 'text-slate-700 dark:text-slate-200 font-semibold';
+                let tagBadge = '';
+
+                if (item.star === 1) {
+                    rowBgClass = 'bg-amber-500/5 dark:bg-amber-500/10 hover:bg-amber-500/15 border-l-4 border-amber-500';
+                    stepBadgeClass = 'text-amber-700 dark:text-amber-400 font-bold';
+                    tagBadge = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30"><i class="bi bi-star-fill text-[9px]"></i> Level Acuan 1</span>`;
+                } else if (item.star === 2) {
+                    rowBgClass = 'bg-sky-500/5 dark:bg-sky-500/10 hover:bg-sky-500/15 border-l-4 border-sky-500';
+                    stepBadgeClass = 'text-sky-700 dark:text-sky-400 font-bold';
+                    tagBadge = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-500/30"><i class="bi bi-star-fill text-[9px]"></i><i class="bi bi-star-fill text-[9px]"></i> Level Acuan 2</span>`;
+                } else if (item.star === 3) {
+                    rowBgClass = 'bg-purple-500/5 dark:bg-purple-500/10 hover:bg-purple-500/15 border-l-4 border-purple-500';
+                    stepBadgeClass = 'text-purple-700 dark:text-purple-400 font-bold';
+                    tagBadge = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/15 text-purple-700 dark:text-purple-300 border border-purple-500/30"><i class="bi bi-star-fill text-[9px]"></i><i class="bi bi-star-fill text-[9px]"></i><i class="bi bi-star-fill text-[9px]"></i> Level Acuan 3</span>`;
+                } else if (item.step === 27) {
+                    tagBadge = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30"><i class="bi bi-lightning-fill"></i> Puncak Step 27</span>`;
+                }
+
+                tr.className = rowBgClass;
+                tr.innerHTML = `
+                    <td class="py-2.5 px-4 text-center font-mono text-slate-400 font-bold text-xs">${item.step}</td>
+                    <td class="py-2.5 px-4 ${stepBadgeClass} font-mono">
+                        ${item.label}
+                    </td>
+                    <td class="py-2.5 px-4 text-right font-mono font-bold text-slate-700 dark:text-slate-200">
+                        ${formatNumber(item.stress, 1)}
+                    </td>
+                    <td class="py-2.5 px-4 text-right font-mono font-black text-sm text-brand-600 dark:text-brand-400">
+                        ${formatNumber(testVoltsKv, decimals)} <span class="text-[10px] text-slate-400 font-normal">kV</span>
+                    </td>
+                    <td class="py-2.5 px-4 text-right font-mono text-slate-500 dark:text-slate-400 hidden sm:table-cell">
+                        ${formatNumber(testVoltsV, 1)} V
+                    </td>
+                    <td class="py-2.5 px-4 text-center">
+                        ${tagBadge || '<span class="text-slate-300 dark:text-slate-700">&bull;</span>'}
+                    </td>
+                `;
+
+                tableBody.appendChild(tr);
+            });
+
+            // Update badge total
+            const badgeTotal = document.getElementById('total-steps-badge');
+            if (badgeTotal) {
+                badgeTotal.textContent = `${displayedCount} Step`;
+            }
+
+            // Update curve peak
+            const peakKv = (stepsMaster[26].stress * currentThicknessMil) / 1000;
+            if (curvePeakLabel) {
+                curvePeakLabel.textContent = `Puncak Step 27: ${peakKv.toFixed(3)} kV`;
+            }
+
+            // Draw Voltage Curve
+            drawVoltageCurve();
+        }
+
+        // --- DRAW VOLTAGE CURVE ON HTML5 CANVAS ---
+        function drawVoltageCurve() {
+            const canvas = document.getElementById('voltageCanvas');
+            if (!canvas) return;
+
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const isDark = document.documentElement.classList.contains('dark');
+
+            ctx.clearRect(0, 0, w, h);
+
+            const padLeft = 45;
+            const padRight = 25;
+            const padTop = 20;
+            const padBottom = 25;
+
+            const plotW = w - padLeft - padRight;
+            const plotH = h - padTop - padBottom;
+
+            // Data points
+            const points = stepsMaster.map((item, idx) => {
+                const kv = (item.stress * currentThicknessMil) / 1000;
+                return { step: item.step, label: item.label, star: item.star, kv: kv };
+            });
+
+            const maxKv = points[points.length - 1].kv * 1.1 || 1;
+
+            // Draw grid lines
+            ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = padTop + (plotH / 4) * i;
+                ctx.beginPath();
+                ctx.moveTo(padLeft, y);
+                ctx.lineTo(w - padRight, y);
+                ctx.stroke();
+
+                // Y-axis label
+                const val = (maxKv - (maxKv / 4) * i).toFixed(2);
+                ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+                ctx.font = '10px JetBrains Mono';
+                ctx.textAlign = 'right';
+                ctx.fillText(`${val} kV`, padLeft - 6, y + 3);
+            }
+
+            // Gradient area fill
+            const grad = ctx.createLinearGradient(0, padTop, 0, padTop + plotH);
+            grad.addColorStop(0, isDark ? 'rgba(59, 130, 246, 0.45)' : 'rgba(37, 99, 235, 0.25)');
+            grad.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+
+            ctx.beginPath();
+            points.forEach((p, idx) => {
+                const x = padLeft + (idx / (points.length - 1)) * plotW;
+                const y = padTop + plotH - (p.kv / maxKv) * plotH;
+                if (idx === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.lineTo(padLeft + plotW, padTop + plotH);
+            ctx.lineTo(padLeft, padTop + plotH);
+            ctx.closePath();
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            // Line stroke
+            ctx.beginPath();
+            points.forEach((p, idx) => {
+                const x = padLeft + (idx / (points.length - 1)) * plotW;
+                const y = padTop + plotH - (p.kv / maxKv) * plotH;
+                if (idx === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // Draw starred nodes
+            points.forEach((p, idx) => {
+                if (p.star > 0 || p.step === 1 || p.step === 27) {
+                    const x = padLeft + (idx / (points.length - 1)) * plotW;
+                    const y = padTop + plotH - (p.kv / maxKv) * plotH;
+
+                    ctx.beginPath();
+                    ctx.arc(x, y, p.star > 0 ? 5 : 3.5, 0, Math.PI * 2);
+                    ctx.fillStyle = p.star === 1 ? '#f59e0b' : (p.star === 2 ? '#0284c7' : (p.star === 3 ? '#a855f7' : '#3b82f6'));
+                    ctx.fill();
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+
+                    // Label on starred nodes
+                    if (p.star > 0) {
+                        ctx.fillStyle = isDark ? '#ffffff' : '#0f172a';
+                        ctx.font = 'bold 10px JetBrains Mono';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(`S${p.step}`, x, y - 8);
+                    }
+                }
+            });
+        }
+
+        // --- EXPORT TO CSV ---
+        function exportCSV() {
+            let csv = "Step,Avg Stress (volt/mil),Test Volts (KV),Test Volts (V),Catatan\n";
+            stepsMaster.forEach(item => {
+                const kv = (item.stress * currentThicknessMil) / 1000;
+                const v = item.stress * currentThicknessMil;
+                csv += `"${item.label}",${item.stress},${kv.toFixed(4)},${v.toFixed(2)},"${item.tag}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `AC_Withstand_Test_${currentThicknessMm}mm_${currentThicknessMil.toFixed(1)}mil.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast("File CSV berhasil diunduh!");
+        }
+
+        // --- COPY DATA TO CLIPBOARD (EXCEL FRIENDLY TSV) ---
+        function copyTableData() {
+            let tsv = "Step\tAvg Stress (volt/mil)\tTest Volts (KV)\tTest Volts (V)\tCatatan\n";
+            stepsMaster.forEach(item => {
+                const kv = (item.stress * currentThicknessMil) / 1000;
+                const v = item.stress * currentThicknessMil;
+                tsv += `${item.label}\t${item.stress.toString().replace('.', ',')}\t${kv.toFixed(4).replace('.', ',')}\t${v.toFixed(2).replace('.', ',')}\t${item.tag}\n`;
+            });
+
+            navigator.clipboard.writeText(tsv).then(() => {
+                showToast("Data tabel berhasil disalin ke Clipboard (siap di-paste ke Excel)!");
+            }).catch(() => {
+                showToast("Gagal menyalin ke Clipboard.");
+            });
+        }
+
+        // --- PRINT REPORT ---
+        function printReport() {
+            window.print();
+        }
+
+        // Resize listener for canvas
+        window.addEventListener('resize', drawVoltageCurve);
+
+        // Initial Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTable();
+        });
+    </script>
+</body>
+
+</html>
