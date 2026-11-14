@@ -411,15 +411,6 @@
             return parseFloat(cleaned);
         }
 
-        const presets = [
-            { id: 'preset-420mil', mil: 420 },
-            { id: 'preset-1mm', mm: 1.0 },
-            { id: 'preset-14mm', mm: 1.4 },
-            { id: 'preset-18mm', mm: 1.8 },
-            { id: 'preset-2mm', mm: 2.0 },
-            { id: 'preset-25mm', mm: 2.5 }
-        ];
-
         // Kalkulasi Utama: Test Volts (KV) = (mil * volt/mil) / 1000
         function calculate() {
             tableBody.innerHTML = '';
@@ -499,7 +490,7 @@
                 hasilKalkulasi.textContent = '---';
                 activeStepBadge.textContent = 'Menunggu Input';
                 resultTitle.textContent = 'Tegangan Uji AC';
-                formulaDetail.innerHTML = '<span class="text-slate-400 dark:text-slate-500 font-sans text-[10px]">Silakan masukkan tebal isolasi atau pilih preset di atas</span>';
+                formulaDetail.innerHTML = '<span class="text-slate-400 dark:text-slate-500 font-sans text-[10px]">Silakan masukkan nilai tebal isolasi kabel di atas</span>';
             }
 
             // Update Quick Pill Highlight
@@ -531,7 +522,6 @@
                 inputMil.value = '';
                 currentMm = NaN;
                 currentMil = NaN;
-                clearActivePresets();
                 calculate();
                 return;
             }
@@ -540,12 +530,10 @@
                 currentMm = val;
                 currentMil = val * MM_TO_MIL;
                 inputMil.value = (Math.round(currentMil * 100) / 100).toString();
-                updatePresetButtons();
                 calculate();
             } else {
                 currentMm = NaN;
                 currentMil = NaN;
-                clearActivePresets();
                 calculate();
             }
         });
@@ -556,7 +544,6 @@
                 inputMm.value = '';
                 currentMil = NaN;
                 currentMm = NaN;
-                clearActivePresets();
                 calculate();
                 return;
             }
@@ -565,58 +552,13 @@
                 currentMil = val;
                 currentMm = val * MIL_TO_MM;
                 inputMm.value = (Math.round(currentMm * 1000) / 1000).toString();
-                updatePresetButtons();
                 calculate();
             } else {
                 currentMil = NaN;
                 currentMm = NaN;
-                clearActivePresets();
                 calculate();
             }
         });
-
-        function setPresetMil(milVal) {
-            currentMil = milVal;
-            currentMm = milVal * MIL_TO_MM;
-            inputMil.value = milVal;
-            inputMm.value = (Math.round(currentMm * 1000) / 1000).toString();
-            updatePresetButtons();
-            calculate();
-        }
-
-        function setPresetMm(mmVal) {
-            currentMm = mmVal;
-            currentMil = mmVal * MM_TO_MIL;
-            inputMm.value = mmVal;
-            inputMil.value = (Math.round(currentMil * 100) / 100).toString();
-            updatePresetButtons();
-            calculate();
-        }
-
-        function updatePresetButtons() {
-            presets.forEach(p => {
-                const btn = document.getElementById(p.id);
-                if (!btn) return;
-                let isActive = false;
-                if (p.mil !== undefined && !isNaN(currentMil)) {
-                    isActive = Math.abs(currentMil - p.mil) < 0.2;
-                } else if (p.mm !== undefined && !isNaN(currentMm)) {
-                    isActive = Math.abs(currentMm - p.mm) < 0.03;
-                }
-
-                if (isActive) {
-                    btn.className = "preset-btn active-preset px-2 py-0.5 rounded-lg text-[9.5px] font-mono font-bold bg-amber-500 text-white shadow-sm transition-all shrink-0";
-                } else {
-                    btn.className = "preset-btn px-2 py-0.5 rounded-lg text-[9.5px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all shrink-0";
-                }
-            });
-        }
-
-        function clearActivePresets() {
-            document.querySelectorAll('.preset-btn').forEach(btn => {
-                btn.className = "preset-btn px-2 py-0.5 rounded-lg text-[9.5px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all shrink-0";
-            });
-        }
 
         function resetForm() {
             currentMil = NaN;
@@ -624,7 +566,6 @@
             selectedStepNum = 1;
             inputMm.value = '';
             inputMil.value = '';
-            clearActivePresets();
             calculate();
             if (window.innerWidth >= 640) {
                 inputMm.focus();
@@ -679,7 +620,6 @@
             selectedStepNum = 1;
             inputMm.value = '';
             inputMil.value = '';
-            clearActivePresets();
             calculate();
         });
     </script>
