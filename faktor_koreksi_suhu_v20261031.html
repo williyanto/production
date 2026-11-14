@@ -56,11 +56,11 @@
     <div class="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-5 transition-all duration-300 flex flex-col w-full max-h-[calc(100dvh-1rem)] my-auto overflow-hidden">
         
         <!-- Header -->
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+        <div class="flex items-center justify-between pb-2.5 sm:pb-3 border-b border-slate-200/80 dark:border-slate-800 shrink-0">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-sky-200 dark:shadow-none">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-sky-200 dark:shadow-none shrink-0">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z" />
                     </svg>
                 </div>
                 <div>
@@ -70,7 +70,7 @@
             </div>
             
             <!-- Dark Mode Toggle Button -->
-            <button id="theme-toggle" type="button" class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">
+            <button id="theme-toggle" type="button" class="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95 transition-all shrink-0" title="Ganti Tema">
                 <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
@@ -80,68 +80,96 @@
             </button>
         </div>
 
+        <!-- Segmented Standard Switcher (Persis gaya iec_final) -->
+        <div class="grid grid-cols-4 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl my-2 border border-slate-200/20 dark:border-slate-700/20 shrink-0">
+            <button type="button" onclick="setStandard('IEC')" id="tabIEC" class="tab-std text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30">IEC</button>
+            <button type="button" onclick="setStandard('ICEA')" id="tabICEA" class="tab-std text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">ICEA</button>
+            <button type="button" onclick="setStandard('AS/NZS')" id="tabASNZS" class="tab-std text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">AS/NZS</button>
+            <button type="button" onclick="setStandard('SPLN')" id="tabSPLN" class="tab-std text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">SPLN</button>
+        </div>
+
         <!-- Inputs and controls container -->
-        <div class="space-y-3 flex-1 flex flex-col justify-between my-2 px-1 -mx-1 overflow-y-auto scrollbar-none">
+        <div class="space-y-3 flex-1 flex flex-col justify-between my-1 px-1 -mx-1 overflow-y-auto scrollbar-none">
             
-            <div class="space-y-3">
-                <!-- Standard & Konduktor Row -->
-                <div class="grid grid-cols-2 gap-3">
+            <div class="space-y-2.5">
+                <!-- Group 1: Material Konduktor Toggle (Persis Mode Selector di iec_final) -->
+                <div>
+                    <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-1.5">Jenis Konduktor</span>
+                    <div class="flex p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl border border-slate-200/20 dark:border-slate-700/20">
+                        <button type="button" onclick="setConductor('Cu')" id="btnCondCu" class="flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30">
+                            🥉 Tembaga (Cu)
+                        </button>
+                        <button type="button" onclick="setConductor('Al')" id="btnCondAl" class="flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
+                            ⚪ Aluminium (Al)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Group 2: Suhu Pengujian -->
+                <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Suhu Pengujian</span>
+                        <span class="text-[9px] font-mono text-slate-400 dark:text-slate-500">Rentang: -40°C ~ 300°C</span>
+                    </div>
+
+                    <!-- Input Suhu -->
                     <div class="relative group">
-                        <label for="specSelect" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Standard</label>
                         <div class="relative">
-                            <select id="specSelect" onchange="hitungKoreksi()" class="appearance-none block w-full pl-3 pr-7 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all text-xs font-bold cursor-pointer">
-                                <option value="IEC" selected>IEC Standard</option>
-                                <option value="ICEA">ICEA Standard</option>
-                                <option value="AS/NZS">AS/NZS Standard</option>
-                                <option value="SPLN">SPLN Standard</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400 dark:text-slate-500">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-sky-500 transition-colors">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z" />
+                                </svg>
+                            </div>
+                            <input type="text" inputmode="decimal" id="suhuInput" oninput="hitungKoreksi()" class="pl-9 pr-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all text-xs font-semibold font-mono" placeholder="20">
+                            <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
+                                <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 font-mono">°C</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="relative group">
-                        <label for="conductorTypeSelect" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Konduktor</label>
-                        <div class="relative">
-                            <select id="conductorTypeSelect" onchange="hitungKoreksi()" class="appearance-none block w-full pl-3 pr-7 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all text-xs font-bold cursor-pointer">
-                                <option value="Cu" selected>Tembaga (Cu)</option>
-                                <option value="Al">Aluminium (Al)</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400 dark:text-slate-500">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                            </div>
-                        </div>
+                    <!-- Preset Quick Temperature Buttons -->
+                    <div class="grid grid-cols-5 gap-1.5 mt-2">
+                        <button type="button" onclick="setPresetTemp(20)" class="py-1 px-1 rounded-lg text-center text-[10px] font-bold transition-all bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-sky-50 hover:text-sky-600 dark:hover:bg-slate-700/80 border border-slate-200/50 dark:border-slate-700/50 font-mono active:scale-95" title="Standar 20°C">20°C</button>
+                        <button type="button" onclick="setPresetTemp(25)" class="py-1 px-1 rounded-lg text-center text-[10px] font-bold transition-all bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-sky-50 hover:text-sky-600 dark:hover:bg-slate-700/80 border border-slate-200/50 dark:border-slate-700/50 font-mono active:scale-95" title="Ambien 25°C">25°C</button>
+                        <button type="button" onclick="setPresetTemp(30)" class="py-1 px-1 rounded-lg text-center text-[10px] font-bold transition-all bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-sky-50 hover:text-sky-600 dark:hover:bg-slate-700/80 border border-slate-200/50 dark:border-slate-700/50 font-mono active:scale-95" title="Tropis 30°C">30°C</button>
+                        <button type="button" onclick="setPresetTemp(70)" class="py-1 px-1 rounded-lg text-center text-[10px] font-bold transition-all bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-sky-50 hover:text-sky-600 dark:hover:bg-slate-700/80 border border-slate-200/50 dark:border-slate-700/50 font-mono active:scale-95" title="PVC Max 70°C">70°C</button>
+                        <button type="button" onclick="setPresetTemp(90)" class="py-1 px-1 rounded-lg text-center text-[10px] font-bold transition-all bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-sky-50 hover:text-sky-600 dark:hover:bg-slate-700/80 border border-slate-200/50 dark:border-slate-700/50 font-mono active:scale-95" title="XLPE Max 90°C">90°C</button>
                     </div>
                 </div>
 
-                <!-- Suhu Pengujian Input -->
-                <div class="relative group">
-                    <label for="suhuInput" class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Suhu Pengujian (°C)</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500 group-focus-within:text-sky-500 transition-colors">
-                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                        </div>
-                        <input type="text" inputmode="decimal" id="suhuInput" oninput="hitungKoreksi()" class="pl-9 block w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all text-xs font-semibold" placeholder="-40°C s/d 300°C">
-                    </div>
-                </div>
+                <!-- Hidden legacy selects for full backward compatibility -->
+                <select id="specSelect" onchange="hitungKoreksi()" class="hidden">
+                    <option value="IEC" selected>IEC Standard</option>
+                    <option value="ICEA">ICEA Standard</option>
+                    <option value="AS/NZS">AS/NZS Standard</option>
+                    <option value="SPLN">SPLN Standard</option>
+                </select>
+                <select id="conductorTypeSelect" onchange="hitungKoreksi()" class="hidden">
+                    <option value="Cu" selected>Tembaga (Cu)</option>
+                    <option value="Al">Aluminium (Al)</option>
+                </select>
             </div>
 
-            <!-- Dynamic Result Card -->
-            <div id="resultCard" class="transition-all duration-300 rounded-2xl p-4 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1">
+            <!-- Dynamic Result Card (Persis gaya iec_final) -->
+            <div id="resultCard" class="transition-all duration-300 rounded-2xl p-3.5 sm:p-4 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 text-center relative overflow-hidden my-1 flex flex-col justify-center items-center flex-1 min-h-[140px]">
                 <div class="absolute -right-10 -bottom-10 w-24 h-24 rounded-full bg-sky-500/5 blur-xl pointer-events-none"></div>
                 
                 <div class="w-full flex items-center justify-between mb-1">
-                    <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Faktor Koreksi (k)</span>
+                    <span id="resultTitle" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Faktor Koreksi Suhu (k₂₀)</span>
+                    <span id="badgeStandardActive" class="text-[9px] font-mono font-bold text-sky-600 dark:text-sky-400 bg-sky-100/70 dark:bg-sky-900/40 px-2 py-0.5 rounded-md">IEC • Cu</span>
                 </div>
                 
                 <div class="my-auto py-1 w-full">
-                    <span id="hasilKoreksi" class="w-full text-center bg-transparent font-extrabold text-3xl sm:text-4xl text-sky-600 dark:text-sky-300 transition-colors duration-300 block py-0">---</span>
+                    <span id="hasilKoreksi" class="w-full text-center bg-transparent font-extrabold text-3xl sm:text-4xl text-sky-600 dark:text-sky-300 font-mono tracking-tight transition-colors duration-300 block py-0">---</span>
+                    <span id="resultUnit" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block mt-1">Koefisien Pengali (R₂₀ = Rt × k)</span>
                 </div>
                 
-                <p id="formulaText" class="text-center text-[11px] font-mono text-slate-400 dark:text-slate-500 leading-snug transition-colors duration-300 mt-auto">Rumus: k = 254.5 / (234.5 + t)</p>
+                <div class="mt-auto pt-1 w-full flex items-center justify-center">
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800/90 border border-slate-200/60 dark:border-slate-700/60 shadow-xs">
+                        <span class="text-[9px] font-extrabold text-sky-500 dark:text-sky-400 uppercase tracking-wider">Rumus</span>
+                        <span id="formulaText" class="text-[10.5px] font-mono font-semibold text-slate-600 dark:text-slate-300">k = 254.5 / (234.5 + t)</span>
+                    </div>
+                </div>
             </div>
             
             <!-- Controls Menu -->
@@ -165,7 +193,7 @@
         </div>
 
         <!-- Footer -->
-        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-2 pt-2 border-t border-slate-100 dark:border-slate-800 font-medium">
+        <footer class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-2 pt-2 border-t border-slate-100 dark:border-slate-800 font-medium shrink-0">
             Williyanto Adi 2026
         </footer>
 
@@ -179,6 +207,7 @@
         const inputSuhu = document.getElementById('suhuInput');
         const displayHasil = document.getElementById('hasilKoreksi');
         const formulaDisplay = document.getElementById('formulaText');
+        const activeBadge = document.getElementById('badgeStandardActive');
 
         const specs = {
           IEC: {
@@ -199,6 +228,58 @@
           }
         };
 
+        const stdTabIds = {
+            'IEC': 'tabIEC',
+            'ICEA': 'tabICEA',
+            'AS/NZS': 'tabASNZS',
+            'SPLN': 'tabSPLN'
+        };
+
+        function updateTabStyles() {
+            const currentStd = specSelect.value;
+            Object.keys(stdTabIds).forEach(std => {
+                const btn = document.getElementById(stdTabIds[std]);
+                if (!btn) return;
+                if (std === currentStd) {
+                    btn.className = "tab-std text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30";
+                } else {
+                    btn.className = "tab-std text-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-slate-800/50 border border-transparent";
+                }
+            });
+        }
+
+        function updateConductorStyles() {
+            const currentCond = conductorTypeSelect.value;
+            const btnCu = document.getElementById('btnCondCu');
+            const btnAl = document.getElementById('btnCondAl');
+            if (btnCu && btnAl) {
+                if (currentCond === 'Cu') {
+                    btnCu.className = "flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30";
+                    btnAl.className = "flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 border border-transparent";
+                } else {
+                    btnAl.className = "flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-300 shadow-sm border border-slate-200/50 dark:border-slate-600/30";
+                    btnCu.className = "flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 border border-transparent";
+                }
+            }
+        }
+
+        window.setStandard = function(std) {
+            specSelect.value = std;
+            updateTabStyles();
+            hitungKoreksi();
+        };
+
+        window.setConductor = function(cond) {
+            conductorTypeSelect.value = cond;
+            updateConductorStyles();
+            hitungKoreksi();
+        };
+
+        window.setPresetTemp = function(tempVal) {
+            inputSuhu.value = tempVal;
+            hitungKoreksi();
+        };
+
         window.hitungKoreksi = function() {
           const spesifikasi = specSelect.value;
           const conductorType = conductorTypeSelect.value;
@@ -206,13 +287,17 @@
           const suhu = parseFloat(rawVal);
           const currentFormulaData = specs[spesifikasi][conductorType];
 
+          if (activeBadge) {
+            activeBadge.textContent = `${spesifikasi} • ${conductorType}`;
+          }
+
           displayHasil.classList.remove('text-rose-600', 'dark:text-rose-400');
           displayHasil.classList.add('text-sky-600', 'dark:text-sky-300');
           inputSuhu.classList.remove('border-rose-400', 'dark:border-rose-500');
 
           if (isNaN(suhu)) {
             displayHasil.textContent = '---';
-            formulaDisplay.textContent = 'Rumus: ' + currentFormulaData.base;
+            formulaDisplay.textContent = currentFormulaData.base;
             return;
           }
 
@@ -223,7 +308,7 @@
             displayHasil.classList.remove('text-sky-600', 'dark:text-sky-300');
             displayHasil.classList.add('text-rose-600', 'dark:text-rose-400');
             inputSuhu.classList.add('border-rose-400', 'dark:border-rose-500');
-            formulaDisplay.textContent = 'Rumus: ' + currentFormulaData.base.replace('t', suhu);
+            formulaDisplay.textContent = currentFormulaData.base.replace('t', suhu);
             return;
           }
 
@@ -235,9 +320,11 @@
             displayHasil.textContent = faktorKoreksi.toFixed(4);
           }
 
-          formulaDisplay.textContent = 'Rumus: ' + currentFormulaData.base.replace('t', suhu);
+          formulaDisplay.textContent = currentFormulaData.base.replace('t', suhu);
         };
 
+        updateTabStyles();
+        updateConductorStyles();
         hitungKoreksi();
 
         // Theme Toggle Logic
@@ -275,6 +362,8 @@
             specSelect.value = 'IEC';
             conductorTypeSelect.value = 'Cu';
             inputSuhu.value = '20';
+            updateTabStyles();
+            updateConductorStyles();
             hitungKoreksi();
           });
         }
