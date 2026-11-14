@@ -224,7 +224,12 @@
     <!-- JavaScript Code -->
     <script>
         // Ambil data dari Local Storage atau inisialisasi array kosong
-        let riwayat = JSON.parse(localStorage.getItem('riwayatPengisian')) || [];
+        let riwayat = [];
+        try {
+            riwayat = JSON.parse(localStorage.getItem('riwayatPengisian')) || [];
+        } catch (e) {
+            riwayat = [];
+        }
 
         // Set tanggal pengisian secara otomatis saat halaman dimuat
         document.addEventListener("DOMContentLoaded", function() {
