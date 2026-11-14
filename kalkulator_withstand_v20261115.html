@@ -315,8 +315,8 @@
 
     <!-- Script Logic -->
     <script>
-        // Master Data Step 1 sampai Step 27 sesuai spesifikasi gambar (Volt / mil):
-        // 100 s/d 1140 (+40 volt/mil per step)
+        // Master Data Step 1 sampai Step 40 sesuai spesifikasi (Volt / mil):
+        // 100 s/d 1660 (+40 volt/mil per step)
         const stepsData = [
             { step: 1, label: "Step 1", stress: 100, star: 0 },
             { step: 2, label: "Step 2", stress: 140, star: 0 },
@@ -344,7 +344,20 @@
             { step: 24, label: "Step 24", stress: 1020, star: 0 },
             { step: 25, label: "Step 25", stress: 1060, star: 0 },
             { step: 26, label: "Step 26", stress: 1100, star: 0 },
-            { step: 27, label: "Step 27", stress: 1140, star: 0 }
+            { step: 27, label: "Step 27", stress: 1140, star: 0 },
+            { step: 28, label: "Step 28", stress: 1180, star: 0 },
+            { step: 29, label: "Step 29", stress: 1220, star: 0 },
+            { step: 30, label: "Step 30", stress: 1260, star: 0 },
+            { step: 31, label: "Step 31", stress: 1300, star: 0 },
+            { step: 32, label: "Step 32", stress: 1340, star: 0 },
+            { step: 33, label: "Step 33", stress: 1380, star: 0 },
+            { step: 34, label: "Step 34", stress: 1420, star: 0 },
+            { step: 35, label: "Step 35", stress: 1460, star: 0 },
+            { step: 36, label: "Step 36", stress: 1500, star: 0 },
+            { step: 37, label: "Step 37", stress: 1540, star: 0 },
+            { step: 38, label: "Step 38", stress: 1580, star: 0 },
+            { step: 39, label: "Step 39", stress: 1620, star: 0 },
+            { step: 40, label: "Step 40", stress: 1660, star: 0 }
         ];
 
         // Konstanta Konversi: 1 mil = 0.0254 mm => 1 mm = 1 / 0.0254 mil

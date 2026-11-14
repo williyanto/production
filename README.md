@@ -146,7 +146,7 @@ Seluruh aplikasi dibangun dengan antarmuka yang responsif, mendukung **Light Mod
 
 | **Kalkulator Spek IR Kabel** | Perhitungan spesifikasi dan evaluasi batas kelulusan Insulation Resistance (IR) kabel (LSOH, PVC, XLPE) pada suhu operasi & suhu ruang. | [`spek_ir_v20261103.html`](./spek_ir_v20261103.html) | `Aktif` |
 
-| **Kalkulator AC Withstand Test** | Perhitungan bertingkat Step 1 s/d 27 nilai Test Volts (kV) dari konversi tebal isolasi (mm ↔ mil) dan Avg Stress (volt/mil). | [`kalkulator_withstand_v20261115.html`](./kalkulator_withstand_v20261115.html) | `Aktif` |
+| **Kalkulator AC Withstand Test** | Perhitungan bertingkat Step 1 s/d 40 nilai Test Volts (kV) dari konversi tebal isolasi (mm ↔ mil) dan Avg Stress (volt/mil). | [`kalkulator_withstand_v20261115.html`](./kalkulator_withstand_v20261115.html) | `Aktif` |
 
 | **Kapasitas Rak Kabel (Flame Retardant)** | Analisis pembebanan & kapasitas penataan kabel tahan api (*Flame Retardant*) pada rak kabel. | [`flame_retardant_v20261104.html`](./flame_retardant_v20261104.html) | `Aktif` |
 
