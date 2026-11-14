@@ -25,9 +25,17 @@
         }
     </script>
     <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         html, body {
             height: 100%;
-            overflow: hidden; /* Mencegah scrollbar halaman luar */
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden !important; /* Mencegah scrollbar halaman luar */
+            overscroll-behavior: none;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
@@ -79,7 +87,7 @@
 </head>
 
 <body
-    class="bg-gradient-to-tr from-slate-100 via-amber-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 h-full max-h-[100dvh] flex flex-col justify-center items-center p-2 sm:p-3 overflow-hidden transition-colors duration-300">
+    class="bg-gradient-to-tr from-slate-100 via-amber-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 h-full h-[100dvh] w-full flex flex-col justify-center items-center p-2 sm:p-3 overflow-hidden select-none sm:select-auto transition-colors duration-300">
 
     <!-- Ambient Background Blobs (Desktop Only) -->
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
@@ -88,9 +96,9 @@
             style="animation-delay: 2s;"></div>
     </div>
 
-    <!-- Main Container (Sederhana bebas scroll luar: max-w-md, rounded-3xl, max-h-[calc(100dvh-1rem)]) -->
+    <!-- Main Container (Sederhana bebas scroll luar: max-w-md, rounded-3xl, pas 100% viewport) -->
     <div
-        class="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-3.5 sm:p-4 transition-all duration-300 flex flex-col h-full max-h-[calc(100dvh-1rem)] my-auto overflow-hidden justify-between">
+        class="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-3 sm:p-3.5 transition-all duration-300 flex flex-col h-[min(680px,calc(100dvh-1.5rem))] my-auto overflow-hidden justify-between">
 
         <!-- Header -->
         <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800 shrink-0">
@@ -125,7 +133,7 @@
         </div>
 
         <!-- Inputs and controls container (Compact & Auto-fitting) -->
-        <div class="space-y-2 flex-1 flex flex-col justify-between my-1.5 px-0.5 overflow-hidden">
+        <div class="space-y-2 flex-1 min-h-0 flex flex-col justify-between my-1 px-0.5 overflow-hidden">
 
             <!-- Group 1: Parameter Tebal Isolasi (mm <-> mil) -->
             <div class="shrink-0">
