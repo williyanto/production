@@ -1,0 +1,1 @@
+import{i as e,n as t}from"./boqBox-C4dEGRtH.js";var n;function r(){if(!e(`googleApiBridge`)){n=void 0;return}return n||(n=t(`googleApiBridge`),n)}export{r as t};
