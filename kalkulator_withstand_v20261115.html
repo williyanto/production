@@ -650,10 +650,15 @@
         }
 
         function resetForm() {
-            setPresetMil(420);
-            selectStep(1);
+            currentMil = NaN;
+            currentMm = NaN;
+            selectedStepNum = 1;
+            inputMm.value = '';
+            inputMil.value = '';
+            clearActivePresets();
+            calculate();
             if (window.innerWidth >= 640) {
-                inputMil.focus();
+                inputMm.focus();
             }
         }
 
@@ -698,10 +703,14 @@
             }
         }
 
-        // Init
+        // Init (Default awal muat halaman: kolom input blank)
         document.addEventListener('DOMContentLoaded', () => {
-            setPresetMil(420);
+            currentMil = NaN;
+            currentMm = NaN;
             selectedStepNum = 1;
+            inputMm.value = '';
+            inputMil.value = '';
+            clearActivePresets();
             calculate();
         });
     </script>
