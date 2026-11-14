@@ -426,7 +426,32 @@
 
         // Kalkulasi Utama: Test Volts (KV) = (mil * volt/mil) / 1000
         function calculate() {
-            tableBody.innerHTML = '';
+            // Render baris tabel sekali saja jika belum ada (mencegah scroll jump saat mengetik)
+            if (tableBody.children.length === 0) {
+                stepsData.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.id = `row-step-${item.step}`;
+                    tr.onclick = () => selectStep(item.step);
+                    
+                    let badgeStar = "";
+                    if (item.star === 1) badgeStar = `<span class="text-amber-500 font-extrabold mr-0.5">*</span>`;
+                    else if (item.star === 2) badgeStar = `<span class="text-sky-500 font-extrabold mr-0.5">**</span>`;
+                    else if (item.star === 3) badgeStar = `<span class="text-purple-500 font-extrabold mr-0.5">***</span>`;
+
+                    tr.innerHTML = `
+                        <td class="py-1 px-2.5 font-semibold text-slate-700 dark:text-slate-300">
+                            ${badgeStar}Step ${item.step}
+                        </td>
+                        <td class="py-1 px-2.5 text-center text-slate-600 dark:text-slate-300 font-bold">
+                            ${item.stress}
+                        </td>
+                        <td id="cell-kv-${item.step}" class="py-1 px-2.5 text-right font-extrabold text-amber-600 dark:text-amber-400">
+                            -
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            }
 
             const isValid = !isNaN(currentMil) && currentMil > 0;
             let selectedKv = 0;
@@ -448,46 +473,32 @@
                     selectedStress = item.stress;
                 }
 
-                const tr = document.createElement('tr');
-                tr.id = `row-step-${item.step}`;
-                const isSelected = item.step === selectedStepNum;
-                
-                let rowClass = "cursor-pointer transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50";
-                let textClass = "text-slate-700 dark:text-slate-300";
-                let badgeStar = "";
+                const tr = document.getElementById(`row-step-${item.step}`);
+                if (tr) {
+                    const isSelected = item.step === selectedStepNum;
+                    let rowClass = "cursor-pointer transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50";
+                    let textClass = "py-1 px-2.5 font-semibold text-slate-700 dark:text-slate-300";
 
-                if (item.star === 1) {
-                    badgeStar = `<span class="text-amber-500 font-extrabold mr-0.5">*</span>`;
-                    if (!isSelected) rowClass = "cursor-pointer bg-amber-500/5 dark:bg-amber-500/10 hover:bg-amber-500/15";
-                } else if (item.star === 2) {
-                    badgeStar = `<span class="text-sky-500 font-extrabold mr-0.5">**</span>`;
-                    if (!isSelected) rowClass = "cursor-pointer bg-sky-500/5 dark:bg-sky-500/10 hover:bg-sky-500/15";
-                } else if (item.star === 3) {
-                    badgeStar = `<span class="text-purple-500 font-extrabold mr-0.5">***</span>`;
-                    if (!isSelected) rowClass = "cursor-pointer bg-purple-500/5 dark:bg-purple-500/10 hover:bg-purple-500/15";
+                    if (item.star === 1 && !isSelected) {
+                        rowClass = "cursor-pointer bg-amber-500/5 dark:bg-amber-500/10 hover:bg-amber-500/15";
+                    } else if (item.star === 2 && !isSelected) {
+                        rowClass = "cursor-pointer bg-sky-500/5 dark:bg-sky-500/10 hover:bg-sky-500/15";
+                    } else if (item.star === 3 && !isSelected) {
+                        rowClass = "cursor-pointer bg-purple-500/5 dark:bg-purple-500/10 hover:bg-purple-500/15";
+                    }
+
+                    if (isSelected) {
+                        rowClass = "cursor-pointer bg-amber-500/20 dark:bg-amber-500/25 border-l-4 border-amber-500 font-bold";
+                        textClass = "py-1 px-2.5 font-semibold text-amber-800 dark:text-amber-300 font-bold";
+                    }
+
+                    tr.className = rowClass;
+                    if (tr.cells[0]) tr.cells[0].className = textClass;
+                    const kvCell = document.getElementById(`cell-kv-${item.step}`);
+                    if (kvCell) {
+                        kvCell.textContent = isValid ? formatId(testVoltsKv) : '-';
+                    }
                 }
-
-                if (isSelected) {
-                    rowClass = "cursor-pointer bg-amber-500/20 dark:bg-amber-500/25 border-l-4 border-amber-500 font-bold";
-                    textClass = "text-amber-800 dark:text-amber-300 font-bold";
-                }
-
-                tr.className = rowClass;
-                tr.onclick = () => selectStep(item.step);
-
-                tr.innerHTML = `
-                    <td class="py-1 px-2.5 font-semibold ${textClass}">
-                        ${badgeStar}Step ${item.step}
-                    </td>
-                    <td class="py-1 px-2.5 text-center text-slate-600 dark:text-slate-300 font-bold">
-                        ${item.stress}
-                    </td>
-                    <td class="py-1 px-2.5 text-right font-extrabold text-amber-600 dark:text-amber-400">
-                        ${isValid ? formatId(testVoltsKv) : '-'}
-                    </td>
-                `;
-
-                tableBody.appendChild(tr);
             });
 
             // Update Big Display
@@ -497,8 +508,8 @@
                 resultTitle.textContent = `Tegangan Uji Step ${selectedStepNum}`;
 
                 // Update Formula Detail
-                const milDisplay = Math.round(currentMil * 100) / 100;
-                formulaDetail.innerHTML = `${milDisplay} mil &times; ${selectedStress} V/mil = <strong class="text-amber-600 dark:text-amber-400">${formatId(selectedKv)} kV</strong>`;
+                const milDisplayStr = (Math.round(currentMil * 100) / 100).toString().replace('.', ',');
+                formulaDetail.innerHTML = `${milDisplayStr} mil &times; ${selectedStress} V/mil = <strong class="text-amber-600 dark:text-amber-400">${formatId(selectedKv)} kV</strong>`;
             } else {
                 hasilKalkulasi.textContent = '---';
                 activeStepBadge.textContent = 'Menunggu Input';
@@ -545,6 +556,7 @@
                 inputMil.value = (Math.round(currentMil * 100) / 100).toString();
                 calculate();
             } else {
+                inputMil.value = '';
                 currentMm = NaN;
                 currentMil = NaN;
                 calculate();
@@ -555,8 +567,8 @@
             const raw = inputMil.value;
             if (raw.trim() === '') {
                 inputMm.value = '';
-                currentMil = NaN;
                 currentMm = NaN;
+                currentMil = NaN;
                 calculate();
                 return;
             }
@@ -567,6 +579,7 @@
                 inputMm.value = (Math.round(currentMm * 1000) / 1000).toString();
                 calculate();
             } else {
+                inputMm.value = '';
                 currentMil = NaN;
                 currentMm = NaN;
                 calculate();
@@ -614,10 +627,15 @@
             try {
                 const ta = document.createElement('textarea');
                 ta.value = text;
+                ta.setAttribute('readonly', '');
                 ta.style.position = 'fixed';
-                ta.style.left = '-9999px';
+                ta.style.top = '0';
+                ta.style.left = '0';
+                ta.style.opacity = '0';
+                ta.style.fontSize = '16px';
                 document.body.appendChild(ta);
                 ta.select();
+                ta.setSelectionRange(0, 99999);
                 document.execCommand('copy');
                 document.body.removeChild(ta);
                 if (callback) callback();
