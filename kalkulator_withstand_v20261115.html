@@ -746,9 +746,11 @@
         document.addEventListener('DOMContentLoaded', () => {
             currentMil = NaN;
             currentMm = NaN;
-            selectedStepNum = 1;
+            selectedStepNum = null;
             inputMm.value = '';
             inputMil.value = '';
+            inputStep.value = '';
+            inputStress.value = '';
             calculate();
         });
     </script>
