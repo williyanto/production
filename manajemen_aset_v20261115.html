@@ -2298,7 +2298,7 @@
               }
             </style>
           </head>
-          <body>
+          <body onload="window.print()">
             <div class="label-card">
               <div class="label-header">
                 <span class="label-title">ASSET LABEL</span>
@@ -2315,11 +2315,7 @@
                 <div><span class="lg-lbl">Lokasi:</span> <span class="lg-val">${asset.lokasi || '-'}</span></div>
                 <div><span class="lg-lbl">Owner:</span> <span class="lg-val">Williyanto Adi</span></div>
               </div>
-            
-</div>
-            <script>
-              window.onload = function() { window.print(); }
-            <\/script>
+            </div>
           </body>
           </html>
         `);
