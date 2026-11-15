@@ -404,10 +404,19 @@
                 btnId.className = "px-2 py-1 rounded-lg transition-all duration-200 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
             }
             const inputAvg = document.getElementById('inputAverage');
+            const inputCustomVar = document.getElementById('inputCustomVariance');
             if (sep === 'id') {
                 inputAvg.value = inputAvg.value.replace(/\./g, ',');
+                if (inputCustomVar) {
+                    inputCustomVar.value = inputCustomVar.value.replace(/\./g, ',');
+                    inputCustomVar.placeholder = 'Contoh: 0,05';
+                }
             } else {
                 inputAvg.value = inputAvg.value.replace(/,/g, '.');
+                if (inputCustomVar) {
+                    inputCustomVar.value = inputCustomVar.value.replace(/,/g, '.');
+                    inputCustomVar.placeholder = 'Contoh: 0.05';
+                }
             }
             updateVarianceOptionsFormat();
             updateVarianceLabel(false);
@@ -445,9 +454,7 @@
                     customVal = customVal.replace(/,/g, '.');
                 }
                 badge.textContent = customVal ? `±${customVal}` : 'Custom';
-                if (triggerGenerate) {
-                    document.getElementById('inputCustomVariance').focus();
-                }
+                // Tanpa focus otomatis agar tidak memicu aksi scroll browser ataupun keyboard virtual mendadak
             } else {
                 customContainer.classList.add('hidden');
                 badge.textContent = textMap[sel.value] || 'Normal';
@@ -640,10 +647,15 @@
             renderHistoryTable();
         }
         function loadHistoryFromStorage() {
-            const stored = localStorage.getItem('avgpro_history_v2');
-            if (stored) {
-                calculationHistory = JSON.parse(stored);
-                renderHistoryTable();
+            try {
+                const stored = localStorage.getItem('avgpro_history_v2');
+                if (stored) {
+                    calculationHistory = JSON.parse(stored);
+                    renderHistoryTable();
+                }
+            } catch (e) {
+                console.warn('Gagal memuat riwayat:', e);
+                calculationHistory = [];
             }
         }
         function renderHistoryTable() {
