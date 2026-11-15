@@ -92,7 +92,7 @@
     </style>
 </head>
 <body
-    class="bg-gradient-to-tr from-slate-100 via-green-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] w-full max-w-[100vw] flex flex-col justify-center items-center py-4 sm:py-6 px-4 overflow-x-hidden overflow-y-auto transition-colors duration-300">
+    class="bg-gradient-to-tr from-slate-100 via-green-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 min-h-[100dvh] w-full max-w-[100vw] flex flex-col justify-center items-center py-2 sm:py-3 px-3 overflow-x-hidden overflow-y-auto transition-colors duration-300">
     <!-- Ambient Glowing Orbs Background -->
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40 dark:opacity-20 hidden md:block">
         <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-green-400 blur-[100px] animate-pulse"></div>
@@ -101,9 +101,9 @@
     </div>
     <!-- Main Container -->
     <div
-        class="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-5 sm:p-6 transition-all duration-300 flex flex-col my-auto overflow-hidden">
+        class="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-xl p-4 sm:p-5 transition-all duration-300 flex flex-col my-auto overflow-hidden">
         <!-- Header -->
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+        <div class="flex items-center justify-between pb-2.5 border-b border-slate-100 dark:border-slate-800">
             <div class="flex items-center gap-3">
                 <div
                     class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white shadow-md shadow-green-200 dark:shadow-none">
@@ -131,7 +131,7 @@
             </button>
         </div>
         <!-- Format Switcher & Reset -->
-        <div class="flex items-center justify-between mt-3 mb-1.5">
+        <div class="flex items-center justify-between mt-2 mb-1">
             <div
                 class="flex items-center bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-1 text-[10px] font-bold">
                 <button onclick="setDecimalSeparator('id')" id="btnSepId"
@@ -143,7 +143,7 @@
             </div>
         </div>
         <!-- Segmented Control (Tabs) -->
-        <div class="mt-2 p-1 bg-slate-100 dark:bg-slate-800/60 rounded-xl flex items-center justify-between gap-1">
+        <div class="mt-1.5 p-1 bg-slate-100 dark:bg-slate-800/60 rounded-xl flex items-center justify-between gap-1">
             <button class="tab-btn active flex-1 py-1 rounded-lg text-xs font-bold transition-all"
                 onclick="switchTab('tab-kalkulator')">Kalkulator</button>
             <button class="tab-btn flex-1 py-1 rounded-lg text-xs font-bold transition-all"
@@ -152,27 +152,27 @@
                 onclick="switchTab('tab-riwayat')">Riwayat</button>
         </div>
         <!-- Tab 1: Kalkulator -->
-        <div id="tab-kalkulator" class="space-y-3 flex-1 flex flex-col transition-all duration-300 mt-3 block">
-            <form id="calcForm" onsubmit="event.preventDefault(); generateNumbers();" class="space-y-3">
+        <div id="tab-kalkulator" class="space-y-2.5 flex-1 flex flex-col transition-all duration-300 mt-2.5 block">
+            <form id="calcForm" onsubmit="event.preventDefault(); generateNumbers();" class="space-y-2.5">
                 <div>
                     <label
-                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Target
+                        class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Target
                         Rata-Rata (X̄)</label>
                     <input type="text" id="inputAverage" value="" placeholder="input nilai rata-rata" required
-                        class="block w-full px-3 py-2 sm:py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder:text-[10px] sm:placeholder:text-[11px] placeholder:italic placeholder:font-normal focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold text-center"
+                        class="block w-full px-3 py-1.5 sm:py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder:text-[10px] sm:placeholder:text-[11px] placeholder:italic placeholder:font-normal focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold text-center"
                         oninput="validateNumberInput(this); generateNumbers();" />
                 </div>
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-2 gap-2.5">
                     <div>
                         <label
-                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 flex justify-between">
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1 flex justify-between">
                             Jumlah <span>(n)</span>
                         </label>
                         <div class="flex">
                             <button type="button" onclick="adjustCount(-1)"
                                 class="w-8 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-l-xl font-bold flex items-center justify-center">-</button>
                             <input type="number" id="inputCount" value="" min="2" max="500" placeholder="jumlah angka hasil" required
-                                class="w-full text-center py-2 bg-slate-50 dark:bg-slate-900 border-y border-slate-200 dark:border-slate-700/80 text-sm font-bold text-slate-800 dark:text-slate-100 placeholder:text-[10px] sm:placeholder:text-[11px] placeholder:italic placeholder:font-normal focus:outline-none"
+                                class="w-full text-center py-1.5 sm:py-2 bg-slate-50 dark:bg-slate-900 border-y border-slate-200 dark:border-slate-700/80 text-sm font-bold text-slate-800 dark:text-slate-100 placeholder:text-[10px] sm:placeholder:text-[11px] placeholder:italic placeholder:font-normal focus:outline-none"
                                 oninput="generateNumbers();" />
                             <button type="button" onclick="adjustCount(1)"
                                 class="w-8 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-r-xl font-bold flex items-center justify-center">+</button>
@@ -180,28 +180,28 @@
                     </div>
                     <div>
                         <label
-                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 flex justify-between">
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1 flex justify-between">
                             Desimal <span>(0.0)</span>
                         </label>
                         <div class="flex">
                             <button type="button" onclick="adjustDecimals(-1)"
                                 class="w-8 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-l-xl font-bold flex items-center justify-center">-</button>
                             <input type="number" id="inputDecimals" value="" min="0" max="10" placeholder="nilai di belakang koma" required
-                                class="w-full text-center py-2 bg-slate-50 dark:bg-slate-900 border-y border-slate-200 dark:border-slate-700/80 text-sm font-bold text-slate-800 dark:text-slate-100 placeholder:text-[10px] sm:placeholder:text-[11px] placeholder:italic placeholder:font-normal focus:outline-none"
+                                class="w-full text-center py-1.5 sm:py-2 bg-slate-50 dark:bg-slate-900 border-y border-slate-200 dark:border-slate-700/80 text-sm font-bold text-slate-800 dark:text-slate-100 placeholder:text-[10px] sm:placeholder:text-[11px] placeholder:italic placeholder:font-normal focus:outline-none"
                                 oninput="generateNumbers();" />
                             <button type="button" onclick="adjustDecimals(1)"
                                 class="w-8 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-r-xl font-bold flex items-center justify-center">+</button>
                         </div>
                     </div>
                 </div>
-                <div id="varianceGridWrapper" class="grid grid-cols-1 gap-3 transition-all">
+                <div id="varianceGridWrapper" class="grid grid-cols-1 gap-2.5 transition-all">
                     <div>
                         <label
-                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 flex justify-between">
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1 flex justify-between">
                             Fluktuasi <span id="varianceBadge" class="text-green-500 font-semibold">Normal</span>
                         </label>
                         <select id="inputVariance" onchange="updateVarianceLabel()"
-                            class="block w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-bold appearance-none text-center">
+                            class="block w-full px-3 py-1.5 sm:py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-xs font-bold appearance-none text-center">
                             <option value="low">Tipis (±0,005)</option>
                             <option value="normal" selected>Normal (±0,02)</option>
                             <option value="high">Lebar (±0,08)</option>
@@ -212,41 +212,41 @@
                     </div>
                     <div id="customVarianceContainer" class="hidden">
                         <label for="inputCustomVariance"
-                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 flex justify-between">
+                            class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1 flex justify-between">
                             <span>Nilai Custom</span>
                             <span class="text-green-500 font-semibold">(±)</span>
                         </label>
                         <div class="flex rounded-xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-700/80 focus-within:ring-2 focus-within:ring-green-500/20 focus-within:border-green-500 bg-slate-50 dark:bg-slate-900 transition-all">
-                            <span class="px-2.5 py-2 text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 flex items-center border-r border-slate-200 dark:border-slate-700/80 select-none">±</span>
+                            <span class="px-2.5 py-1.5 sm:py-2 text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 flex items-center border-r border-slate-200 dark:border-slate-700/80 select-none">±</span>
                             <input type="text" id="inputCustomVariance" placeholder="0,05" oninput="validateNumberInput(this); onCustomVarianceChange();"
-                                class="w-full px-2 py-2 bg-transparent text-xs font-bold text-slate-800 dark:text-slate-100 placeholder:text-[10px] sm:placeholder:text-[11px] placeholder:italic placeholder:font-normal focus:outline-none text-center" />
+                                class="w-full px-2 py-1.5 sm:py-2 bg-transparent text-xs font-bold text-slate-800 dark:text-slate-100 placeholder:text-[10px] sm:placeholder:text-[11px] placeholder:italic placeholder:font-normal focus:outline-none text-center" />
                         </div>
                     </div>
                 </div>
             </form>
-            <!-- Dynamic Results Section (Tanpa garis di bawah fluktuasi) -->
-            <div id="resultsSection" class="mt-2.5 flex flex-col">
-                <div class="flex justify-between items-center mb-1.5">
+            <!-- Dynamic Results Section (3x3 tampilan rapi tanpa scroll luar) -->
+            <div id="resultsSection" class="mt-2 flex flex-col">
+                <div class="flex justify-between items-center mb-1">
                     <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Hasil <span id="badgeCount" class="text-green-500 font-mono">(0)</span></span>
                     <button type="button" onclick="copyAllVertical()" class="text-[10px] font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 px-2 py-0.5 rounded-lg transition-colors">Salin Semua</button>
                 </div>
-                <div id="resultsContainer" class="grid grid-cols-3 gap-1.5 max-h-36 overflow-y-auto pr-1">
-                    <!-- Results injected here -->
+                <div id="resultsContainer" class="grid grid-cols-3 gap-1.5 max-h-[120px] overflow-y-auto pr-1">
+                    <!-- Results injected here (3 baris x 3 kolom = 3x3) -->
                 </div>
             </div>
         </div>
         <!-- Tab 2: Statistik -->
-        <div id="tab-statistik" class="space-y-3.5 flex-1 flex flex-col transition-all duration-300 mt-3.5 hidden">
-            <div class="grid grid-cols-2 gap-3">
+        <div id="tab-statistik" class="space-y-3 flex-1 flex flex-col transition-all duration-300 mt-3 hidden">
+            <div class="grid grid-cols-2 gap-2.5">
                 <div
-                    class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
+                    class="bg-slate-50 dark:bg-slate-800/80 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
                     <span class="text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold block mb-1">Target
                         Rata-Rata</span>
                     <div class="text-sm font-bold text-slate-700 dark:text-slate-200 font-mono" id="statTargetAvg">0
                     </div>
                 </div>
                 <div
-                    class="bg-green-50 dark:bg-green-900/10 p-3 rounded-xl border border-green-200 dark:border-green-800/50 text-center">
+                    class="bg-green-50 dark:bg-green-900/10 p-2.5 rounded-xl border border-green-200 dark:border-green-800/50 text-center">
                     <span
                         class="text-[10px] text-green-600 dark:text-green-400 uppercase font-bold block mb-1">Rata-Rata
                         Actual</span>
@@ -254,32 +254,32 @@
                     </div>
                 </div>
                 <div
-                    class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
+                    class="bg-slate-50 dark:bg-slate-800/80 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
                     <span class="text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold block mb-1">Total
                         (Sum)</span>
                     <div class="text-sm font-bold text-slate-700 dark:text-slate-200 font-mono" id="statTotalSum">0
                     </div>
                 </div>
                 <div
-                    class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
+                    class="bg-slate-50 dark:bg-slate-800/80 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
                     <span class="text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold block mb-1">Min /
                         Max</span>
                     <div class="text-[11px] font-bold text-purple-600 dark:text-purple-400 font-mono mt-1"
                         id="statMinMax">0 - 0</div>
                 </div>
             </div>
-            <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+            <div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
                 <span
-                    class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-3 text-center">Aksi
+                    class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2 text-center">Aksi
                     Lanjutan</span>
-                <div class="grid grid-cols-2 gap-2.5">
+                <div class="grid grid-cols-2 gap-2">
                     <button onclick="copyAllHorizontal()"
-                        class="py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-750 flex flex-col items-center justify-center gap-1">
+                        class="py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-750 flex flex-col items-center justify-center gap-1">
                         <span class="text-lg">📋</span>
                         <span>Salin Mendatar</span>
                     </button>
                     <button onclick="exportToExcel()"
-                        class="py-2.5 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/50 rounded-xl text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 flex flex-col items-center justify-center gap-1">
+                        class="py-2 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/50 rounded-xl text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 flex flex-col items-center justify-center gap-1">
                         <span class="text-lg">📊</span>
                         <span>Export Excel</span>
                     </button>
@@ -287,7 +287,7 @@
             </div>
         </div>
         <!-- Tab 3: Riwayat -->
-        <div id="tab-riwayat" class="space-y-3.5 flex-1 flex flex-col transition-all duration-300 mt-3.5 hidden">
+        <div id="tab-riwayat" class="space-y-3 flex-1 flex flex-col transition-all duration-300 mt-3 hidden">
             <div class="flex justify-between items-center mb-1">
                 <span
                     class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tersimpan
@@ -297,7 +297,7 @@
                     Semua</button>
             </div>
             <div
-                class="overflow-y-auto h-64 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-900">
+                class="overflow-y-auto h-56 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-900">
                 <table class="w-full text-left border-collapse text-[10px]">
                     <thead
                         class="sticky top-0 bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
@@ -318,26 +318,26 @@
             class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-[90%] max-w-sm text-center">
         </div>
         <!-- Controls Action Bar -->
-        <div class="grid grid-cols-3 gap-2.5 pt-3 mt-3 border-t border-slate-100 dark:border-slate-800">
+        <div class="grid grid-cols-3 gap-2 pt-2 mt-2 border-t border-slate-100 dark:border-slate-800">
             <button type="button" onclick="if(window.top!==window.self&&window.parent.closePreviewModal){window.parent.closePreviewModal();}else{history.back();}"
-                class="flex items-center justify-center gap-1.5 py-2 sm:py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                class="flex items-center justify-center gap-1.5 py-1.5 sm:py-2 px-2 border border-slate-200 dark:border-slate-700/80 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                 Kembali
             </button>
             <button type="button" onclick="resetForm()"
-                class="flex items-center justify-center gap-1.5 py-2 sm:py-2.5 px-3 border border-transparent rounded-full text-xs font-bold text-white bg-rose-500 hover:bg-rose-600 active:scale-95 transition-all shadow-md shadow-rose-100 dark:shadow-none">
+                class="flex items-center justify-center gap-1.5 py-1.5 sm:py-2 px-2 border border-transparent rounded-full text-xs font-bold text-white bg-rose-500 hover:bg-rose-600 active:scale-95 transition-all shadow-md shadow-rose-100 dark:shadow-none">
                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
                 Reset
             </button>
             <a href="index.html"
-                class="flex items-center justify-center gap-1.5 py-2 sm:py-2.5 px-3 border border-slate-200 dark:border-slate-700/80 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
+                class="flex items-center justify-center gap-1.5 py-1.5 sm:py-2 px-2 border border-slate-200 dark:border-slate-700/80 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
                 Beranda
             </a>
         </div>
         <!-- Footer -->
         <footer
-            class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-3.5 pt-2.5 pb-1 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
+            class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-2 pt-1.5 pb-0.5 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
             Williyanto Adi 2026
         </footer>
     </div>
@@ -475,7 +475,7 @@
             const textMap = { 'low': 'Tipis', 'normal': 'Normal', 'high': 'Lebar', 'wide': 'Sangat Lebar', 'combine': 'Combine', 'custom': 'Custom' };
             
             if (sel.value === 'custom') {
-                if (gridWrapper) gridWrapper.className = "grid grid-cols-2 gap-3 transition-all";
+                if (gridWrapper) gridWrapper.className = "grid grid-cols-2 gap-2.5 transition-all";
                 customContainer.classList.remove('hidden');
                 let customVal = document.getElementById('inputCustomVariance').value.trim();
                 if (currentSeparator === 'id') {
@@ -485,7 +485,7 @@
                 }
                 badge.textContent = customVal ? `±${customVal}` : 'Custom';
             } else {
-                if (gridWrapper) gridWrapper.className = "grid grid-cols-1 gap-3 transition-all";
+                if (gridWrapper) gridWrapper.className = "grid grid-cols-1 gap-2.5 transition-all";
                 customContainer.classList.add('hidden');
                 badge.textContent = textMap[sel.value] || 'Normal';
             }
@@ -514,7 +514,7 @@
             document.getElementById('inputVariance').value = 'normal';
             document.getElementById('inputCustomVariance').value = '';
             const gridWrapper = document.getElementById('varianceGridWrapper');
-            if (gridWrapper) gridWrapper.className = "grid grid-cols-1 gap-3 transition-all";
+            if (gridWrapper) gridWrapper.className = "grid grid-cols-1 gap-2.5 transition-all";
             document.getElementById('customVarianceContainer').classList.add('hidden');
             updateVarianceLabel(false);
             generatedResults = [];
