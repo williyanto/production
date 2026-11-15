@@ -132,9 +132,9 @@
                     <label
                         class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Target
                         Rata-Rata (X̄)</label>
-                    <input type="text" id="inputAverage" value="" placeholder="Contoh: 1,239" required
+                    <input type="text" id="inputAverage" value="" placeholder="input nilai rata-rata" required
                         class="block w-full px-3 py-1.5 sm:py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold text-center"
-                        oninput="validateNumberInput(this)" />
+                        oninput="validateNumberInput(this); generateNumbers();" />
                 </div>
                 <div class="grid grid-cols-2 gap-2.5">
                     <div>
