@@ -354,28 +354,34 @@
             themeToggleDarkIcon.classList.remove('hidden');
         }
         themeToggleBtn.addEventListener('click', function () {
-            themeToggleDarkIcon.classList.toggle('hidden');
-            themeToggleLightIcon.classList.toggle('hidden');
-            if (localStorage.getItem('color-theme') === 'light') {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
-            } else {
+            if (document.documentElement.classList.contains('dark')) {
                 document.documentElement.classList.remove('dark');
                 localStorage.setItem('color-theme', 'light');
+                themeToggleDarkIcon.classList.remove('hidden');
+                themeToggleLightIcon.classList.add('hidden');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleDarkIcon.classList.add('hidden');
             }
         });
         // ----------------- Tab Navigation -----------------
         function switchTab(tabId) {
             const tabs = ['tab-kalkulator', 'tab-statistik', 'tab-riwayat'];
-            tabs.forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-                document.getElementById(id).classList.remove('block');
-            });
-            document.getElementById(tabId).classList.remove('hidden');
-            document.getElementById(tabId).classList.add('block');
             const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            tabs.forEach((id, idx) => {
+                const el = document.getElementById(id);
+                if (id === tabId) {
+                    el.classList.remove('hidden');
+                    el.classList.add('block');
+                    if (buttons[idx]) buttons[idx].classList.add('active');
+                } else {
+                    el.classList.add('hidden');
+                    el.classList.remove('block');
+                    if (buttons[idx]) buttons[idx].classList.remove('active');
+                }
+            });
         }
         // ----------------- Generator Logic -----------------
         let currentDecimals = 3;
