@@ -384,7 +384,7 @@
             }
             const customInput = document.getElementById('inputCustomVariance');
             if (customInput) {
-                customInput.placeholder = `Nilai fluktuasi (misal: 0${d}05)`;
+                customInput.placeholder = `0${d}05`;
                 if (customInput.value) {
                     customInput.value = isId ? customInput.value.replace(/\./g, ',') : customInput.value.replace(/,/g, '.');
                 }
@@ -411,13 +411,13 @@
                 inputAvg.value = inputAvg.value.replace(/\./g, ',');
                 if (inputCustomVar) {
                     inputCustomVar.value = inputCustomVar.value.replace(/\./g, ',');
-                    inputCustomVar.placeholder = 'Contoh: 0,05';
+                    inputCustomVar.placeholder = '0,05';
                 }
             } else {
                 inputAvg.value = inputAvg.value.replace(/,/g, '.');
                 if (inputCustomVar) {
                     inputCustomVar.value = inputCustomVar.value.replace(/,/g, '.');
-                    inputCustomVar.placeholder = 'Contoh: 0.05';
+                    inputCustomVar.placeholder = '0.05';
                 }
             }
             updateVarianceOptionsFormat();
