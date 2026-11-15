@@ -46,6 +46,18 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
+        /* Custom smaller italic placeholders */
+        input::placeholder {
+            font-size: 10px !important;
+            font-style: italic !important;
+            font-weight: normal !important;
+            opacity: 0.65;
+        }
+        @media (min-width: 640px) {
+            input::placeholder {
+                font-size: 11px !important;
+            }
+        }
         /* Pill Switch Active States */
         .tab-btn {
             color: #64748b;
