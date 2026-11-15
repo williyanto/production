@@ -534,7 +534,11 @@
             showToast('Kolom input berhasil dikosongkan', 'info');
         }
         function validateNumberInput(input) {
-            input.value = input.value.replace(/[^0-9.,-]/g, '');
+            let val = input.value.replace(/[^0-9.,-]/g, '');
+            if (val.indexOf('-') > 0) {
+                val = (val.charAt(0) === '-' ? '-' : '') + val.replace(/-/g, '');
+            }
+            input.value = val;
         }
         function generateNumbers(showEmptyToast = false) {
             const avgStr = document.getElementById('inputAverage').value.trim();
@@ -544,7 +548,7 @@
                     document.getElementById('inputAverage').focus();
                 }
                 generatedResults = [];
-                document.getElementById('resultsContainer').innerHTML = '<div class="col-span-3 text-center py-2.5 text-xs text-slate-400 italic">Masukkan nilai target rata-rata</div>';
+                document.getElementById('resultsContainer').innerHTML = '<div class="col-span-3 text-center py-2.5 text-[11px] text-slate-400 italic">Masukkan nilai target rata-rata</div>';
                 document.getElementById('badgeCount').textContent = '(0)';
                 document.getElementById('statTargetAvg').textContent = '0';
                 document.getElementById('statActualAvg').textContent = '0';
@@ -553,15 +557,25 @@
                 return;
             }
             const countInput = document.getElementById('inputCount');
-            let count = parseInt(countInput.value, 10);
-            if (isNaN(count) || count < 2) { count = 6; }
+            let rawCount = parseInt(countInput.value, 10);
+            let count = isNaN(rawCount) || rawCount < 2 ? 6 : Math.min(500, rawCount);
+            
             const decimalsInput = document.getElementById('inputDecimals');
-            let decimals = parseInt(decimalsInput.value, 10);
-            if (isNaN(decimals) || decimals < 0) { decimals = 3; }
+            let rawDecimals = parseInt(decimalsInput.value, 10);
+            let decimals = isNaN(rawDecimals) || rawDecimals < 0 ? 3 : Math.min(10, rawDecimals);
+            
             const varianceType = document.getElementById('inputVariance').value;
             currentDecimals = decimals;
-            let parsedAvg = parseFloat(avgStr.replace(/,/g, '.'));
+            
+            // Normalize dot/comma
+            let normalizedStr = avgStr.replace(/,/g, '.');
+            const dotParts = normalizedStr.split('.');
+            if (dotParts.length > 2) {
+                normalizedStr = dotParts[0] + '.' + dotParts.slice(1).join('');
+            }
+            let parsedAvg = parseFloat(normalizedStr);
             if (isNaN(parsedAvg)) return;
+            
             const factor = Math.pow(10, decimals);
             const targetSumInt = Math.round(parsedAvg * factor * count);
             const baseInt = Math.floor(targetSumInt / count);
@@ -615,6 +629,10 @@
                 let currentStep = stepPool ? stepPool[Math.floor(Math.random() * stepPool.length)] : maxStep;
                 let delta = Math.floor(Math.random() * currentStep) + 1;
                 let targetInt = Math.round(parsedAvg * factor);
+                
+                // Prevent negative numbers if target is positive
+                if (parsedAvg >= 0 && (intArr[idxB] - delta) < 0) continue;
+                
                 if (intArr[idxA] + delta - targetInt <= allowedLimit && targetInt - (intArr[idxB] - delta) <= allowedLimit) {
                     intArr[idxA] += delta;
                     intArr[idxB] -= delta;
@@ -655,42 +673,75 @@
             const max = Math.max(...generatedResults);
             document.getElementById('statTargetAvg').textContent = formatNum(targetAvg, currentDecimals);
             document.getElementById('statActualAvg').textContent = formatNum(actualAvg, currentDecimals);
-            document.getElementById('statTotalSum').textContent = formatNum(sum, Math.max(currentDecimals, 2));
+            document.getElementById('statTotalSum').textContent = formatNum(sum, currentDecimals === 0 ? 0 : Math.max(currentDecimals, 2));
             document.getElementById('statMinMax').textContent = `${formatNum(min, currentDecimals)} - ${formatNum(max, currentDecimals)}`;
         }
-        // Copy & Export
+        // Robust Copy
+        function copyToClipboard(text, successMsg) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(successMsg);
+                }).catch(() => {
+                    fallbackCopy(text, successMsg);
+                });
+            } else {
+                fallbackCopy(text, successMsg);
+            }
+        }
+        function fallbackCopy(text, successMsg) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            try {
+                document.execCommand('copy');
+                showToast(successMsg);
+            } catch (e) {
+                showToast('Gagal menyalin', 'error');
+            }
+            document.body.removeChild(ta);
+        }
         function copySingleNumber(text) {
-            navigator.clipboard.writeText(text).then(() => showToast(`Berhasil disalin: ${text}`));
+            copyToClipboard(text, `Berhasil disalin: ${text}`);
         }
         function copyAllVertical() {
             if (generatedResults.length === 0) return;
             const text = generatedResults.map(v => formatNum(v, currentDecimals)).join('\n');
-            navigator.clipboard.writeText(text).then(() => showToast(`Disalin baris`));
+            copyToClipboard(text, 'Disalin baris');
         }
         function copyAllHorizontal() {
             if (generatedResults.length === 0) return;
             const separator = currentSeparator === 'id' ? '; ' : ', ';
             const text = generatedResults.map(v => formatNum(v, currentDecimals)).join(separator);
-            navigator.clipboard.writeText(text).then(() => showToast(`Disalin mendatar`));
+            copyToClipboard(text, 'Disalin mendatar');
         }
         function exportToExcel() {
             if (generatedResults.length === 0) return;
-            const targetAvg = document.getElementById('inputAverage').value;
+            const targetAvg = document.getElementById('inputAverage').value.trim();
+            const safeName = (targetAvg || 'Data').replace(/[/\\?%*:|"<>]/g, '_');
             const data = generatedResults.map((val, i) => ({
-                "No": i + 1, "Angka Hasil": formatNum(val, currentDecimals), "Raw": val
+                "No": i + 1,
+                "Angka Hasil": formatNum(val, currentDecimals),
+                "Raw": parseFloat(val.toFixed(currentDecimals))
             }));
             const worksheet = XLSX.utils.json_to_sheet(data);
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Hasil");
-            XLSX.writeFile(workbook, `AveragePro_${targetAvg}.xlsx`);
-            showToast(`Excel berhasil diekspor`);
+            XLSX.writeFile(workbook, `AveragePro_${safeName}.xlsx`);
+            showToast('Excel berhasil diekspor');
         }
         // History
         function saveToHistory(targetAvg, count, decimals) {
+            const varianceType = document.getElementById('inputVariance').value;
+            const customVariance = document.getElementById('inputCustomVariance').value;
             const entry = {
                 id: Date.now(),
                 time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
-                targetAvg, count, decimals, results: [...generatedResults]
+                targetAvg, count, decimals, varianceType, customVariance,
+                results: [...generatedResults]
             };
             calculationHistory.unshift(entry);
             if (calculationHistory.length > 15) calculationHistory.pop();
@@ -736,6 +787,13 @@
             document.getElementById('inputCount').value = found.count;
             document.getElementById('inputDecimals').value = found.decimals;
             currentDecimals = found.decimals;
+            if (found.varianceType) {
+                document.getElementById('inputVariance').value = found.varianceType;
+                if (found.customVariance) {
+                    document.getElementById('inputCustomVariance').value = found.customVariance;
+                }
+                updateVarianceLabel(false);
+            }
             generatedResults = [...found.results];
             renderResults();
             updateStatistics(found.targetAvg);
@@ -743,10 +801,15 @@
             showToast('Riwayat dimuat');
         }
         function clearHistory() {
+            if (calculationHistory.length === 0) {
+                showToast('Riwayat sudah kosong', 'info');
+                return;
+            }
             if (confirm('Hapus seluruh riwayat?')) {
                 calculationHistory = [];
                 localStorage.removeItem('avgpro_history_v2');
                 renderHistoryTable();
+                showToast('Riwayat berhasil dihapus');
             }
         }
         // Toast
