@@ -370,8 +370,10 @@
         let calculationHistory = [];
         document.addEventListener('DOMContentLoaded', () => {
             loadHistoryFromStorage();
-            // Start with clean empty state
+            // Start with clean empty state (nilai default blank)
             document.getElementById('inputAverage').value = '';
+            document.getElementById('inputCount').value = '';
+            document.getElementById('inputDecimals').value = '';
             document.getElementById('resultsContainer').innerHTML = '<div class="col-span-3 text-center py-2.5 text-[11px] text-slate-400 italic">Masukkan nilai target rata-rata</div>';
             document.getElementById('badgeCount').textContent = '(0)';
             updateVarianceOptionsFormat();
@@ -439,15 +441,15 @@
         }
         function adjustCount(delta) {
             const el = document.getElementById('inputCount');
-            let val = parseInt(el.value, 10) || 6;
-            val = Math.max(2, Math.min(500, val + delta));
+            let current = el.value.trim() === '' ? 6 : parseInt(el.value, 10);
+            let val = Math.max(2, Math.min(500, (isNaN(current) ? 6 : current) + delta));
             el.value = val;
             generateNumbers();
         }
         function adjustDecimals(delta) {
             const el = document.getElementById('inputDecimals');
-            let val = parseInt(el.value, 10) || 3;
-            val = Math.max(0, Math.min(10, val + delta));
+            let current = el.value.trim() === '' ? 3 : parseInt(el.value, 10);
+            let val = Math.max(0, Math.min(10, (isNaN(current) ? 3 : current) + delta));
             el.value = val;
             generateNumbers();
         }
@@ -493,8 +495,8 @@
         let saveHistoryTimeout = null;
         function resetForm() {
             document.getElementById('inputAverage').value = '';
-            document.getElementById('inputCount').value = '6';
-            document.getElementById('inputDecimals').value = '3';
+            document.getElementById('inputCount').value = '';
+            document.getElementById('inputDecimals').value = '';
             document.getElementById('inputVariance').value = 'normal';
             document.getElementById('inputCustomVariance').value = '';
             const gridWrapper = document.getElementById('varianceGridWrapper');
@@ -532,10 +534,10 @@
             }
             const countInput = document.getElementById('inputCount');
             let count = parseInt(countInput.value, 10);
-            if (isNaN(count) || count < 2) { count = 6; countInput.value = 6; }
+            if (isNaN(count) || count < 2) { count = 6; }
             const decimalsInput = document.getElementById('inputDecimals');
             let decimals = parseInt(decimalsInput.value, 10);
-            if (isNaN(decimals) || decimals < 0) { decimals = 3; decimalsInput.value = 3; }
+            if (isNaN(decimals) || decimals < 0) { decimals = 3; }
             const varianceType = document.getElementById('inputVariance').value;
             currentDecimals = decimals;
             let parsedAvg = parseFloat(avgStr.replace(/,/g, '.'));
