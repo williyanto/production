@@ -145,7 +145,7 @@
                         class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Target
                         Rata-Rata (X̄)</label>
                     <input type="text" id="inputAverage" value="" placeholder="input nilai rata-rata" required
-                        class="block w-full px-3 py-1.5 sm:py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold text-center"
+                        class="block w-full px-3 py-1.5 sm:py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-slate-100 placeholder:text-[10px] sm:placeholder:text-[11px] placeholder:italic placeholder:font-normal focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm font-bold text-center"
                         oninput="validateNumberInput(this); generateNumbers();" />
                 </div>
                 <div class="grid grid-cols-2 gap-2.5">
@@ -157,8 +157,8 @@
                         <div class="flex">
                             <button type="button" onclick="adjustCount(-1)"
                                 class="w-8 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-l-xl font-bold flex items-center justify-center">-</button>
-                            <input type="number" id="inputCount" value="6" min="2" max="500" placeholder="jumlah angka hasil" required
-                                class="w-full text-center py-1.5 sm:py-2 bg-slate-50 dark:bg-slate-900 border-y border-slate-200 dark:border-slate-700/80 text-sm font-bold text-slate-800 dark:text-slate-100 focus:outline-none"
+                            <input type="number" id="inputCount" value="" min="2" max="500" placeholder="jumlah angka hasil" required
+                                class="w-full text-center py-1.5 sm:py-2 bg-slate-50 dark:bg-slate-900 border-y border-slate-200 dark:border-slate-700/80 text-sm font-bold text-slate-800 dark:text-slate-100 placeholder:text-[10px] sm:placeholder:text-[11px] placeholder:italic placeholder:font-normal focus:outline-none"
                                 oninput="generateNumbers();" />
                             <button type="button" onclick="adjustCount(1)"
                                 class="w-8 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-r-xl font-bold flex items-center justify-center">+</button>
@@ -172,8 +172,8 @@
                         <div class="flex">
                             <button type="button" onclick="adjustDecimals(-1)"
                                 class="w-8 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-l-xl font-bold flex items-center justify-center">-</button>
-                            <input type="number" id="inputDecimals" value="3" min="0" max="10" placeholder="nilai di belakang koma" required
-                                class="w-full text-center py-1.5 sm:py-2 bg-slate-50 dark:bg-slate-900 border-y border-slate-200 dark:border-slate-700/80 text-sm font-bold text-slate-800 dark:text-slate-100 focus:outline-none"
+                            <input type="number" id="inputDecimals" value="" min="0" max="10" placeholder="nilai di belakang koma" required
+                                class="w-full text-center py-1.5 sm:py-2 bg-slate-50 dark:bg-slate-900 border-y border-slate-200 dark:border-slate-700/80 text-sm font-bold text-slate-800 dark:text-slate-100 placeholder:text-[10px] sm:placeholder:text-[11px] placeholder:italic placeholder:font-normal focus:outline-none"
                                 oninput="generateNumbers();" />
                             <button type="button" onclick="adjustDecimals(1)"
                                 class="w-8 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-r-xl font-bold flex items-center justify-center">+</button>
@@ -205,7 +205,7 @@
                         <div class="flex rounded-xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-700/80 focus-within:ring-2 focus-within:ring-green-500/20 focus-within:border-green-500 bg-slate-50 dark:bg-slate-900 transition-all">
                             <span class="px-2.5 py-1.5 sm:py-2 text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 flex items-center border-r border-slate-200 dark:border-slate-700/80 select-none">±</span>
                             <input type="text" id="inputCustomVariance" placeholder="0,05" oninput="validateNumberInput(this); onCustomVarianceChange();"
-                                class="w-full px-2 py-1.5 sm:py-2 bg-transparent text-xs font-bold text-slate-800 dark:text-slate-100 focus:outline-none text-center" />
+                                class="w-full px-2 py-1.5 sm:py-2 bg-transparent text-xs font-bold text-slate-800 dark:text-slate-100 placeholder:text-[10px] sm:placeholder:text-[11px] placeholder:italic placeholder:font-normal focus:outline-none text-center" />
                         </div>
                     </div>
                 </div>
