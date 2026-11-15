@@ -293,8 +293,8 @@
         <div id="toastContainer"
             class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-[90%] max-w-sm text-center">
         </div>
-                <!-- Controls Action Bar -->
-        <div class="grid grid-cols-3 gap-2.5 pt-2.5 mt-3 border-t border-slate-100 dark:border-slate-800">
+        <!-- Controls Action Bar -->
+        <div class="grid grid-cols-3 gap-2 pt-2 mt-2 border-t border-slate-100 dark:border-slate-800">
             <button type="button" onclick="if(window.top!==window.self&&window.parent.closePreviewModal){window.parent.closePreviewModal();}else{history.back();}"
                 class="flex items-center justify-center gap-1.5 py-1.5 sm:py-2 px-2 border border-slate-200 dark:border-slate-700/80 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-95 transition-all shadow-sm">
                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
@@ -313,7 +313,7 @@
         </div>
         <!-- Footer -->
         <footer
-            class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-4 pt-3 pb-2 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
+            class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-2.5 pt-2 pb-0.5 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
             Williyanto Adi 2026
         </footer>
     </div>
@@ -444,10 +444,12 @@
         function updateVarianceLabel(triggerGenerate = true) {
             const sel = document.getElementById('inputVariance');
             const badge = document.getElementById('varianceBadge');
+            const gridWrapper = document.getElementById('varianceGridWrapper');
             const customContainer = document.getElementById('customVarianceContainer');
             const textMap = { 'low': 'Tipis', 'normal': 'Normal', 'high': 'Lebar', 'wide': 'Sangat Lebar', 'combine': 'Combine', 'custom': 'Custom' };
             
             if (sel.value === 'custom') {
+                if (gridWrapper) gridWrapper.className = "grid grid-cols-2 gap-2.5 transition-all";
                 customContainer.classList.remove('hidden');
                 let customVal = document.getElementById('inputCustomVariance').value.trim();
                 if (currentSeparator === 'id') {
@@ -456,8 +458,8 @@
                     customVal = customVal.replace(/,/g, '.');
                 }
                 badge.textContent = customVal ? `±${customVal}` : 'Custom';
-                // Tanpa focus otomatis agar tidak memicu aksi scroll browser ataupun keyboard virtual mendadak
             } else {
+                if (gridWrapper) gridWrapper.className = "grid grid-cols-1 gap-2.5 transition-all";
                 customContainer.classList.add('hidden');
                 badge.textContent = textMap[sel.value] || 'Normal';
             }
@@ -480,14 +482,16 @@
         }
         function resetForm() {
             document.getElementById('inputAverage').value = '';
-            document.getElementById('inputCount').value = '';
-            document.getElementById('inputDecimals').value = '';
+            document.getElementById('inputCount').value = '6';
+            document.getElementById('inputDecimals').value = '3';
             document.getElementById('inputVariance').value = 'normal';
             document.getElementById('inputCustomVariance').value = '';
+            const gridWrapper = document.getElementById('varianceGridWrapper');
+            if (gridWrapper) gridWrapper.className = "grid grid-cols-1 gap-2.5 transition-all";
             document.getElementById('customVarianceContainer').classList.add('hidden');
             updateVarianceLabel(false);
             generatedResults = [];
-            document.getElementById('resultsContainer').innerHTML = '<div class="col-span-3 text-center py-8 text-xs text-slate-400 italic">Silakan masukkan nilai dan tekan Hitung</div>';
+            document.getElementById('resultsContainer').innerHTML = '<div class="col-span-3 text-center py-2.5 text-xs text-slate-400 italic">Silakan masukkan nilai dan tekan Hitung</div>';
             document.getElementById('badgeCount').textContent = '(0)';
             document.getElementById('statTargetAvg').textContent = '0';
             document.getElementById('statActualAvg').textContent = '0';
