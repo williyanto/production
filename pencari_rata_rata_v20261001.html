@@ -58,6 +58,20 @@
                 font-size: 11px !important;
             }
         }
+        /* Custom scrollbar for results */
+        #resultsContainer::-webkit-scrollbar {
+            width: 4px;
+        }
+        #resultsContainer::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #resultsContainer::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark #resultsContainer::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
         /* Pill Switch Active States */
         .tab-btn {
             color: #64748b;
