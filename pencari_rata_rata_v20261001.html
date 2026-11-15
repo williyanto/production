@@ -478,6 +478,7 @@
                 generateNumbers();
             }
         }
+        let saveHistoryTimeout = null;
         function resetForm() {
             document.getElementById('inputAverage').value = '';
             document.getElementById('inputCount').value = '6';
@@ -489,7 +490,7 @@
             document.getElementById('customVarianceContainer').classList.add('hidden');
             updateVarianceLabel(false);
             generatedResults = [];
-            document.getElementById('resultsContainer').innerHTML = '<div class="col-span-3 text-center py-2.5 text-xs text-slate-400 italic">Silakan masukkan nilai dan tekan Hitung</div>';
+            document.getElementById('resultsContainer').innerHTML = '<div class="col-span-3 text-center py-2.5 text-xs text-slate-400 italic">Masukkan nilai target rata-rata</div>';
             document.getElementById('badgeCount').textContent = '(0)';
             document.getElementById('statTargetAvg').textContent = '0';
             document.getElementById('statActualAvg').textContent = '0';
@@ -501,11 +502,20 @@
         function validateNumberInput(input) {
             input.value = input.value.replace(/[^0-9.,-]/g, '');
         }
-        function generateNumbers() {
+        function generateNumbers(showEmptyToast = false) {
             const avgStr = document.getElementById('inputAverage').value.trim();
             if (!avgStr) {
-                showToast('Masukkan target rata-rata!', 'error');
-                document.getElementById('inputAverage').focus();
+                if (showEmptyToast) {
+                    showToast('Masukkan target rata-rata!', 'error');
+                    document.getElementById('inputAverage').focus();
+                }
+                generatedResults = [];
+                document.getElementById('resultsContainer').innerHTML = '<div class="col-span-3 text-center py-2.5 text-xs text-slate-400 italic">Masukkan nilai target rata-rata</div>';
+                document.getElementById('badgeCount').textContent = '(0)';
+                document.getElementById('statTargetAvg').textContent = '0';
+                document.getElementById('statActualAvg').textContent = '0';
+                document.getElementById('statTotalSum').textContent = '0';
+                document.getElementById('statMinMax').textContent = '0 - 0';
                 return;
             }
             const countInput = document.getElementById('inputCount');
@@ -579,7 +589,10 @@
             generatedResults = intArr.map(val => val / factor);
             renderResults();
             updateStatistics(parsedAvg);
-            saveToHistory(parsedAvg, count, decimals);
+            clearTimeout(saveHistoryTimeout);
+            saveHistoryTimeout = setTimeout(() => {
+                saveToHistory(parsedAvg, count, decimals);
+            }, 700);
         }
         function formatNum(num, decimals = currentDecimals) {
             if (isNaN(num)) return "0";
