@@ -76,63 +76,63 @@
       </button>
     </div>
 
-    <!-- Mode Selector Bar (6 Kategori: Proper, Title, KBBI, Upper, Split, Chaos) -->
-    <div class="my-2 flex flex-wrap bg-slate-100 dark:bg-slate-800/50 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-medium gap-1 shrink-0">
+    <!-- Mode Selector Bar (6 Kategori: 3x2 Grid di Mobile, 1x6 di Desktop - Rapi & Lega) -->
+    <div class="my-2 grid grid-cols-3 sm:grid-cols-6 bg-slate-100 dark:bg-slate-800/50 p-1 sm:p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-[11px] sm:text-xs font-medium gap-1 sm:gap-1.5 shrink-0">
       <button id="modeProper" onclick="setMode('proper')"
-        class="flex-1 min-w-[70px] sm:min-w-[90px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 bg-fuchsia-600 text-white shadow">
-        <i data-lucide="align-left" class="w-3.5 h-3.5"></i>
+        class="py-2 sm:py-1.5 px-1 sm:px-2 rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 sm:gap-1.5 bg-fuchsia-600 text-white shadow-sm font-semibold text-center whitespace-nowrap active:scale-95">
+        <i data-lucide="align-left" class="w-3.5 h-3.5 shrink-0"></i>
         <span>Per Kalimat</span>
       </button>
       <button id="modeTitle" onclick="setMode('title')"
-        class="flex-1 min-w-[70px] sm:min-w-[90px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
-        <i data-lucide="heading" class="w-3.5 h-3.5"></i>
+        class="py-2 sm:py-1.5 px-1 sm:px-2 rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 sm:gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 text-center whitespace-nowrap active:scale-95">
+        <i data-lucide="heading" class="w-3.5 h-3.5 shrink-0"></i>
         <span>Per Kata</span>
       </button>
       
       <!-- Mode KBBI (Baku KBBI & Ejaan EYD) -->
       <button id="modeKBBI" onclick="setMode('kbbi')"
-        class="flex-1 min-w-[70px] sm:min-w-[90px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
-        <i data-lucide="book-check" class="w-3.5 h-3.5"></i>
+        class="py-2 sm:py-1.5 px-1 sm:px-2 rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 sm:gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 text-center whitespace-nowrap active:scale-95">
+        <i data-lucide="book-check" class="w-3.5 h-3.5 shrink-0"></i>
         <span class="font-bold">KBBI</span>
       </button>
 
       <!-- Mode Huruf Kapital -->
       <button id="modeUpper" onclick="setMode('upper')"
-        class="flex-1 min-w-[70px] sm:min-w-[90px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
-        <i data-lucide="case-upper" class="w-3.5 h-3.5"></i>
+        class="py-2 sm:py-1.5 px-1 sm:px-2 rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 sm:gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 text-center whitespace-nowrap active:scale-95">
+        <i data-lucide="case-upper" class="w-3.5 h-3.5 shrink-0"></i>
         <span>Kapital</span>
       </button>
 
       <button id="modeSplit" onclick="setMode('split')"
-        class="flex-1 min-w-[70px] sm:min-w-[90px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
-        <i data-lucide="scissors" class="w-3.5 h-3.5"></i>
+        class="py-2 sm:py-1.5 px-1 sm:px-2 rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 sm:gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 text-center whitespace-nowrap active:scale-95">
+        <i data-lucide="scissors" class="w-3.5 h-3.5 shrink-0"></i>
         <span>Pecah Kata</span>
       </button>
       
       <button id="modeChaos" onclick="setMode('chaos')"
-        class="flex-1 min-w-[70px] sm:min-w-[90px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
-        <i data-lucide="zap-off" class="w-3.5 h-3.5"></i>
+        class="py-2 sm:py-1.5 px-1 sm:px-2 rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 sm:gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 text-center whitespace-nowrap active:scale-95">
+        <i data-lucide="zap-off" class="w-3.5 h-3.5 shrink-0"></i>
         <span>Berantakan</span>
       </button>
     </div>
 
-    <!-- Slim Combined Toolbar: Hilangkan Kata (Kiri) & Koreksi Typo Aktif (Kanan) -->
-    <div class="mb-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 shrink-0 relative">
+    <!-- Slim Combined Toolbar: Hilangkan Kata (Kiri) & Koreksi Typo Aktif (Kanan) - Single Row Rapi -->
+    <div class="mb-2 flex items-center justify-between gap-1.5 sm:gap-2 shrink-0 relative">
       <!-- Input Hilangkan Kata (Kiri, Ramping) -->
-      <div class="flex-1 flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800/80 rounded-xl px-2.5 py-1">
+      <div class="flex-1 min-w-0 flex items-center gap-1.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800/80 rounded-xl px-2 sm:px-2.5 py-1">
         <div class="flex items-center gap-1 text-[11px] font-bold text-rose-500 dark:text-rose-400 uppercase tracking-wider shrink-0">
           <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
           <span class="hidden md:inline">Hilangkan:</span>
         </div>
         <input id="excludeWords" type="text"
-          placeholder="Kata yang ingin dibuang (pisahkan koma/titik)..."
-          class="flex-1 bg-transparent border-0 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none" />
+          placeholder="Hilangkan kata (pisahkan koma)..."
+          class="w-full bg-transparent border-0 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none" />
       </div>
 
       <!-- Fitur Koreksi Typo (Kanan, Aktif Default, Ramping) -->
-      <div class="flex items-center justify-between sm:justify-end gap-2 shrink-0">
+      <div class="flex items-center justify-end gap-1.5 shrink-0">
         <!-- Toggle Koreksi Typo -->
-        <label class="inline-flex items-center gap-1.5 text-xs font-bold cursor-pointer select-none text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 px-2.5 py-1 rounded-xl hover:bg-emerald-100/80 dark:hover:bg-emerald-900/40 transition-colors shadow-xs">
+        <label class="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold cursor-pointer select-none text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 px-2 sm:px-2.5 py-1 rounded-xl hover:bg-emerald-100/80 dark:hover:bg-emerald-900/40 transition-colors shadow-xs shrink-0 whitespace-nowrap">
           <input type="checkbox" id="toggleTypo" checked class="rounded text-emerald-600 focus:ring-emerald-500 w-3.5 h-3.5 cursor-pointer">
           <i data-lucide="spell-check" class="w-3.5 h-3.5"></i>
           <span>Koreksi Typo</span>
@@ -140,7 +140,7 @@
 
         <!-- Tombol Rincian Typo (Hanya muncul jika ada kata terkoreksi) -->
         <button type="button" id="btnToggleTypoList" onclick="toggleTypoList()"
-          class="hidden text-[10px] font-bold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 px-2 py-1 rounded-xl border border-emerald-300 dark:border-emerald-700/60 hover:bg-emerald-200 dark:hover:bg-emerald-800 transition-all items-center gap-1 cursor-pointer">
+          class="hidden text-[10px] font-bold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 px-1.5 py-1 rounded-xl border border-emerald-300 dark:border-emerald-700/60 hover:bg-emerald-200 dark:hover:bg-emerald-800 transition-all items-center gap-1 cursor-pointer shrink-0">
           <i data-lucide="check-check" class="w-3 h-3"></i>
           <span id="typoCountBadge">0 kata</span>
         </button>
