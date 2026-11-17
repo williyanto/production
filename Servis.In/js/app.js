@@ -1102,44 +1102,106 @@
       : '<div class="empty-box">Belum ada dokumen. Tambahkan pajak STNK, SIM, atau asuransi.</div>';
   }
 
+  // Mini tab state untuk rata-rata km (day / week)
+  let profileRateUnit = 'day';
+
+  function updateRateConversionHint(val) {
+    const n = Math.max(0, Number(val) || 0);
+    const hint = $('rate-convert-hint');
+    if (!hint) return;
+    if (profileRateUnit === 'day') {
+      hint.textContent = `≈ ${n} km/hari (${n * 7} km/minggu)`;
+    } else {
+      const perDay = Math.round(n / 7);
+      hint.textContent = `≈ ${n} km/minggu (${perDay} km/hari)`;
+    }
+  }
+
+  function setProfileRateUnit(unit) {
+    if (unit === profileRateUnit) return;
+    const input = $('input-daily-km');
+    const curVal = Number(input.value) || (profileRateUnit === 'day' ? 30 : 210);
+    profileRateUnit = unit;
+    if (unit === 'week') {
+      input.value = Math.round(curVal * 7);
+      if ($('rate-unit-badge')) $('rate-unit-badge').textContent = 'km/minggu';
+    } else {
+      input.value = Math.max(1, Math.round(curVal / 7));
+      if ($('rate-unit-badge')) $('rate-unit-badge').textContent = 'km/hari';
+    }
+    document.querySelectorAll('#mini-tab-rate-unit .mini-tab-btn').forEach((b) => {
+      b.classList.toggle('active', b.dataset.rateUnit === unit);
+    });
+    updateRateConversionHint(input.value);
+  }
+
   function renderTemplatePreview() {
     const sel = $('apply-template-select');
     if (!sel) return;
     const tplId = sel.value;
     const box = $('template-preview-box');
-    const manageRow = $('custom-tpl-manage-row');
+    const editBtn = $('btn-edit-template');
+    const editLabel = $('btn-edit-template-label');
+    const delBtn = $('btn-del-custom-tpl');
 
     if (tplId === '__create_custom__') {
       box.innerHTML = '<span style="font-size:11.5px;color:var(--text-2)">Klik tombol di bawah untuk membuat template kustom baru.</span>';
-      if (manageRow) manageRow.hidden = true;
+      if (editBtn) editBtn.hidden = true;
+      if (delBtn) delBtn.hidden = true;
       return;
     }
 
     if (!tplId || tplId === 'none') {
       box.innerHTML = '<span style="font-size:11.5px;color:var(--text-3)">Kosongkan daftar pengingat (buat manual sendiri).</span>';
-      if (manageRow) manageRow.hidden = true;
+      if (editBtn) editBtn.hidden = true;
+      if (delBtn) delBtn.hidden = true;
       return;
     }
 
     const tpl = getTemplateById(tplId);
     if (!tpl) {
       box.innerHTML = '';
-      if (manageRow) manageRow.hidden = true;
+      if (editBtn) editBtn.hidden = true;
+      if (delBtn) delBtn.hidden = true;
       return;
     }
 
     const isCustom = String(tpl.id).startsWith('ctpl-');
-    if (manageRow) manageRow.hidden = !isCustom;
+    if (editBtn) {
+      editBtn.hidden = false;
+      if (editLabel) {
+        editLabel.textContent = isCustom ? 'Edit template kustom ini' : 'Sesuaikan / Edit template ini';
+      }
+    }
+    if (delBtn) {
+      delBtn.hidden = !isCustom;
+    }
 
     box.innerHTML = `
       <div class="tpl-prev-head">
-        <span>${esc(tpl.defaultName || tpl.label)} (${esc(tpl.type)})</span>
-        <span>${tpl.items.length} item</span>
+        <div class="tpl-prev-title-wrap">
+          <span class="tpl-type-badge ${isCustom ? 'custom' : 'builtin'}">${isCustom ? '★ Kustom' : 'Model Bawaan'}</span>
+          <strong>${esc(tpl.defaultName || tpl.label)}</strong>
+          <small>(${esc(tpl.type)})</small>
+        </div>
+        <div class="tpl-prev-actions">
+          <button type="button" class="btn-ghost-sm" id="btn-quick-edit-tpl" title="Edit / sesuaikan template ini">
+            <svg class="ic"><use href="#i-edit"/></svg><span>${isCustom ? 'Edit' : 'Sesuaikan'}</span>
+          </button>
+          <span>${tpl.items.length} item</span>
+        </div>
       </div>
       <div class="tpl-prev-tags">
         ${tpl.items.map((it) => `<span class="tpl-tag">${esc(it.name)} · <b>${num(it.intervalKm)} km</b> / ${it.intervalMonths} bln</span>`).join('')}
       </div>
     `;
+
+    const quickEdit = $('btn-quick-edit-tpl');
+    if (quickEdit) {
+      quickEdit.addEventListener('click', () => {
+        openCustomTemplateModal(tpl, false);
+      });
+    }
   }
 
   function renderProfile() {
@@ -1150,12 +1212,35 @@
     $('profile-preview-plate').textContent = p.plateNumber;
     $('profile-preview-plate-sub').textContent = `TAHUN ${p.year}`;
 
+    // Render Akun Aktif & Logout Card
+    const accs = loadAccounts();
+    const activeAccId = getActiveAccountId();
+    const activeAcc = accs.find((a) => a.id === activeAccId) || { name: p.name || 'Akun Utama' };
+    if ($('account-user-name')) $('account-user-name').textContent = activeAcc.name;
+    if ($('account-user-meta')) {
+      const vCount = store.vehicles ? store.vehicles.length : 1;
+      $('account-user-meta').textContent = `${vCount} Kendaraan · ${p.name}`;
+    }
+
     $('input-vehicle-type').value = p.type;
     $('input-vehicle-name').value = p.name;
     $('input-plate-number').value = p.plateNumber;
     $('input-vehicle-year').value = p.year;
     setNumInput('input-current-odo', p.currentOdo);
-    $('input-daily-km').value = p.dailyKm;
+
+    // Mini tab rata-rata penggunaan (Per Hari / Per Minggu)
+    if (profileRateUnit === 'day') {
+      $('input-daily-km').value = p.dailyKm;
+      if ($('rate-unit-badge')) $('rate-unit-badge').textContent = 'km/hari';
+    } else {
+      $('input-daily-km').value = Math.round(p.dailyKm * 7);
+      if ($('rate-unit-badge')) $('rate-unit-badge').textContent = 'km/minggu';
+    }
+    document.querySelectorAll('#mini-tab-rate-unit .mini-tab-btn').forEach((b) => {
+      b.classList.toggle('active', b.dataset.rateUnit === profileRateUnit);
+    });
+    updateRateConversionHint($('input-daily-km').value);
+
     $('btn-delete-vehicle').disabled = store.vehicles.length <= 1;
 
     // Populate template selector in Profile without losing current selection
