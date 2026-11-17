@@ -1148,6 +1148,7 @@
       box.innerHTML = '<span style="font-size:11.5px;color:var(--text-2)">Klik tombol di bawah untuk membuat template kustom baru.</span>';
       if (editBtn) editBtn.hidden = true;
       if (delBtn) delBtn.hidden = true;
+      if ($('template-action-row')) $('template-action-row').hidden = true;
       return;
     }
 
@@ -1155,6 +1156,7 @@
       box.innerHTML = '<span style="font-size:11.5px;color:var(--text-3)">Kosongkan daftar pengingat (buat manual sendiri).</span>';
       if (editBtn) editBtn.hidden = true;
       if (delBtn) delBtn.hidden = true;
+      if ($('template-action-row')) $('template-action-row').hidden = true;
       return;
     }
 
@@ -1163,10 +1165,12 @@
       box.innerHTML = '';
       if (editBtn) editBtn.hidden = true;
       if (delBtn) delBtn.hidden = true;
+      if ($('template-action-row')) $('template-action-row').hidden = true;
       return;
     }
 
     const isCustom = String(tpl.id).startsWith('ctpl-');
+    if ($('template-action-row')) $('template-action-row').hidden = false;
     if (editBtn) {
       editBtn.hidden = false;
       if (editLabel) {
@@ -1539,6 +1543,7 @@
             <option value="oli" ${it.category === 'oli' ? 'selected' : ''}>Ganti Oli</option>
             <option value="servis" ${it.category === 'servis' ? 'selected' : ''}>Servis</option>
             <option value="sparepart" ${it.category === 'sparepart' ? 'selected' : ''}>Sparepart</option>
+            <option value="lainnya" ${it.category === 'lainnya' ? 'selected' : ''}>Lainnya</option>
           </select>
           <input type="text" class="form-control" data-ctpl-field="name" placeholder="Nama perawatan (misal: Oli Mesin)" value="${esc(it.name)}" required maxlength="60">
           <button type="button" class="btn-ghost-icon" data-ctpl-del title="Hapus baris">${ic('trash')}</button>
