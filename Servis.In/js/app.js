@@ -358,42 +358,125 @@
     return v;
   }
 
-  // ---------------- Store & Welcome Detection ----------------
+  // ---------------- Multi-Account Storage & Helpers ----------------
   let isBrandNewUser = false;
+  let isLoggedOut = false;
+
+  function loadAccounts() {
+    try {
+      const raw = localStorage.getItem(ACCOUNTS_KEY);
+      if (raw) {
+        const arr = JSON.parse(raw);
+        if (Array.isArray(arr)) return arr;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    return [];
+  }
+
+  function saveAccounts(accs) {
+    try {
+      localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(accs || []));
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  function getActiveAccountId() {
+    return localStorage.getItem(ACTIVE_ACC_KEY) || null;
+  }
+
+  function setActiveAccountId(id) {
+    if (id) {
+      localStorage.setItem(ACTIVE_ACC_KEY, id);
+    } else {
+      localStorage.removeItem(ACTIVE_ACC_KEY);
+    }
+  }
 
   function loadStore() {
-    try {
-      const raw4 = localStorage.getItem(STORE_KEY);
-      if (raw4) {
-        const s = JSON.parse(raw4);
-        if (s && Array.isArray(s.vehicles) && s.vehicles.length) {
-          s.vehicles.forEach(normalizeVehicle);
-          if (!s.vehicles.some((v) => v.id === s.activeId)) s.activeId = s.vehicles[0].id;
-          s.theme = s.theme === 'dark' ? 'dark' : 'light';
-          return s;
-        }
+    let accounts = loadAccounts();
+    const activeAccId = getActiveAccountId();
+
+    // 1. Cek jika sudah ada akun dan ada ID akun yang sedang aktif/login
+    if (accounts.length > 0 && activeAccId) {
+      const acc = accounts.find((a) => a.id === activeAccId);
+      if (acc && acc.store && Array.isArray(acc.store.vehicles) && acc.store.vehicles.length) {
+        acc.store.vehicles.forEach(normalizeVehicle);
+        if (!acc.store.vehicles.some((v) => v.id === acc.store.activeId)) acc.store.activeId = acc.store.vehicles[0].id;
+        acc.store.theme = acc.store.theme === 'dark' ? 'dark' : 'light';
+        acc.lastLogin = new Date().toISOString();
+        saveAccounts(accounts);
+        return acc.store;
       }
-      const raw3 = localStorage.getItem(V3_KEY);
-      if (raw3) {
-        const s = JSON.parse(raw3);
-        if (s && Array.isArray(s.vehicles) && s.vehicles.length) {
-          s.vehicles.forEach(normalizeVehicle);
-          if (!s.vehicles.some((v) => v.id === s.activeId)) s.activeId = s.vehicles[0].id;
-          s.theme = s.theme === 'dark' ? 'dark' : 'light';
-          return s;
+    }
+
+    // 2. Migrasi otomatis data lama bagi pengguna yang sebelumnya sudah menggunakan v4/v3
+    if (accounts.length === 0) {
+      try {
+        let legacyStore = null;
+        const raw4 = localStorage.getItem(STORE_KEY);
+        if (raw4) {
+          const s = JSON.parse(raw4);
+          if (s && Array.isArray(s.vehicles) && s.vehicles.length) legacyStore = s;
         }
-      }
-      const old = localStorage.getItem(OLD_KEY);
-      if (old) {
-        const o = JSON.parse(old);
-        if (o && o.profile) {
-          const theme = o.theme;
-          delete o.theme;
-          const v = normalizeVehicle(o);
-          return { theme: theme === 'dark' ? 'dark' : 'light', activeId: v.id, vehicles: [v], updatedAt: new Date().toISOString() };
+        if (!legacyStore) {
+          const raw3 = localStorage.getItem(V3_KEY);
+          if (raw3) {
+            const s = JSON.parse(raw3);
+            if (s && Array.isArray(s.vehicles) && s.vehicles.length) legacyStore = s;
+          }
         }
+        if (!legacyStore) {
+          const old = localStorage.getItem(OLD_KEY);
+          if (old) {
+            const o = JSON.parse(old);
+            if (o && o.profile) {
+              const theme = o.theme;
+              delete o.theme;
+              const v = normalizeVehicle(o);
+              legacyStore = { theme: theme === 'dark' ? 'dark' : 'light', activeId: v.id, vehicles: [v], updatedAt: new Date().toISOString() };
+            }
+          }
+        }
+
+        if (legacyStore && Array.isArray(legacyStore.vehicles) && legacyStore.vehicles.length) {
+          legacyStore.vehicles.forEach(normalizeVehicle);
+          if (!legacyStore.vehicles.some((v) => v.id === legacyStore.activeId)) legacyStore.activeId = legacyStore.vehicles[0].id;
+          legacyStore.theme = legacyStore.theme === 'dark' ? 'dark' : 'light';
+          const firstVeh = legacyStore.vehicles[0];
+          const accName = (firstVeh && firstVeh.profile && firstVeh.profile.name) ? firstVeh.profile.name : 'Akun Utama';
+          const newAcc = {
+            id: 'acc_' + Date.now().toString(36),
+            name: accName,
+            createdAt: new Date().toISOString(),
+            lastLogin: new Date().toISOString(),
+            vehicleSummary: `${firstVeh.profile.name} · ${firstVeh.profile.plateNumber || ''}`,
+            store: legacyStore
+          };
+          accounts = [newAcc];
+          saveAccounts(accounts);
+          setActiveAccountId(newAcc.id);
+          return legacyStore;
+        }
+      } catch (e) {
+        console.error('Migration error:', e);
       }
-    } catch (e) { /* ignore */ }
+    }
+
+    // 3. Jika ada akun tersimpan tapi status sedang logout (tidak ada activeAccId)
+    if (accounts.length > 0 && !activeAccId) {
+      isLoggedOut = true;
+      // Gunakan akun pertama sebagai fallback sementara agar render engine siap di balik modal
+      const acc = accounts[0];
+      if (acc && acc.store && Array.isArray(acc.store.vehicles)) {
+        acc.store.vehicles.forEach(normalizeVehicle);
+        return acc.store;
+      }
+    }
+
+    // 4. Pengguna baru sama sekali (belum ada data)
     isBrandNewUser = true;
     const v = normalizeVehicle(createSampleVehicle());
     return { theme: 'light', activeId: v.id, vehicles: [v], updatedAt: new Date().toISOString() };
@@ -412,6 +495,23 @@
     } catch (e) {
       console.error(e);
     }
+
+    // Selalu sinkronkan data ke akun yang sedang aktif
+    const activeId = getActiveAccountId();
+    if (activeId) {
+      const accs = loadAccounts();
+      const idx = accs.findIndex((a) => a.id === activeId);
+      if (idx >= 0) {
+        accs[idx].store = store;
+        accs[idx].lastLogin = new Date().toISOString();
+        const v = getActive();
+        if (v && v.profile) {
+          accs[idx].vehicleSummary = `${v.profile.name} · ${v.profile.plateNumber || ''}`;
+        }
+        saveAccounts(accs);
+      }
+    }
+
     if (syncFileHandle) {
       writeToSyncFile().catch(() => {});
     }
