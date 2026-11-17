@@ -1910,6 +1910,8 @@
 
       store = newStore;
       state = sampleV;
+      isLoggedOut = false;
+      isBrandNewUser = false;
       save();
       renderAll();
       closeModal('modal-welcome');
@@ -1936,6 +1938,8 @@
           store = targetAcc.store;
           store.vehicles.forEach(normalizeVehicle);
           state = getActive();
+          isLoggedOut = false;
+          isBrandNewUser = false;
           closeModal('modal-welcome');
           renderAll();
           toast(`Masuk sebagai ${targetAcc.name}`);
@@ -2659,7 +2663,12 @@
     $('btn-reset-data').addEventListener('click', () => {
       askConfirm('Reset ke Data Contoh', 'Reset semua kendaraan dan data ke contoh awal?', 'Reset', () => {
         const v = normalizeVehicle(createSampleVehicle());
-        store = { theme: store.theme, activeId: v.id, vehicles: [v] };
+        store = {
+          theme: store.theme,
+          activeId: v.id,
+          vehicles: [v],
+          customTemplates: store.customTemplates || []
+        };
         state = v;
         save(); renderAll(); toast('Data direset ke contoh awal');
       });
