@@ -2488,10 +2488,24 @@
       p.name = $('input-vehicle-name').value.trim() || 'Kendaraan';
       p.plateNumber = $('input-plate-number').value.trim().toUpperCase();
       p.year = Number($('input-vehicle-year').value) || p.year;
-      p.dailyKm = Math.max(1, Number($('input-daily-km').value) || 30);
+      const rateVal = Number($('input-daily-km').value) || 30;
+      p.dailyKm = profileRateUnit === 'week' ? Math.max(1, Math.round(rateVal / 7)) : Math.max(1, Math.round(rateVal));
       if (odo !== p.currentOdo) setOdometer(odo, today());
       save(); renderAll(); toast('Profil disimpan');
     });
+
+    // Mini tab pilihan rata-rata per hari / per minggu
+    document.querySelectorAll('#mini-tab-rate-unit .mini-tab-btn').forEach((b) => {
+      b.addEventListener('click', () => setProfileRateUnit(b.dataset.rateUnit));
+    });
+    $('input-daily-km').addEventListener('input', (e) => {
+      updateRateConversionHint(e.target.value);
+    });
+
+    // Tombol Logout dari akun
+    if ($('btn-logout')) $('btn-logout').addEventListener('click', handleLogout);
+    if ($('btn-logout-menu')) $('btn-logout-menu').addEventListener('click', handleLogout);
+
     $('input-odo-rem-enabled').addEventListener('change', (e) => {
       state.profile.odoReminder.enabled = e.target.checked;
       save(); renderAll();
