@@ -2247,9 +2247,24 @@
 
       // Langsung terapkan ke kendaraan aktif
       state.profile.templateId = id;
-      state.profile.name = name;
+      if (!state.profile.name || state.profile.name === 'Kendaraan') {
+        state.profile.name = name;
+      }
       state.profile.type = type;
-      state.reminders = buildRemindersFromTemplate(id, state.profile.currentOdo);
+
+      // Buat pengingat baru dari template kustom dengan mempertahankan progres (lastOdo & lastDate) untuk item yang sudah ada
+      const newReminders = buildRemindersFromTemplate(id, state.profile.currentOdo);
+      const oldMap = new Map();
+      (state.reminders || []).forEach((r) => oldMap.set(r.name.trim().toLowerCase(), r));
+      newReminders.forEach((r) => {
+        const old = oldMap.get(r.name.trim().toLowerCase());
+        if (old) {
+          r.lastOdo = old.lastOdo;
+          r.lastDate = old.lastDate;
+          if (old.notes) r.notes = old.notes;
+        }
+      });
+      state.reminders = newReminders;
 
       save();
       renderAll();
