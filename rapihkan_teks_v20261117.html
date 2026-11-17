@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id" class="dark transition-all duration-300 w-full max-w-[100vw] overflow-x-hidden">
+<html lang="id" class="dark transition-all duration-300 w-full max-w-[100vw] overflow-hidden">
 
 <head>
   <meta charset="UTF-8" />
@@ -39,30 +39,30 @@
 </head>
 
 <body
-  class="bg-gradient-to-tr from-slate-100 via-fuchsia-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 text-slate-900 dark:text-slate-200 min-h-[100dvh] font-sans flex flex-col justify-center items-center py-4 px-3 sm:px-4 antialiased selection:bg-fuchsia-500/30 selection:text-fuchsia-200">
+  class="bg-gradient-to-tr from-slate-100 via-fuchsia-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 text-slate-900 dark:text-slate-200 h-[100dvh] max-h-[100dvh] overflow-hidden font-sans flex flex-col justify-center items-center py-2 px-3 sm:px-4 antialiased selection:bg-fuchsia-500/30 selection:text-fuchsia-200">
   
   <div
-    class="w-full max-w-5xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-3xl p-4 sm:p-6 shadow-2xl flex flex-col my-auto transition-all duration-300">
+    class="w-full max-w-5xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-3xl p-3 sm:p-4 shadow-2xl flex flex-col h-[calc(100dvh-1rem)] max-h-[calc(100dvh-1rem)] my-auto overflow-hidden transition-all duration-300 relative">
     
-    <!-- Header with theme toggle top-right -->
-    <div class="flex items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800/60 pb-3 sm:pb-4">
-      <div class="flex items-center gap-2.5 sm:gap-3">
-        <div class="p-2 bg-fuchsia-500/10 rounded-xl text-fuchsia-600 dark:text-fuchsia-400">
-          <i data-lucide="type" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+    <!-- Header with theme toggle top-right (Compact) -->
+    <div class="flex items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800/60 pb-2 sm:pb-2.5 shrink-0">
+      <div class="flex items-center gap-2 sm:gap-2.5">
+        <div class="p-1.5 bg-fuchsia-500/10 rounded-xl text-fuchsia-600 dark:text-fuchsia-400">
+          <i data-lucide="type" class="w-4 h-4 sm:w-5 sm:h-5"></i>
         </div>
         <div>
-          <h1 class="text-base sm:text-xl font-bold tracking-tight text-slate-800 dark:text-white">
+          <h1 class="text-sm sm:text-lg font-bold tracking-tight text-slate-800 dark:text-white leading-tight">
             Rapihkan Teks
           </h1>
-          <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">
-            Atur format, transformasi, koreksi typo, dan pembersihan teks secara instan • v20261117
+          <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">
+            Format kalimat, kapitalisasi, pembersihan teks & koreksi typo otomatis • v20261117
           </p>
         </div>
       </div>
 
-      <!-- Theme Toggle (Cleanly placed at top right) -->
+      <!-- Theme Toggle Button -->
       <button id="theme-toggle" type="button"
-        class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition-all text-slate-500 dark:text-slate-400 shrink-0 cursor-pointer">
+        class="p-1.5 sm:p-2 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition-all text-slate-500 dark:text-slate-400 shrink-0 cursor-pointer">
         <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none"
           viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round"
@@ -76,135 +76,141 @@
       </button>
     </div>
 
-    <!-- Mode Selector Bar (5 Kategori: Proper, Title, Upper, Split, Chaos) -->
-    <div class="mt-3 flex flex-wrap bg-slate-100 dark:bg-slate-800/50 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-medium gap-1">
+    <!-- Mode Selector Bar (5 Kategori: Proper, Title, Upper with Switch, Split, Chaos) -->
+    <div class="my-2 flex flex-wrap bg-slate-100 dark:bg-slate-800/50 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-medium gap-1 shrink-0">
       <button id="modeProper" onclick="setMode('proper')"
-        class="flex-1 min-w-[100px] sm:min-w-[120px] py-2 px-2.5 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 bg-fuchsia-600 text-white shadow">
+        class="flex-1 min-w-[85px] sm:min-w-[110px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 bg-fuchsia-600 text-white shadow">
         <i data-lucide="align-left" class="w-3.5 h-3.5"></i>
         <span>Per Kalimat</span>
       </button>
       <button id="modeTitle" onclick="setMode('title')"
-        class="flex-1 min-w-[100px] sm:min-w-[120px] py-2 px-2.5 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
+        class="flex-1 min-w-[85px] sm:min-w-[110px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
         <i data-lucide="heading" class="w-3.5 h-3.5"></i>
         <span>Per Kata</span>
       </button>
+      
+      <!-- Mode Kapital dengan Tombol Switch ⇆ -->
       <button id="modeUpper" onclick="setMode('upper')"
-        class="flex-1 min-w-[100px] sm:min-w-[120px] py-2 px-2.5 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
+        class="flex-1 min-w-[100px] sm:min-w-[125px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 relative group">
         <i data-lucide="case-upper" class="w-3.5 h-3.5"></i>
-        <span>Huruf Kapital</span>
+        <span id="labelUpperMode">Huruf Kapital</span>
+        <span id="btnUpperSwitch" onclick="toggleUpperSubMode(event)" title="Beralih Huruf Kapital ⇆ Kecil / Proper"
+          class="hidden ml-1 px-1.5 py-0.5 rounded bg-white/20 hover:bg-white/40 dark:bg-slate-700/60 dark:hover:bg-slate-600 text-[10px] font-bold active:scale-90 transition-all">
+          ⇆
+        </span>
       </button>
+
       <button id="modeSplit" onclick="setMode('split')"
-        class="flex-1 min-w-[100px] sm:min-w-[120px] py-2 px-2.5 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
+        class="flex-1 min-w-[85px] sm:min-w-[110px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
         <i data-lucide="scissors" class="w-3.5 h-3.5"></i>
         <span>Pecah Kata</span>
       </button>
       <button id="modeChaos" onclick="setMode('chaos')"
-        class="flex-1 min-w-[100px] sm:min-w-[120px] py-2 px-2.5 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
+        class="flex-1 min-w-[85px] sm:min-w-[110px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
         <i data-lucide="zap-off" class="w-3.5 h-3.5"></i>
         <span>Berantakan</span>
       </button>
     </div>
 
-    <!-- Features Container (Exclude Words & Koreksi Typo) -->
-    <div class="mt-3 space-y-2">
-      <!-- Exclude Words Bar -->
-      <div
-        class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800/80 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-        <div class="flex items-center gap-2 text-xs font-semibold text-rose-500 dark:text-rose-400 uppercase tracking-wider shrink-0">
-          <i data-lucide="trash-2" class="w-4 h-4"></i>
-          <span>Hilangkan Kata :</span>
+    <!-- Slim Combined Toolbar: Hilangkan Kata (Kiri) & Koreksi Typo Aktif (Kanan) -->
+    <div class="mb-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 shrink-0 relative">
+      <!-- Input Hilangkan Kata (Kiri, Ramping) -->
+      <div class="flex-1 flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800/80 rounded-xl px-2.5 py-1">
+        <div class="flex items-center gap-1 text-[11px] font-bold text-rose-500 dark:text-rose-400 uppercase tracking-wider shrink-0">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          <span class="hidden md:inline">Hilangkan:</span>
         </div>
         <input id="excludeWords" type="text"
-          placeholder="Masukkan kata yang ingin dibuang, pisahkan dengan koma atau titik (Contoh: dolor, elit, et)"
-          class="flex-1 bg-white dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-1.5 text-sm text-slate-800 dark:text-slate-300 placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-rose-500/50 transition-colors" />
+          placeholder="Kata yang ingin dibuang (pisahkan koma/titik)..."
+          class="flex-1 bg-transparent border-0 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none" />
       </div>
 
-      <!-- Typo Correction Bar -->
-      <div
-        class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800/80 rounded-xl p-3 flex flex-col md:flex-row md:items-center justify-between gap-2.5">
-        <div class="flex items-center gap-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider shrink-0">
-          <i data-lucide="spell-check" class="w-4 h-4"></i>
-          <span>Koreksi Typo & Kata Baku :</span>
-        </div>
+      <!-- Fitur Koreksi Typo (Kanan, Aktif Default, Ramping) -->
+      <div class="flex items-center justify-between sm:justify-end gap-2 shrink-0">
+        <!-- Toggle Koreksi Typo -->
+        <label class="inline-flex items-center gap-1.5 text-xs font-bold cursor-pointer select-none text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 px-2.5 py-1 rounded-xl hover:bg-emerald-100/80 dark:hover:bg-emerald-900/40 transition-colors shadow-xs">
+          <input type="checkbox" id="toggleTypo" checked class="rounded text-emerald-600 focus:ring-emerald-500 w-3.5 h-3.5 cursor-pointer">
+          <i data-lucide="spell-check" class="w-3.5 h-3.5"></i>
+          <span>Koreksi Typo</span>
+        </label>
 
-        <div class="flex flex-wrap items-center gap-3 text-xs">
-          <!-- Toggle Master -->
-          <label class="inline-flex items-center gap-2 cursor-pointer select-none">
-            <input type="checkbox" id="toggleTypo" class="sr-only peer">
-            <div class="w-8 h-4.5 bg-slate-300 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-emerald-600"></div>
-            <span class="font-bold text-slate-700 dark:text-slate-300">Aktifkan Koreksi Typo</span>
-          </label>
-
-          <!-- Granular check options -->
-          <div id="typoOptionsGroup" class="hidden sm:inline-flex items-center gap-2.5 border-l border-slate-200 dark:border-slate-700/80 pl-3">
-            <label class="inline-flex items-center gap-1 cursor-pointer text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
-              <input type="checkbox" id="optKbbi" checked class="rounded text-emerald-600 focus:ring-emerald-500">
-              <span>Baku KBBI</span>
-            </label>
-            <label class="inline-flex items-center gap-1 cursor-pointer text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
-              <input type="checkbox" id="optSlang" checked class="rounded text-emerald-600 focus:ring-emerald-500">
-              <span>Singkatan Chat</span>
-            </label>
-            <label class="inline-flex items-center gap-1 cursor-pointer text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
-              <input type="checkbox" id="optPunctuation" checked class="rounded text-emerald-600 focus:ring-emerald-500">
-              <span>Tanda Baca</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Detail Button / Toggle -->
+        <!-- Tombol Rincian Typo (Hanya muncul jika ada kata terkoreksi) -->
         <button type="button" id="btnToggleTypoList" onclick="toggleTypoList()"
-          class="hidden text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline items-center gap-1 shrink-0 cursor-pointer">
-          <i data-lucide="list-checks" class="w-3.5 h-3.5"></i>
-          <span>Rincian (<span id="typoCountBadge">0</span>)</span>
+          class="hidden text-[10px] font-bold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 px-2 py-1 rounded-xl border border-emerald-300 dark:border-emerald-700/60 hover:bg-emerald-200 dark:hover:bg-emerald-800 transition-all items-center gap-1 cursor-pointer">
+          <i data-lucide="check-check" class="w-3 h-3"></i>
+          <span id="typoCountBadge">0 kata</span>
         </button>
       </div>
 
-      <!-- Collapsible Panel for Typo Details -->
-      <div id="typoListPanel" class="hidden bg-emerald-50/70 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/40 rounded-xl p-3 text-xs transition-all">
-        <div class="flex items-center justify-between pb-1.5 border-b border-emerald-200/60 dark:border-emerald-800/40 mb-2">
-          <span class="font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
+      <!-- Floating Popover Rincian Typo (Tidak mendorong halaman / Bebas Scroll) -->
+      <div id="typoListPanel"
+        class="hidden absolute top-full right-0 mt-1 z-50 w-72 sm:w-80 bg-white dark:bg-slate-800 border border-emerald-300 dark:border-emerald-700 rounded-2xl p-2.5 shadow-xl text-xs backdrop-blur-md">
+        <div class="flex items-center justify-between pb-1.5 border-b border-slate-200 dark:border-slate-700 mb-2">
+          <span class="font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1 text-[11px]">
             <i data-lucide="check-check" class="w-3.5 h-3.5"></i>
-            Kata yang Berhasil Diperbaiki:
+            Kata yang Berhasil Dikoreksi:
           </span>
-          <button type="button" onclick="toggleTypoList()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs font-bold cursor-pointer">Tutup &times;</button>
+          <button type="button" onclick="toggleTypoList()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-sm font-bold cursor-pointer leading-none">&times;</button>
         </div>
-        <div id="typoListItems" class="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto pr-1"></div>
+        <div id="typoListItems" class="flex flex-wrap gap-1 max-h-36 overflow-y-auto pr-1"></div>
       </div>
     </div>
 
-    <!-- Textareas Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 my-3 sm:my-4">
-      <div class="flex flex-col bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800/80 rounded-xl p-3 sm:p-4">
-        <label class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-          <i data-lucide="arrow-right-left" class="w-3.5 h-3.5 text-fuchsia-500 dark:text-fuchsia-400"></i>
-          Sumber Teks
-        </label>
-        <textarea id="inputText" placeholder="Masukkan atau tempel teks di sini..."
-          class="w-full min-h-[140px] sm:min-h-[180px] md:min-h-[220px] bg-transparent border-0 resize-y text-slate-800 dark:text-slate-300 placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none text-sm leading-relaxed"></textarea>
+    <!-- Textareas Grid (Flex-1 & Bebas Scroll Luar) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3 flex-1 min-h-0 my-0 overflow-hidden">
+      
+      <!-- Kolom Sumber Teks -->
+      <div class="flex flex-col h-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800/80 rounded-2xl p-2.5 sm:p-3 relative overflow-hidden">
+        <div class="flex items-center justify-between mb-1.5 shrink-0">
+          <label class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+            <i data-lucide="arrow-right-left" class="w-3.5 h-3.5 text-fuchsia-500 dark:text-fuchsia-400"></i>
+            Sumber Teks
+          </label>
+          <!-- Tombol Tukar Teks Sumber & Hasil -->
+          <button type="button" onclick="swapInputOutput()" title="Tukar Teks Sumber ⇆ Hasil"
+            class="text-[10px] font-bold text-slate-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 flex items-center gap-1 px-1.5 py-0.5 rounded hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer">
+            <i data-lucide="arrow-left-right" class="w-3 h-3"></i>
+            <span>Tukar ⇆</span>
+          </button>
+        </div>
+        <textarea id="inputText" placeholder="Ketik atau tempel teks di sini..."
+          class="w-full flex-1 bg-transparent border-0 resize-none text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none text-xs sm:text-sm leading-relaxed overflow-y-auto"></textarea>
       </div>
 
-      <div
-        class="flex flex-col bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800/80 rounded-xl p-3 sm:p-4 relative group">
-        <label id="outputLabel"
-          class="text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-pink-500 dark:text-pink-400">
-          <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Hasil Format
-        </label>
-        <textarea id="outputText" readonly placeholder="Hasil akan muncul di sini..."
-          class="w-full min-h-[140px] sm:min-h-[180px] md:min-h-[220px] pb-12 bg-transparent border-0 resize-y placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none text-sm leading-relaxed font-medium text-pink-600 dark:text-pink-400"></textarea>
+      <!-- Kolom Hasil Format -->
+      <div class="flex flex-col h-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800/80 rounded-2xl p-2.5 sm:p-3 relative overflow-hidden group">
+        <div class="flex items-center justify-between mb-1.5 shrink-0">
+          <label id="outputLabel"
+            class="text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 text-pink-500 dark:text-pink-400">
+            <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+            <span>Hasil Format</span>
+          </label>
+          
+          <!-- Switch Casing Toolbar (Khusus Mode Huruf Kapital) -->
+          <div id="upperSwitchToolbar" class="hidden flex items-center gap-1">
+            <button id="btnSwitchCase" type="button" onclick="toggleUpperSubMode(event)"
+              class="px-2 py-0.5 rounded-lg text-[10px] font-extrabold bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-900/60 border border-purple-300/60 dark:border-purple-700/60 transition-all flex items-center gap-1 cursor-pointer shadow-xs active:scale-95">
+              <span>⇆</span>
+              <span id="subModeCaseLabel">KAPITAL ⇆ kecil</span>
+            </button>
+          </div>
+        </div>
 
-        <!-- Action Buttons (WhatsApp & Salin) -->
-        <div class="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 flex items-center gap-2">
+        <textarea id="outputText" readonly placeholder="Hasil format akan muncul di sini..."
+          class="w-full flex-1 pb-10 bg-transparent border-0 resize-none placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none text-xs sm:text-sm leading-relaxed font-medium text-pink-600 dark:text-pink-400 overflow-y-auto"></textarea>
+
+        <!-- Floating Action Buttons (WhatsApp & Salin) -->
+        <div class="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 flex items-center gap-1.5 z-10">
           <!-- WhatsApp Share Button -->
           <button id="btnWhatsapp" type="button" onclick="shareToWhatsApp()" title="Bagikan hasil ke WhatsApp"
-            class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white px-3 py-1.5 sm:py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 shadow-md cursor-pointer">
+            class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white px-2.5 py-1 sm:py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 shadow-md cursor-pointer">
             <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
             <span>WhatsApp</span>
           </button>
 
           <!-- Copy Button -->
           <button id="btnCopy" type="button" onclick="copyToClipboard()" title="Salin teks ke clipboard"
-            class="bg-white dark:bg-slate-800 hover:bg-fuchsia-600 hover:text-white border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-3 py-1.5 sm:py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 shadow-md active:scale-95 cursor-pointer">
+            class="bg-white dark:bg-slate-800 hover:bg-fuchsia-600 hover:text-white border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-2.5 py-1 sm:py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 shadow-md active:scale-95 cursor-pointer">
             <i data-lucide="copy" class="w-3.5 h-3.5"></i>
             <span>Salin</span>
           </button>
@@ -212,35 +218,35 @@
       </div>
     </div>
 
-    <!-- Stats Bar -->
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1 pb-2 text-xs text-slate-500 dark:text-slate-400 relative">
-      <div class="flex flex-wrap gap-2.5 sm:gap-3 items-center w-full sm:w-auto justify-center sm:justify-start">
-        <span id="charCount" class="font-medium">Karakter: 0</span>
-        <span class="text-slate-300 dark:text-slate-700">•</span>
-        <span id="wordCount" class="font-medium">Kata: 0</span>
+    <!-- Stats Bar (Compact) -->
+    <div class="flex items-center justify-between gap-2 py-1 sm:py-1.5 text-xs text-slate-500 dark:text-slate-400 shrink-0">
+      <div class="flex flex-wrap gap-2 sm:gap-3 items-center">
+        <span id="charCount" class="font-medium text-[11px]">Karakter: 0</span>
+        <span class="text-slate-300 dark:text-slate-700 text-[10px]">•</span>
+        <span id="wordCount" class="font-medium text-[11px]">Kata: 0</span>
         
-        <!-- Badge Dihilangkan -->
+        <!-- Badge Kata Dihilangkan -->
         <div id="removedBadge"
-          class="hidden items-center gap-1 bg-rose-500/10 border border-rose-500/20 text-rose-500 dark:text-rose-400 px-2 py-0.5 rounded-md text-[11px] font-medium transition-all">
+          class="hidden items-center gap-1 bg-rose-500/10 border border-rose-500/20 text-rose-500 dark:text-rose-400 px-1.5 py-0.5 rounded-md text-[10px] font-semibold transition-all">
           <i data-lucide="file-minus" class="w-3 h-3"></i>
-          <span id="removedCount">Dihilangkan: 0 kata</span>
+          <span id="removedCount">0 dibuang</span>
         </div>
 
-        <!-- Badge Koreksi Typo -->
+        <!-- Badge Status Koreksi Typo -->
         <div id="typoBadge"
-          class="hidden items-center gap-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-md text-[11px] font-medium transition-all">
+          class="hidden items-center gap-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded-md text-[10px] font-semibold transition-all">
           <i data-lucide="spell-check" class="w-3 h-3"></i>
-          <span id="typoStatsText">Dikoreksi: 0 kata</span>
+          <span id="typoStatsText">0 dikoreksi</span>
         </div>
       </div>
 
-      <div class="hidden sm:block text-[10px] text-slate-400 dark:text-slate-600 tracking-wider">
+      <div class="text-[10px] text-slate-400 dark:text-slate-600 font-semibold tracking-wider">
         v20261117
       </div>
     </div>
 
-    <!-- Navigation Buttons -->
-    <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex gap-2 w-full mt-auto mb-2">
+    <!-- Navigation Buttons (Compact) -->
+    <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex gap-2 w-full mt-auto mb-1 shrink-0">
       <button type="button" onclick="if(window.top!==window.self&&window.parent.closePreviewModal){window.parent.closePreviewModal();}else{history.back();}"
         class="flex-1 py-1.5 sm:py-2 rounded-full text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors flex items-center justify-center gap-1 cursor-pointer">
         <svg class="w-3.5 h-3.5 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -269,7 +275,7 @@
 
     <!-- Footer -->
     <footer
-      class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-2 pt-2 pb-1 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
+      class="text-center text-slate-400 dark:text-slate-600 text-[9px] pt-1 pb-0.5 border-t border-slate-200/80 dark:border-slate-800/80 font-medium no-print shrink-0">
       Williyanto Adi 2026
     </footer>
 
@@ -316,9 +322,6 @@
 
     // Typo Elements
     const toggleTypo = document.getElementById("toggleTypo");
-    const optKbbi = document.getElementById("optKbbi");
-    const optSlang = document.getElementById("optSlang");
-    const optPunctuation = document.getElementById("optPunctuation");
     const typoBadge = document.getElementById("typoBadge");
     const typoStatsText = document.getElementById("typoStatsText");
     const btnToggleTypoList = document.getElementById("btnToggleTypoList");
@@ -333,11 +336,18 @@
     const modeSplit = document.getElementById("modeSplit");
     const modeChaos = document.getElementById("modeChaos");
 
-    let currentMode = "proper";
-    let activeTypoLog = [];
+    // Sub-mode switch for Mode Kapital (upper vs lower vs proper)
+    const labelUpperMode = document.getElementById("labelUpperMode");
+    const btnUpperSwitch = document.getElementById("btnUpperSwitch");
+    const upperSwitchToolbar = document.getElementById("upperSwitchToolbar");
+    const subModeCaseLabel = document.getElementById("subModeCaseLabel");
 
-    // --- KAMUS TYPO & KATA BAKU BAHASA INDONESIA ---
-    const kbbiDict = {
+    let currentMode = "proper";
+    let upperSubMode = "upper"; // 'upper' (KAPITAL), 'lower' (kecil), 'proper' (Proper)
+
+    // --- KAMUS TYPO & KATA BAKU BAHASA INDONESIA LENGKAP ---
+    const typoDict = {
+      // Baku KBBI & Ejaan Resmi
       "antri": "antre",
       "antrian": "antrean",
       "antriannya": "antreannya",
@@ -423,10 +433,9 @@
       "pertanggung jawaban": "pertanggungjawaban",
       "tanda tangan": "tandatangan",
       "goncang": "guncang",
-      "syah": "sah"
-    };
+      "syah": "sah",
 
-    const slangDict = {
+      // Singkatan Chat & Slang Populer
       "yg": "yang",
       "dgn": "dengan",
       "utk": "untuk",
@@ -487,6 +496,7 @@
       "kesini": "ke sini"
     };
 
+    // Fungsi pencocokan casing (mempertahankan huruf kapital asal)
     function matchCase(sourceWord, replacementWord) {
       if (sourceWord === sourceWord.toUpperCase()) {
         return replacementWord.toUpperCase();
@@ -507,29 +517,14 @@
       let result = text;
       const log = [];
 
-      // 1. Tanda Baca & Spasi (Jika aktif)
-      if (optPunctuation && optPunctuation.checked) {
-        // Hilangkan spasi sebelum tanda baca: "kata ," -> "kata,"
-        result = result.replace(/\s+([,.:;!?])/g, "$1");
-        // Rapikan tanda baca koma berulang: ",," -> ","
-        result = result.replace(/,{2,}/g, ",");
-        // Rapikan tanda tanya/seru berlebih: "???" -> "?"
-        result = result.replace(/\?{2,}/g, "?");
-        result = result.replace(/!{2,}/g, "!");
-      }
-
-      // Gabungkan kamus sesuai opsi yang aktif
-      const combinedDict = {};
-      if (optKbbi && optKbbi.checked) {
-        Object.assign(combinedDict, kbbiDict);
-      }
-      if (optSlang && optSlang.checked) {
-        Object.assign(combinedDict, slangDict);
-      }
+      // Rapikan spasi tanda baca ("kata ," -> "kata,")
+      result = result.replace(/\s+([,.:;!?])/g, "$1");
+      result = result.replace(/,{2,}/g, ",");
+      result = result.replace(/\?{2,}/g, "?");
+      result = result.replace(/!{2,}/g, "!");
 
       // Jalankan penggantian kata dengan batas kata (\b)
-      for (const [wrong, correct] of Object.entries(combinedDict)) {
-        // Escape regex karakter khusus
+      for (const [wrong, correct] of Object.entries(typoDict)) {
         const safeWrong = wrong.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
         const regex = new RegExp(`\\b${safeWrong}\\b`, "gi");
 
@@ -552,7 +547,6 @@
     }
 
     function renderTypoList(list) {
-      activeTypoLog = list;
       if (!typoListItems || !typoCountBadge || !btnToggleTypoList || !typoBadge || !typoStatsText) return;
 
       if (!toggleTypo.checked || list.length === 0) {
@@ -563,13 +557,13 @@
         return;
       }
 
-      typoStatsText.textContent = `Dikoreksi: ${list.length} kata`;
-      typoCountBadge.textContent = list.length;
+      typoStatsText.textContent = `${list.length} dikoreksi`;
+      typoCountBadge.textContent = `${list.length} kata`;
       typoBadge.style.display = "inline-flex";
       btnToggleTypoList.classList.remove("hidden");
       btnToggleTypoList.classList.add("inline-flex");
 
-      // Unique summary
+      // Rangkum kata unik
       const summaryMap = new Map();
       list.forEach(item => {
         const key = `${item.from.toLowerCase()} ➔ ${item.to.toLowerCase()}`;
@@ -579,8 +573,8 @@
       typoListItems.innerHTML = "";
       summaryMap.forEach((count, key) => {
         const badge = document.createElement("span");
-        badge.className = "bg-white dark:bg-slate-800 border border-emerald-300 dark:border-emerald-700/60 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded text-[11px] font-semibold shadow-xs flex items-center gap-1";
-        badge.innerHTML = `<span>${key}</span>${count > 1 ? `<span class="bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 text-[10px] px-1 rounded-full font-bold">×${count}</span>` : ''}`;
+        badge.className = "bg-slate-100 dark:bg-slate-700/80 border border-emerald-300 dark:border-emerald-700 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded-lg text-[10px] font-bold shadow-xs flex items-center gap-1";
+        badge.innerHTML = `<span>${key}</span>${count > 1 ? `<span class="bg-emerald-200 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 text-[9px] px-1 rounded-full font-black">×${count}</span>` : ''}`;
         typoListItems.appendChild(badge);
       });
     }
@@ -589,11 +583,21 @@
       inputText.value = "";
       excludeWords.value = "";
       outputText.value = "";
-      if (toggleTypo) toggleTypo.checked = false;
+      toggleTypo.checked = true; // Aktif default
+      upperSubMode = "upper";
+      updateUpperSwitchLabel();
       renderTypoList([]);
       setMode('proper');
       processText();
       inputText.focus();
+    }
+
+    // Fungsi Tukar Teks (Swap Input & Output)
+    function swapInputOutput() {
+      if (!outputText.value && !inputText.value) return;
+      const temp = inputText.value;
+      inputText.value = outputText.value;
+      processText();
     }
 
     // Fungsi Hitung Kata
@@ -691,7 +695,7 @@
     function processText() {
       let currentText = inputText.value;
 
-      // 1. Koreksi Typo jika toggle aktif
+      // 1. Koreksi Typo jika toggle aktif (Aktif Default)
       let detectedTypos = [];
       if (toggleTypo && toggleTypo.checked && currentText.trim()) {
         currentText = applyTypoCorrection(currentText, (list) => {
@@ -712,24 +716,34 @@
         .replace("text-cyan-400", "text-pink-400")
         .replace("text-purple-400", "text-pink-400");
       outputLabel.className =
-        "text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-pink-500 dark:text-pink-400";
+        "text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 text-pink-500 dark:text-pink-400";
 
       // 3. Eksekusi Kategori Format
       if (currentMode === "proper") {
         outputText.value = convertToProperCase(cleanedText);
-        outputLabel.innerHTML = `<i data-lucide="align-left" class="w-3.5 h-3.5"></i> Hasil: Format Kalimat`;
+        outputLabel.innerHTML = `<i data-lucide="align-left" class="w-3.5 h-3.5"></i> <span>Hasil: Format Kalimat</span>`;
       } else if (currentMode === "title") {
         outputText.value = convertToTitleCase(cleanedText);
-        outputLabel.innerHTML = `<i data-lucide="heading" class="w-3.5 h-3.5"></i> Hasil: Format Awalan Kata`;
+        outputLabel.innerHTML = `<i data-lucide="heading" class="w-3.5 h-3.5"></i> <span>Hasil: Format Awalan Kata</span>`;
       } else if (currentMode === "upper") {
-        outputText.value = convertToUpperCase(cleanedText);
+        // Mode Kapital dengan Sub-Mode Switch ⇆ (KAPITAL, kecil, proper)
+        if (upperSubMode === "upper") {
+          outputText.value = convertToUpperCase(cleanedText);
+          outputLabel.innerHTML = `<i data-lucide="case-upper" class="w-3.5 h-3.5"></i> <span>Hasil: Huruf Kapital (UPPERCASE)</span>`;
+        } else if (upperSubMode === "lower") {
+          outputText.value = cleanedText.toLowerCase();
+          outputLabel.innerHTML = `<i data-lucide="case-lower" class="w-3.5 h-3.5"></i> <span>Hasil: Huruf Kecil (lowercase)</span>`;
+        } else {
+          outputText.value = convertToTitleCase(cleanedText);
+          outputLabel.innerHTML = `<i data-lucide="heading" class="w-3.5 h-3.5"></i> <span>Hasil: Huruf Proper (Awalan Kapital)</span>`;
+        }
+
         outputText.className = outputText.className.replace(
           "text-pink-400",
           "text-purple-400",
         );
         outputLabel.className =
-          "text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-purple-600 dark:text-purple-400";
-        outputLabel.innerHTML = `<i data-lucide="case-upper" class="w-3.5 h-3.5"></i> Hasil: Huruf Kapital (UPPERCASE)`;
+          "text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 text-purple-600 dark:text-purple-400";
       } else if (currentMode === "split") {
         outputText.value = convertToSplitLines(cleanedText);
         outputText.className = outputText.className.replace(
@@ -737,8 +751,8 @@
           "text-cyan-400",
         );
         outputLabel.className =
-          "text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-cyan-600 dark:text-cyan-400";
-        outputLabel.innerHTML = `<i data-lucide="scissors" class="w-3.5 h-3.5"></i> Hasil: Pecah Per Kata`;
+          "text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 text-cyan-600 dark:text-cyan-400";
+        outputLabel.innerHTML = `<i data-lucide="scissors" class="w-3.5 h-3.5"></i> <span>Hasil: Pecah Per Kata</span>`;
       } else if (currentMode === "chaos") {
         outputText.value = convertToChaosCase(cleanedText);
         outputText.className = outputText.className.replace(
@@ -746,8 +760,8 @@
           "text-amber-400",
         );
         outputLabel.className =
-          "text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-amber-600 dark:text-amber-400";
-        outputLabel.innerHTML = `<i data-lucide="zap-off" class="w-3.5 h-3.5"></i> Hasil: Berantakan`;
+          "text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 text-amber-600 dark:text-amber-400";
+        outputLabel.innerHTML = `<i data-lucide="zap-off" class="w-3.5 h-3.5"></i> <span>Hasil: Berantakan</span>`;
       }
 
       const rawText = inputText.value;
@@ -755,7 +769,7 @@
       wordCount.textContent = `Kata: ${countWords(rawText)}`;
 
       if (deletedWordsTotal > 0 && excludeWords.value.trim() !== "") {
-        removedCount.textContent = `Dihilangkan: ${deletedWordsTotal} kata`;
+        removedCount.textContent = `${deletedWordsTotal} dibuang`;
         removedBadge.style.display = "inline-flex";
       } else {
         removedBadge.style.display = "none";
@@ -777,39 +791,66 @@
       buttons.forEach((btn) => {
         if (btn.key === currentMode) {
           btn.el.className =
-            "flex-1 min-w-[100px] sm:min-w-[120px] py-2 px-2.5 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 bg-fuchsia-600 text-white shadow";
+            "flex-1 min-w-[85px] sm:min-w-[110px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 bg-fuchsia-600 text-white shadow";
         } else {
           btn.el.className =
-            "flex-1 min-w-[100px] sm:min-w-[120px] py-2 px-2.5 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200";
+            "flex-1 min-w-[85px] sm:min-w-[110px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200";
         }
       });
 
+      // Tampilkan tombol switch ⇆ jika berada di mode Huruf Kapital
+      if (currentMode === "upper") {
+        btnUpperSwitch.classList.remove("hidden");
+        btnUpperSwitch.classList.add("inline-flex");
+        upperSwitchToolbar.classList.remove("hidden");
+        upperSwitchToolbar.classList.add("flex");
+      } else {
+        btnUpperSwitch.classList.add("hidden");
+        btnUpperSwitch.classList.remove("inline-flex");
+        upperSwitchToolbar.classList.add("hidden");
+        upperSwitchToolbar.classList.remove("flex");
+      }
+
       processText();
+    }
+
+    // Toggle Sub-Mode pada Mode Kapital (KAPITAL ⇆ kecil ⇆ Proper)
+    function toggleUpperSubMode(e) {
+      if (e) e.stopPropagation();
+      if (currentMode !== "upper") {
+        setMode("upper");
+        return;
+      }
+      
+      if (upperSubMode === "upper") {
+        upperSubMode = "lower";
+      } else if (upperSubMode === "lower") {
+        upperSubMode = "proper";
+      } else {
+        upperSubMode = "upper";
+      }
+
+      updateUpperSwitchLabel();
+      processText();
+    }
+
+    function updateUpperSwitchLabel() {
+      if (upperSubMode === "upper") {
+        labelUpperMode.textContent = "Huruf Kapital";
+        subModeCaseLabel.textContent = "KAPITAL ⇆ kecil";
+      } else if (upperSubMode === "lower") {
+        labelUpperMode.textContent = "Huruf Kecil";
+        subModeCaseLabel.textContent = "kecil ⇆ Proper";
+      } else {
+        labelUpperMode.textContent = "Huruf Proper";
+        subModeCaseLabel.textContent = "Proper ⇆ KAPITAL";
+      }
     }
 
     // Event Listeners
     inputText.addEventListener("input", processText);
     excludeWords.addEventListener("input", processText);
-
-    if (toggleTypo) {
-      toggleTypo.addEventListener("change", () => {
-        const typoOptionsGroup = document.getElementById("typoOptionsGroup");
-        if (typoOptionsGroup) {
-          if (toggleTypo.checked) {
-            typoOptionsGroup.classList.remove("hidden");
-            typoOptionsGroup.classList.add("inline-flex");
-          } else {
-            typoOptionsGroup.classList.add("hidden");
-            typoOptionsGroup.classList.remove("inline-flex");
-            if (typoListPanel) typoListPanel.classList.add("hidden");
-          }
-        }
-        processText();
-      });
-    }
-    if (optKbbi) optKbbi.addEventListener("change", processText);
-    if (optSlang) optSlang.addEventListener("change", processText);
-    if (optPunctuation) optPunctuation.addEventListener("change", processText);
+    if (toggleTypo) toggleTypo.addEventListener("change", processText);
 
     // Share to WhatsApp
     function shareToWhatsApp() {
@@ -845,6 +886,9 @@
         })
         .catch((err) => console.error(err));
     }
+
+    // Initial run
+    processText();
   </script>
 </body>
 
