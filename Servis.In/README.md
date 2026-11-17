@@ -20,14 +20,20 @@
    - Navigasi lintas bulan: melihat **Bulan Sebelumnya** (histori pengeluaran aktual), **Bulan Ini**, hingga **Bulan yang Akan Datang** (proyeksi estimasi biaya servis berdasarkan prediksi odometer & jadwal jatuh tempo).
    - Grafik perbandingan 6 bulan interaktif dan rincian biaya per kategori (*Oli, Servis, Sparepart, Lainnya*).
 
-4. **Profil Kendaraan & Pengingat Update Odometer (`Profil`)**
-   - Menyimpan **Jenis Kendaraan**, **Nama Kendaraan** (otomatis tampil pada `<title>` halaman dan header utama), serta **Plat Nomor + Tahun** dengan visualisasi plat nomor kendaraan Indonesia.
+4. **Manajemen Akun & Layar Awal (`Layar Awal & Logout`)**
+   - **Tampilan Awal / Layar Masuk**: Memilih akun yang sudah tersimpan atau mulai baru dengan input **Jenis Kendaraan**, **Odometer Saat Ini**, **Plat Nomor**, dan **Tahun Kendaraan**.
+   - **Fitur Logout Akun**: Keluar dari akun aktif dengan konfirmasi aman dan data tetap tersimpan di perangkat lokal.
+
+5. **Profil Kendaraan, Mini Tab Rata-Rata & Pengingat Odometer (`Profil`)**
+   - Menyimpan **Jenis Kendaraan**, **Nama Kendaraan**, serta **Plat Nomor + Tahun** dengan visualisasi plat nomor kendaraan Indonesia.
+   - **Mini Tab Rata-Rata Penggunaan**: Pilihan fleksibel antara **Per Hari** dan **Per Minggu** dengan konversi nilai otomatis.
+   - **Template Perawatan Custom / Edit**: Sesuaikan template model bawaan atau buat template kustom baru dengan interval KM, bulan, dan estimasi biaya sendiri.
    - **Pengingat Update Odometer** yang dapat diatur frekuensinya (**berapa hari sekali** atau **berapa minggu sekali**).
 
-5. **Mode Gelap & Terang (`Dark / Light Mode`)**
+6. **Mode Gelap & Terang (`Dark / Light Mode`)**
    - Tema tampilan *clean modern* yang nyaman digunakan siang maupun malam hari.
 
-6. **Tentang Aplikasi (`About`)**
+7. **Tentang Aplikasi (`About`)**
    - Dilengkapi informasi aplikasi dan kredit footer **Williyanto Adi 2026**.
 
 ---
