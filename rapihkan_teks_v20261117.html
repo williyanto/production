@@ -76,7 +76,7 @@
       </button>
     </div>
 
-    <!-- Mode Selector Bar (5 Kategori: Proper, Title, Upper with Switch, Split, Chaos) -->
+    <!-- Mode Selector Bar (5 Kategori: Proper, Title, Upper, Split, Chaos) -->
     <div class="my-2 flex flex-wrap bg-slate-100 dark:bg-slate-800/50 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-medium gap-1 shrink-0">
       <button id="modeProper" onclick="setMode('proper')"
         class="flex-1 min-w-[85px] sm:min-w-[110px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 bg-fuchsia-600 text-white shadow">
@@ -89,15 +89,11 @@
         <span>Per Kata</span>
       </button>
       
-      <!-- Mode Kapital dengan Tombol Switch ⇆ -->
+      <!-- Mode Huruf Kapital (Bebas toggle, langsung UPPERCASE) -->
       <button id="modeUpper" onclick="setMode('upper')"
-        class="flex-1 min-w-[100px] sm:min-w-[125px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 relative group">
+        class="flex-1 min-w-[85px] sm:min-w-[110px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
         <i data-lucide="case-upper" class="w-3.5 h-3.5"></i>
-        <span id="labelUpperMode">Huruf Kapital</span>
-        <span id="btnUpperSwitch" onclick="toggleUpperSubMode(event)" title="Beralih Huruf Kapital ⇆ Kecil / Proper"
-          class="hidden ml-1 px-1.5 py-0.5 rounded bg-white/20 hover:bg-white/40 dark:bg-slate-700/60 dark:hover:bg-slate-600 text-[10px] font-bold active:scale-90 transition-all">
-          ⇆
-        </span>
+        <span>Huruf Kapital</span>
       </button>
 
       <button id="modeSplit" onclick="setMode('split')"
@@ -170,14 +166,14 @@
           <button type="button" onclick="swapInputOutput()" title="Tukar Teks Sumber ⇆ Hasil"
             class="text-[10px] font-bold text-slate-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 flex items-center gap-1 px-1.5 py-0.5 rounded hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer">
             <i data-lucide="arrow-left-right" class="w-3 h-3"></i>
-            <span>Tukar ⇆</span>
+            <span>Tukar</span>
           </button>
         </div>
         <textarea id="inputText" placeholder="Ketik atau tempel teks di sini..."
           class="w-full flex-1 bg-transparent border-0 resize-none text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none text-xs sm:text-sm leading-relaxed overflow-y-auto"></textarea>
       </div>
 
-      <!-- Kolom Hasil Format -->
+      <!-- Kolom Hasil Format (Mendukung Penanda Highlight Typo) -->
       <div class="flex flex-col h-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800/80 rounded-2xl p-2.5 sm:p-3 relative overflow-hidden group">
         <div class="flex items-center justify-between mb-1.5 shrink-0">
           <label id="outputLabel"
@@ -186,18 +182,29 @@
             <span>Hasil Format</span>
           </label>
           
-          <!-- Switch Casing Toolbar (Khusus Mode Huruf Kapital) -->
-          <div id="upperSwitchToolbar" class="hidden flex items-center gap-1">
-            <button id="btnSwitchCase" type="button" onclick="toggleUpperSubMode(event)"
-              class="px-2 py-0.5 rounded-lg text-[10px] font-extrabold bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-900/60 border border-purple-300/60 dark:border-purple-700/60 transition-all flex items-center gap-1 cursor-pointer shadow-xs active:scale-95">
-              <span>⇆</span>
-              <span id="subModeCaseLabel">KAPITAL ⇆ kecil</span>
+          <!-- Indikator / Pilihan Tanda Typo di Hasil -->
+          <div id="typoMarkHeader" class="hidden items-center gap-1">
+            <span id="typoMarkCountBadge" class="text-[10px] font-bold text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-800 px-1.5 py-0.5 rounded flex items-center gap-1">
+              <i data-lucide="check-check" class="w-3 h-3 text-amber-600 dark:text-amber-400"></i>
+              <span id="typoMarkCount">0 diganti</span>
+            </span>
+            <button type="button" id="btnToggleMarkStyle" onclick="toggleMarkStyle()"
+              title="Beralih gaya tanda kata yang diganti (Sorot Kuning ⇆ Tanda [kata] ⇆ Bersih)"
+              class="text-[10px] font-bold px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 cursor-pointer transition-all flex items-center gap-1 active:scale-95 shadow-xs">
+              <i data-lucide="highlighter" class="w-3 h-3 text-amber-500"></i>
+              <span id="markStyleLabel">Tanda: Sorot</span>
             </button>
           </div>
         </div>
 
-        <textarea id="outputText" readonly placeholder="Hasil format akan muncul di sini..."
-          class="w-full flex-1 pb-10 bg-transparent border-0 resize-none placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none text-xs sm:text-sm leading-relaxed font-medium text-pink-600 dark:text-pink-400 overflow-y-auto"></textarea>
+        <!-- Output Visual Display (Mendukung highlight kata typo yang diganti) -->
+        <div id="outputDisplay"
+          class="w-full flex-1 pb-10 bg-transparent border-0 select-text overflow-y-auto text-xs sm:text-sm leading-relaxed font-medium text-pink-600 dark:text-pink-400 whitespace-pre-wrap outline-none">
+          <span class="text-slate-400 dark:text-slate-500 select-none">Hasil format akan muncul di sini...</span>
+        </div>
+
+        <!-- Hidden input for clipboard & WhatsApp synchronization -->
+        <textarea id="outputText" readonly class="hidden"></textarea>
 
         <!-- Floating Action Buttons (WhatsApp & Salin) -->
         <div class="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 flex items-center gap-1.5 z-10">
@@ -312,13 +319,14 @@
     const inputText = document.getElementById("inputText");
     const excludeWords = document.getElementById("excludeWords");
     const outputText = document.getElementById("outputText");
+    const outputDisplay = document.getElementById("outputDisplay");
+    const outputLabel = document.getElementById("outputLabel");
     const charCount = document.getElementById("charCount");
     const wordCount = document.getElementById("wordCount");
     const removedCount = document.getElementById("removedCount");
     const removedBadge = document.getElementById("removedBadge");
     const btnCopy = document.getElementById("btnCopy");
     const btnWhatsapp = document.getElementById("btnWhatsapp");
-    const outputLabel = document.getElementById("outputLabel");
 
     // Typo Elements
     const toggleTypo = document.getElementById("toggleTypo");
@@ -328,6 +336,9 @@
     const typoCountBadge = document.getElementById("typoCountBadge");
     const typoListPanel = document.getElementById("typoListPanel");
     const typoListItems = document.getElementById("typoListItems");
+    const typoMarkHeader = document.getElementById("typoMarkHeader");
+    const typoMarkCount = document.getElementById("typoMarkCount");
+    const markStyleLabel = document.getElementById("markStyleLabel");
 
     // Mode Buttons
     const modeProper = document.getElementById("modeProper");
@@ -336,214 +347,240 @@
     const modeSplit = document.getElementById("modeSplit");
     const modeChaos = document.getElementById("modeChaos");
 
-    // Sub-mode switch for Mode Kapital (upper vs lower vs proper)
-    const labelUpperMode = document.getElementById("labelUpperMode");
-    const btnUpperSwitch = document.getElementById("btnUpperSwitch");
-    const upperSwitchToolbar = document.getElementById("upperSwitchToolbar");
-    const subModeCaseLabel = document.getElementById("subModeCaseLabel");
-
     let currentMode = "proper";
-    let upperSubMode = "upper"; // 'upper' (KAPITAL), 'lower' (kecil), 'proper' (Proper)
+    let markStyle = "highlight"; // 'highlight' (sorot visual), 'bracket' ([kata]), 'clean' (teks polos)
 
-    // --- KAMUS TYPO & KATA BAKU BAHASA INDONESIA LENGKAP ---
+    // --- KAMUS BESAR TYPO, SINGKATAN CHAT & KATA BAKU BAHASA INDONESIA ---
     const typoDict = {
-      // Baku KBBI & Ejaan Resmi
-      "antri": "antre",
-      "antrian": "antrean",
-      "antriannya": "antreannya",
-      "praktek": "praktik",
-      "praktekkan": "praktikkan",
-      "prakteknya": "praktiknya",
-      "apotik": "apotek",
-      "apotiker": "apoteker",
-      "ijin": "izin",
-      "mengijinkan": "mengizinkan",
-      "diijinkan": "diizinkan",
-      "perijinan": "perizinan",
-      "analisa": "analisis",
-      "menganalisa": "menganalisis",
-      "nasehat": "nasihat",
-      "menasehati": "menasihati",
-      "penasehat": "penasihat",
-      "jadual": "jadwal",
-      "merubah": "mengubah",
-      "dirubah": "diubah",
-      "kwalitas": "kualitas",
-      "kwantitas": "kuantitas",
-      "aktifitas": "aktivitas",
-      "kreatifitas": "kreativitas",
-      "efektifitas": "efektivitas",
-      "produktifitas": "produktivitas",
-      "faham": "paham",
-      "memahami": "memahami",
-      "fikir": "pikir",
-      "fikiran": "pikiran",
-      "berfikir": "berpikir",
-      "memikirkan": "memikirkan",
-      "resiko": "risiko",
-      "beresiko": "berisiko",
-      "obyek": "objek",
-      "subyek": "subjek",
-      "jaman": "zaman",
-      "cidera": "cedera",
-      "hutang": "utang",
-      "berhutang": "berutang",
-      "silahkan": "silakan",
-      "hakekat": "hakikat",
-      "sekedar": "sekadar",
-      "kharisma": "karisma",
-      "khutbah": "khotbah",
-      "tehnik": "teknik",
-      "tehnisi": "teknisi",
-      "pondasi": "fondasi",
-      "kongkrit": "konkret",
-      "hirarki": "hierarki",
-      "karir": "karier",
-      "komplit": "komplet",
-      "standard": "standar",
-      "defenisi": "definisi",
-      "metoda": "metode",
-      "prosentase": "persentase",
-      "frustasi": "frustrasi",
-      "sistim": "sistem",
-      "nomer": "nomor",
-      "nafas": "napas",
-      "bernafas": "bernapas",
-      "pernafasan": "pernapasan",
-      "himbau": "imbau",
-      "himbauan": "imbauan",
-      "menghimbau": "mengimbau",
-      "hisap": "isap",
-      "menghisap": "mengisap",
-      "atlit": "atlet",
-      "gladi": "geladi",
-      "mempesona": "memesona",
-      "mempengaruhi": "memengaruhi",
-      "mentaati": "menaati",
-      "menterjemahkan": "menerjemahkan",
-      "mentargetkan": "menargetkan",
-      "mentolerir": "mentoleransi",
-      "diakomodir": "diakomodasi",
-      "dikoordinir": "dikoordinasi",
-      "legalisir": "legalisasi",
-      "organisir": "organisasi",
-      "terlanjur": "telanjur",
-      "terlantar": "telantar",
-      "bela sungkawa": "belasungkawa",
-      "pertanggung jawaban": "pertanggungjawaban",
-      "tanda tangan": "tandatangan",
-      "goncang": "guncang",
-      "syah": "sah",
-
-      // Singkatan Chat & Slang Populer
-      "yg": "yang",
-      "dgn": "dengan",
-      "utk": "untuk",
-      "sdh": "sudah",
-      "udh": "sudah",
-      "udah": "sudah",
-      "blm": "belum",
-      "belom": "belum",
-      "sy": "saya",
-      "kmu": "kamu",
-      "karna": "karena",
-      "krn": "karena",
-      "tp": "tapi",
-      "tpi": "tapi",
-      "bkn": "bukan",
-      "jg": "juga",
-      "jga": "juga",
-      "bgt": "banget",
-      "bgtu": "begitu",
-      "aja": "saja",
-      "aj": "saja",
-      "dlm": "dalam",
-      "dpt": "dapat",
-      "tdk": "tidak",
-      "nggak": "tidak",
-      "ngga": "tidak",
-      "gak": "tidak",
-      "ga": "tidak",
-      "trs": "terus",
-      "bbrp": "beberapa",
-      "kpd": "kepada",
-      "org": "orang",
-      "bsa": "bisa",
-      "tau": "tahu",
-      "gmn": "bagaimana",
-      "gimana": "bagaimana",
-      "knp": "kenapa",
-      "kenape": "kenapa",
-      "bener": "benar",
-      "cuman": "cuma",
-      "sampe": "sampai",
-      "makasih": "terima kasih",
-      "mksih": "terima kasih",
-      "thx": "terima kasih",
-      "thanks": "terima kasih",
+      // Kata & Singkatan Percakapan / Typo Harian (Termasuk 'jangn' -> 'jangan')
+      "jangn": "jangan", "jgn": "jangan", "jgan": "jangan", "jngn": "jangan", "jngan": "jangan",
+      "yg": "yang", "yng": "yang", "ygg": "yang",
+      "dgn": "dengan", "dngn": "dengan", "dg": "dengan", "dengn": "dengan",
+      "utk": "untuk", "untk": "untuk", "utuk": "untuk",
+      "sdh": "sudah", "udh": "sudah", "udah": "sudah", "suda": "sudah", "sda": "sudah",
+      "blm": "belum", "blom": "belum", "belom": "belum", "blum": "belum", "blon": "belum",
+      "karna": "karena", "krn": "karena", "krena": "karena", "karn": "karena",
+      "bgt": "banget", "bgtt": "banget", "bngt": "banget", "bnget": "banget",
+      "tdk": "tidak", "tak": "tidak", "gk": "tidak", "gak": "tidak", "ngga": "tidak", "nggak": "tidak", "ngak": "tidak", "ga": "tidak",
+      "bsa": "bisa", "bsi": "bisa", "biso": "bisa",
+      "mkn": "makan", "makn": "makan", "mkan": "makan",
+      "mnm": "minum", "minm": "minum",
+      "tdr": "tidur", "tidr": "tidur",
+      "tmn": "teman", "temen": "teman", "tmen": "teman",
+      "org": "orang", "orng": "orang", "oang": "orang",
+      "rmh": 'rumah', "rumh": "rumah",
+      "krja": "kerja", "krj": "kerja", "kera": "kerja",
+      "skrg": "sekarang", "skrng": "sekarang", "skrang": "sekarang", "skarang": "sekarang",
+      "kmrn": "kemarin", "kmren": "kemarin", "kemarn": "kemarin",
+      "bsk": "besok", "bsok": "besok",
+      "hrs": "harus", "hrus": "harus",
+      "smua": "semua", "semuany": "semua",
+      "sy": "saya", "sya": "saya",
+      "km": "kamu", "kmu": "kamu",
+      "kt": "kita", "kta": "kita",
+      "mrk": "mereka", "mreka": "mereka",
+      "adlh": "adalah", "adla": "adalah",
+      "bkn": "bukan", "bkan": "bukan",
+      "tp": "tapi", "tpi": "tapi",
+      "kalo": "kalau", "kl": "kalau", "klo": "kalau",
+      "tau": "tahu", "taw": "tahu",
+      "liat": "lihat", "lhat": "lihat",
+      "denger": "dengar", "dngar": "dengar",
+      "blg": "bilang", "bilng": "bilang",
+      "kpn": "kapan", "kpan": "kapan",
+      "dlu": "dulu", "dluu": "dulu",
+      "ntar": "nanti", "ntr": "nanti", "nnti": "nanti",
+      "bentar": "sebentar", "bntr": "sebentar", "sbntr": "sebentar",
+      "cpt": "cepat", "cpet": "cepat", "cept": "cepat",
+      "lmbt": "lambat", "lambt": "lambat",
+      "bgs": "bagus", "bgus": "bagus",
+      "jlk": "jelek", "jlek": "jelek",
+      "seneng": "senang", "snang": "senang",
+      "ssh": "susah", "ssah": "susah",
+      "gampang": "mudah", "gmpg": "mudah", "mudh": "mudah",
+      "tny": "tanya", "tnya": "tanya",
+      "jwb": "jawab", "jwab": "jawab",
+      "bhs": "bahasa", "bhsa": "bahasa",
+      "tulisn": "tulisan", "tlsn": "tulisan",
+      "srt": "surat", "surt": "surat",
+      "psn": "pesan", "psan": "pesan",
+      "nmr": "nomor", "nomer": "nomor",
+      "jln": "jalan", "jlan": "jalan",
+      "kbr": "kabar", "kbar": "kabar",
+      "makasih": "terima kasih", "makasi": "terima kasih", "mks": "terima kasih", "mksih": "terima kasih", "thx": "terima kasih", "thanks": "terima kasih",
+      "tlg": "tolong", "tlong": "tolong",
+      "mhn": "mohon",
+      "maap": "maaf",
+      "bener": "benar", "bnr": "benar",
+      "trs": "terus", "trus": "terus",
+      "lgsg": "langsung", "langsg": "langsung",
+      "slalu": "selalu", "sllu": "selalu",
+      "srng": "sering",
+      "plg": "pulang", "plang": "pulang",
+      "dtg": "datang", "dtang": "datang",
+      "prgi": "pergi", "pegi": "pergi",
+      "sampe": "sampai", "smpe": "sampai", "smpai": "sampai",
+      "bwt": "buat",
       "pake": "pakai",
-      "kalo": "kalau",
-      "klo": "kalau",
-      "kl": "kalau",
-      "skrg": "sekarang",
-      "bntr": "sebentar",
-      "bentar": "sebentar",
-      "dimana": "di mana",
-      "disana": "di sana",
-      "disini": "di sini",
-      "kemana": "ke mana",
-      "kesana": "ke sana",
-      "kesini": "ke sini"
+      "cuman": "cuma",
+      "aja": "saja", "aj": "saja",
+      "hny": "hanya", "hnya": "hanya",
+      "jg": "juga", "jga": "juga",
+      "dlm": "dalam", "dlam": "dalam",
+      "dri": "dari",
+      "pda": "pada",
+      "gmn": "bagaimana", "gmana": "bagaimana", "bgmn": "bagaimana", "bgimana": "bagaimana",
+      "knp": "kenapa", "knpa": "kenapa",
+      "spt": "seperti", "sprti": "seperti",
+      "brp": "berapa", "brapa": "berapa",
+      "apkh": "apakah", "apk": "apakah",
+      "wkt": "waktu", "wktu": "waktu",
+      "tmpt": "tempat",
+      "dpt": "dapat", "dpat": "dapat",
+      "bntu": "bantu",
+      "pgn": "ingin", "pengen": "ingin", "ingn": "ingin",
+      "apikasi": "aplikasi", "applikasi": "aplikasi",
+      "komptuer": "komputer", "komptr": "komputer",
+      "infomasi": "informasi", "inforamsi": "informasi", "infrmasi": "informasi",
+      "slmt": "selamat", "selamt": "selamat",
+      "bku": "buku", "ung": "uang",
+
+      // Baku KBBI & Ejaan Resmi
+      "antri": "antre", "antrian": "antrean", "antriannya": "antreannya", "mengantri": "mengantre",
+      "praktek": "praktik", "praktekkan": "praktikkan", "mempraktekkan": "mempraktikkan", "prakteknya": "praktiknya",
+      "apotik": "apotek", "apotiker": "apoteker",
+      "ijin": "izin", "mengijinkan": "mengizinkan", "diijinkan": "diizinkan", "perijinan": "perizinan",
+      "analisa": "analisis", "menganalisa": "menganalisis",
+      "nasehat": "nasihat", "menasehati": "menasihati", "penasehat": "penasihat",
+      "jadual": "jadwal",
+      "merubah": "mengubah", "dirubah": "diubah",
+      "kwalitas": "kualitas", "kwantitas": "kuantitas",
+      "aktifitas": "aktivitas", "kreatifitas": "kreativitas", "efektifitas": "efektivitas", "produktifitas": "produktivitas",
+      "faham": "paham", "memahami": "memahami",
+      "fikir": "pikir", "fikiran": "pikiran", "berfikir": "berpikir", "memikirkan": "memikirkan",
+      "resiko": "risiko", "beresiko": "berisiko",
+      "obyek": "objek", "subyek": "subjek",
+      "jaman": "zaman", "cidera": "cedera", "hutang": "utang", "berhutang": "berutang",
+      "silahkan": "silakan", "hakekat": "hakikat", "sekedar": "sekadar",
+      "kharisma": "karisma", "hirarki": "hierarki", "azas": "asas",
+      "kongkrit": "konkret", "konkrit": "konkret",
+      "tehnik": "teknik", "tehnologi": "teknologi",
+      "karir": "karier", "lobang": "lubang", "nafas": "napas",
+      "terlantar": "telantar", "kwitansi": "kuitansi", "frekwensi": "frekuensi",
+      "standarisasi": "standardisasi", "standart": "standar", "standard": "standar",
+      "elit": "elite", "cendikiawan": "cendekiawan", "difinisi": "definisi", "defenisi": "definisi",
+      "diagnosa": "diagnosis", "extra": "ekstra", "pondasi": "fondasi",
+      "photo": "foto", "geladi": "gladi", "hapal": "hafal",
+      "himbau": "imbau", "indera": "indra", "insyaf": "insaf", "hisap": "isap",
+      "jenasah": "jenazah", "jendral": "jenderal", "justeru": "justru",
+      "kaos": "kaus", "kuatir": "khawatir", "komplit": "komplet",
+      "kofirmasi": "konfirmasi", "konsekwensi": "konsekuensi", "konsleting": "korsleting",
+      "kuisioner": "kuesioner", "cover": "kover",
+      "lembab": "lembap", "mahluk": "makhluk",
+      "managemen": "manajemen", "menejemen": "manajemen", "manager": "manajer",
+      "massal": "masal", "mempengaruhi": "memengaruhi", "mengkonsumsi": "mengonsumsi",
+      "mencontek": "menyontek", "metoda": "metode", "milyar": "miliar", "musium": "museum",
+      "motip": "motif", "motifasi": "motivasi", "nahkoda": "nakhoda",
+      "omset": "omzet", "pasport": "paspor", "pengrajin": "perajin",
+      "prosentase": "persentase", "perangko": "prangko", "propinsi": "provinsi",
+      "projek": "proyek", "putera": "putra", "puteri": "putri",
+      "rame": "ramai", "rapih": "rapi", "rejeki": "rezeki", "rizki": "rezeki",
+      "rubuh": "roboh", "ruh": "roh", "syah": "sah", "seksama": "saksama",
+      "syaraf": "saraf", "sekertaris": "sekretaris", "sprei": "seprai",
+      "sistim": "sistem", "sosialisir": "sosialisasi", "stress": "stres",
+      "sutera": "sutra", "sukur": "syukur", "tahta": "takhta", "tarip": "tarif",
+      "toladan": "teladan", "trampil": "terampil", "terimakasih": "terima kasih",
+      "tolerir": "toleransi", "tradisionil": "tradisional", "varitas": "varietas",
+      "villa": "vila", "volum": "volume", "ujud": "wujud",
+      "dimana": "di mana", "kemana": "ke mana", "disana": "di sana", "kesana": "ke sana",
+      "disini": "di sini", "kesini": "ke sini", "darimana": "dari mana"
     };
+
+    // Kosakata umum untuk deteksi fuzzy (Damerau-Levenshtein distance = 1)
+    const commonVocabulary = new Set([
+      "jangan", "dengan", "untuk", "sudah", "belum", "karena", "banget", "tidak", "bisa", "makan",
+      "minum", "tidur", "teman", "orang", "rumah", "kerja", "sekarang", "kemarin", "besok", "harus",
+      "semua", "saya", "kamu", "kita", "mereka", "adalah", "bukan", "tapi", "kalau", "tahu", "lihat",
+      "dengar", "bicara", "bilang", "kapan", "dulu", "nanti", "sebentar", "cepat", "bagus", "tanya",
+      "jawab", "bahasa", "tulisan", "surat", "pesan", "nomor", "jalan", "kabar", "tolong", "benar",
+      "selalu", "sering", "pulang", "datang", "pergi", "sampai", "hanya", "juga", "dalam", "kemana",
+      "dimana", "sekolah", "komputer", "aplikasi", "belajar", "masalah", "keluarga", "pekerjaan",
+      "pemerintah", "pendidikan", "informasi", "komunikasi", "pembayaran", "pengiriman", "selamat",
+      "selatan", "utara", "barat", "timur", "melihat", "membeli", "menulis", "membaca", "membuat"
+    ]);
+
+    // Algoritma Damerau-Levenshtein jarak 1 (transposisi huruf, sisip, hapus, ganti 1 huruf)
+    function damerau1(a, b) {
+      if (a === b) return false;
+      const la = a.length, lb = b.length;
+      if (Math.abs(la - lb) > 1) return false;
+      if (la === lb) {
+        let diffs = [];
+        for (let i = 0; i < la; i++) {
+          if (a[i] !== b[i]) diffs.push(i);
+        }
+        if (diffs.length === 1) return true;
+        if (diffs.length === 2 && diffs[1] === diffs[0] + 1) {
+          return a[diffs[0]] === b[diffs[1]] && a[diffs[1]] === b[diffs[0]];
+        }
+        return false;
+      }
+      const [longer, shorter] = la > lb ? [a, b] : [b, a];
+      let i = 0, j = 0, diff = 0;
+      while (i < longer.length && j < shorter.length) {
+        if (longer[i] !== shorter[j]) {
+          diff++;
+          if (diff > 1) return false;
+          i++;
+        } else {
+          i++; j++;
+        }
+      }
+      return true;
+    }
+
+    function findFuzzyMatch(word) {
+      if (word.length < 4) return null;
+      if (commonVocabulary.has(word)) return null;
+      for (const vocab of commonVocabulary) {
+        if (damerau1(word, vocab)) return vocab;
+      }
+      return null;
+    }
 
     // Fungsi pencocokan casing (mempertahankan huruf kapital asal)
     function matchCase(sourceWord, replacementWord) {
-      if (sourceWord === sourceWord.toUpperCase()) {
+      if (sourceWord === sourceWord.toUpperCase() && sourceWord.length > 1) {
         return replacementWord.toUpperCase();
       }
       if (sourceWord.length > 0 && sourceWord[0] === sourceWord[0].toUpperCase()) {
-        return replacementWord.charAt(0).toUpperCase() + replacementWord.slice(1).toLowerCase();
+        return replacementWord.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
       }
       return replacementWord.toLowerCase();
     }
 
-    // Fungsi Utama Koreksi Typo & Kata Baku
-    function applyTypoCorrection(text, logCallback) {
-      if (!text) {
-        if (logCallback) logCallback([]);
-        return text;
-      }
-
-      let result = text;
-      const log = [];
-
-      // Rapikan spasi tanda baca ("kata ," -> "kata,")
-      result = result.replace(/\s+([,.:;!?])/g, "$1");
-      result = result.replace(/,{2,}/g, ",");
-      result = result.replace(/\?{2,}/g, "?");
-      result = result.replace(/!{2,}/g, "!");
-
-      // Jalankan penggantian kata dengan batas kata (\b)
-      for (const [wrong, correct] of Object.entries(typoDict)) {
-        const safeWrong = wrong.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
-        const regex = new RegExp(`\\b${safeWrong}\\b`, "gi");
-
-        result = result.replace(regex, (matched) => {
-          const replacement = matchCase(matched, correct);
-          if (matched !== replacement) {
-            log.push({ from: matched, to: replacement });
-          }
-          return replacement;
-        });
-      }
-
-      if (logCallback) logCallback(log);
-      return result;
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
     function toggleTypoList() {
       if (!typoListPanel) return;
       typoListPanel.classList.toggle("hidden");
+    }
+
+    // Toggle Gaya Penanda Typo pada Hasil Format (Sorot Visual ⇆ Kurung Siku [kata] ⇆ Bersih)
+    function toggleMarkStyle() {
+      if (markStyle === "highlight") {
+        markStyle = "bracket";
+        markStyleLabel.textContent = "Tanda: [kata]";
+      } else if (markStyle === "bracket") {
+        markStyle = "clean";
+        markStyleLabel.textContent = "Tanda: Bersih";
+      } else {
+        markStyle = "highlight";
+        markStyleLabel.textContent = "Tanda: Sorot";
+      }
+      processText();
     }
 
     function renderTypoList(list) {
@@ -554,6 +591,8 @@
         btnToggleTypoList.classList.add("hidden");
         btnToggleTypoList.classList.remove("inline-flex");
         typoListPanel.classList.add("hidden");
+        typoMarkHeader.classList.add("hidden");
+        typoMarkHeader.classList.remove("flex");
         return;
       }
 
@@ -563,10 +602,15 @@
       btnToggleTypoList.classList.remove("hidden");
       btnToggleTypoList.classList.add("inline-flex");
 
-      // Rangkum kata unik
+      // Tampilkan indikator & pilihan tanda di atas kartu Hasil Format
+      typoMarkHeader.classList.remove("hidden");
+      typoMarkHeader.classList.add("flex");
+      typoMarkCount.textContent = `${list.length} diganti`;
+
+      // Rangkum kata unik untuk panel popover
       const summaryMap = new Map();
       list.forEach(item => {
-        const key = `${item.from.toLowerCase()} ➔ ${item.to.toLowerCase()}`;
+        const key = `${item.from} ➔ ${item.to}`;
         summaryMap.set(key, (summaryMap.get(key) || 0) + 1);
       });
 
@@ -574,7 +618,7 @@
       summaryMap.forEach((count, key) => {
         const badge = document.createElement("span");
         badge.className = "bg-slate-100 dark:bg-slate-700/80 border border-emerald-300 dark:border-emerald-700 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded-lg text-[10px] font-bold shadow-xs flex items-center gap-1";
-        badge.innerHTML = `<span>${key}</span>${count > 1 ? `<span class="bg-emerald-200 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 text-[9px] px-1 rounded-full font-black">×${count}</span>` : ''}`;
+        badge.innerHTML = `<span>${escapeHtml(key)}</span>${count > 1 ? `<span class="bg-emerald-200 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 text-[9px] px-1 rounded-full font-black">×${count}</span>` : ''}`;
         typoListItems.appendChild(badge);
       });
     }
@@ -583,9 +627,10 @@
       inputText.value = "";
       excludeWords.value = "";
       outputText.value = "";
+      outputDisplay.innerHTML = '<span class="text-slate-400 dark:text-slate-500 select-none">Hasil format akan muncul di sini...</span>';
       toggleTypo.checked = true; // Aktif default
-      upperSubMode = "upper";
-      updateUpperSwitchLabel();
+      markStyle = "highlight";
+      markStyleLabel.textContent = "Tanda: Sorot";
       renderTypoList([]);
       setMode('proper');
       processText();
@@ -607,163 +652,196 @@
       return trimmed.split(/\s+/).length;
     }
 
-    // Fungsi Filter Hilangkan Kata
-    function filterExcludedWords(text, statsCallback) {
-      const filterValue = excludeWords.value.trim();
-      const originalWordCount = countWords(text);
-
-      if (!filterValue || !text.trim()) {
-        if (statsCallback) statsCallback(0);
-        return text;
-      }
-
-      const wordsToRemove = filterValue
-        .split(/[.,]/)
-        .map((w) => w.trim())
-        .filter((w) => w.length > 0);
-
-      if (wordsToRemove.length === 0) {
-        if (statsCallback) statsCallback(0);
-        return text;
-      }
-
-      let filteredText = text;
-      wordsToRemove.forEach((word) => {
-        const mapEscaped = word.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
-        const regex = new RegExp("\\b" + mapEscaped + "\\b", "gi");
-        filteredText = filteredText.replace(regex, "");
-      });
-
-      filteredText = filteredText
-        .replace(/\s+/g, " ")
-        .replace(/\s+([.,!?])/g, "$1")
-        .trim();
-
-      const finalWordCount = countWords(filteredText);
-      const diff = originalWordCount - finalWordCount;
-      if (statsCallback) statsCallback(diff > 0 ? diff : 0);
-
-      return filteredText;
-    }
-
-    // 1. Mode Huruf Besar di Awal Kalimat saja (Proper / Sentence Case)
-    function convertToProperCase(text) {
-      if (!text) return "";
-      let lower = text.toLowerCase();
-      return lower.replace(
-        /(^\s*|[.!?]\s+)([a-z])/g,
-        function (match, separator, char) {
-          return separator + char.toUpperCase();
-        },
-      );
-    }
-
-    // 2. Mode Huruf Besar di Setiap Awalan Kata (Title Case)
-    function convertToTitleCase(text) {
-      if (!text) return "";
-      return text.toLowerCase().replace(/\b\w/g, function (char) {
-        return char.toUpperCase();
-      });
-    }
-
-    // 3. Mode Huruf Kapital Semua (UPPERCASE)
-    function convertToUpperCase(text) {
-      if (!text) return "";
-      return text.toUpperCase();
-    }
-
-    // 4. Mode Split Teks Menjadi Baris Per Kata
-    function convertToSplitLines(text) {
-      if (!text) return "";
-      return text.trim().split(/\s+/).join("\n");
-    }
-
-    // 5. Mode Berantakan (Random Case)
-    function convertToChaosCase(text) {
-      if (!text) return "";
-      return text
-        .split("")
-        .map((char) => {
-          return Math.random() > 0.5
-            ? char.toUpperCase()
-            : char.toLowerCase();
-        })
-        .join("");
-    }
-
     // Jalankan pemrosesan teks utama
     function processText() {
       let currentText = inputText.value;
 
-      // 1. Koreksi Typo jika toggle aktif (Aktif Default)
-      let detectedTypos = [];
-      if (toggleTypo && toggleTypo.checked && currentText.trim()) {
-        currentText = applyTypoCorrection(currentText, (list) => {
-          detectedTypos = list;
-        });
-      }
-      renderTypoList(detectedTypos);
-
-      // 2. Filter Hilangkan Kata
+      // 1. Filter Hilangkan Kata (excludeWords)
+      const excludedInput = excludeWords.value.trim();
       let deletedWordsTotal = 0;
-      const cleanedText = filterExcludedWords(currentText, (count) => {
-        deletedWordsTotal = count;
-      });
+      if (excludedInput && currentText) {
+        const wordsToRemove = excludedInput
+          .split(/[,.\s]+/)
+          .filter((w) => w.length > 0);
+        if (wordsToRemove.length > 0) {
+          wordsToRemove.forEach((word) => {
+            const escapedWord = word.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+            const regex = new RegExp(`\\b${escapedWord}\\b`, "gi");
+            const matches = currentText.match(regex);
+            if (matches) {
+              deletedWordsTotal += matches.length;
+            }
+            currentText = currentText.replace(regex, "");
+          });
+          currentText = currentText.replace(/\s+/g, " ").trim();
+        }
+      }
 
-      // Reset styling kelas output
-      outputText.className = outputText.className
-        .replace("text-amber-400", "text-pink-400")
-        .replace("text-cyan-400", "text-pink-400")
-        .replace("text-purple-400", "text-pink-400");
-      outputLabel.className =
-        "text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 text-pink-500 dark:text-pink-400";
+      // 2. Tokenisasi teks dengan batas kata & spasi/tanda baca
+      const tokens = currentText.split(/([a-zA-Z0-9_\u00C0-\u024F]+)/);
+      const tokenObjects = [];
+      const detectedTypos = [];
 
-      // 3. Eksekusi Kategori Format
-      if (currentMode === "proper") {
-        outputText.value = convertToProperCase(cleanedText);
-        outputLabel.innerHTML = `<i data-lucide="align-left" class="w-3.5 h-3.5"></i> <span>Hasil: Format Kalimat</span>`;
-      } else if (currentMode === "title") {
-        outputText.value = convertToTitleCase(cleanedText);
-        outputLabel.innerHTML = `<i data-lucide="heading" class="w-3.5 h-3.5"></i> <span>Hasil: Format Awalan Kata</span>`;
-      } else if (currentMode === "upper") {
-        // Mode Kapital dengan Sub-Mode Switch ⇆ (KAPITAL, kecil, proper)
-        if (upperSubMode === "upper") {
-          outputText.value = convertToUpperCase(cleanedText);
-          outputLabel.innerHTML = `<i data-lucide="case-upper" class="w-3.5 h-3.5"></i> <span>Hasil: Huruf Kapital (UPPERCASE)</span>`;
-        } else if (upperSubMode === "lower") {
-          outputText.value = cleanedText.toLowerCase();
-          outputLabel.innerHTML = `<i data-lucide="case-lower" class="w-3.5 h-3.5"></i> <span>Hasil: Huruf Kecil (lowercase)</span>`;
-        } else {
-          outputText.value = convertToTitleCase(cleanedText);
-          outputLabel.innerHTML = `<i data-lucide="heading" class="w-3.5 h-3.5"></i> <span>Hasil: Huruf Proper (Awalan Kapital)</span>`;
+      for (const token of tokens) {
+        if (!token) continue;
+        const isWord = /^[a-zA-Z0-9_\u00C0-\u024F]+$/.test(token);
+        if (!isWord) {
+          tokenObjects.push({ raw: token, text: token, isWord: false, isTypo: false });
+          continue;
         }
 
-        outputText.className = outputText.className.replace(
-          "text-pink-400",
-          "text-purple-400",
-        );
-        outputLabel.className =
-          "text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 text-purple-600 dark:text-purple-400";
+        if (toggleTypo && toggleTypo.checked) {
+          const lower = token.toLowerCase();
+          let rep = null;
+
+          if (typoDict[lower]) {
+            rep = matchCase(token, typoDict[lower]);
+          } else {
+            const fuzzy = findFuzzyMatch(lower);
+            if (fuzzy) {
+              rep = matchCase(token, fuzzy);
+            }
+          }
+
+          if (rep && rep.toLowerCase() !== lower) {
+            detectedTypos.push({ from: token, to: rep });
+            tokenObjects.push({ raw: token, text: rep, isWord: true, isTypo: true, from: token });
+          } else {
+            tokenObjects.push({ raw: token, text: token, isWord: true, isTypo: false });
+          }
+        } else {
+          tokenObjects.push({ raw: token, text: token, isWord: true, isTypo: false });
+        }
+      }
+
+      renderTypoList(detectedTypos);
+
+      // 3. Transformasi Casing Berdasarkan Mode Aktif
+      let transformed = tokenObjects;
+
+      if (currentMode === "upper") {
+        transformed = tokenObjects.map(t => ({ ...t, text: t.text.toUpperCase() }));
+      } else if (currentMode === "title") {
+        transformed = tokenObjects.map(t => {
+          if (!t.isWord) return t;
+          const cap = t.text.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+          return { ...t, text: cap };
+        });
+      } else if (currentMode === "proper") {
+        let capitalizeNext = true;
+        transformed = tokenObjects.map(t => {
+          if (t.isWord) {
+            if (capitalizeNext) {
+              capitalizeNext = false;
+              const cap = t.text.split(' ').map((w, idx) => idx === 0 ? (w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()) : w.toLowerCase()).join(' ');
+              return { ...t, text: cap };
+            } else {
+              return { ...t, text: t.text.toLowerCase() };
+            }
+          } else {
+            if (/[.!?]/.test(t.text)) {
+              capitalizeNext = true;
+            }
+            return t;
+          }
+        });
+      } else if (currentMode === "chaos") {
+        transformed = tokenObjects.map(t => {
+          if (!t.isWord) return t;
+          const c = t.text.split('').map(ch => Math.random() > 0.5 ? ch.toUpperCase() : ch.toLowerCase()).join('');
+          return { ...t, text: c };
+        });
+      }
+
+      // Update styling label & container berdasarkan mode
+      outputDisplay.className = outputDisplay.className
+        .replace("text-pink-600 dark:text-pink-400", "")
+        .replace("text-purple-600 dark:text-purple-400", "")
+        .replace("text-cyan-600 dark:text-cyan-400", "")
+        .replace("text-amber-600 dark:text-amber-400", "");
+
+      if (currentMode === "proper") {
+        outputDisplay.className += " text-pink-600 dark:text-pink-400";
+        outputLabel.className = "text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 text-pink-500 dark:text-pink-400";
+        outputLabel.innerHTML = `<i data-lucide="align-left" class="w-3.5 h-3.5"></i> <span>Hasil: Format Kalimat</span>`;
+      } else if (currentMode === "title") {
+        outputDisplay.className += " text-pink-600 dark:text-pink-400";
+        outputLabel.className = "text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 text-pink-500 dark:text-pink-400";
+        outputLabel.innerHTML = `<i data-lucide="heading" class="w-3.5 h-3.5"></i> <span>Hasil: Format Awalan Kata</span>`;
+      } else if (currentMode === "upper") {
+        outputDisplay.className += " text-purple-600 dark:text-purple-400";
+        outputLabel.className = "text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 text-purple-600 dark:text-purple-400";
+        outputLabel.innerHTML = `<i data-lucide="case-upper" class="w-3.5 h-3.5"></i> <span>Hasil: Huruf Kapital (UPPERCASE)</span>`;
       } else if (currentMode === "split") {
-        outputText.value = convertToSplitLines(cleanedText);
-        outputText.className = outputText.className.replace(
-          "text-pink-400",
-          "text-cyan-400",
-        );
-        outputLabel.className =
-          "text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 text-cyan-600 dark:text-cyan-400";
+        outputDisplay.className += " text-cyan-600 dark:text-cyan-400";
+        outputLabel.className = "text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 text-cyan-600 dark:text-cyan-400";
         outputLabel.innerHTML = `<i data-lucide="scissors" class="w-3.5 h-3.5"></i> <span>Hasil: Pecah Per Kata</span>`;
       } else if (currentMode === "chaos") {
-        outputText.value = convertToChaosCase(cleanedText);
-        outputText.className = outputText.className.replace(
-          "text-pink-400",
-          "text-amber-400",
-        );
-        outputLabel.className =
-          "text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 text-amber-600 dark:text-amber-400";
+        outputDisplay.className += " text-amber-600 dark:text-amber-400";
+        outputLabel.className = "text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 text-amber-600 dark:text-amber-400";
         outputLabel.innerHTML = `<i data-lucide="zap-off" class="w-3.5 h-3.5"></i> <span>Hasil: Berantakan</span>`;
       }
 
+      // 4. Render Hasil ke Plain String dan HTML Display dengan Penanda
+      let plainResult = "";
+      let htmlResult = "";
+
+      if (currentMode === "split") {
+        const wordsOnly = transformed.filter(t => t.isWord);
+        plainResult = wordsOnly.map(t => {
+          if (t.isTypo && markStyle === "bracket") return `[${t.text}]`;
+          return t.text;
+        }).join("\n");
+
+        htmlResult = wordsOnly.map(t => {
+          const esc = escapeHtml(t.text);
+          if (t.isTypo) {
+            if (markStyle === "bracket") {
+              return `<mark class="bg-amber-200/90 dark:bg-amber-900/60 text-amber-950 dark:text-amber-100 px-1 py-0.5 rounded font-semibold border-b-2 border-amber-500 cursor-help" title="Dikoreksi dari: ${escapeHtml(t.from)}">[${esc}]</mark>`;
+            }
+            if (markStyle === "highlight") {
+              return `<mark class="inline-flex items-center gap-0.5 bg-amber-200/90 dark:bg-amber-900/60 text-amber-950 dark:text-amber-100 px-1.5 py-0.5 rounded font-semibold border-b-2 border-amber-500 cursor-help transition-all" title="Dikoreksi dari: ${escapeHtml(t.from)} ➔ ${esc}">${esc}<span class="text-[9px] text-amber-600 dark:text-amber-400 font-bold ml-0.5 select-none">✓</span></mark>`;
+            }
+          }
+          return esc;
+        }).join("\n");
+      } else {
+        const plainArr = [];
+        const htmlArr = [];
+
+        for (const t of transformed) {
+          if (!t.isWord) {
+            plainArr.push(t.text);
+            htmlArr.push(escapeHtml(t.text));
+            continue;
+          }
+
+          if (t.isTypo) {
+            const esc = escapeHtml(t.text);
+            if (markStyle === "bracket") {
+              plainArr.push(`[${t.text}]`);
+              htmlArr.push(`<mark class="bg-amber-200/90 dark:bg-amber-900/60 text-amber-950 dark:text-amber-100 px-1 py-0.5 rounded font-semibold border-b-2 border-amber-500 cursor-help" title="Dikoreksi dari: ${escapeHtml(t.from)}">[${esc}]</mark>`);
+            } else if (markStyle === "highlight") {
+              plainArr.push(t.text);
+              htmlArr.push(`<mark class="inline-flex items-center gap-0.5 bg-amber-200/90 dark:bg-amber-900/60 text-amber-950 dark:text-amber-100 px-1.5 py-0.5 rounded font-semibold border-b-2 border-amber-500 cursor-help transition-all" title="Dikoreksi dari: ${escapeHtml(t.from)} ➔ ${esc}">${esc}<span class="text-[9px] text-amber-600 dark:text-amber-400 font-bold ml-0.5 select-none">✓</span></mark>`);
+            } else {
+              plainArr.push(t.text);
+              htmlArr.push(esc);
+            }
+          } else {
+            plainArr.push(t.text);
+            htmlArr.push(escapeHtml(t.text));
+          }
+        }
+
+        plainResult = plainArr.join("");
+        htmlResult = htmlArr.join("");
+      }
+
+      outputText.value = plainResult;
+      outputDisplay.innerHTML = htmlResult || '<span class="text-slate-400 dark:text-slate-500 select-none">Hasil format akan muncul di sini...</span>';
+
+      // 5. Update Statistik Teks
       const rawText = inputText.value;
       charCount.textContent = `Karakter: ${rawText.length}`;
       wordCount.textContent = `Kata: ${countWords(rawText)}`;
@@ -798,53 +876,7 @@
         }
       });
 
-      // Tampilkan tombol switch ⇆ jika berada di mode Huruf Kapital
-      if (currentMode === "upper") {
-        btnUpperSwitch.classList.remove("hidden");
-        btnUpperSwitch.classList.add("inline-flex");
-        upperSwitchToolbar.classList.remove("hidden");
-        upperSwitchToolbar.classList.add("flex");
-      } else {
-        btnUpperSwitch.classList.add("hidden");
-        btnUpperSwitch.classList.remove("inline-flex");
-        upperSwitchToolbar.classList.add("hidden");
-        upperSwitchToolbar.classList.remove("flex");
-      }
-
       processText();
-    }
-
-    // Toggle Sub-Mode pada Mode Kapital (KAPITAL ⇆ kecil ⇆ Proper)
-    function toggleUpperSubMode(e) {
-      if (e) e.stopPropagation();
-      if (currentMode !== "upper") {
-        setMode("upper");
-        return;
-      }
-      
-      if (upperSubMode === "upper") {
-        upperSubMode = "lower";
-      } else if (upperSubMode === "lower") {
-        upperSubMode = "proper";
-      } else {
-        upperSubMode = "upper";
-      }
-
-      updateUpperSwitchLabel();
-      processText();
-    }
-
-    function updateUpperSwitchLabel() {
-      if (upperSubMode === "upper") {
-        labelUpperMode.textContent = "Huruf Kapital";
-        subModeCaseLabel.textContent = "KAPITAL ⇆ kecil";
-      } else if (upperSubMode === "lower") {
-        labelUpperMode.textContent = "Huruf Kecil";
-        subModeCaseLabel.textContent = "kecil ⇆ Proper";
-      } else {
-        labelUpperMode.textContent = "Huruf Proper";
-        subModeCaseLabel.textContent = "Proper ⇆ KAPITAL";
-      }
     }
 
     // Event Listeners
@@ -859,8 +891,9 @@
         alert("Teks hasil masih kosong! Silakan ketik atau tempel teks terlebih dahulu.");
         return;
       }
-      const url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
-      window.open(url, "_blank");
+      const encoded = encodeURIComponent(text);
+      const waUrl = `https://api.whatsapp.com/send?text=${encoded}`;
+      window.open(waUrl, "_blank");
     }
 
     // Salin ke Clipboard
@@ -871,23 +904,22 @@
         .writeText(outputText.value)
         .then(() => {
           const originalContent = btnCopy.innerHTML;
-          btnCopy.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> <span class="text-emerald-500">Tersalin!</span>`;
-          btnCopy.classList.add("border-emerald-500/30", "bg-emerald-500/10");
+          btnCopy.innerHTML = `
+            <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+            <span class="text-emerald-500">Tersalin!</span>
+          `;
           lucide.createIcons();
-
           setTimeout(() => {
             btnCopy.innerHTML = originalContent;
-            btnCopy.classList.remove(
-              "border-emerald-500/30",
-              "bg-emerald-500/10",
-            );
             lucide.createIcons();
           }, 2000);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          console.error("Gagal menyalin teks: ", err);
+        });
     }
 
-    // Initial run
+    // Initial Process
     processText();
   </script>
 </body>
