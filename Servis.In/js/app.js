@@ -2159,12 +2159,15 @@
 
     $('btn-new-custom-tpl').addEventListener('click', () => openCustomTemplateModal(null, false));
     $('btn-save-current-as-tpl').addEventListener('click', () => openCustomTemplateModal(null, true));
-    $('btn-edit-custom-tpl').addEventListener('click', () => {
-      const tpl = getTemplateById($('apply-template-select').value);
-      if (tpl && String(tpl.id).startsWith('ctpl-')) {
-        openCustomTemplateModal(tpl, false);
-      }
-    });
+    const editTplBtn = $('btn-edit-template') || $('btn-edit-custom-tpl');
+    if (editTplBtn) {
+      editTplBtn.addEventListener('click', () => {
+        const tpl = getTemplateById($('apply-template-select').value);
+        if (tpl) {
+          openCustomTemplateModal(tpl, false);
+        }
+      });
+    }
     $('btn-del-custom-tpl').addEventListener('click', () => {
       const tpl = getTemplateById($('apply-template-select').value);
       if (!tpl || !String(tpl.id).startsWith('ctpl-')) return;
