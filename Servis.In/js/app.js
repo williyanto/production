@@ -1709,11 +1709,14 @@
       const panelNew = $('wpanel-new');
       const tabSaved = $('wtab-btn-saved');
       const tabNew = $('wtab-btn-new');
+      const backBtn = $('btn-welcome-back-saved');
+      const accs = loadAccounts();
 
       if (panelSaved) panelSaved.style.display = isSaved ? 'block' : 'none';
       if (panelNew) panelNew.style.display = isSaved ? 'none' : 'block';
       if (tabSaved) tabSaved.classList.toggle('active', isSaved);
       if (tabNew) tabNew.classList.toggle('active', !isSaved);
+      if (backBtn) backBtn.style.display = (!isSaved && accs.length > 0) ? 'inline-flex' : 'none';
     }
 
     function renderWelcomeScreen(preferTab) {
@@ -1723,8 +1726,12 @@
       const subText = $('welcome-sub-text');
       const backBtn = $('btn-welcome-back-saved');
       const countEl = $('welcome-saved-count');
+      const closeBtn = $('btn-close-welcome');
 
       if (countEl) countEl.textContent = accs.length;
+
+      const isCurrentlyLoggedIn = Boolean(getActiveAccountId());
+      if (closeBtn) closeBtn.style.display = isCurrentlyLoggedIn ? 'flex' : 'none';
 
       // Populate dropdown jenis & template
       populateTemplateSelects($('wl-type').value, $('wl-template'), null, false);
