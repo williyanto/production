@@ -911,10 +911,10 @@
       buttons.forEach((btn) => {
         if (btn.key === currentMode) {
           btn.el.className =
-            "flex-1 min-w-[70px] sm:min-w-[90px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 bg-fuchsia-600 text-white shadow";
+            "py-2 sm:py-1.5 px-1 sm:px-2 rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 sm:gap-1.5 bg-fuchsia-600 text-white shadow-sm font-semibold text-center whitespace-nowrap active:scale-95";
         } else {
           btn.el.className =
-            "flex-1 min-w-[70px] sm:min-w-[90px] py-1.5 px-2 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200";
+            "py-2 sm:py-1.5 px-1 sm:px-2 rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1 sm:gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 text-center whitespace-nowrap active:scale-95";
         }
       });
 
