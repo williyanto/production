@@ -574,36 +574,88 @@
       <button type="button" class="nav-tab" data-target="tab-profile"><svg class="ic"><use href="#i-user"/></svg><span>Profil</span></button>
     </nav>
 
-    <!-- MODAL: Selamat datang (pengguna baru) -->
+    <!-- MODAL: Layar Awal / Masuk / Mulai Baru -->
     <div class="modal-backdrop" id="modal-welcome" aria-hidden="true" data-static="true">
       <div class="modal-sheet">
         <div class="welcome-head">
           <img src="assets/icon.svg" alt="" class="about-logo">
           <h3>Selamat datang di Servis.In</h3>
-          <p>Isi data kendaraan Anda. Pengingat perawatan akan dibuat otomatis sesuai model.</p>
+          <p id="welcome-sub-text">Pilih akun yang sudah ada atau mulai baru dengan kendaraan Anda.</p>
         </div>
-        <form id="form-welcome">
-          <div class="form-group">
-            <label for="wl-type">Jenis kendaraan</label>
-            <select id="wl-type" class="form-control" required>
-              <option value="Motor Matic">Motor Matic</option>
-              <option value="Motor Bebek / Sport">Motor Bebek / Sport</option>
-              <option value="Mobil MPV / SUV">Mobil MPV / SUV</option>
-              <option value="Mobil Sedan / Hatchback">Mobil Sedan / Hatchback</option>
-              <option value="Mobil Pick-up / Niaga">Mobil Pick-up / Niaga</option>
-              <option value="Kendaraan Listrik (EV)">Kendaraan Listrik (EV)</option>
-            </select>
+
+        <!-- Mini Tab: Pilihan Akun Tersimpan atau Mulai Baru -->
+        <div class="welcome-tabs" id="welcome-tabs-nav" style="display:none;">
+          <button type="button" class="welcome-tab-btn active" id="wtab-btn-saved" data-wtab="saved">
+            <svg class="ic"><use href="#i-user"/></svg>
+            <span>Akun Tersimpan <span class="badge" id="welcome-saved-count">0</span></span>
+          </button>
+          <button type="button" class="welcome-tab-btn" id="wtab-btn-new" data-wtab="new">
+            <svg class="ic"><use href="#i-plus"/></svg>
+            <span>Mulai Baru</span>
+          </button>
+        </div>
+
+        <!-- Panel 1: Daftar Akun yang Pernah Login / Tersimpan -->
+        <div class="welcome-panel" id="wpanel-saved" style="display:none;">
+          <div class="saved-accounts-list" id="saved-accounts-list">
+            <!-- Account cards injected here -->
           </div>
-          <div class="form-group"><label for="wl-template">Model / template perawatan</label><select id="wl-template" class="form-control"></select></div>
-          <div class="form-group"><label for="wl-name">Nama kendaraan</label><input type="text" id="wl-name" class="form-control" required maxlength="50" placeholder="Honda Vario 160"></div>
-          <div class="form-row">
-            <div class="form-group"><label for="wl-plate">Plat nomor</label><input type="text" id="wl-plate" class="form-control upper" required maxlength="15" placeholder="B 1234 XYZ"></div>
-            <div class="form-group"><label for="wl-year">Tahun</label><input type="number" id="wl-year" class="form-control" min="1970" max="2035" required></div>
+          <div style="margin-top:12px;">
+            <button type="button" class="btn-outline" style="width:100%;justify-content:center;" id="btn-welcome-goto-new">
+              <svg class="ic"><use href="#i-plus"/></svg>Buat Akun / Kendaraan Baru
+            </button>
           </div>
-          <div class="form-group"><label for="wl-odo">Odometer saat ini (km)</label><input type="number" id="wl-odo" class="form-control" min="0" required></div>
-          <button type="submit" class="btn-primary-full">Mulai</button>
-          <button type="button" class="btn-danger-text neutral" id="btn-welcome-sample">Coba dulu dengan data contoh</button>
-        </form>
+        </div>
+
+        <!-- Panel 2: Mulai Baru (Form Input Sesuai Instruksi User) -->
+        <div class="welcome-panel" id="wpanel-new">
+          <form id="form-welcome">
+            <div class="form-group">
+              <label for="wl-acc-name">Nama akun / pemilik</label>
+              <input type="text" id="wl-acc-name" class="form-control" placeholder="Nama Anda (contoh: Budi / Pribadi)" maxlength="40">
+            </div>
+            <div class="form-group">
+              <label for="wl-type">Jenis kendaraan</label>
+              <select id="wl-type" class="form-control" required>
+                <option value="Motor Matic">Motor Matic</option>
+                <option value="Motor Bebek / Sport">Motor Bebek / Sport</option>
+                <option value="Mobil MPV / SUV">Mobil MPV / SUV</option>
+                <option value="Mobil Sedan / Hatchback">Mobil Sedan / Hatchback</option>
+                <option value="Mobil Pick-up / Niaga">Mobil Pick-up / Niaga</option>
+                <option value="Kendaraan Listrik (EV)">Kendaraan Listrik (EV)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="wl-template">Model / template perawatan</label>
+              <select id="wl-template" class="form-control"></select>
+            </div>
+            <div class="form-group">
+              <label for="wl-name">Nama kendaraan</label>
+              <input type="text" id="wl-name" class="form-control" required maxlength="50" placeholder="Honda Vario 160">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="wl-plate">Plat nomor</label>
+                <input type="text" id="wl-plate" class="form-control upper" required maxlength="15" placeholder="B 1234 XYZ">
+              </div>
+              <div class="form-group">
+                <label for="wl-year">Tahun</label>
+                <input type="number" id="wl-year" class="form-control" min="1970" max="2035" required placeholder="2024">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="wl-odo">Odometer saat ini (km)</label>
+              <input type="text" id="wl-odo" class="form-control" required placeholder="Contoh: 15.000">
+            </div>
+            <div class="btn-stack" style="margin-top:12px;">
+              <button type="submit" class="btn-primary-full">Mulai Gunakan Servis.In</button>
+              <button type="button" class="btn-danger-text neutral" id="btn-welcome-sample">Coba dulu dengan data contoh</button>
+              <button type="button" class="btn-outline" id="btn-welcome-back-saved" style="display:none;justify-content:center;margin-top:4px;">
+                <svg class="ic"><use href="#i-chevron-left"/></svg>Kembali ke Akun Tersimpan
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
 

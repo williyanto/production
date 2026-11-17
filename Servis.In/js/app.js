@@ -17,6 +17,8 @@
   const STORE_KEY = 'servis_in_store_v4';
   const V3_KEY = 'servis_in_store_v3';
   const OLD_KEY = 'servis_in_app_state_v2026';
+  const ACCOUNTS_KEY = 'servis_in_accounts_v1';
+  const ACTIVE_ACC_KEY = 'servis_in_active_account_id';
 
   const MONTHS = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
   const MONTHS_S = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
