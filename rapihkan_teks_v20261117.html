@@ -791,7 +791,22 @@
     inputText.addEventListener("input", processText);
     excludeWords.addEventListener("input", processText);
 
-    if (toggleTypo) toggleTypo.addEventListener("change", processText);
+    if (toggleTypo) {
+      toggleTypo.addEventListener("change", () => {
+        const typoOptionsGroup = document.getElementById("typoOptionsGroup");
+        if (typoOptionsGroup) {
+          if (toggleTypo.checked) {
+            typoOptionsGroup.classList.remove("hidden");
+            typoOptionsGroup.classList.add("inline-flex");
+          } else {
+            typoOptionsGroup.classList.add("hidden");
+            typoOptionsGroup.classList.remove("inline-flex");
+            if (typoListPanel) typoListPanel.classList.add("hidden");
+          }
+        }
+        processText();
+      });
+    }
     if (optKbbi) optKbbi.addEventListener("change", processText);
     if (optSlang) optSlang.addEventListener("change", processText);
     if (optPunctuation) optPunctuation.addEventListener("change", processText);
