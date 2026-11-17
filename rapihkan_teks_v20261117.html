@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="id" class="dark transition-all duration-300 w-full max-w-[100vw] overflow-x-hidden">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rapihkan Teks v20261117</title>
+  <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root, * { --font-sans: "Plus Jakarta Sans", sans-serif; }
+    body { font-family: "Plus Jakarta Sans", sans-serif !important; }
+    .scrollbar-none::-webkit-scrollbar { display: none; }
+    .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+  <script>
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+  </script>
+</head>
+
+<body
+  class="bg-gradient-to-tr from-slate-100 via-fuchsia-50/30 to-slate-100 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 text-slate-900 dark:text-slate-200 min-h-[100dvh] font-sans flex flex-col justify-center items-center py-4 px-3 sm:px-4 antialiased selection:bg-fuchsia-500/30 selection:text-fuchsia-200">
+  
+  <div
+    class="w-full max-w-5xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-3xl p-4 sm:p-6 shadow-2xl flex flex-col my-auto transition-all duration-300">
+    
+    <!-- Header with theme toggle top-right -->
+    <div class="flex items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800/60 pb-3 sm:pb-4">
+      <div class="flex items-center gap-2.5 sm:gap-3">
+        <div class="p-2 bg-fuchsia-500/10 rounded-xl text-fuchsia-600 dark:text-fuchsia-400">
+          <i data-lucide="type" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-xl font-bold tracking-tight text-slate-800 dark:text-white">
+            Rapihkan Teks
+          </h1>
+          <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">
+            Atur format, transformasi, koreksi typo, dan pembersihan teks secara instan • v20261117
+          </p>
+        </div>
+      </div>
+
+      <!-- Theme Toggle (Cleanly placed at top right) -->
+      <button id="theme-toggle" type="button"
+        class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition-all text-slate-500 dark:text-slate-400 shrink-0 cursor-pointer">
+        <svg id="theme-toggle-dark-icon" class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg id="theme-toggle-light-icon" class="w-4 h-4 text-amber-500 hidden" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mode Selector Bar (5 Kategori: Proper, Title, Upper, Split, Chaos) -->
+    <div class="mt-3 flex flex-wrap bg-slate-100 dark:bg-slate-800/50 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-medium gap-1">
+      <button id="modeProper" onclick="setMode('proper')"
+        class="flex-1 min-w-[100px] sm:min-w-[120px] py-2 px-2.5 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 bg-fuchsia-600 text-white shadow">
+        <i data-lucide="align-left" class="w-3.5 h-3.5"></i>
+        <span>Per Kalimat</span>
+      </button>
+      <button id="modeTitle" onclick="setMode('title')"
+        class="flex-1 min-w-[100px] sm:min-w-[120px] py-2 px-2.5 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
+        <i data-lucide="heading" class="w-3.5 h-3.5"></i>
+        <span>Per Kata</span>
+      </button>
+      <button id="modeUpper" onclick="setMode('upper')"
+        class="flex-1 min-w-[100px] sm:min-w-[120px] py-2 px-2.5 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
+        <i data-lucide="case-upper" class="w-3.5 h-3.5"></i>
+        <span>Huruf Kapital</span>
+      </button>
+      <button id="modeSplit" onclick="setMode('split')"
+        class="flex-1 min-w-[100px] sm:min-w-[120px] py-2 px-2.5 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
+        <i data-lucide="scissors" class="w-3.5 h-3.5"></i>
+        <span>Pecah Kata</span>
+      </button>
+      <button id="modeChaos" onclick="setMode('chaos')"
+        class="flex-1 min-w-[100px] sm:min-w-[120px] py-2 px-2.5 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">
+        <i data-lucide="zap-off" class="w-3.5 h-3.5"></i>
+        <span>Berantakan</span>
+      </button>
+    </div>
+
+    <!-- Features Container (Exclude Words & Koreksi Typo) -->
+    <div class="mt-3 space-y-2">
+      <!-- Exclude Words Bar -->
+      <div
+        class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800/80 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+        <div class="flex items-center gap-2 text-xs font-semibold text-rose-500 dark:text-rose-400 uppercase tracking-wider shrink-0">
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+          <span>Hilangkan Kata :</span>
+        </div>
+        <input id="excludeWords" type="text"
+          placeholder="Masukkan kata yang ingin dibuang, pisahkan dengan koma atau titik (Contoh: dolor, elit, et)"
+          class="flex-1 bg-white dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-1.5 text-sm text-slate-800 dark:text-slate-300 placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-rose-500/50 transition-colors" />
+      </div>
+
+      <!-- Typo Correction Bar -->
+      <div
+        class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800/80 rounded-xl p-3 flex flex-col md:flex-row md:items-center justify-between gap-2.5">
+        <div class="flex items-center gap-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider shrink-0">
+          <i data-lucide="spell-check" class="w-4 h-4"></i>
+          <span>Koreksi Typo & Kata Baku :</span>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 text-xs">
+          <!-- Toggle Master -->
+          <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" id="toggleTypo" class="sr-only peer">
+            <div class="w-8 h-4.5 bg-slate-300 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-emerald-600"></div>
+            <span class="font-bold text-slate-700 dark:text-slate-300">Aktifkan Koreksi Typo</span>
+          </label>
+
+          <!-- Granular check options -->
+          <div id="typoOptionsGroup" class="hidden sm:inline-flex items-center gap-2.5 border-l border-slate-200 dark:border-slate-700/80 pl-3">
+            <label class="inline-flex items-center gap-1 cursor-pointer text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
+              <input type="checkbox" id="optKbbi" checked class="rounded text-emerald-600 focus:ring-emerald-500">
+              <span>Baku KBBI</span>
+            </label>
+            <label class="inline-flex items-center gap-1 cursor-pointer text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
+              <input type="checkbox" id="optSlang" checked class="rounded text-emerald-600 focus:ring-emerald-500">
+              <span>Singkatan Chat</span>
+            </label>
+            <label class="inline-flex items-center gap-1 cursor-pointer text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
+              <input type="checkbox" id="optPunctuation" checked class="rounded text-emerald-600 focus:ring-emerald-500">
+              <span>Tanda Baca</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Detail Button / Toggle -->
+        <button type="button" id="btnToggleTypoList" onclick="toggleTypoList()"
+          class="hidden text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline items-center gap-1 shrink-0 cursor-pointer">
+          <i data-lucide="list-checks" class="w-3.5 h-3.5"></i>
+          <span>Rincian (<span id="typoCountBadge">0</span>)</span>
+        </button>
+      </div>
+
+      <!-- Collapsible Panel for Typo Details -->
+      <div id="typoListPanel" class="hidden bg-emerald-50/70 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/40 rounded-xl p-3 text-xs transition-all">
+        <div class="flex items-center justify-between pb-1.5 border-b border-emerald-200/60 dark:border-emerald-800/40 mb-2">
+          <span class="font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
+            <i data-lucide="check-check" class="w-3.5 h-3.5"></i>
+            Kata yang Berhasil Diperbaiki:
+          </span>
+          <button type="button" onclick="toggleTypoList()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs font-bold cursor-pointer">Tutup &times;</button>
+        </div>
+        <div id="typoListItems" class="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto pr-1"></div>
+      </div>
+    </div>
+
+    <!-- Textareas Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 my-3 sm:my-4">
+      <div class="flex flex-col bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800/80 rounded-xl p-3 sm:p-4">
+        <label class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+          <i data-lucide="arrow-right-left" class="w-3.5 h-3.5 text-fuchsia-500 dark:text-fuchsia-400"></i>
+          Sumber Teks
+        </label>
+        <textarea id="inputText" placeholder="Masukkan atau tempel teks di sini..."
+          class="w-full min-h-[140px] sm:min-h-[180px] md:min-h-[220px] bg-transparent border-0 resize-y text-slate-800 dark:text-slate-300 placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none text-sm leading-relaxed"></textarea>
+      </div>
+
+      <div
+        class="flex flex-col bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800/80 rounded-xl p-3 sm:p-4 relative group">
+        <label id="outputLabel"
+          class="text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-pink-500 dark:text-pink-400">
+          <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Hasil Format
+        </label>
+        <textarea id="outputText" readonly placeholder="Hasil akan muncul di sini..."
+          class="w-full min-h-[140px] sm:min-h-[180px] md:min-h-[220px] pb-12 bg-transparent border-0 resize-y placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none text-sm leading-relaxed font-medium text-pink-600 dark:text-pink-400"></textarea>
+
+        <!-- Action Buttons (WhatsApp & Salin) -->
+        <div class="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 flex items-center gap-2">
+          <!-- WhatsApp Share Button -->
+          <button id="btnWhatsapp" type="button" onclick="shareToWhatsApp()" title="Bagikan hasil ke WhatsApp"
+            class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white px-3 py-1.5 sm:py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 shadow-md cursor-pointer">
+            <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+            <span>WhatsApp</span>
+          </button>
+
+          <!-- Copy Button -->
+          <button id="btnCopy" type="button" onclick="copyToClipboard()" title="Salin teks ke clipboard"
+            class="bg-white dark:bg-slate-800 hover:bg-fuchsia-600 hover:text-white border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-3 py-1.5 sm:py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 shadow-md active:scale-95 cursor-pointer">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+            <span>Salin</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1 pb-2 text-xs text-slate-500 dark:text-slate-400 relative">
+      <div class="flex flex-wrap gap-2.5 sm:gap-3 items-center w-full sm:w-auto justify-center sm:justify-start">
+        <span id="charCount" class="font-medium">Karakter: 0</span>
+        <span class="text-slate-300 dark:text-slate-700">•</span>
+        <span id="wordCount" class="font-medium">Kata: 0</span>
+        
+        <!-- Badge Dihilangkan -->
+        <div id="removedBadge"
+          class="hidden items-center gap-1 bg-rose-500/10 border border-rose-500/20 text-rose-500 dark:text-rose-400 px-2 py-0.5 rounded-md text-[11px] font-medium transition-all">
+          <i data-lucide="file-minus" class="w-3 h-3"></i>
+          <span id="removedCount">Dihilangkan: 0 kata</span>
+        </div>
+
+        <!-- Badge Koreksi Typo -->
+        <div id="typoBadge"
+          class="hidden items-center gap-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-md text-[11px] font-medium transition-all">
+          <i data-lucide="spell-check" class="w-3 h-3"></i>
+          <span id="typoStatsText">Dikoreksi: 0 kata</span>
+        </div>
+      </div>
+
+      <div class="hidden sm:block text-[10px] text-slate-400 dark:text-slate-600 tracking-wider">
+        v20261117
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex gap-2 w-full mt-auto mb-2">
+      <button type="button" onclick="if(window.top!==window.self&&window.parent.closePreviewModal){window.parent.closePreviewModal();}else{history.back();}"
+        class="flex-1 py-1.5 sm:py-2 rounded-full text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors flex items-center justify-center gap-1 cursor-pointer">
+        <svg class="w-3.5 h-3.5 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="m12 19-7-7 7-7" />
+          <path d="M19 12H5" />
+        </svg> Kembali
+      </button>
+      <button type="button" onclick="resetForm()"
+        class="flex-1 py-1.5 sm:py-2 rounded-full text-xs font-bold bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400 border border-rose-200 dark:border-rose-800 hover:bg-rose-200 dark:hover:bg-rose-900/50 transition-colors flex items-center justify-center gap-1 cursor-pointer">
+        <svg class="w-3.5 h-3.5 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg> Reset
+      </button>
+      <a href="index.html"
+        class="flex-1 text-center py-1.5 sm:py-2 rounded-full text-xs font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors flex items-center justify-center gap-1 cursor-pointer">
+        <svg class="w-3.5 h-3.5 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg> Beranda
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <footer
+      class="text-center text-slate-400 dark:text-slate-600 text-[10px] mt-2 pt-2 pb-1 border-t border-slate-200 dark:border-slate-800 font-medium no-print">
+      Williyanto Adi 2026
+    </footer>
+
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // Dark Mode Controller
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        themeToggleLightIcon.classList.remove('hidden');
+    } else {
+        document.documentElement.classList.remove('dark');
+        themeToggleDarkIcon.classList.remove('hidden');
+    }
+
+    themeToggleBtn.addEventListener('click', function () {
+        themeToggleDarkIcon.classList.toggle('hidden');
+        themeToggleLightIcon.classList.toggle('hidden');
+        if (localStorage.getItem('color-theme') === 'light') {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('color-theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('color-theme', 'light');
+        }
+    });
+
+    const inputText = document.getElementById("inputText");
+    const excludeWords = document.getElementById("excludeWords");
+    const outputText = document.getElementById("outputText");
+    const charCount = document.getElementById("charCount");
+    const wordCount = document.getElementById("wordCount");
+    const removedCount = document.getElementById("removedCount");
+    const removedBadge = document.getElementById("removedBadge");
+    const btnCopy = document.getElementById("btnCopy");
+    const btnWhatsapp = document.getElementById("btnWhatsapp");
+    const outputLabel = document.getElementById("outputLabel");
+
+    // Typo Elements
+    const toggleTypo = document.getElementById("toggleTypo");
+    const optKbbi = document.getElementById("optKbbi");
+    const optSlang = document.getElementById("optSlang");
+    const optPunctuation = document.getElementById("optPunctuation");
+    const typoBadge = document.getElementById("typoBadge");
+    const typoStatsText = document.getElementById("typoStatsText");
+    const btnToggleTypoList = document.getElementById("btnToggleTypoList");
+    const typoCountBadge = document.getElementById("typoCountBadge");
+    const typoListPanel = document.getElementById("typoListPanel");
+    const typoListItems = document.getElementById("typoListItems");
+
+    // Mode Buttons
+    const modeProper = document.getElementById("modeProper");
+    const modeTitle = document.getElementById("modeTitle");
+    const modeUpper = document.getElementById("modeUpper");
+    const modeSplit = document.getElementById("modeSplit");
+    const modeChaos = document.getElementById("modeChaos");
+
+    let currentMode = "proper";
+    let activeTypoLog = [];
+
+    // --- KAMUS TYPO & KATA BAKU BAHASA INDONESIA ---
+    const kbbiDict = {
+      "antri": "antre",
+      "antrian": "antrean",
+      "antriannya": "antreannya",
+      "praktek": "praktik",
+      "praktekkan": "praktikkan",
+      "prakteknya": "praktiknya",
+      "apotik": "apotek",
+      "apotiker": "apoteker",
+      "ijin": "izin",
+      "mengijinkan": "mengizinkan",
+      "diijinkan": "diizinkan",
+      "perijinan": "perizinan",
+      "analisa": "analisis",
+      "menganalisa": "menganalisis",
+      "nasehat": "nasihat",
+      "menasehati": "menasihati",
+      "penasehat": "penasihat",
+      "jadual": "jadwal",
+      "merubah": "mengubah",
+      "dirubah": "diubah",
+      "kwalitas": "kualitas",
+      "kwantitas": "kuantitas",
+      "aktifitas": "aktivitas",
+      "kreatifitas": "kreativitas",
+      "efektifitas": "efektivitas",
+      "produktifitas": "produktivitas",
+      "faham": "paham",
+      "memahami": "memahami",
+      "fikir": "pikir",
+      "fikiran": "pikiran",
+      "berfikir": "berpikir",
+      "memikirkan": "memikirkan",
+      "resiko": "risiko",
+      "beresiko": "berisiko",
+      "obyek": "objek",
+      "subyek": "subjek",
+      "jaman": "zaman",
+      "cidera": "cedera",
+      "hutang": "utang",
+      "berhutang": "berutang",
+      "silahkan": "silakan",
+      "hakekat": "hakikat",
+      "sekedar": "sekadar",
+      "kharisma": "karisma",
+      "khutbah": "khotbah",
+      "tehnik": "teknik",
+      "tehnisi": "teknisi",
+      "pondasi": "fondasi",
+      "kongkrit": "konkret",
+      "hirarki": "hierarki",
+      "karir": "karier",
+      "komplit": "komplet",
+      "standard": "standar",
+      "defenisi": "definisi",
+      "metoda": "metode",
+      "prosentase": "persentase",
+      "frustasi": "frustrasi",
+      "sistim": "sistem",
+      "nomer": "nomor",
+      "nafas": "napas",
+      "bernafas": "bernapas",
+      "pernafasan": "pernapasan",
+      "himbau": "imbau",
+      "himbauan": "imbauan",
+      "menghimbau": "mengimbau",
+      "hisap": "isap",
+      "menghisap": "mengisap",
+      "atlit": "atlet",
+      "gladi": "geladi",
+      "mempesona": "memesona",
+      "mempengaruhi": "memengaruhi",
+      "mentaati": "menaati",
+      "menterjemahkan": "menerjemahkan",
+      "mentargetkan": "menargetkan",
+      "mentolerir": "mentoleransi",
+      "diakomodir": "diakomodasi",
+      "dikoordinir": "dikoordinasi",
+      "legalisir": "legalisasi",
+      "organisir": "organisasi",
+      "terlanjur": "telanjur",
+      "terlantar": "telantar",
+      "bela sungkawa": "belasungkawa",
+      "pertanggung jawaban": "pertanggungjawaban",
+      "tanda tangan": "tandatangan",
+      "goncang": "guncang",
+      "syah": "sah"
+    };
+
+    const slangDict = {
+      "yg": "yang",
+      "dgn": "dengan",
+      "utk": "untuk",
+      "sdh": "sudah",
+      "udh": "sudah",
+      "udah": "sudah",
+      "blm": "belum",
+      "belom": "belum",
+      "sy": "saya",
+      "kmu": "kamu",
+      "karna": "karena",
+      "krn": "karena",
+      "tp": "tapi",
+      "tpi": "tapi",
+      "bkn": "bukan",
+      "jg": "juga",
+      "jga": "juga",
+      "bgt": "banget",
+      "bgtu": "begitu",
+      "aja": "saja",
+      "aj": "saja",
+      "dlm": "dalam",
+      "dpt": "dapat",
+      "tdk": "tidak",
+      "nggak": "tidak",
+      "ngga": "tidak",
+      "gak": "tidak",
+      "ga": "tidak",
+      "trs": "terus",
+      "bbrp": "beberapa",
+      "kpd": "kepada",
+      "org": "orang",
+      "bsa": "bisa",
+      "tau": "tahu",
+      "gmn": "bagaimana",
+      "gimana": "bagaimana",
+      "knp": "kenapa",
+      "kenape": "kenapa",
+      "bener": "benar",
+      "cuman": "cuma",
+      "sampe": "sampai",
+      "makasih": "terima kasih",
+      "mksih": "terima kasih",
+      "thx": "terima kasih",
+      "thanks": "terima kasih",
+      "pake": "pakai",
+      "kalo": "kalau",
+      "klo": "kalau",
+      "kl": "kalau",
+      "skrg": "sekarang",
+      "bntr": "sebentar",
+      "bentar": "sebentar",
+      "dimana": "di mana",
+      "disana": "di sana",
+      "disini": "di sini",
+      "kemana": "ke mana",
+      "kesana": "ke sana",
+      "kesini": "ke sini"
+    };
+
+    function matchCase(sourceWord, replacementWord) {
+      if (sourceWord === sourceWord.toUpperCase()) {
+        return replacementWord.toUpperCase();
+      }
+      if (sourceWord.length > 0 && sourceWord[0] === sourceWord[0].toUpperCase()) {
+        return replacementWord.charAt(0).toUpperCase() + replacementWord.slice(1).toLowerCase();
+      }
+      return replacementWord.toLowerCase();
+    }
+
+    // Fungsi Utama Koreksi Typo & Kata Baku
+    function applyTypoCorrection(text, logCallback) {
+      if (!text) {
+        if (logCallback) logCallback([]);
+        return text;
+      }
+
+      let result = text;
+      const log = [];
+
+      // 1. Tanda Baca & Spasi (Jika aktif)
+      if (optPunctuation && optPunctuation.checked) {
+        // Hilangkan spasi sebelum tanda baca: "kata ," -> "kata,"
+        result = result.replace(/\s+([,.:;!?])/g, "$1");
+        // Rapikan tanda baca koma berulang: ",," -> ","
+        result = result.replace(/,{2,}/g, ",");
+        // Rapikan tanda tanya/seru berlebih: "???" -> "?"
+        result = result.replace(/\?{2,}/g, "?");
+        result = result.replace(/!{2,}/g, "!");
+      }
+
+      // Gabungkan kamus sesuai opsi yang aktif
+      const combinedDict = {};
+      if (optKbbi && optKbbi.checked) {
+        Object.assign(combinedDict, kbbiDict);
+      }
+      if (optSlang && optSlang.checked) {
+        Object.assign(combinedDict, slangDict);
+      }
+
+      // Jalankan penggantian kata dengan batas kata (\b)
+      for (const [wrong, correct] of Object.entries(combinedDict)) {
+        // Escape regex karakter khusus
+        const safeWrong = wrong.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+        const regex = new RegExp(`\\b${safeWrong}\\b`, "gi");
+
+        result = result.replace(regex, (matched) => {
+          const replacement = matchCase(matched, correct);
+          if (matched !== replacement) {
+            log.push({ from: matched, to: replacement });
+          }
+          return replacement;
+        });
+      }
+
+      if (logCallback) logCallback(log);
+      return result;
+    }
+
+    function toggleTypoList() {
+      if (!typoListPanel) return;
+      typoListPanel.classList.toggle("hidden");
+    }
+
+    function renderTypoList(list) {
+      activeTypoLog = list;
+      if (!typoListItems || !typoCountBadge || !btnToggleTypoList || !typoBadge || !typoStatsText) return;
+
+      if (!toggleTypo.checked || list.length === 0) {
+        typoBadge.style.display = "none";
+        btnToggleTypoList.classList.add("hidden");
+        btnToggleTypoList.classList.remove("inline-flex");
+        typoListPanel.classList.add("hidden");
+        return;
+      }
+
+      typoStatsText.textContent = `Dikoreksi: ${list.length} kata`;
+      typoCountBadge.textContent = list.length;
+      typoBadge.style.display = "inline-flex";
+      btnToggleTypoList.classList.remove("hidden");
+      btnToggleTypoList.classList.add("inline-flex");
+
+      // Unique summary
+      const summaryMap = new Map();
+      list.forEach(item => {
+        const key = `${item.from.toLowerCase()} ➔ ${item.to.toLowerCase()}`;
+        summaryMap.set(key, (summaryMap.get(key) || 0) + 1);
+      });
+
+      typoListItems.innerHTML = "";
+      summaryMap.forEach((count, key) => {
+        const badge = document.createElement("span");
+        badge.className = "bg-white dark:bg-slate-800 border border-emerald-300 dark:border-emerald-700/60 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded text-[11px] font-semibold shadow-xs flex items-center gap-1";
+        badge.innerHTML = `<span>${key}</span>${count > 1 ? `<span class="bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 text-[10px] px-1 rounded-full font-bold">×${count}</span>` : ''}`;
+        typoListItems.appendChild(badge);
+      });
+    }
+
+    function resetForm() {
+      inputText.value = "";
+      excludeWords.value = "";
+      outputText.value = "";
+      if (toggleTypo) toggleTypo.checked = false;
+      renderTypoList([]);
+      setMode('proper');
+      processText();
+      inputText.focus();
+    }
+
+    // Fungsi Hitung Kata
+    function countWords(text) {
+      const trimmed = text.trim();
+      if (trimmed === "") return 0;
+      return trimmed.split(/\s+/).length;
+    }
+
+    // Fungsi Filter Hilangkan Kata
+    function filterExcludedWords(text, statsCallback) {
+      const filterValue = excludeWords.value.trim();
+      const originalWordCount = countWords(text);
+
+      if (!filterValue || !text.trim()) {
+        if (statsCallback) statsCallback(0);
+        return text;
+      }
+
+      const wordsToRemove = filterValue
+        .split(/[.,]/)
+        .map((w) => w.trim())
+        .filter((w) => w.length > 0);
+
+      if (wordsToRemove.length === 0) {
+        if (statsCallback) statsCallback(0);
+        return text;
+      }
+
+      let filteredText = text;
+      wordsToRemove.forEach((word) => {
+        const mapEscaped = word.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+        const regex = new RegExp("\\b" + mapEscaped + "\\b", "gi");
+        filteredText = filteredText.replace(regex, "");
+      });
+
+      filteredText = filteredText
+        .replace(/\s+/g, " ")
+        .replace(/\s+([.,!?])/g, "$1")
+        .trim();
+
+      const finalWordCount = countWords(filteredText);
+      const diff = originalWordCount - finalWordCount;
+      if (statsCallback) statsCallback(diff > 0 ? diff : 0);
+
+      return filteredText;
+    }
+
+    // 1. Mode Huruf Besar di Awal Kalimat saja (Proper / Sentence Case)
+    function convertToProperCase(text) {
+      if (!text) return "";
+      let lower = text.toLowerCase();
+      return lower.replace(
+        /(^\s*|[.!?]\s+)([a-z])/g,
+        function (match, separator, char) {
+          return separator + char.toUpperCase();
+        },
+      );
+    }
+
+    // 2. Mode Huruf Besar di Setiap Awalan Kata (Title Case)
+    function convertToTitleCase(text) {
+      if (!text) return "";
+      return text.toLowerCase().replace(/\b\w/g, function (char) {
+        return char.toUpperCase();
+      });
+    }
+
+    // 3. Mode Huruf Kapital Semua (UPPERCASE)
+    function convertToUpperCase(text) {
+      if (!text) return "";
+      return text.toUpperCase();
+    }
+
+    // 4. Mode Split Teks Menjadi Baris Per Kata
+    function convertToSplitLines(text) {
+      if (!text) return "";
+      return text.trim().split(/\s+/).join("\n");
+    }
+
+    // 5. Mode Berantakan (Random Case)
+    function convertToChaosCase(text) {
+      if (!text) return "";
+      return text
+        .split("")
+        .map((char) => {
+          return Math.random() > 0.5
+            ? char.toUpperCase()
+            : char.toLowerCase();
+        })
+        .join("");
+    }
+
+    // Jalankan pemrosesan teks utama
+    function processText() {
+      let currentText = inputText.value;
+
+      // 1. Koreksi Typo jika toggle aktif
+      let detectedTypos = [];
+      if (toggleTypo && toggleTypo.checked && currentText.trim()) {
+        currentText = applyTypoCorrection(currentText, (list) => {
+          detectedTypos = list;
+        });
+      }
+      renderTypoList(detectedTypos);
+
+      // 2. Filter Hilangkan Kata
+      let deletedWordsTotal = 0;
+      const cleanedText = filterExcludedWords(currentText, (count) => {
+        deletedWordsTotal = count;
+      });
+
+      // Reset styling kelas output
+      outputText.className = outputText.className
+        .replace("text-amber-400", "text-pink-400")
+        .replace("text-cyan-400", "text-pink-400")
+        .replace("text-purple-400", "text-pink-400");
+      outputLabel.className =
+        "text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-pink-500 dark:text-pink-400";
+
+      // 3. Eksekusi Kategori Format
+      if (currentMode === "proper") {
+        outputText.value = convertToProperCase(cleanedText);
+        outputLabel.innerHTML = `<i data-lucide="align-left" class="w-3.5 h-3.5"></i> Hasil: Format Kalimat`;
+      } else if (currentMode === "title") {
+        outputText.value = convertToTitleCase(cleanedText);
+        outputLabel.innerHTML = `<i data-lucide="heading" class="w-3.5 h-3.5"></i> Hasil: Format Awalan Kata`;
+      } else if (currentMode === "upper") {
+        outputText.value = convertToUpperCase(cleanedText);
+        outputText.className = outputText.className.replace(
+          "text-pink-400",
+          "text-purple-400",
+        );
+        outputLabel.className =
+          "text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-purple-600 dark:text-purple-400";
+        outputLabel.innerHTML = `<i data-lucide="case-upper" class="w-3.5 h-3.5"></i> Hasil: Huruf Kapital (UPPERCASE)`;
+      } else if (currentMode === "split") {
+        outputText.value = convertToSplitLines(cleanedText);
+        outputText.className = outputText.className.replace(
+          "text-pink-400",
+          "text-cyan-400",
+        );
+        outputLabel.className =
+          "text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-cyan-600 dark:text-cyan-400";
+        outputLabel.innerHTML = `<i data-lucide="scissors" class="w-3.5 h-3.5"></i> Hasil: Pecah Per Kata`;
+      } else if (currentMode === "chaos") {
+        outputText.value = convertToChaosCase(cleanedText);
+        outputText.className = outputText.className.replace(
+          "text-pink-400",
+          "text-amber-400",
+        );
+        outputLabel.className =
+          "text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-amber-600 dark:text-amber-400";
+        outputLabel.innerHTML = `<i data-lucide="zap-off" class="w-3.5 h-3.5"></i> Hasil: Berantakan`;
+      }
+
+      const rawText = inputText.value;
+      charCount.textContent = `Karakter: ${rawText.length}`;
+      wordCount.textContent = `Kata: ${countWords(rawText)}`;
+
+      if (deletedWordsTotal > 0 && excludeWords.value.trim() !== "") {
+        removedCount.textContent = `Dihilangkan: ${deletedWordsTotal} kata`;
+        removedBadge.style.display = "inline-flex";
+      } else {
+        removedBadge.style.display = "none";
+      }
+
+      lucide.createIcons();
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      const buttons = [
+        { el: modeProper, key: "proper" },
+        { el: modeTitle, key: "title" },
+        { el: modeUpper, key: "upper" },
+        { el: modeSplit, key: "split" },
+        { el: modeChaos, key: "chaos" },
+      ];
+
+      buttons.forEach((btn) => {
+        if (btn.key === currentMode) {
+          btn.el.className =
+            "flex-1 min-w-[100px] sm:min-w-[120px] py-2 px-2.5 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 bg-fuchsia-600 text-white shadow";
+        } else {
+          btn.el.className =
+            "flex-1 min-w-[100px] sm:min-w-[120px] py-2 px-2.5 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200";
+        }
+      });
+
+      processText();
+    }
+
+    // Event Listeners
+    inputText.addEventListener("input", processText);
+    excludeWords.addEventListener("input", processText);
+
+    if (toggleTypo) toggleTypo.addEventListener("change", processText);
+    if (optKbbi) optKbbi.addEventListener("change", processText);
+    if (optSlang) optSlang.addEventListener("change", processText);
+    if (optPunctuation) optPunctuation.addEventListener("change", processText);
+
+    // Share to WhatsApp
+    function shareToWhatsApp() {
+      const text = outputText.value.trim();
+      if (!text) {
+        alert("Teks hasil masih kosong! Silakan ketik atau tempel teks terlebih dahulu.");
+        return;
+      }
+      const url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
+      window.open(url, "_blank");
+    }
+
+    // Salin ke Clipboard
+    function copyToClipboard() {
+      if (!outputText.value) return;
+
+      navigator.clipboard
+        .writeText(outputText.value)
+        .then(() => {
+          const originalContent = btnCopy.innerHTML;
+          btnCopy.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> <span class="text-emerald-500">Tersalin!</span>`;
+          btnCopy.classList.add("border-emerald-500/30", "bg-emerald-500/10");
+          lucide.createIcons();
+
+          setTimeout(() => {
+            btnCopy.innerHTML = originalContent;
+            btnCopy.classList.remove(
+              "border-emerald-500/30",
+              "bg-emerald-500/10",
+            );
+            lucide.createIcons();
+          }, 2000);
+        })
+        .catch((err) => console.error(err));
+    }
+  </script>
+</body>
+
+</html>
