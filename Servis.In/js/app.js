@@ -1877,6 +1877,8 @@
 
       store = newStore;
       state = v;
+      isLoggedOut = false;
+      isBrandNewUser = false;
       save();
       renderAll();
       closeModal('modal-welcome');
