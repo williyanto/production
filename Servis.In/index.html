@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title id="page-title">Servis.In</title>
+  <meta name="description" content="Aplikasi perawatan kendaraan: pengingat oli, servis, sparepart, dokumen, statistik, biaya, dan sinkronisasi.">
+  <meta name="theme-color" content="#F4F6FA" id="meta-theme-color">
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-dashboard" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></symbol>
+      <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-checklist" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+      <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+      <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+      <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></symbol>
+      <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></symbol>
+      <symbol id="i-droplet" viewBox="0 0 24 24"><path d="M12 2.7s6 6.2 6 10.8a6 6 0 0 1-12 0C6 8.9 12 2.7 12 2.7z"/></symbol>
+      <symbol id="i-cog" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></symbol>
+      <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+      <symbol id="i-car" viewBox="0 0 24 24"><path d="M3 13l2-6a2 2 0 0 1 1.9-1.4h10.2A2 2 0 0 1 19 7l2 6"/><rect x="3" y="13" width="18" height="5" rx="2"/><circle cx="7.5" cy="18" r="1.5"/><circle cx="16.5" cy="18" r="1.5"/></symbol>
+      <symbol id="i-bike" viewBox="0 0 24 24"><circle cx="5.5" cy="17" r="3"/><circle cx="18.5" cy="17" r="3"/><path d="M5.5 17 9 9h4l3 8"/><path d="M15 6h3l1 3"/></symbol>
+      <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 18a9 9 0 1 1 16 0"/><path d="M12 14l4-5"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 19h16"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V3m0 0-4 4m4-4 4 4"/><path d="M4 19h16"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></symbol>
+      <symbol id="i-id" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M13 10h5M13 14h4"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></symbol>
+      <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+      <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></symbol>
+      <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></symbol>
+      <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19a4.5 4.5 0 1 0-1.4-8.8A6 6 0 1 0 6 18.5a3 3 0 0 0 .5.5z"/></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="mobile-shell">
+
+    <header class="app-header">
+      <button type="button" class="vehicle-switch" id="header-vehicle-trigger" aria-label="Ganti kendaraan">
+        <span class="v-avatar" id="header-vehicle-icon"></span>
+        <span class="v-text">
+          <strong id="header-vehicle-name">Kendaraan</strong>
+          <small id="header-vehicle-meta">-</small>
+        </span>
+        <svg class="ic v-chev"><use href="#i-chevron-down"/></svg>
+      </button>
+      <span class="header-count" id="header-vehicle-count"></span>
+    </header>
+
+    <main class="app-content" id="app-content">
+      <div class="ptr" id="ptr"><span id="ptr-text">Tarik untuk memuat ulang</span></div>
+
+      <!-- ===== RINGKASAN ===== -->
+      <section class="tab-pane active" id="tab-ringkasan" aria-label="Ringkasan">
+        <div class="odo-card">
+          <div class="odo-info">
+            <span class="odo-label">Odometer</span>
+            <div class="odo-row"><strong id="home-odo-value">0</strong><span class="odo-unit">km</span></div>
+            <span class="odo-date" id="home-odo-updated-text">-</span>
+          </div>
+          <button type="button" class="btn-soft" id="btn-open-odo-modal">
+            <span id="odo-due-dot" class="due-dot hidden"></span>Update KM
+          </button>
+        </div>
+
+        <div class="summary-strip">
+          <button type="button" class="sum-item" id="strip-urgent-btn">
+            <strong id="sum-urgent-count">0</strong><span>perlu servis</span>
+          </button>
+          <button type="button" class="sum-item" id="strip-doc-btn">
+            <strong id="sum-doc-count">0</strong><span>dokumen</span>
+          </button>
+          <button type="button" class="sum-item" id="strip-cost-btn">
+            <strong id="sum-cost-est">Rp 0</strong><span>estimasi biaya</span>
+          </button>
+        </div>
+
+        <div class="toolbar">
+          <div class="filter-pills" role="tablist">
+            <button type="button" class="filter-pill active" data-cat="all">Semua <em id="count-cat-all">0</em></button>
+            <button type="button" class="filter-pill" data-cat="oli">Oli <em id="count-cat-oli">0</em></button>
+            <button type="button" class="filter-pill" data-cat="servis">Servis <em id="count-cat-servis">0</em></button>
+            <button type="button" class="filter-pill" data-cat="sparepart">Part <em id="count-cat-sparepart">0</em></button>
+          </div>
+          <button type="button" class="btn-icon-round" id="btn-add-reminder" aria-label="Tambah pengingat"><svg class="ic"><use href="#i-plus"/></svg></button>
+        </div>
+
+        <div id="reminders-container"></div>
+        <p class="tip" id="swipe-tip">Ketuk item untuk detail · geser ke kiri untuk aksi cepat</p>
+      </section>
+
+      <!-- ===== RIWAYAT ===== -->
+      <section class="tab-pane" id="tab-riwayat" aria-label="Riwayat">
+        <div class="page-head">
+          <div>
+            <h2>Riwayat</h2>
+            <p>Perawatan, odometer, dan biaya</p>
+          </div>
+          <button type="button" class="btn-primary-sm" id="btn-add-expense"><svg class="ic"><use href="#i-plus"/></svg>Catat</button>
+        </div>
+
+        <div class="segmented three" role="tablist">
+          <button type="button" class="seg active" id="seg-perawatan" data-seg="perawatan">Perawatan</button>
+          <button type="button" class="seg" id="seg-odometer" data-seg="odometer">Odometer</button>
+          <button type="button" class="seg" id="seg-tahunan" data-seg="tahunan">Tahunan</button>
+        </div>
+
+        <!-- Perawatan -->
+        <div id="view-perawatan">
+          <div class="search-box">
+            <svg class="ic"><use href="#i-search"/></svg>
+            <input type="text" id="input-search" placeholder="Cari riwayat atau ganti part…" autocomplete="off" aria-label="Cari riwayat">
+            <button type="button" id="btn-clear-search" class="mini-x" aria-label="Hapus pencarian" hidden><svg class="ic"><use href="#i-x"/></svg></button>
+            <button type="button" id="btn-filter-toggle" class="filter-btn" aria-label="Filter dan urutan"><svg class="ic"><use href="#i-sliders"/></svg><i id="filter-dot" hidden></i></button>
+          </div>
+
+          <div id="filter-panel" class="filter-panel" hidden>
+            <div class="filter-pills">
+              <button type="button" class="filter-pill active" data-scat="all">Semua</button>
+              <button type="button" class="filter-pill" data-scat="oli">Oli</button>
+              <button type="button" class="filter-pill" data-scat="servis">Servis</button>
+              <button type="button" class="filter-pill" data-scat="sparepart">Part</button>
+              <button type="button" class="filter-pill" data-scat="lainnya">Lainnya</button>
+            </div>
+            <div class="form-row">
+              <select id="search-range" class="form-control" aria-label="Rentang waktu">
+                <option value="all">Semua waktu</option>
+                <option value="30">30 hari terakhir</option>
+                <option value="90">3 bulan terakhir</option>
+                <option value="year">Tahun ini</option>
+              </select>
+              <select id="search-sort" class="form-control" aria-label="Urutkan">
+                <option value="new">Terbaru</option>
+                <option value="old">Terlama</option>
+                <option value="high">Biaya tertinggi</option>
+                <option value="low">Biaya terendah</option>
+              </select>
+            </div>
+            <button type="button" class="link-btn" id="btn-reset-filter">Atur ulang filter</button>
+          </div>
+
+          <div id="search-results" hidden>
+            <p class="search-summary" id="search-summary"></p>
+            <div id="search-results-list"></div>
+          </div>
+
+          <div id="month-content">
+            <div class="card month-card">
+              <div class="month-nav">
+                <button type="button" class="btn-icon-round" id="btn-prev-month" aria-label="Bulan sebelumnya"><svg class="ic"><use href="#i-chevron-left"/></svg></button>
+                <div class="month-center">
+                  <h3 id="expense-month-title">November 2026</h3>
+                  <button type="button" class="badge-btn" id="expense-month-badge">Bulan ini</button>
+                </div>
+                <button type="button" class="btn-icon-round" id="btn-next-month" aria-label="Bulan berikutnya"><svg class="ic"><use href="#i-chevron-right"/></svg></button>
+              </div>
+              <div class="totals">
+                <div><span id="label-primary-cost">Biaya dikeluarkan</span><strong id="val-primary-cost">Rp 0</strong></div>
+                <div><span id="label-secondary-cost">Estimasi servis</span><strong id="val-secondary-cost">Rp 0</strong></div>
+              </div>
+              <div id="expense-cat-breakdown" class="breakdown"></div>
+            </div>
+
+            <div class="section">
+              <h3 class="section-title" id="recorded-section-title">Riwayat perawatan</h3>
+              <div id="recorded-expense-list"></div>
+            </div>
+
+            <div class="section" id="projected-expenses-section">
+              <h3 class="section-title" id="projected-section-title">Jadwal mendatang</h3>
+              <div id="projected-expense-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Odometer & statistik -->
+        <div id="view-odometer" hidden>
+          <div class="stat-grid">
+            <div class="stat-card"><span>Rata-rata / hari</span><strong id="stat-avg-day">-</strong></div>
+            <div class="stat-card"><span>Km bulan ini</span><strong id="stat-km-month">-</strong></div>
+            <div class="stat-card"><span>Total tercatat</span><strong id="stat-total-km">-</strong></div>
+            <div class="stat-card"><span>Biaya / km</span><strong id="stat-cost-km">-</strong></div>
+          </div>
+          <div class="card apply-card" id="apply-avg-card">
+            <p id="stat-avg-note">-</p>
+            <button type="button" class="btn-soft" id="btn-apply-avg">Pakai</button>
+          </div>
+          <div class="section">
+            <h3 class="section-title">Kilometer per bulan</h3>
+            <div class="card"><div class="bar-chart" id="odo-chart"></div></div>
+          </div>
+          <div class="section">
+            <div class="section-row">
+              <h3 class="section-title">Catatan odometer</h3>
+              <button type="button" class="link-btn" id="btn-log-odo">+ Catat</button>
+            </div>
+            <div id="odo-log-list"></div>
+          </div>
+        </div>
+
+        <!-- Tahunan -->
+        <div id="view-tahunan" hidden>
+          <div class="card">
+            <div class="month-nav">
+              <button type="button" class="btn-icon-round" id="btn-prev-year" aria-label="Tahun sebelumnya"><svg class="ic"><use href="#i-chevron-left"/></svg></button>
+              <div class="month-center">
+                <h3 id="year-title">2026</h3>
+                <span class="badge-btn static" id="year-delta">-</span>
+              </div>
+              <button type="button" class="btn-icon-round" id="btn-next-year" aria-label="Tahun berikutnya"><svg class="ic"><use href="#i-chevron-right"/></svg></button>
+            </div>
+            <div class="totals">
+              <div><span>Total setahun</span><strong id="year-total">Rp 0</strong></div>
+              <div><span>Rata-rata / bulan</span><strong id="year-avg">Rp 0</strong></div>
+            </div>
+          </div>
+          <div class="section">
+            <h3 class="section-title">Biaya per bulan</h3>
+            <div class="card">
+              <div class="year-chart" id="year-chart"></div>
+              <div class="legend" id="year-legend"></div>
+            </div>
+          </div>
+          <div class="section">
+            <h3 class="section-title">Per kategori</h3>
+            <div class="card" id="year-cats"></div>
+          </div>
+          <div class="section">
+            <h3 class="section-title">Pengeluaran terbesar</h3>
+            <div id="year-top"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CEK PART ===== -->
+      <section class="tab-pane" id="tab-checklist" aria-label="Cek Part">
+        <div class="page-head">
+          <div>
+            <h2>Cek Part</h2>
+            <p>Komponen yang segera waktunya servis</p>
+          </div>
+          <label class="switch-inline">
+            <input type="checkbox" id="chk-show-all-parts">
+            <span>Semua</span>
+          </label>
+        </div>
+        <div class="card action-bar">
+          <div>
+            <span><b id="chk-selected-count">0</b> part dipilih</span>
+            <strong id="chk-selected-cost">Estimasi: Rp 0</strong>
+          </div>
+          <button type="button" class="btn-primary-sm" id="btn-complete-checked" disabled>Selesaikan</button>
+        </div>
+        <div class="section">
+          <div class="section-row">
+            <h3 class="section-title">Part jatuh tempo</h3>
+            <button type="button" class="link-btn" id="btn-select-all-due">Pilih semua</button>
+          </div>
+          <div id="due-checklist-container" class="card-list"></div>
+        </div>
+        <div class="section">
+          <div class="section-row">
+            <h3 class="section-title">Pemeriksaan fisik</h3>
+            <button type="button" class="link-btn" id="btn-add-inspection">+ Item</button>
+          </div>
+          <div id="physical-checklist-container" class="card-list"></div>
+        </div>
+      </section>
+
+      <!-- ===== DOKUMEN ===== -->
+      <section class="tab-pane" id="tab-dokumen" aria-label="Dokumen">
+        <div class="page-head">
+          <div>
+            <h2>Dokumen</h2>
+            <p>Pajak, plat, SIM, dan asuransi</p>
+          </div>
+          <button type="button" class="btn-primary-sm" id="btn-add-doc"><svg class="ic"><use href="#i-plus"/></svg>Tambah</button>
+        </div>
+        <div id="doc-list"></div>
+      </section>
+
+      <!-- ===== PROFIL ===== -->
+      <section class="tab-pane" id="tab-profile" aria-label="Profil">
+        <div class="page-head">
+          <div>
+            <h2>Profil</h2>
+            <p>Kendaraan, pengingat, dan pengaturan</p>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <span class="v-avatar lg" id="profile-preview-icon"></span>
+          <div class="pc-text">
+            <small id="profile-preview-type">Motor Matic</small>
+            <strong id="profile-preview-name">-</strong>
+          </div>
+          <div class="plate">
+            <span id="profile-preview-plate">-</span>
+            <small id="profile-preview-plate-sub">-</small>
+          </div>
+        </div>
+
+        <div class="acc-group">
+
+          <details class="acc" id="acc-identitas">
+            <summary>
+              <span class="acc-ic"><svg class="ic"><use href="#i-car"/></svg></span>
+              <span class="acc-title">Identitas Kendaraan<small>Jenis, nama, plat, dan tahun</small></span>
+              <svg class="ic acc-chev"><use href="#i-chevron-down"/></svg>
+            </summary>
+            <div class="acc-body">
+              <form id="form-profile">
+                <div class="form-group">
+                  <label for="input-vehicle-type">Jenis kendaraan</label>
+                  <select id="input-vehicle-type" class="form-control" required>
+                    <option value="Motor Matic">Motor Matic</option>
+                    <option value="Motor Bebek / Sport">Motor Bebek / Sport</option>
+                    <option value="Mobil MPV / SUV">Mobil MPV / SUV</option>
+                    <option value="Mobil Sedan / Hatchback">Mobil Sedan / Hatchback</option>
+                    <option value="Mobil Pick-up / Niaga">Mobil Pick-up / Niaga</option>
+                    <option value="Kendaraan Listrik (EV)">Kendaraan Listrik (EV)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="input-vehicle-name">Nama kendaraan</label>
+                  <input type="text" id="input-vehicle-name" class="form-control" placeholder="Honda Vario 160" required maxlength="50">
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="input-plate-number">Plat nomor</label>
+                    <input type="text" id="input-plate-number" class="form-control upper" placeholder="B 1234 XYZ" required maxlength="15">
+                  </div>
+                  <div class="form-group">
+                    <label for="input-vehicle-year">Tahun</label>
+                    <input type="number" id="input-vehicle-year" class="form-control" min="1970" max="2035" required>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="input-current-odo">Odometer (km)</label>
+                    <input type="number" id="input-current-odo" class="form-control" min="0" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="input-daily-km">Rata-rata km/hari</label>
+                    <input type="number" id="input-daily-km" class="form-control" min="1" max="1000" required>
+                  </div>
+                </div>
+                <button type="submit" class="btn-primary-full">Simpan profil</button>
+                <button type="button" class="btn-danger-text" id="btn-delete-vehicle">Hapus kendaraan ini</button>
+              </form>
+            </div>
+          </details>
+
+          <details class="acc" id="acc-template">
+            <summary>
+              <span class="acc-ic"><svg class="ic"><use href="#i-layers"/></svg></span>
+              <span class="acc-title">Template Perawatan<small id="template-active-label">Isi pengingat sesuai model kendaraan</small></span>
+              <svg class="ic acc-chev"><use href="#i-chevron-down"/></svg>
+            </summary>
+            <div class="acc-body">
+              <p class="hint">Pilih template model bawaan atau buat template kustom sendiri untuk mengatur daftar pengingat perawatan.</p>
+              <div class="form-group">
+                <label for="apply-template-select">Pilih model / template</label>
+                <select id="apply-template-select" class="form-control"></select>
+              </div>
+
+              <div class="tpl-preview-box" id="template-preview-box"></div>
+
+              <div class="tpl-options">
+                <label class="check-line">
+                  <input type="checkbox" id="chk-replace-template" checked>
+                  <span>Ganti daftar pengingat saat ini dengan template terpilih</span>
+                </label>
+                <label class="check-line">
+                  <input type="checkbox" id="chk-update-vname" checked>
+                  <span>Sesuaikan nama &amp; jenis kendaraan mengikuti model template</span>
+                </label>
+              </div>
+
+              <div class="btn-stack" style="margin-top:10px">
+                <button type="button" class="btn-primary-full" id="btn-apply-template">Terapkan template</button>
+                <div class="form-row" id="custom-tpl-manage-row" hidden>
+                  <button type="button" class="btn-outline" id="btn-edit-custom-tpl"><svg class="ic"><use href="#i-edit"/></svg>Edit kustom</button>
+                  <button type="button" class="btn-outline" style="color:var(--danger)" id="btn-del-custom-tpl"><svg class="ic"><use href="#i-trash"/></svg>Hapus kustom</button>
+                </div>
+                <button type="button" class="btn-outline" id="btn-new-custom-tpl"><svg class="ic"><use href="#i-plus"/></svg>Buat template kustom baru</button>
+                <button type="button" class="btn-outline" id="btn-save-current-as-tpl"><svg class="ic"><use href="#i-copy"/></svg>Simpan pengingat saat ini jadi template</button>
+              </div>
+            </div>
+          </details>
+
+          <details class="acc" id="acc-odo-reminder">
+            <summary>
+              <span class="acc-ic"><svg class="ic"><use href="#i-bell"/></svg></span>
+              <span class="acc-title">Pengingat Update Odometer<small id="profile-odo-rem-status">-</small></span>
+              <svg class="ic acc-chev"><use href="#i-chevron-down"/></svg>
+            </summary>
+            <div class="acc-body">
+              <div class="row-between">
+                <span class="row-label">Aktifkan pengingat</span>
+                <label class="toggle"><input type="checkbox" id="input-odo-rem-enabled" checked><span class="slider"></span></label>
+              </div>
+              <div id="odo-reminder-settings-body">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="input-odo-rem-val">Setiap</label>
+                    <input type="number" id="input-odo-rem-val" class="form-control" min="1" max="90" value="1">
+                  </div>
+                  <div class="form-group">
+                    <label for="input-odo-rem-unit">Satuan</label>
+                    <select id="input-odo-rem-unit" class="form-control">
+                      <option value="days">Hari sekali</option>
+                      <option value="weeks">Minggu sekali</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="preset-row">
+                  <button type="button" class="preset-chip" data-odo-preset="3-days">3 hari</button>
+                  <button type="button" class="preset-chip" data-odo-preset="1-weeks">1 minggu</button>
+                  <button type="button" class="preset-chip" data-odo-preset="2-weeks">2 minggu</button>
+                  <button type="button" class="preset-chip" data-odo-preset="4-weeks">4 minggu</button>
+                </div>
+                <button type="button" class="btn-primary-full" id="btn-save-odo-rem">Simpan jadwal</button>
+              </div>
+            </div>
+          </details>
+
+          <details class="acc" id="acc-sync">
+            <summary>
+              <span class="acc-ic"><svg class="ic"><use href="#i-cloud"/></svg></span>
+              <span class="acc-title">Sinkronisasi Antar Perangkat<small id="sync-status-short">Belum terhubung</small></span>
+              <svg class="ic acc-chev"><use href="#i-chevron-down"/></svg>
+            </summary>
+            <div class="acc-body">
+              <p class="hint">Aplikasi ini tanpa server. Sinkron dilakukan lewat <b>file di folder cloud</b> (Google Drive, OneDrive, Dropbox) atau lewat <b>kode sinkron</b> yang disalin ke perangkat lain.</p>
+
+              <div class="sync-box" id="sync-file-box">
+                <strong>Sinkron otomatis via file</strong>
+                <span class="sub" id="sync-file-status">Belum terhubung</span>
+                <div class="btn-stack" id="sync-file-actions">
+                  <button type="button" class="btn-outline" id="btn-sync-new"><svg class="ic"><use href="#i-plus"/></svg>Buat file sinkron baru</button>
+                  <button type="button" class="btn-outline" id="btn-sync-pick"><svg class="ic"><use href="#i-file"/></svg>Pilih file sinkron yang ada</button>
+                  <button type="button" class="btn-outline" id="btn-sync-now" hidden><svg class="ic"><use href="#i-refresh"/></svg>Sinkronkan sekarang</button>
+                  <button type="button" class="btn-danger-text" id="btn-sync-off" hidden>Putuskan file sinkron</button>
+                </div>
+                <p class="hint" id="sync-file-unsupported" hidden>Browser ini belum mendukung sinkron via file (butuh Chrome/Edge di desktop atau Android). Gunakan kode sinkron di bawah.</p>
+              </div>
+
+              <div class="sync-box">
+                <strong>Kode sinkron</strong>
+                <span class="sub">Salin kode, lalu tempel di perangkat lain.</span>
+                <div class="btn-stack">
+                  <button type="button" class="btn-outline" id="btn-code-copy"><svg class="ic"><use href="#i-copy"/></svg>Salin kode sinkron</button>
+                  <button type="button" class="btn-outline" id="btn-code-paste"><svg class="ic"><use href="#i-download"/></svg>Tempel kode dari perangkat lain</button>
+                  <button type="button" class="btn-outline" id="btn-share-backup" hidden><svg class="ic"><use href="#i-share"/></svg>Bagikan file backup</button>
+                </div>
+              </div>
+              <p class="hint" id="sync-updated">-</p>
+            </div>
+          </details>
+
+          <details class="acc" id="acc-data">
+            <summary>
+              <span class="acc-ic"><svg class="ic"><use href="#i-database"/></svg></span>
+              <span class="acc-title">Data &amp; Cadangan<small>Backup, restore, ekspor CSV</small></span>
+              <svg class="ic acc-chev"><use href="#i-chevron-down"/></svg>
+            </summary>
+            <div class="acc-body">
+              <p class="hint">Data tersimpan di perangkat ini. Buat cadangan berkala agar tidak hilang saat cache browser dibersihkan.</p>
+              <div class="btn-stack">
+                <button type="button" class="btn-outline" id="btn-export-json"><svg class="ic"><use href="#i-download"/></svg>Backup semua data (JSON)</button>
+                <button type="button" class="btn-outline" id="btn-import-json"><svg class="ic"><use href="#i-upload"/></svg>Restore dari file backup</button>
+                <button type="button" class="btn-outline" id="btn-export-csv"><svg class="ic"><use href="#i-file"/></svg>Ekspor riwayat (CSV)</button>
+              </div>
+              <input type="file" id="input-import-file" accept="application/json,.json" hidden>
+            </div>
+          </details>
+
+          <details class="acc" id="acc-app">
+            <summary>
+              <span class="acc-ic"><svg class="ic"><use href="#i-sliders"/></svg></span>
+              <span class="acc-title">Tampilan &amp; Aplikasi<small>Mode gelap, tentang, reset</small></span>
+              <svg class="ic acc-chev"><use href="#i-chevron-down"/></svg>
+            </summary>
+            <div class="acc-body">
+              <div class="row-between">
+                <span class="row-label"><svg class="ic"><use href="#i-moon"/></svg>Mode gelap</span>
+                <label class="toggle"><input type="checkbox" id="input-dark-mode"><span class="slider"></span></label>
+              </div>
+              <button type="button" class="list-btn" id="btn-open-welcome">
+                <span class="row-label"><svg class="ic"><use href="#i-car"/></svg>Layar sambutan / setup kendaraan awal</span>
+                <svg class="ic"><use href="#i-chevron-right"/></svg>
+              </button>
+              <button type="button" class="list-btn" id="btn-about-profile">
+                <span class="row-label"><svg class="ic"><use href="#i-info"/></svg>Tentang aplikasi</span>
+                <svg class="ic"><use href="#i-chevron-right"/></svg>
+              </button>
+              <button type="button" class="list-btn danger" id="btn-reset-data">
+                <span class="row-label"><svg class="ic"><use href="#i-refresh"/></svg>Reset ke data contoh</span>
+                <svg class="ic"><use href="#i-chevron-right"/></svg>
+              </button>
+            </div>
+          </details>
+
+        </div>
+
+        <footer class="app-footer">
+          <span>Williyanto Adi 2026</span>
+          <button type="button" class="link-btn" data-open-about="true">Tentang aplikasi</button>
+        </footer>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navigasi utama">
+      <button type="button" class="nav-tab active" data-target="tab-ringkasan"><svg class="ic"><use href="#i-dashboard"/></svg><span>Ringkasan</span></button>
+      <button type="button" class="nav-tab" data-target="tab-riwayat"><svg class="ic"><use href="#i-history"/></svg><span>Riwayat</span></button>
+      <button type="button" class="nav-tab" data-target="tab-checklist"><span class="nav-ic-wrap"><svg class="ic"><use href="#i-checklist"/></svg><b class="nav-badge hidden" id="nav-badge-checklist">0</b></span><span>Cek Part</span></button>
+      <button type="button" class="nav-tab" data-target="tab-dokumen"><span class="nav-ic-wrap"><svg class="ic"><use href="#i-file"/></svg><b class="nav-badge hidden" id="nav-badge-doc">0</b></span><span>Dokumen</span></button>
+      <button type="button" class="nav-tab" data-target="tab-profile"><svg class="ic"><use href="#i-user"/></svg><span>Profil</span></button>
+    </nav>
+
+    <!-- MODAL: Selamat datang (pengguna baru) -->
+    <div class="modal-backdrop" id="modal-welcome" aria-hidden="true" data-static="true">
+      <div class="modal-sheet">
+        <div class="welcome-head">
+          <img src="assets/icon.svg" alt="" class="about-logo">
+          <h3>Selamat datang di Servis.In</h3>
+          <p>Isi data kendaraan Anda. Pengingat perawatan akan dibuat otomatis sesuai model.</p>
+        </div>
+        <form id="form-welcome">
+          <div class="form-group">
+            <label for="wl-type">Jenis kendaraan</label>
+            <select id="wl-type" class="form-control" required>
+              <option value="Motor Matic">Motor Matic</option>
+              <option value="Motor Bebek / Sport">Motor Bebek / Sport</option>
+              <option value="Mobil MPV / SUV">Mobil MPV / SUV</option>
+              <option value="Mobil Sedan / Hatchback">Mobil Sedan / Hatchback</option>
+              <option value="Mobil Pick-up / Niaga">Mobil Pick-up / Niaga</option>
+              <option value="Kendaraan Listrik (EV)">Kendaraan Listrik (EV)</option>
+            </select>
+          </div>
+          <div class="form-group"><label for="wl-template">Model / template perawatan</label><select id="wl-template" class="form-control"></select></div>
+          <div class="form-group"><label for="wl-name">Nama kendaraan</label><input type="text" id="wl-name" class="form-control" required maxlength="50" placeholder="Honda Vario 160"></div>
+          <div class="form-row">
+            <div class="form-group"><label for="wl-plate">Plat nomor</label><input type="text" id="wl-plate" class="form-control upper" required maxlength="15" placeholder="B 1234 XYZ"></div>
+            <div class="form-group"><label for="wl-year">Tahun</label><input type="number" id="wl-year" class="form-control" min="1970" max="2035" required></div>
+          </div>
+          <div class="form-group"><label for="wl-odo">Odometer saat ini (km)</label><input type="number" id="wl-odo" class="form-control" min="0" required></div>
+          <button type="submit" class="btn-primary-full">Mulai</button>
+          <button type="button" class="btn-danger-text neutral" id="btn-welcome-sample">Coba dulu dengan data contoh</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: Konfirmasi -->
+    <div class="modal-backdrop center" id="modal-confirm" aria-hidden="true" data-static="true">
+      <div class="dialog" role="alertdialog" aria-labelledby="confirm-title">
+        <h3 id="confirm-title">Konfirmasi</h3>
+        <p id="confirm-msg">-</p>
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" id="confirm-cancel">Batal</button>
+          <button type="button" class="btn-primary" id="confirm-ok">Ya</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: Detail item + aksi -->
+    <div class="modal-backdrop" id="modal-item" aria-hidden="true">
+      <div class="modal-sheet">
+        <div class="modal-header"><h3 id="item-title">Detail</h3><button type="button" class="modal-close" data-close-modal="modal-item" aria-label="Tutup"><svg class="ic"><use href="#i-x"/></svg></button></div>
+        <dl class="detail-list" id="item-body"></dl>
+        <div class="item-actions" id="item-actions"></div>
+      </div>
+    </div>
+
+    <!-- MODAL: Kode sinkron -->
+    <div class="modal-backdrop" id="modal-code" aria-hidden="true">
+      <div class="modal-sheet">
+        <div class="modal-header"><h3>Tempel kode sinkron</h3><button type="button" class="modal-close" data-close-modal="modal-code" aria-label="Tutup"><svg class="ic"><use href="#i-x"/></svg></button></div>
+        <p class="hint">Tempel kode yang disalin dari perangkat lain. Data di perangkat ini akan diganti.</p>
+        <textarea id="code-input" class="form-control code-area" rows="5" placeholder="SI1:…"></textarea>
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" data-close-modal="modal-code">Batal</button>
+          <button type="button" class="btn-primary" id="btn-code-apply">Terapkan</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: Update odometer -->
+    <div class="modal-backdrop" id="modal-odo" aria-hidden="true">
+      <div class="modal-sheet">
+        <div class="modal-header"><h3>Update odometer</h3><button type="button" class="modal-close" data-close-modal="modal-odo" aria-label="Tutup"><svg class="ic"><use href="#i-x"/></svg></button></div>
+        <form id="form-update-odo">
+          <div class="form-group">
+            <label for="modal-input-odo">Odometer baru (km)</label>
+            <input type="number" id="modal-input-odo" class="form-control big" min="0" required>
+          </div>
+          <div class="preset-row four">
+            <button type="button" class="preset-chip" data-add-km="50">+50</button>
+            <button type="button" class="preset-chip" data-add-km="100">+100</button>
+            <button type="button" class="preset-chip" data-add-km="250">+250</button>
+            <button type="button" class="preset-chip" data-add-km="500">+500</button>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" data-close-modal="modal-odo">Batal</button>
+            <button type="submit" class="btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: Pengingat -->
+    <div class="modal-backdrop" id="modal-reminder" aria-hidden="true">
+      <div class="modal-sheet">
+        <div class="modal-header"><h3 id="modal-reminder-title">Tambah pengingat</h3><button type="button" class="modal-close" data-close-modal="modal-reminder" aria-label="Tutup"><svg class="ic"><use href="#i-x"/></svg></button></div>
+        <form id="form-reminder">
+          <input type="hidden" id="rem-id">
+          <div class="form-group">
+            <label for="rem-category">Kategori</label>
+            <select id="rem-category" class="form-control" required>
+              <option value="oli">Ganti oli</option>
+              <option value="servis">Servis</option>
+              <option value="sparepart">Ganti sparepart</option>
+            </select>
+          </div>
+          <div class="form-group"><label for="rem-name">Nama perawatan</label><input type="text" id="rem-name" class="form-control" placeholder="Oli mesin" required maxlength="60"></div>
+          <div class="form-row">
+            <div class="form-group"><label for="rem-interval-km">Interval (km)</label><input type="number" id="rem-interval-km" class="form-control" min="100" step="50" required></div>
+            <div class="form-group"><label for="rem-interval-months">Interval (bulan)</label><input type="number" id="rem-interval-months" class="form-control" min="0.5" max="60" step="0.5" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label for="rem-last-odo">Odometer terakhir</label><input type="number" id="rem-last-odo" class="form-control" min="0" required></div>
+            <div class="form-group"><label for="rem-last-date">Tanggal terakhir</label><input type="date" id="rem-last-date" class="form-control" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label for="rem-est-cost">Estimasi biaya (Rp)</label><input type="number" id="rem-est-cost" class="form-control" min="0" step="1000" required></div>
+            <div class="form-group"><label for="rem-notes">Catatan</label><input type="text" id="rem-notes" class="form-control" placeholder="10W-30"></div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" data-close-modal="modal-reminder">Batal</button>
+            <button type="submit" class="btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: Selesai servis -->
+    <div class="modal-backdrop" id="modal-complete-service" aria-hidden="true">
+      <div class="modal-sheet">
+        <div class="modal-header"><h3>Catat selesai servis</h3><button type="button" class="modal-close" data-close-modal="modal-complete-service" aria-label="Tutup"><svg class="ic"><use href="#i-x"/></svg></button></div>
+        <form id="form-complete-service">
+          <input type="hidden" id="comp-rem-id">
+          <div class="banner" id="comp-item-title">-</div>
+          <div class="form-row">
+            <div class="form-group"><label for="comp-odo">Odometer (km)</label><input type="number" id="comp-odo" class="form-control" min="0" required></div>
+            <div class="form-group"><label for="comp-date">Tanggal</label><input type="date" id="comp-date" class="form-control" required></div>
+          </div>
+          <div class="form-group"><label for="comp-cost">Biaya aktual (Rp)</label><input type="number" id="comp-cost" class="form-control" min="0" step="500" required></div>
+          <div class="form-group"><label for="comp-note">Bengkel / catatan</label><input type="text" id="comp-note" class="form-control"></div>
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" data-close-modal="modal-complete-service">Batal</button>
+            <button type="submit" class="btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: Catat riwayat -->
+    <div class="modal-backdrop" id="modal-expense" aria-hidden="true">
+      <div class="modal-sheet">
+        <div class="modal-header"><h3 id="modal-expense-title">Catat riwayat</h3><button type="button" class="modal-close" data-close-modal="modal-expense" aria-label="Tutup"><svg class="ic"><use href="#i-x"/></svg></button></div>
+        <form id="form-expense">
+          <input type="hidden" id="exp-id">
+          <div class="form-group"><label for="exp-title">Nama perawatan</label><input type="text" id="exp-title" class="form-control" required></div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="exp-category">Kategori</label>
+              <select id="exp-category" class="form-control" required>
+                <option value="oli">Ganti oli</option>
+                <option value="servis">Servis berkala</option>
+                <option value="sparepart">Sparepart</option>
+                <option value="lainnya">Lainnya</option>
+              </select>
+            </div>
+            <div class="form-group"><label for="exp-cost">Biaya (Rp)</label><input type="number" id="exp-cost" class="form-control" min="0" step="500" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label for="exp-date">Tanggal</label><input type="date" id="exp-date" class="form-control" required></div>
+            <div class="form-group"><label for="exp-odo">Odometer (km)</label><input type="number" id="exp-odo" class="form-control" min="0"></div>
+          </div>
+          <div class="form-group"><label for="exp-note">Bengkel / keterangan</label><input type="text" id="exp-note" class="form-control"></div>
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" data-close-modal="modal-expense">Batal</button>
+            <button type="submit" class="btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: Dokumen -->
+    <div class="modal-backdrop" id="modal-doc" aria-hidden="true">
+      <div class="modal-sheet">
+        <div class="modal-header"><h3 id="modal-doc-title">Tambah dokumen</h3><button type="button" class="modal-close" data-close-modal="modal-doc" aria-label="Tutup"><svg class="ic"><use href="#i-x"/></svg></button></div>
+        <form id="form-doc">
+          <input type="hidden" id="doc-id">
+          <div class="form-group">
+            <label for="doc-type">Jenis dokumen</label>
+            <select id="doc-type" class="form-control" required>
+              <option value="stnk">Pajak tahunan (STNK)</option>
+              <option value="plat">Ganti plat 5 tahunan</option>
+              <option value="sim">SIM</option>
+              <option value="asuransi">Asuransi</option>
+              <option value="lainnya">Lainnya</option>
+            </select>
+          </div>
+          <div class="form-group"><label for="doc-name">Nama / nomor dokumen</label><input type="text" id="doc-name" class="form-control" placeholder="Pajak STNK" required maxlength="60"></div>
+          <div class="form-row">
+            <div class="form-group"><label for="doc-expiry">Berlaku sampai</label><input type="date" id="doc-expiry" class="form-control" required></div>
+            <div class="form-group"><label for="doc-remind-days">Ingatkan (hari)</label><input type="number" id="doc-remind-days" class="form-control" min="1" max="365" value="30" required></div>
+          </div>
+          <div class="form-group"><label for="doc-notes">Catatan</label><input type="text" id="doc-notes" class="form-control"></div>
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" data-close-modal="modal-doc">Batal</button>
+            <button type="submit" class="btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: Pemeriksaan Fisik -->
+    <div class="modal-backdrop" id="modal-inspection" aria-hidden="true">
+      <div class="modal-sheet">
+        <div class="modal-header"><h3 id="modal-insp-title">Tambah item pemeriksaan</h3><button type="button" class="modal-close" data-close-modal="modal-inspection" aria-label="Tutup"><svg class="ic"><use href="#i-x"/></svg></button></div>
+        <form id="form-inspection">
+          <input type="hidden" id="insp-id">
+          <div class="form-group">
+            <label for="insp-title-input">Nama komponen / pemeriksaan</label>
+            <input type="text" id="insp-title-input" class="form-control" placeholder="Contoh: Tekanan angin & alur ban" required maxlength="60">
+          </div>
+          <div class="form-group">
+            <label for="insp-sub-input">Keterangan / standar normal</label>
+            <input type="text" id="insp-sub-input" class="form-control" placeholder="Contoh: Depan 29 psi, belakang 33 psi" maxlength="80">
+          </div>
+          <div class="form-group">
+            <label for="insp-status-input">Kondisi saat ini</label>
+            <select id="insp-status-input" class="form-control" required>
+              <option value="ok">Aman / Normal</option>
+              <option value="warn">Perlu Cek</option>
+              <option value="bad">Perlu Ganti / Servis</option>
+            </select>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" data-close-modal="modal-inspection">Batal</button>
+            <button type="submit" class="btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: Daftar kendaraan -->
+    <div class="modal-backdrop" id="modal-vehicles" aria-hidden="true">
+      <div class="modal-sheet">
+        <div class="modal-header"><h3>Kendaraan saya</h3><button type="button" class="modal-close" data-close-modal="modal-vehicles" aria-label="Tutup"><svg class="ic"><use href="#i-x"/></svg></button></div>
+        <div id="vehicle-list" class="card-list"></div>
+        <button type="button" class="btn-outline wide" id="btn-add-vehicle"><svg class="ic"><use href="#i-plus"/></svg>Tambah kendaraan</button>
+      </div>
+    </div>
+
+    <!-- MODAL: Tambah kendaraan -->
+    <div class="modal-backdrop" id="modal-add-vehicle" aria-hidden="true">
+      <div class="modal-sheet">
+        <div class="modal-header"><h3>Tambah kendaraan</h3><button type="button" class="modal-close" data-close-modal="modal-add-vehicle" aria-label="Tutup"><svg class="ic"><use href="#i-x"/></svg></button></div>
+        <form id="form-add-vehicle">
+          <div class="form-group">
+            <label for="nv-type">Jenis kendaraan</label>
+            <select id="nv-type" class="form-control" required>
+              <option value="Motor Matic">Motor Matic</option>
+              <option value="Motor Bebek / Sport">Motor Bebek / Sport</option>
+              <option value="Mobil MPV / SUV">Mobil MPV / SUV</option>
+              <option value="Mobil Sedan / Hatchback">Mobil Sedan / Hatchback</option>
+              <option value="Mobil Pick-up / Niaga">Mobil Pick-up / Niaga</option>
+              <option value="Kendaraan Listrik (EV)">Kendaraan Listrik (EV)</option>
+            </select>
+          </div>
+          <div class="form-group"><label for="nv-template">Model / template perawatan</label><select id="nv-template" class="form-control"></select></div>
+          <div class="form-group"><label for="nv-name">Nama kendaraan</label><input type="text" id="nv-name" class="form-control" required maxlength="50"></div>
+          <div class="form-row">
+            <div class="form-group"><label for="nv-plate">Plat nomor</label><input type="text" id="nv-plate" class="form-control upper" required maxlength="15"></div>
+            <div class="form-group"><label for="nv-year">Tahun</label><input type="number" id="nv-year" class="form-control" min="1970" max="2035" required></div>
+          </div>
+          <div class="form-group"><label for="nv-odo">Odometer saat ini (km)</label><input type="number" id="nv-odo" class="form-control" min="0" required></div>
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" data-close-modal="modal-add-vehicle">Batal</button>
+            <button type="submit" class="btn-primary">Tambah</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: Buat / Edit Template Kustom -->
+    <div class="modal-backdrop" id="modal-custom-template" aria-hidden="true">
+      <div class="modal-sheet">
+        <div class="modal-header">
+          <h3 id="modal-ctpl-title">Buat template kustom</h3>
+          <button type="button" class="modal-close" data-close-modal="modal-custom-template" aria-label="Tutup"><svg class="ic"><use href="#i-x"/></svg></button>
+        </div>
+        <form id="form-custom-template">
+          <input type="hidden" id="ctpl-id">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ctpl-name">Nama template / model</label>
+              <input type="text" id="ctpl-name" class="form-control" placeholder="Contoh: Honda BeAT Street" required maxlength="50">
+            </div>
+            <div class="form-group">
+              <label for="ctpl-type">Jenis kendaraan</label>
+              <select id="ctpl-type" class="form-control" required>
+                <option value="Motor Matic">Motor Matic</option>
+                <option value="Motor Bebek / Sport">Motor Bebek / Sport</option>
+                <option value="Mobil MPV / SUV">Mobil MPV / SUV</option>
+                <option value="Mobil Sedan / Hatchback">Mobil Sedan / Hatchback</option>
+                <option value="Mobil Pick-up / Niaga">Mobil Pick-up / Niaga</option>
+                <option value="Kendaraan Listrik (EV)">Kendaraan Listrik (EV)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="section-row" style="margin-top:4px;margin-bottom:6px;">
+            <span class="section-title">Daftar item perawatan (<b id="ctpl-item-count">0</b>)</span>
+            <button type="button" class="link-btn" id="btn-ctpl-add-row">+ Tambah item</button>
+          </div>
+
+          <div id="ctpl-items-list" class="ctpl-items-list"></div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" data-close-modal="modal-custom-template">Batal</button>
+            <button type="submit" class="btn-primary">Simpan &amp; Gunakan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: Tentang -->
+    <div class="modal-backdrop" id="modal-about" aria-hidden="true">
+      <div class="modal-sheet">
+        <div class="modal-header"><h3>Tentang aplikasi</h3><button type="button" class="modal-close" data-close-modal="modal-about" aria-label="Tutup"><svg class="ic"><use href="#i-x"/></svg></button></div>
+        <div class="about">
+          <img src="assets/icon.svg" alt="Servis.In" class="about-logo">
+          <h4>Servis.In</h4>
+          <small>Versi 4.0</small>
+          <p>Aplikasi perawatan kendaraan: pengingat oli, servis, dan sparepart berdasarkan odometer atau waktu (mana yang tercapai lebih dulu), pengingat dokumen, statistik, laporan biaya, template per model, dan sinkronisasi antar perangkat untuk banyak kendaraan.</p>
+          <div class="about-credit">
+            <span>Dikembangkan oleh</span>
+            <strong>Williyanto Adi 2026</strong>
+          </div>
+        </div>
+        <div class="modal-actions"><button type="button" class="btn-primary" data-close-modal="modal-about">Tutup</button></div>
+      </div>
+    </div>
+
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

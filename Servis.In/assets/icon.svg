@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="120" y1="120" x2="400" y2="400" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#60A5FA"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#bgGrad)"/>
+  <!-- Gauge / Speedometer Arc -->
+  <path d="M116 330 A 160 160 0 1 1 396 330" stroke="url(#accentGrad)" stroke-width="32" stroke-linecap="round" opacity="0.35"/>
+  <path d="M116 330 A 160 160 0 0 1 340 140" stroke="#FFFFFF" stroke-width="32" stroke-linecap="round"/>
+  <!-- Wrench / Service Icon in Center -->
+  <path d="M312 196 C292 176 260 174 238 190 L282 234 L250 266 L206 222 C190 244 192 276 212 296 C230 314 257 318 280 307 L346 373 C356 383 372 383 382 373 L389 366 C399 356 399 340 389 330 L323 264 C334 241 330 214 312 196 Z" fill="#FFFFFF"/>
+  <!-- Checkmark Badge -->
+  <circle cx="376" cy="144" r="54" fill="#10B981" stroke="#1E40AF" stroke-width="10"/>
+  <path d="M352 144 L369 161 L402 128" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
