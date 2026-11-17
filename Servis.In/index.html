@@ -382,8 +382,18 @@
                     <input type="number" id="input-current-odo" class="form-control" min="0" required>
                   </div>
                   <div class="form-group">
-                    <label for="input-daily-km">Rata-rata km/hari</label>
-                    <input type="number" id="input-daily-km" class="form-control" min="1" max="1000" required>
+                    <div class="label-with-mini-tab">
+                      <label for="input-daily-km" id="lbl-daily-rate">Rata-rata km</label>
+                      <div class="mini-tab-group" id="mini-tab-rate-unit" role="tablist">
+                        <button type="button" class="mini-tab-btn active" data-rate-unit="day">Per Hari</button>
+                        <button type="button" class="mini-tab-btn" data-rate-unit="week">Per Minggu</button>
+                      </div>
+                    </div>
+                    <div class="input-with-unit">
+                      <input type="number" id="input-daily-km" class="form-control" min="1" max="7000" required>
+                      <span class="input-unit-badge" id="rate-unit-badge">km/hari</span>
+                    </div>
+                    <small class="rate-hint" id="rate-convert-hint">≈ 35 km/hari (245 km/minggu)</small>
                   </div>
                 </div>
                 <button type="submit" class="btn-primary-full">Simpan profil</button>
@@ -420,9 +430,9 @@
 
               <div class="btn-stack" style="margin-top:10px">
                 <button type="button" class="btn-primary-full" id="btn-apply-template">Terapkan template</button>
-                <div class="form-row" id="custom-tpl-manage-row" hidden>
-                  <button type="button" class="btn-outline" id="btn-edit-custom-tpl"><svg class="ic"><use href="#i-edit"/></svg>Edit kustom</button>
-                  <button type="button" class="btn-outline" style="color:var(--danger)" id="btn-del-custom-tpl"><svg class="ic"><use href="#i-trash"/></svg>Hapus kustom</button>
+                <div class="form-row" id="template-action-row">
+                  <button type="button" class="btn-outline" id="btn-edit-template"><svg class="ic"><use href="#i-edit"/></svg><span id="btn-edit-template-label">Sesuaikan / Edit template</span></button>
+                  <button type="button" class="btn-outline" style="color:var(--danger)" id="btn-del-custom-tpl" hidden><svg class="ic"><use href="#i-trash"/></svg>Hapus kustom</button>
                 </div>
                 <button type="button" class="btn-outline" id="btn-new-custom-tpl"><svg class="ic"><use href="#i-plus"/></svg>Buat template kustom baru</button>
                 <button type="button" class="btn-outline" id="btn-save-current-as-tpl"><svg class="ic"><use href="#i-copy"/></svg>Simpan pengingat saat ini jadi template</button>
