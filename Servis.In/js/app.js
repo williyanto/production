@@ -1558,9 +1558,14 @@
 
   function openCustomTemplateModal(existingTpl, fromCurrentReminders) {
     if (existingTpl) {
-      $('modal-ctpl-title').textContent = 'Edit template kustom';
-      $('ctpl-id').value = existingTpl.id;
-      $('ctpl-name').value = existingTpl.defaultName || existingTpl.label;
+      const isCustom = String(existingTpl.id).startsWith('ctpl-');
+      $('modal-ctpl-title').textContent = isCustom
+        ? 'Edit template kustom'
+        : 'Sesuaikan template: ' + (existingTpl.defaultName || existingTpl.label);
+      $('ctpl-id').value = isCustom ? existingTpl.id : '';
+      $('ctpl-name').value = isCustom
+        ? (existingTpl.defaultName || existingTpl.label)
+        : (existingTpl.defaultName || existingTpl.label) + ' (Kustom)';
       $('ctpl-type').value = existingTpl.type || state.profile.type;
       $('ctpl-items-list').innerHTML = (existingTpl.items || []).map(createCustomTplRowHTML).join('');
     } else if (fromCurrentReminders) {
