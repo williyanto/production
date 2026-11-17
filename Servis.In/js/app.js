@@ -1697,9 +1697,102 @@
     initGestures();
 
     // Welcome Modal Setup (UI/UX #1)
-    populateTemplateSelects($('wl-type').value, $('wl-template'), null, false);
-    $('wl-year').value = new Date().getFullYear();
-    setNumInput('wl-odo', 10000);
+    // ---------------- Layar Awal (Onboarding / Akun Tersimpan / Mulai Baru) ----------------
+    function switchWelcomeTab(tab) {
+      const isSaved = tab === 'saved';
+      const panelSaved = $('wpanel-saved');
+      const panelNew = $('wpanel-new');
+      const tabSaved = $('wtab-btn-saved');
+      const tabNew = $('wtab-btn-new');
+
+      if (panelSaved) panelSaved.style.display = isSaved ? 'block' : 'none';
+      if (panelNew) panelNew.style.display = isSaved ? 'none' : 'block';
+      if (tabSaved) tabSaved.classList.toggle('active', isSaved);
+      if (tabNew) tabNew.classList.toggle('active', !isSaved);
+    }
+
+    function renderWelcomeScreen(preferTab) {
+      const accs = loadAccounts();
+      const hasAccounts = accs.length > 0;
+      const tabsNav = $('welcome-tabs-nav');
+      const subText = $('welcome-sub-text');
+      const backBtn = $('btn-welcome-back-saved');
+      const countEl = $('welcome-saved-count');
+
+      if (countEl) countEl.textContent = accs.length;
+
+      // Populate dropdown jenis & template
+      populateTemplateSelects($('wl-type').value, $('wl-template'), null, false);
+      const tpl = getTemplateById($('wl-template').value);
+      if (tpl) $('wl-name').value = tpl.defaultName;
+      if (!$('wl-year').value) $('wl-year').value = new Date().getFullYear();
+      if (!getNumInput('wl-odo')) setNumInput('wl-odo', 10000);
+
+      // Render daftar akun yang pernah tersimpan
+      const listEl = $('saved-accounts-list');
+      if (listEl) {
+        if (!accs.length) {
+          listEl.innerHTML = '<div style="padding:16px;text-align:center;font-size:12px;color:var(--text-3);">Belum ada akun yang tersimpan.</div>';
+        } else {
+          listEl.innerHTML = accs.map((a) => {
+            const firstV = (a.store && a.store.vehicles && a.store.vehicles[0]) ? a.store.vehicles[0] : null;
+            const vType = firstV ? firstV.profile.type : 'Kendaraan';
+            const vName = firstV ? firstV.profile.name : 'Kendaraan';
+            const vPlate = firstV ? firstV.profile.plateNumber : '';
+            const vYear = firstV ? firstV.profile.year : '';
+            const vOdo = firstV ? num(firstV.profile.currentOdo) + ' km' : '-';
+            const vMeta = [vName, vPlate, vYear ? `(${vYear})` : ''].filter(Boolean).join(' · ');
+            return `
+              <div class="saved-acc-card">
+                <div class="saved-acc-avatar">${vehicleIcon(vType)}</div>
+                <div class="saved-acc-main">
+                  <div class="saved-acc-name">${esc(a.name || vName)}</div>
+                  <div class="saved-acc-meta">${esc(vMeta)}</div>
+                  <div class="saved-acc-sub">Odometer: <b>${vOdo}</b></div>
+                </div>
+                <div class="saved-acc-actions">
+                  <button type="button" class="btn-acc-enter" data-enter-acc="${esc(a.id)}">Masuk</button>
+                  <button type="button" class="btn-acc-del" data-del-acc="${esc(a.id)}" title="Hapus akun dari perangkat">${ic('trash')}</button>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      if (hasAccounts) {
+        if (tabsNav) tabsNav.style.display = 'flex';
+        if (backBtn) backBtn.style.display = 'inline-flex';
+        if (subText) subText.textContent = 'Mulai dengan akun yang sudah ada atau buat akun baru.';
+        switchWelcomeTab(preferTab || 'saved');
+      } else {
+        if (tabsNav) tabsNav.style.display = 'none';
+        if (backBtn) backBtn.style.display = 'none';
+        if (subText) subText.textContent = 'Isi data kendaraan pertama Anda untuk memulai pemantauan.';
+        switchWelcomeTab('new');
+      }
+    }
+
+    function handleLogout() {
+      const accs = loadAccounts();
+      const activeId = getActiveAccountId();
+      const currentAcc = accs.find((a) => a.id === activeId) || { name: 'Akun Anda' };
+
+      askConfirm(
+        'Keluar dari Akun',
+        `Keluar dari akun "${currentAcc.name}"? Data kendaraan Anda tetap tersimpan dan dapat dibuka kembali kapan saja dari layar awal.`,
+        'Keluar',
+        () => {
+          save();
+          setActiveAccountId(null);
+          isLoggedOut = true;
+          renderWelcomeScreen('saved');
+          openModal('modal-welcome');
+          toast('Berhasil keluar dari akun');
+        }
+      );
+    }
+
     $('wl-type').addEventListener('change', () => {
       populateTemplateSelects($('wl-type').value, $('wl-template'), null, false);
       const tpl = getTemplateById($('wl-template').value);
@@ -1714,17 +1807,24 @@
       const tpl = getTemplateById($('wl-template').value);
       if (tpl) $('wl-name').value = tpl.defaultName;
     });
+
     $('form-welcome').addEventListener('submit', (e) => {
       e.preventDefault();
       const odo = getNumInput('wl-odo');
       const tplId = $('wl-template').value;
+      const type = $('wl-type').value;
+      const vehName = $('wl-name').value.trim() || 'Kendaraan Saya';
+      const accName = ($('wl-acc-name') && $('wl-acc-name').value.trim()) ? $('wl-acc-name').value.trim() : vehName;
+      const plate = $('wl-plate').value.trim().toUpperCase();
+      const year = Number($('wl-year').value) || new Date().getFullYear();
+
       const v = normalizeVehicle({
         id: makeId('veh'),
         profile: {
-          type: $('wl-type').value,
-          name: $('wl-name').value.trim() || 'Kendaraan Saya',
-          plateNumber: $('wl-plate').value.trim().toUpperCase(),
-          year: Number($('wl-year').value) || new Date().getFullYear(),
+          type: type,
+          name: vehName,
+          plateNumber: plate,
+          year: year,
           currentOdo: odo,
           dailyKm: 30,
           lastOdoUpdate: today(),
@@ -1739,29 +1839,127 @@
         ],
         odoLog: [{ date: today(), odo }]
       });
-      store.vehicles = [v];
-      store.activeId = v.id;
-      store.welcomeSeen = true;
+
+      const newStore = {
+        theme: (store && store.theme) ? store.theme : 'light',
+        activeId: v.id,
+        vehicles: [v],
+        customTemplates: (store && store.customTemplates) ? store.customTemplates : [],
+        welcomeSeen: true,
+        updatedAt: new Date().toISOString()
+      };
+
+      const newAcc = {
+        id: 'acc_' + Date.now().toString(36),
+        name: accName,
+        createdAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString(),
+        vehicleSummary: `${v.profile.name} · ${v.profile.plateNumber}`,
+        store: newStore
+      };
+
+      const accs = loadAccounts();
+      accs.push(newAcc);
+      saveAccounts(accs);
+      setActiveAccountId(newAcc.id);
+
+      store = newStore;
       state = v;
-      save(); renderAll(); closeModal('modal-welcome');
+      save();
+      renderAll();
+      closeModal('modal-welcome');
       toast(`Selamat datang! ${v.profile.name} siap dipantau.`);
     });
+
     $('btn-welcome-sample').addEventListener('click', () => {
-      store.welcomeSeen = true;
-      save(); closeModal('modal-welcome');
+      const sampleV = normalizeVehicle(createSampleVehicle());
+      const newStore = {
+        theme: (store && store.theme) ? store.theme : 'light',
+        activeId: sampleV.id,
+        vehicles: [sampleV],
+        customTemplates: (store && store.customTemplates) ? store.customTemplates : [],
+        welcomeSeen: true,
+        updatedAt: new Date().toISOString()
+      };
+      const sampleAcc = {
+        id: 'acc_' + Date.now().toString(36),
+        name: 'Data Contoh (Vario 160)',
+        createdAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString(),
+        vehicleSummary: `${sampleV.profile.name} · ${sampleV.profile.plateNumber}`,
+        store: newStore
+      };
+      const accs = loadAccounts();
+      accs.push(sampleAcc);
+      saveAccounts(accs);
+      setActiveAccountId(sampleAcc.id);
+
+      store = newStore;
+      state = sampleV;
+      save();
+      renderAll();
+      closeModal('modal-welcome');
       toast('Menggunakan data contoh');
     });
+
+    // Welcome Screen Navigation Buttons
+    if ($('wtab-btn-saved')) $('wtab-btn-saved').addEventListener('click', () => switchWelcomeTab('saved'));
+    if ($('wtab-btn-new')) $('wtab-btn-new').addEventListener('click', () => switchWelcomeTab('new'));
+    if ($('btn-welcome-goto-new')) $('btn-welcome-goto-new').addEventListener('click', () => switchWelcomeTab('new'));
+    if ($('btn-welcome-back-saved')) $('btn-welcome-back-saved').addEventListener('click', () => switchWelcomeTab('saved'));
+
+    // Delegasi Aksi Akun Tersimpan (Masuk / Hapus)
+    const savedListEl = $('saved-accounts-list');
+    if (savedListEl) {
+      savedListEl.addEventListener('click', (e) => {
+        const enterBtn = e.target.closest('[data-enter-acc]');
+        if (enterBtn) {
+          const accId = enterBtn.dataset.enterAcc;
+          const accs = loadAccounts();
+          const targetAcc = accs.find((a) => a.id === accId);
+          if (!targetAcc) return;
+          setActiveAccountId(accId);
+          store = targetAcc.store;
+          store.vehicles.forEach(normalizeVehicle);
+          state = getActive();
+          closeModal('modal-welcome');
+          renderAll();
+          toast(`Masuk sebagai ${targetAcc.name}`);
+          return;
+        }
+
+        const delBtn = e.target.closest('[data-del-acc]');
+        if (delBtn) {
+          const accId = delBtn.dataset.delAcc;
+          const accs = loadAccounts();
+          const targetAcc = accs.find((a) => a.id === accId);
+          if (!targetAcc) return;
+          askConfirm(
+            'Hapus Akun',
+            `Hapus akun "${targetAcc.name}" beserta datanya dari perangkat ini? Tindakan ini tidak dapat dibatalkan.`,
+            'Hapus Akun',
+            () => {
+              const remaining = accs.filter((a) => a.id !== accId);
+              saveAccounts(remaining);
+              if (getActiveAccountId() === accId) {
+                setActiveAccountId(null);
+              }
+              renderWelcomeScreen('saved');
+              toast(`Akun "${targetAcc.name}" telah dihapus.`);
+            }
+          );
+          return;
+        }
+      });
+    }
+
     $('btn-open-welcome').addEventListener('click', () => {
-      populateTemplateSelects($('wl-type').value, $('wl-template'), state.profile.templateId, false);
-      const tpl = getTemplateById($('wl-template').value);
-      $('wl-name').value = tpl ? tpl.defaultName : state.profile.name;
-      $('wl-plate').value = state.profile.plateNumber;
-      $('wl-year').value = state.profile.year;
-      setNumInput('wl-odo', state.profile.currentOdo);
+      renderWelcomeScreen('saved');
       openModal('modal-welcome');
     });
 
-    if (isBrandNewUser) {
+    if (isBrandNewUser || isLoggedOut) {
+      renderWelcomeScreen(isLoggedOut ? 'saved' : 'new');
       openModal('modal-welcome');
     }
 
