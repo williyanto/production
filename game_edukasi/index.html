@@ -49,6 +49,11 @@
           <div class="welcome-badge">🌈 Petualangan Belajar Ceria 🎨</div>
           <h1 class="app-title">Dunia Ceria 🎈</h1>
           <p class="app-subtitle">Ayo Bermain Sambil Belajar dengan Senang!</p>
+          <!-- Progres menuju hadiah Badut Joget -->
+          <div class="menu-progress" id="menu-progress" title="Progres menuju hadiah Badut Joget">
+            <span class="menu-progress-label" id="menu-progress-label">⭐ 0/10 menuju Badut Joget 🎪</span>
+            <div class="menu-progress-track"><div class="menu-progress-fill" id="menu-progress-fill"></div></div>
+          </div>
         </div>
 
         <div class="mode-cards-grid">
@@ -78,13 +83,22 @@
             <p class="mode-desc">Tebak huruf & angka dengan memecahkan balon terbang!</p>
             <span class="mode-badge-btn" style="background: #3B82F6;">Mulai Main 🎯</span>
           </div>
+
+          <!-- Card Warna & Bentuk (Mode Baru) -->
+          <div id="mode-card-shapes" class="mode-card shapes">
+            <span class="mode-tag-pill" style="background: #F3E8FF; color: #7E22CE;">🆕 Warna &amp; Bentuk</span>
+            <div class="mode-icon-wrapper">🎨</div>
+            <h2 class="mode-title" style="color: #8338EC;">Warna &amp; Bentuk</h2>
+            <p class="mode-desc">Kenali lingkaran, segitiga, bintang &amp; warna-warni ceria!</p>
+            <span class="mode-badge-btn" style="background: #8338EC;">Mulai Main 🎨</span>
+          </div>
         </div>
       </section>
 
       <!-- 2. SCREEN: BELAJAR MENGEJA -->
       <section id="screen-spelling" class="screen">
         <div class="spelling-box">
-          <span id="spelling-category" style="font-size: 14px; font-weight: 700; color: #64748B; margin-bottom: 12px; background: #F1F5F9; padding: 4px 14px; border-radius: 9999px;">
+          <span id="spelling-category" class="spelling-category-pill">
             Kategori: Mainan
           </span>
 
@@ -104,7 +118,11 @@
           </div>
 
           <!-- Spelling Control Buttons -->
-          <div style="display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; justify-content: center;">
+          <div class="game-controls">
+            <button id="btn-hint-spelling" class="btn-action-pill btn-hint" title="Tampilkan Petunjuk">
+              <span class="btn-icon-emoji">💡</span>
+              <span>Petunjuk</span>
+            </button>
             <button id="btn-speak-word" class="btn-action-pill" title="Dengarkan Kata">
               <span class="btn-icon-emoji">🔊</span>
               <span>Dengarkan</span>
@@ -138,7 +156,11 @@
           </div>
 
           <!-- Counting Control Buttons -->
-          <div style="display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; justify-content: center;">
+          <div class="game-controls">
+            <button id="btn-hint-counting" class="btn-action-pill btn-hint" title="Hitung Bersama Ciko">
+              <span class="btn-icon-emoji">💡</span>
+              <span>Hitung Bersama</span>
+            </button>
             <button id="btn-speak-counting" class="btn-action-pill" title="Dengarkan Pertanyaan">
               <span class="btn-icon-emoji">🔊</span>
               <span>Dengarkan</span>
@@ -166,7 +188,11 @@
             <!-- Dynamic floating balloons generated here -->
           </div>
 
-          <div style="display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; justify-content: center;">
+          <div class="game-controls">
+            <button id="btn-hint-balloon" class="btn-action-pill btn-hint" title="Tampilkan Petunjuk">
+              <span class="btn-icon-emoji">💡</span>
+              <span>Petunjuk</span>
+            </button>
             <button id="btn-speak-balloon" class="btn-action-pill" title="Dengarkan Target">
               <span class="btn-icon-emoji">🔊</span>
               <span>Dengarkan Target</span>
@@ -174,6 +200,37 @@
             <button id="btn-refresh-balloons" class="btn-action-pill btn-secondary" title="Ganti Balon">
               <span class="btn-icon-emoji">🔄</span>
               <span>Acak Balon</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4b. SCREEN: WARNA & BENTUK (MODE BARU) -->
+      <section id="screen-shapes" class="screen">
+        <div class="shapes-box">
+          <div class="counting-header">
+            <h2 id="shapes-prompt" class="counting-prompt">Sentuh lingkaran warna merah!</h2>
+            <div id="shapes-target-badge" class="shapes-target-badge">
+              Cari: <span class="shape-color-dot"></span> Merah · Lingkaran
+            </div>
+          </div>
+
+          <div id="shapes-options" class="shapes-options-row">
+            <!-- Dynamic shape buttons -->
+          </div>
+
+          <div class="game-controls">
+            <button id="btn-hint-shapes" class="btn-action-pill btn-hint" title="Tampilkan Petunjuk">
+              <span class="btn-icon-emoji">💡</span>
+              <span>Petunjuk</span>
+            </button>
+            <button id="btn-speak-shapes" class="btn-action-pill" title="Dengarkan Perintah">
+              <span class="btn-icon-emoji">🔊</span>
+              <span>Dengarkan</span>
+            </button>
+            <button id="btn-refresh-shapes" class="btn-action-pill btn-secondary" title="Ganti Soal">
+              <span class="btn-icon-emoji">🔄</span>
+              <span>Ganti Soal</span>
             </button>
           </div>
         </div>
@@ -370,10 +427,28 @@
         </ul>
       </div>
 
+      <!-- Rapor Belajar Si Kecil -->
+      <div class="report-card">
+        <p class="report-title">📊 Rapor Belajar Si Kecil</p>
+        <div class="report-highlight">
+          <div class="report-tile"><b id="report-today">0</b><span>Bintang hari ini</span></div>
+          <div class="report-tile"><b id="report-streak">0</b><span>Hari beruntun 🔥</span></div>
+          <div class="report-tile"><b id="report-total">0</b><span>Total benar</span></div>
+        </div>
+        <div class="report-modes">
+          <div class="report-mode"><span>🔤 Mengeja</span><div class="report-bar"><i id="report-bar-spelling"></i></div><b id="report-spelling">0</b></div>
+          <div class="report-mode"><span>🔢 Berhitung</span><div class="report-bar"><i id="report-bar-counting"></i></div><b id="report-counting">0</b></div>
+          <div class="report-mode"><span>🎈 Balon</span><div class="report-bar"><i id="report-bar-balloons"></i></div><b id="report-balloons">0</b></div>
+          <div class="report-mode"><span>🎨 Bentuk</span><div class="report-bar"><i id="report-bar-shapes"></i></div><b id="report-shapes">0</b></div>
+        </div>
+        <p class="report-subtitle">Aktivitas 7 hari terakhir</p>
+        <div class="report-week" id="report-week"></div>
+      </div>
+
       <div style="background: #FFFBEB; border: 2px solid #FDE68A; border-radius: 16px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
         <div>
-          <p style="font-weight: 700; font-size: 14px; color: #92400E; margin-bottom: 2px;">Mulai dari Awal (Reset Bintang):</p>
-          <p style="font-size: 12.5px; color: #B45309;">Kembalikan koleksi bintang ke 0 untuk anak lain.</p>
+          <p style="font-weight: 700; font-size: 14px; color: #92400E; margin-bottom: 2px;">Mulai dari Awal (Reset Bintang &amp; Rapor):</p>
+          <p style="font-size: 12.5px; color: #B45309;">Kembalikan koleksi bintang dan rapor ke 0 untuk anak lain.</p>
         </div>
         <button id="btn-reset-stars" class="btn-action-pill btn-secondary" style="font-size: 13.5px; padding: 6px 16px;">
           <span>🔄 Reset Bintang</span>
@@ -427,6 +502,7 @@
   <script src="js/numbers-data.js"></script>
   <script src="js/stickers-data.js"></script>
   <script src="js/clowns-data.js"></script>
+  <script src="js/shapes-data.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
