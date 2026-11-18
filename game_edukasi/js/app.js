@@ -978,6 +978,7 @@ class EduGameApp {
       const bubble = document.createElement('button');
       bubble.className = `letter-bubble ${item.used ? 'used' : ''}`;
       bubble.textContent = item.letter;
+      bubble.dataset.id = item.id;
 
       bubble.addEventListener('click', () => {
         if (!item.used) {
@@ -1287,11 +1288,13 @@ class EduGameApp {
   triggerGentleEncouragement() {
     soundEngine.playEncourage();
 
-    const activeBox = this.currentMode === 'spelling' ? 
-      this.dom.screenSpelling.querySelector('.spelling-box') : 
-      (this.currentMode === 'counting' ? 
-        this.dom.screenCounting.querySelector('.counting-box') : 
-        this.dom.screenBalloons.querySelector('.balloons-box'));
+    const boxSelectors = {
+      spelling: '#screen-spelling .spelling-box',
+      counting: '#screen-counting .counting-box',
+      balloons: '#screen-balloons .balloons-box',
+      shapes: '#screen-shapes .shapes-box'
+    };
+    const activeBox = boxSelectors[this.currentMode] ? document.querySelector(boxSelectors[this.currentMode]) : null;
     
     if (activeBox) {
       activeBox.classList.remove('gentle-wiggle');
@@ -1409,6 +1412,7 @@ class EduGameApp {
   setStarTarget(val) {
     this.starTarget = val;
     localStorage.setItem('edu_star_target', val.toString());
+    this.updateMenuProgress();
   }
 
   setClownDuration(sec) {
