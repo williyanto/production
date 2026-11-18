@@ -1904,3 +1904,505 @@ html, body {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+
+/* ==========================================================================
+   v2 — FITUR BARU & PERBAIKAN TAMPILAN MOBILE
+   ========================================================================== */
+
+/* Safe-area (poni / gesture bar) */
+.app-container {
+  padding-top: max(12px, env(safe-area-inset-top));
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+  padding-bottom: max(6px, env(safe-area-inset-bottom));
+}
+
+.spelling-category-pill {
+  font-size: 14px;
+  font-weight: 700;
+  color: #64748B;
+  margin-bottom: 12px;
+  background: #F1F5F9;
+  padding: 4px 14px;
+  border-radius: 9999px;
+}
+
+.game-controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Progres menuju hadiah badut */
+.menu-progress {
+  margin: 8px auto 0;
+  width: min(440px, 100%);
+  background: rgba(255, 255, 255, 0.9);
+  border: 2.5px solid #FDE68A;
+  border-radius: var(--radius-pill);
+  padding: 5px 14px 7px;
+  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.12);
+}
+
+.menu-progress-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #92400E;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menu-progress-track {
+  height: 9px;
+  background: #FEF3C7;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.menu-progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #FBBF24, #F97316, #EC4899);
+  border-radius: 99px;
+  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Kartu mode Warna & Bentuk */
+.mode-card.shapes {
+  border-color: #E9D5FF;
+  border-bottom: 8px solid #A855F7;
+  box-shadow: 0 10px 24px rgba(168, 85, 247, 0.18);
+}
+.mode-card.shapes:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 30px rgba(168, 85, 247, 0.28);
+}
+.mode-card.shapes .mode-icon-wrapper { background: #FAF5FF; }
+
+/* Badge bintang memantul saat bertambah */
+.stars-badge.star-bump { animation: starBump 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes starBump {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.25) rotate(-4deg); }
+  100% { transform: scale(1); }
+}
+
+/* Tombol petunjuk */
+.btn-action-pill.btn-hint {
+  border-color: #FDE047;
+  border-bottom-color: #CA8A04;
+  color: #854D0E;
+  background: #FEFCE8;
+  box-shadow: 0 3px 8px rgba(202, 138, 4, 0.18);
+}
+.btn-action-pill.btn-hint:hover { background: #FEF9C3; }
+
+.hint-glow {
+  animation: hintGlow 0.65s ease-in-out 4 !important;
+  position: relative;
+  z-index: 2;
+}
+@keyframes hintGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.0); transform: scale(1); }
+  50% { box-shadow: 0 0 0 8px rgba(250, 204, 21, 0.65), 0 0 24px 8px rgba(250, 204, 21, 0.55); transform: scale(1.12); }
+}
+
+/* ===============================
+   MODE WARNA & BENTUK
+   =============================== */
+.shapes-box {
+  background: #FFFFFF;
+  border-radius: 36px;
+  padding: clamp(16px, 2.5vh, 26px) clamp(20px, 3.2vw, 36px);
+  width: 100%;
+  max-width: 920px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.09), 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 5px solid #E9D5FF;
+  border-bottom: 10px solid #C084FC;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  position: relative;
+  min-height: min(clamp(420px, 66vh, 560px), 100%);
+}
+
+.shapes-target-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FAF5FF;
+  border: 2.5px solid #D8B4FE;
+  border-radius: var(--radius-pill);
+  padding: 5px 18px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #6B21A8;
+  text-transform: capitalize;
+}
+
+.shape-color-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 2px solid rgba(15, 23, 42, 0.15);
+}
+
+.shapes-options-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(10px, 2vw, 22px);
+  width: 100%;
+  max-width: 720px;
+  padding: 14px;
+  background: linear-gradient(180deg, #FAF5FF 0%, #F3E8FF 100%);
+  border: 2.5px dashed #D8B4FE;
+  border-radius: 22px;
+  margin: 10px 0;
+}
+
+.shape-option {
+  aspect-ratio: 1;
+  width: 100%;
+  max-width: 150px;
+  justify-self: center;
+  background: #FFFFFF;
+  border: 3px solid #E2E8F0;
+  border-bottom: 7px solid #CBD5E1;
+  border-radius: 24px;
+  padding: 14%;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+}
+.shape-option:hover { transform: translateY(-3px) scale(1.04); }
+.shape-option:active { transform: translateY(3px) scale(0.96); border-bottom-width: 3px; }
+.shape-option svg { display: block; pointer-events: none; }
+
+.shape-option.shape-correct {
+  border-color: #34D399;
+  border-bottom-color: #059669;
+  background: #ECFDF5;
+  animation: slotPop 0.4s ease-out;
+}
+
+/* ===============================
+   RAPOR BELAJAR (MODAL INFO)
+   =============================== */
+.album-modal {
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.report-card {
+  background: #F5F3FF;
+  border: 2px solid #DDD6FE;
+  border-radius: 16px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+
+.report-title {
+  font-weight: 700;
+  font-size: 15px;
+  color: #5B21B6;
+  margin-bottom: 8px;
+}
+
+.report-subtitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7C3AED;
+  margin: 10px 0 4px;
+}
+
+.report-highlight {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.report-tile {
+  background: #FFFFFF;
+  border: 2px solid #E9D5FF;
+  border-radius: 14px;
+  padding: 6px 4px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+.report-tile b { font-size: 22px; color: #6D28D9; line-height: 1.1; }
+.report-tile span { font-size: 11px; color: #64748B; font-weight: 600; }
+
+.report-modes { display: flex; flex-direction: column; gap: 6px; }
+.report-mode {
+  display: grid;
+  grid-template-columns: 92px 1fr 34px;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+.report-mode b { text-align: right; color: #5B21B6; }
+.report-bar { height: 10px; background: #EDE9FE; border-radius: 99px; overflow: hidden; }
+.report-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #A78BFA, #EC4899); border-radius: 99px; transition: width 0.5s ease; }
+
+.report-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  align-items: end;
+}
+.report-day { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.report-day-val { font-size: 11px; font-weight: 700; color: #6D28D9; }
+.report-day-bar { width: 100%; height: 54px; background: #EDE9FE; border-radius: 8px; display: flex; align-items: flex-end; overflow: hidden; }
+.report-day-bar i { display: block; width: 100%; background: linear-gradient(180deg, #F472B6, #8B5CF6); border-radius: 8px; }
+.report-day-label { font-size: 10px; font-weight: 600; color: #64748B; white-space: nowrap; }
+
+/* Overlay bisa digeser jika modal lebih tinggi dari layar */
+.celebration-overlay { overflow-y: auto; }
+
+/* ==========================================================================
+   RESPONSIVE: PONSEL POTRET (lebar ≤ 680px)
+   ========================================================================== */
+@media (max-width: 680px) {
+  .app-container {
+    width: 100%;
+    padding-top: max(6px, env(safe-area-inset-top));
+    padding-left: max(8px, env(safe-area-inset-left));
+    padding-right: max(8px, env(safe-area-inset-right));
+    padding-bottom: max(2px, env(safe-area-inset-bottom));
+  }
+  .top-nav { padding: 5px 8px; margin-bottom: 6px; }
+  .nav-left, .nav-right { gap: 5px; }
+  .screen-title-badge { display: none; }
+  .btn-icon { width: 36px; height: 36px; font-size: 17px; border-width: 2px; border-bottom-width: 4px; }
+  #btn-info, #btn-settings-nav { font-size: 16px !important; }
+  .stars-badge { padding: 3px 10px; font-size: 15px; gap: 4px; border-width: 2px; border-bottom-width: 4px; }
+  .stars-icon { font-size: 17px; }
+  .screen { padding: 4px 2px; }
+
+  .welcome-badge { font-size: 12.5px; padding: 3px 14px; }
+  .app-title { font-size: 30px; }
+  .app-subtitle { font-size: 14px; }
+  .menu-progress-label { font-size: 12px; }
+
+  .mode-cards-grid { grid-template-columns: 1fr; }
+  .mode-card .mode-tag-pill { display: none; }
+  .mode-card .mode-title { font-size: 18px; margin: 0; }
+
+  .spelling-box, .counting-box, .balloons-box, .shapes-box, .settings-box {
+    padding: 12px;
+    border-radius: 24px;
+    border-width: 4px;
+    border-bottom-width: 8px;
+    min-height: 0;
+  }
+  .illustration-card { width: 120px; height: 120px; }
+  .word-slots-container { gap: 6px; margin: 8px 0 10px; }
+  .letter-slot { width: clamp(36px, 11vw, 60px); height: clamp(44px, 13vw, 70px); font-size: clamp(22px, 7vw, 34px); border-radius: 14px; }
+  .letter-bank-container { gap: 8px; padding: 10px; }
+  .letter-bubble { width: clamp(42px, 12.5vw, 58px); height: clamp(42px, 12.5vw, 58px); font-size: clamp(22px, 7vw, 30px); border-radius: 14px; }
+  .counting-prompt { font-size: 19px; }
+  .items-playground { gap: 8px; padding: 10px; min-height: 140px; max-height: none; }
+  .counting-item { width: clamp(52px, 16vw, 72px); height: clamp(52px, 16vw, 72px); }
+  .number-options-row { gap: 10px; }
+  .btn-number-choice { min-width: 84px; padding: 8px 14px; }
+  .choice-num { font-size: 32px; }
+  .balloons-sky { gap: 12px; min-height: 190px; }
+  .floating-balloon { width: 70px; height: 88px; }
+  .balloon-symbol { font-size: 32px; }
+  .shapes-options-row { grid-template-columns: repeat(2, 1fr); max-width: 320px; padding: 10px; }
+  .shape-option { max-width: 120px; }
+  .shapes-target-badge { font-size: 15px; }
+  .game-controls { gap: 8px; margin-top: 10px; }
+  .btn-action-pill { padding: 7px 13px; font-size: 13.5px; gap: 5px; }
+  .btn-icon-emoji { font-size: 16px; }
+
+  .settings-header { flex-wrap: wrap; gap: 8px; }
+  .settings-grid-two-col { grid-template-columns: 1fr; }
+  .clown-models-grid { grid-template-columns: repeat(3, 1fr); }
+
+  .mascot-area { gap: 10px; margin-top: 6px; }
+  .mascot-avatar { width: 42px; height: 42px; min-width: 42px; }
+  .mascot-speech-bubble { padding: 6px 12px; }
+  .mascot-speech-text { font-size: 13px; }
+  .app-credit-footer { font-size: 11px; padding: 2px 0 0; }
+  .report-mode { grid-template-columns: 82px 1fr 30px; font-size: 12px; }
+}
+
+/* ==========================================================================
+   RESPONSIVE: PONSEL LANSKAP / LAYAR PENDEK (tinggi ≤ 520px)
+   Semua kartu, maskot & footer muat dalam satu layar tanpa tertutup.
+   ========================================================================== */
+@media (max-height: 520px) and (orientation: landscape) {
+  .app-container {
+    width: 100%;
+    max-width: none;
+    padding-top: max(4px, env(safe-area-inset-top));
+    padding-bottom: max(2px, env(safe-area-inset-bottom));
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
+  }
+  .top-nav { padding: 4px 10px; margin-bottom: 4px; }
+  .nav-left, .nav-right { gap: 6px; }
+  .btn-icon { width: 34px; height: 34px; font-size: 16px; border-width: 2px; border-bottom-width: 3px; }
+  #btn-info, #btn-settings-nav { font-size: 15px !important; }
+  .stars-badge { padding: 2px 10px; font-size: 15px; gap: 4px; border-width: 2px; border-bottom-width: 3px; }
+  .stars-icon { font-size: 16px; }
+  .screen-title-badge { font-size: 13px; padding: 3px 12px; border-width: 2px; }
+  .screen { padding: 2px 4px; }
+
+  /* Menu: sembunyikan judul besar, tampilkan progres ringkas */
+  #screen-menu { gap: 6px; }
+  .welcome-badge, .app-title, .app-subtitle { display: none; }
+  .menu-progress { margin: 0 auto; padding: 3px 12px 5px; border-width: 2px; }
+  .menu-progress-label { font-size: 11.5px; margin-bottom: 2px; }
+  .menu-progress-track { height: 6px; }
+
+  .mode-cards-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 0; }
+  .mode-card {
+    min-height: 0;
+    padding: 8px 8px 10px;
+    flex-direction: column;
+    text-align: center;
+    border-radius: 20px;
+    border-width: 3px;
+    border-bottom-width: 6px;
+    gap: 2px;
+    justify-content: center;
+  }
+  .mode-card .mode-tag-pill { display: inline-block; font-size: 10px; padding: 2px 8px; margin-bottom: 2px; }
+  .mode-icon-wrapper { width: 42px; height: 42px; min-width: 42px; font-size: 22px; margin: 0 auto 2px; }
+  .mode-title, .mode-card .mode-title { font-size: 15px; margin: 0 0 4px; }
+  .mode-desc, .mode-card .mode-desc { display: none; }
+  .mode-badge-btn { margin: 0; padding: 4px 12px; font-size: 12px; }
+
+  /* Kotak permainan ringkas */
+  .spelling-box, .counting-box, .balloons-box, .shapes-box, .settings-box {
+    min-height: 0;
+    padding: 8px 14px;
+    border-radius: 22px;
+    border-width: 3px;
+    border-bottom-width: 6px;
+  }
+  .game-controls { margin-top: 4px; gap: 8px; }
+  .btn-action-pill { padding: 4px 12px; font-size: 12.5px; gap: 4px; border-width: 2px; border-bottom-width: 3px; }
+  .btn-icon-emoji { font-size: 14px; }
+  .counting-header { margin-bottom: 2px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .counting-prompt { font-size: 16px; margin: 0; }
+  .counting-counter-badge, .balloon-target-badge, .shapes-target-badge { font-size: 12.5px; padding: 2px 12px; border-width: 2px; }
+  .target-symbol-highlight { width: 28px; height: 28px; font-size: 16px; }
+  .shape-color-dot { width: 14px; height: 14px; }
+
+  /* Mengeja: gambar di kiri, huruf di kanan */
+  .spelling-box {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto auto;
+    column-gap: 18px;
+    row-gap: 6px;
+    align-items: center;
+    justify-items: center;
+  }
+  .spelling-category-pill { grid-column: 1; grid-row: 1; margin: 0; font-size: 11.5px; padding: 2px 10px; }
+  #spelling-illustration { grid-column: 1; grid-row: 2 / span 2; width: 104px; height: 104px; margin: 0; padding: 6px; }
+  #spelling-slots { grid-column: 2; grid-row: 1; margin: 0; gap: 8px; }
+  #spelling-bank { grid-column: 2; grid-row: 2; margin: 0; padding: 6px 10px; gap: 8px; }
+  .spelling-box .game-controls { grid-column: 2; grid-row: 3; }
+  .speaker-hint-btn { width: 30px; height: 30px; font-size: 14px; }
+  .letter-slot { width: 44px; height: 50px; font-size: 26px; border-radius: 12px; border-width: 2.5px; }
+  .letter-slot.filled { border-bottom-width: 4px; }
+  .letter-bubble { width: 42px; height: 42px; font-size: 23px; border-radius: 12px; border-width: 2px; border-bottom-width: 4px; }
+
+  /* Berhitung: benda di kiri, pilihan angka di kanan */
+  .counting-box {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: 6px 14px;
+    align-items: center;
+  }
+  .counting-box .counting-header { grid-column: 1 / -1; }
+  #counting-playground { grid-column: 1; grid-row: 2 / span 2; min-height: 0; max-height: none; height: 100%; margin: 0; padding: 6px; gap: 8px; }
+  #counting-options { grid-column: 2; grid-row: 2; gap: 8px; }
+  .counting-box .game-controls { grid-column: 2; grid-row: 3; }
+  .counting-item { width: 48px; height: 48px; border-radius: 14px; padding: 4px; border-width: 2px; border-bottom-width: 4px; }
+  .counting-tag { width: 20px; height: 20px; font-size: 11px; }
+  .btn-number-choice { min-width: 64px; padding: 4px 12px; border-radius: 16px; border-width: 2.5px; border-bottom-width: 5px; }
+  .choice-num { font-size: 26px; }
+  .choice-dots { font-size: 8px; gap: 1px; }
+
+  /* Balon */
+  .balloons-sky { min-height: 120px; max-height: 160px; margin: 4px 0; padding: 8px; gap: 14px; }
+  .floating-balloon { width: 58px; height: 74px; }
+  .floating-balloon-string { bottom: -14px; height: 14px; }
+  .balloon-symbol { font-size: 28px; }
+
+  /* Warna & bentuk */
+  .shapes-options-row { grid-template-columns: repeat(4, 1fr); max-width: 520px; padding: 8px; margin: 4px 0; gap: 12px; }
+  .shape-option { max-width: 92px; border-radius: 18px; border-width: 2.5px; border-bottom-width: 5px; }
+
+  /* Maskot & footer: satu baris ramping */
+  .mascot-area { margin-top: 4px; gap: 10px; max-width: 900px; }
+  .mascot-avatar { width: 34px; height: 34px; min-width: 34px; }
+  .mascot-speech-bubble { padding: 4px 14px; border-width: 2px; border-radius: 14px; }
+  .mascot-speech-text { font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .app-credit-footer { font-size: 10px; padding: 1px 0 0; line-height: 1.2; }
+
+  /* Pengaturan */
+  .settings-header { padding-bottom: 6px; margin-bottom: 6px; }
+  .settings-header > div > span { font-size: 22px !important; }
+  .settings-title { font-size: 17px; }
+  .settings-desc { display: none; }
+  .settings-tabs-row { margin-bottom: 6px; gap: 6px; }
+  .settings-tab-btn { padding: 4px 12px; font-size: 12.5px; }
+
+  /* Modal ringkas */
+  .celebration-overlay { padding: 8px; align-items: flex-start; }
+  .celebration-modal { padding: 12px 18px; border-width: 3px; border-bottom-width: 6px; border-radius: 22px; margin: auto; }
+  .celebration-stars { font-size: 26px; margin-bottom: 2px; }
+  .celebration-title { font-size: 20px; margin-bottom: 4px; }
+  .celebration-message { font-size: 13.5px; margin-bottom: 10px; }
+  .btn-primary-action { font-size: 15px; padding: 7px 20px; border-width: 2.5px; border-bottom-width: 4px; }
+  .stickers-grid { max-height: none; }
+  .motivation-banner { bottom: 12px; padding: 6px 16px; }
+  .motivation-text { font-size: 13.5px; }
+
+  /* Panggung badut */
+  .clown-congrats-badge { font-size: 11.5px; padding: 2px 12px; }
+  .clown-reward-title { font-size: 20px; margin-bottom: 2px; }
+  .clown-timer-pill { font-size: 12.5px; padding: 2px 12px; }
+  .clown-dancing-arena { min-height: 0; }
+  .clown-animated-character { width: 140px; height: 150px; }
+  .clown-dance-floor { width: 170px; height: 26px; }
+}
+
+/* Lanskap sangat pendek (≤ 380px), mis. ponsel kecil */
+@media (max-height: 380px) and (orientation: landscape) {
+  .menu-progress { display: none; }
+  .mode-card .mode-tag-pill { display: none; }
+  .mascot-avatar { width: 28px; height: 28px; min-width: 28px; }
+  #spelling-illustration { width: 84px; height: 84px; }
+  .letter-slot { width: 38px; height: 44px; font-size: 22px; }
+  .letter-bubble { width: 38px; height: 38px; font-size: 20px; }
+  .counting-item { width: 40px; height: 40px; }
+  .balloons-sky { min-height: 100px; max-height: 130px; }
+  .floating-balloon { width: 50px; height: 64px; }
+}
+
+/* Hormati preferensi kurangi gerakan */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .cloud { display: none; }
+}
