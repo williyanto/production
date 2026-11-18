@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Dunia Ceria - Game Edukasi Anak Usia 4 Tahun</title>
+  <meta name="description" content="Game edukasi interaktif dan menyenangkan untuk anak usia 4 tahun: belajar mengeja dan berhitung dengan maskot ceria, suara interaktif, dan konfeti.">
+  <meta name="theme-color" content="#FF5E7E">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Floating background clouds -->
+  <div class="clouds-bg">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+      <div class="nav-left">
+        <button id="btn-home" class="btn-icon" title="Kembali ke Menu Utama">🏠</button>
+        <button id="btn-info" class="btn-icon" title="Panduan Ayah & Bunda" style="font-size: 18px;">ℹ️</button>
+        <span id="screen-title" class="screen-title-badge">🌟 Belajar Ceria</span>
+      </div>
+      <div class="nav-right">
+        <button id="btn-settings-nav" class="btn-icon" title="Pengaturan & Kustom Belajar" style="background: #F3E8FF; border-color: #D8B4E2; font-size: 20px;">⚙️</button>
+        <button id="btn-album" class="btn-icon" title="Album Stiker & Hadiah" style="background: #FEF3C7; border-color: #FCD34D;">🎁</button>
+        <button id="btn-bgm" class="btn-icon" title="Musik Latar Ceria">🎵</button>
+        <button id="btn-fullscreen" class="btn-icon" title="Layar Penuh">⛶</button>
+        <div class="stars-badge" title="Koleksi Bintang Prestasi">
+          <span class="stars-icon">⭐</span>
+          <span id="stars-count">0</span>
+        </div>
+        <button id="btn-mute" class="btn-icon" title="Nyalakan/Matikan Suara">🔊</button>
+      </div>
+    </header>
+
+    <!-- Main Screens Viewport -->
+    <main class="main-screen">
+      <!-- 1. SCREEN: MENU UTAMA -->
+      <section id="screen-menu" class="screen active">
+        <div class="welcome-hero">
+          <div class="welcome-badge">🌈 Petualangan Belajar Ceria 🎨</div>
+          <h1 class="app-title">Dunia Ceria 🎈</h1>
+          <p class="app-subtitle">Ayo Bermain Sambil Belajar dengan Senang!</p>
+        </div>
+
+        <div class="mode-cards-grid">
+          <!-- Card Belajar Mengeja -->
+          <div id="mode-card-spelling" class="mode-card spelling">
+            <span class="mode-tag-pill" style="background: #FFE4E6; color: #E11D48;">✨ 10+ Kata Bergambar</span>
+            <div class="mode-icon-wrapper">🔤</div>
+            <h2 class="mode-title" style="color: #FF2E93;">Belajar Mengeja</h2>
+            <p class="mode-desc">Susun huruf-huruf lucu membentuk kata bergambar yang seru!</p>
+            <span class="mode-badge-btn">Mulai Mengeja 🚀</span>
+          </div>
+
+          <!-- Card Belajar Berhitung -->
+          <div id="mode-card-counting" class="mode-card counting">
+            <span class="mode-tag-pill" style="background: #D1FAE5; color: #059669;">🎈 Angka 1 sampai 10</span>
+            <div class="mode-icon-wrapper">🔢</div>
+            <h2 class="mode-title" style="color: #059669;">Belajar Berhitung</h2>
+            <p class="mode-desc">Sentuh dan hitung benda-benda imut satu per satu!</p>
+            <span class="mode-badge-btn">Mulai Berhitung 🎈</span>
+          </div>
+
+          <!-- Card Pecahkan Balon (Mini Game) -->
+          <div id="mode-card-balloons" class="mode-card balloons">
+            <span class="mode-tag-pill" style="background: #DBEAFE; color: #2563EB;">🎯 Tebak Huruf & Angka</span>
+            <div class="mode-icon-wrapper">🎈</div>
+            <h2 class="mode-title" style="color: #3B82F6;">Pecahkan Balon</h2>
+            <p class="mode-desc">Tebak huruf & angka dengan memecahkan balon terbang!</p>
+            <span class="mode-badge-btn" style="background: #3B82F6;">Mulai Main 🎯</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. SCREEN: BELAJAR MENGEJA -->
+      <section id="screen-spelling" class="screen">
+        <div class="spelling-box">
+          <span id="spelling-category" style="font-size: 14px; font-weight: 700; color: #64748B; margin-bottom: 12px; background: #F1F5F9; padding: 4px 14px; border-radius: 9999px;">
+            Kategori: Mainan
+          </span>
+
+          <!-- Interactive Illustration Card -->
+          <div id="spelling-illustration" class="illustration-card" title="Ketuk untuk mendengar suara">
+            <!-- SVG rendered dynamically -->
+          </div>
+
+          <!-- Empty Letter Slots -->
+          <div id="spelling-slots" class="word-slots-container">
+            <!-- Dynamic Slots -->
+          </div>
+
+          <!-- Letter Bubbles Bank -->
+          <div id="spelling-bank" class="letter-bank-container">
+            <!-- Dynamic Letter Buttons -->
+          </div>
+
+          <!-- Spelling Control Buttons -->
+          <div style="display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; justify-content: center;">
+            <button id="btn-speak-word" class="btn-action-pill" title="Dengarkan Kata">
+              <span class="btn-icon-emoji">🔊</span>
+              <span>Dengarkan</span>
+            </button>
+            <button id="btn-reset-word" class="btn-action-pill btn-secondary" title="Susun Ulang Huruf">
+              <span class="btn-icon-emoji">🔄</span>
+              <span>Ulangi</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. SCREEN: BELAJAR BERHITUNG -->
+      <section id="screen-counting" class="screen">
+        <div class="counting-box">
+          <div class="counting-header">
+            <h2 id="counting-prompt" class="counting-prompt">Ada berapa benda di layar?</h2>
+            <div id="counting-counter-badge" class="counting-counter-badge">
+              👆 Sentuh untuk Menghitung
+            </div>
+          </div>
+
+          <!-- Interactive Items Playground -->
+          <div id="counting-playground" class="items-playground">
+            <!-- Dynamic SVG items rendered here -->
+          </div>
+
+          <!-- Number Options Row -->
+          <div id="counting-options" class="number-options-row">
+            <!-- Dynamic 3 choice buttons -->
+          </div>
+
+          <!-- Counting Control Buttons -->
+          <div style="display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; justify-content: center;">
+            <button id="btn-speak-counting" class="btn-action-pill" title="Dengarkan Pertanyaan">
+              <span class="btn-icon-emoji">🔊</span>
+              <span>Dengarkan</span>
+            </button>
+            <button id="btn-reset-counting" class="btn-action-pill btn-secondary" title="Hitung Ulang">
+              <span class="btn-icon-emoji">🔄</span>
+              <span>Hitung Ulang</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. SCREEN: PECAHKAN BALON (MINI GAME) -->
+      <section id="screen-balloons" class="screen">
+        <div class="balloons-box">
+          <div class="counting-header">
+            <h2 id="balloon-target-prompt" class="counting-prompt">Pecahkan balon dengan huruf A!</h2>
+            <div id="balloon-target-display" class="balloon-target-badge">
+              Target: <span id="balloon-target-symbol" class="target-symbol-highlight">A</span>
+            </div>
+          </div>
+
+          <!-- Balloons Sky Area -->
+          <div id="balloons-sky" class="balloons-sky">
+            <!-- Dynamic floating balloons generated here -->
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; justify-content: center;">
+            <button id="btn-speak-balloon" class="btn-action-pill" title="Dengarkan Target">
+              <span class="btn-icon-emoji">🔊</span>
+              <span>Dengarkan Target</span>
+            </button>
+            <button id="btn-refresh-balloons" class="btn-action-pill btn-secondary" title="Ganti Balon">
+              <span class="btn-icon-emoji">🔄</span>
+              <span>Acak Balon</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. SCREEN: PENGATURAN & KUSTOMISASI (HALAMAN TERPISAH) -->
+      <section id="screen-settings" class="screen">
+        <div class="settings-box">
+          <!-- Settings Top Bar -->
+          <div class="settings-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span style="font-size: 32px;">⚙️</span>
+              <div>
+                <h2 class="settings-title">Pengaturan & Kustom Belajar</h2>
+                <p class="settings-desc">Atur reward badut berjoget, target bintang, kata, angka, dan balon.</p>
+              </div>
+            </div>
+            <button id="btn-back-settings" class="btn-action-pill btn-secondary" title="Kembali ke Menu Utama">
+              <span>🏠 Menu Utama</span>
+            </button>
+          </div>
+
+          <!-- Settings Tabs -->
+          <div class="settings-tabs-row">
+            <button id="set-tab-btn-clown" class="settings-tab-btn active">🎪 Hadiah Badut & Bintang</button>
+            <button id="set-tab-btn-word" class="settings-tab-btn">🔤 Kustom Kata</button>
+            <button id="set-tab-btn-count" class="settings-tab-btn">🔢 Kustom Angka</button>
+            <button id="set-tab-btn-balloon" class="settings-tab-btn">🎈 Kustom Balon</button>
+          </div>
+
+          <!-- Tab 1: Reward Badut Berjoget & Target Bintang -->
+          <div id="set-tab-content-clown" class="settings-tab-panel active">
+            <div class="settings-grid-two-col">
+              <!-- Target Bintang Setting Card -->
+              <div class="settings-subcard">
+                <div class="settings-subcard-title">⭐ Target Bintang untuk Hadiah:</div>
+                <p class="settings-subcard-help">Berapa bintang yang harus dikumpulkan anak agar badut berjoget muncul?</p>
+                <div class="settings-pill-options">
+                  <button class="btn-star-target-pill" data-target="5">5 ⭐</button>
+                  <button class="btn-star-target-pill active" data-target="10">10 ⭐ (Standar)</button>
+                  <button class="btn-star-target-pill" data-target="15">15 ⭐</button>
+                  <button class="btn-star-target-pill" data-target="20">20 ⭐</button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
+                  <span style="font-size: 13px; font-weight: 700; color: #475569;">Atau angka sendiri:</span>
+                  <input type="number" id="input-custom-star-target" class="settings-num-input" min="1" max="100" value="10">
+                  <button id="btn-save-star-target" class="btn-action-pill" style="padding: 6px 14px; font-size: 13px;">Simpan</button>
+                </div>
+              </div>
+
+              <!-- Durasi Badut Joget Setting Card -->
+              <div class="settings-subcard">
+                <div class="settings-subcard-title">⏱️ Durasi Badut Berjoget:</div>
+                <p class="settings-subcard-help">Pilih durasi tarian badut saat hadiah tercapai:</p>
+                <div class="settings-pill-options">
+                  <button class="btn-clown-duration-pill active" data-duration="10">10 Detik ⏱️</button>
+                  <button class="btn-clown-duration-pill" data-duration="20">20 Detik ⏱️</button>
+                  <button class="btn-clown-duration-pill" data-duration="30">30 Detik ⏱️</button>
+                </div>
+                <div style="margin-top: 12px; display: flex; align-items: center; gap: 10px;">
+                  <button id="btn-preview-clown" class="btn-primary-action" style="background: linear-gradient(135deg, #FF5E7E, #8338EC); padding: 9px 20px; font-size: 14px;">
+                    <span>🎉 Coba Tonton Badut Joget Sekarang!</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pilihan Model Badut Beragam -->
+            <div class="settings-subcard" style="margin-top: 10px;">
+              <div class="settings-subcard-title">🤡 Pilihan Model Badut (Bervariasi):</div>
+              <p class="settings-subcard-help">Pilih karakter badut favorit si kecil atau buat acak bergantian agar selalu bervariasi:</p>
+              <div id="clown-models-selection-grid" class="clown-models-grid">
+                <!-- Dynamic Clown Cards -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: Kustom Kata -->
+          <div id="set-tab-content-word" class="settings-tab-panel">
+            <p style="font-size: 14px; color: #64748B; margin-bottom: 10px;">
+              Ketik kata apa saja yang ingin dipelajari anak (misal: <b>MAMA</b>, <b>PAPA</b>, <b>AYAH</b>, atau nama anak):
+            </p>
+            <div style="display: flex; gap: 8px; margin-bottom: 12px; max-width: 500px;">
+              <input type="text" id="input-settings-word" class="custom-input" placeholder="Ketik kata (misal: MAMA)" maxlength="7">
+              <button id="btn-play-settings-word" class="btn-primary-action" style="padding: 10px 20px; font-size: 15px; white-space: nowrap;">
+                <span>Mulai Mengeja! 🚀</span>
+              </button>
+            </div>
+            <p style="font-size: 12.5px; color: #94A3B8; font-weight: 700; margin-bottom: 8px;">Atau pilih contoh kata cepat:</p>
+            <div id="settings-words-presets" class="custom-chips-grid">
+              <!-- Dynamic Preset chips -->
+            </div>
+          </div>
+
+          <!-- Tab 3: Kustom Angka -->
+          <div id="set-tab-content-count" class="settings-tab-panel">
+            <p style="font-size: 14px; color: #64748B; margin-bottom: 12px;">
+              Pilih angka yang ingin dipelajari anak untuk dihitung (1 sampai 10):
+            </p>
+            <div id="settings-number-buttons" class="custom-number-grid">
+              <!-- 1-10 buttons -->
+            </div>
+          </div>
+
+          <!-- Tab 4: Kustom Balon -->
+          <div id="set-tab-content-balloon" class="settings-tab-panel">
+            <p style="font-size: 14px; color: #64748B; margin-bottom: 10px;">
+              Pilih huruf atau angka target yang ingin dicari di balon terbang:
+            </p>
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+              <button id="settings-balloon-filter-letters" class="custom-pill-filter active">Huruf (A-Z)</button>
+              <button id="settings-balloon-filter-numbers" class="custom-pill-filter">Angka (1-9)</button>
+            </div>
+            <div id="settings-balloon-grid" class="custom-balloon-symbol-grid">
+              <!-- Alphabet / Numbers buttons -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Friendly Mascot Ciko -->
+    <div class="mascot-area">
+      <div id="mascot-svg-container" class="mascot-avatar">
+        <!-- Dynamic Mascot SVG -->
+      </div>
+      <div class="mascot-speech-bubble">
+        <p id="mascot-speech-text" class="mascot-speech-text">Halo teman kecil! Ayo kita bermain dan belajar bersama! 🐾</p>
+      </div>
+    </div>
+
+    <!-- Footer Credit -->
+    <footer class="app-credit-footer">
+      <span>Williyanto Adi 2026</span>
+    </footer>
+  </div>
+
+  <!-- Gentle Encouraging Toast (Appears when child makes a mistake) -->
+  <div id="motivation-banner" class="motivation-banner">
+    <span class="motivation-icon">🌈</span>
+    <span id="motivation-text" class="motivation-text">Ayo coba lagi, kamu pasti bisa!</span>
+  </div>
+
+  <!-- Celebration Modal (Requires user to click to advance) -->
+  <div id="celebration-overlay" class="celebration-overlay">
+    <div class="celebration-modal">
+      <div class="celebration-stars">⭐ 🌟 ⭐</div>
+      <h2 id="celebration-title" class="celebration-title">Horeee! Luar Biasa! 🎉</h2>
+      <p id="celebration-message" class="celebration-message">Kamu hebat sudah berhasil menjawab dengan tepat!</p>
+      
+      <div style="display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 8px;">
+        <button id="btn-celebration-next" class="btn-primary-action">
+          <span>Lanjut Main!</span>
+          <span>🚀</span>
+        </button>
+        <button id="btn-celebration-home" class="btn-action-pill btn-secondary" style="font-size: 16px; padding: 12px 24px;">
+          <span>🏠 Menu Utama</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticker Album Modal -->
+  <div id="album-overlay" class="celebration-overlay">
+    <div class="celebration-modal album-modal">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <h2 style="font-size: 26px; color: #7C3AED; font-weight: 700;">🎁 Album Stiker & Hadiah</h2>
+        <button id="btn-close-album" class="btn-icon" style="width: 42px; height: 42px; font-size: 20px;">✕</button>
+      </div>
+      <p style="font-size: 15px; color: #64748B; margin-bottom: 16px;">
+        Kumpulkan ⭐ bintang dari mengeja dan berhitung untuk membuka stiker lucu!
+      </p>
+      <!-- Grid of stickers -->
+      <div id="stickers-grid" class="stickers-grid">
+        <!-- Dynamic stickers -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Parental Guide Modal (Info Ayah & Bunda) -->
+  <div id="info-overlay" class="celebration-overlay">
+    <div class="celebration-modal album-modal" style="text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h2 style="font-size: 24px; color: #0284C7; font-weight: 700;">👨‍👩‍👧 Panduan Ayah & Bunda</h2>
+        <button id="btn-close-info" class="btn-icon" style="width: 40px; height: 40px; font-size: 18px;">✕</button>
+      </div>
+      
+      <div style="background: #F0F9FF; border: 2px solid #BAE6FD; border-radius: 16px; padding: 12px 16px; margin-bottom: 12px; font-size: 14px; line-height: 1.5; color: #0369A1;">
+        <p style="font-weight: 700; margin-bottom: 6px;">💡 Tips Bermain Sambil Belajar Usia 4 Tahun:</p>
+        <ul style="padding-left: 18px; margin: 0;">
+          <li><b>Bunyikan Huruf Bersama:</b> Ajak anak menirukan bunyi huruf (fonik), seperti "B - O - L - A... BOLA!".</li>
+          <li><b>Sentuh Objek Berhitung:</b> Biarkan anak menyentuh setiap benda di layar satu per satu agar memahami konsep jumlah.</li>
+          <li><b>Bebas Rasa Takut:</b> Kesalahan adalah proses belajar. Dukung anak untuk mencoba lagi tanpa rasa tertekan.</li>
+        </ul>
+      </div>
+
+      <div style="background: #FFFBEB; border: 2px solid #FDE68A; border-radius: 16px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <p style="font-weight: 700; font-size: 14px; color: #92400E; margin-bottom: 2px;">Mulai dari Awal (Reset Bintang):</p>
+          <p style="font-size: 12.5px; color: #B45309;">Kembalikan koleksi bintang ke 0 untuk anak lain.</p>
+        </div>
+        <button id="btn-reset-stars" class="btn-action-pill btn-secondary" style="font-size: 13.5px; padding: 6px 16px;">
+          <span>🔄 Reset Bintang</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dancing Clown Milestone Reward Stage Overlay -->
+  <div id="clown-reward-overlay" class="clown-reward-overlay">
+    <div class="clown-stage-container">
+      <!-- Circus Curtains & Party Spotlights -->
+      <div class="stage-spotlight spotlight-left"></div>
+      <div class="stage-spotlight spotlight-right"></div>
+      
+      <!-- Top Reward Banner -->
+      <div class="clown-reward-header">
+        <div class="clown-congrats-badge">🎪 REWARD BINTANG SPESIAL! 🎪</div>
+        <h2 id="clown-reward-title" class="clown-reward-title">Horeee! Badut Berjoget Ceria! 🎉</h2>
+        <div class="clown-timer-pill">
+          <span>⏳ Joget Ceria:</span>
+          <b id="clown-countdown-timer">10</b>
+          <span>detik</span>
+        </div>
+      </div>
+
+      <!-- Clown Dancing Arena -->
+      <div class="clown-dancing-arena">
+        <div id="clown-svg-stage" class="clown-animated-character">
+          <!-- Dynamic Clown Model SVG -->
+        </div>
+        <div class="clown-dance-floor"></div>
+      </div>
+
+      <!-- Clown Action Bar -->
+      <div class="clown-reward-controls">
+        <button id="btn-switch-clown-live" class="btn-action-pill" style="background: #FEF08A; border-color: #F59E0B; color: #78350F;">
+          <span>🔄 Ganti Model Badut</span>
+        </button>
+        <button id="btn-close-clown-reward" class="btn-action-pill btn-secondary" style="background: #FFFFFF; border-color: #CBD5E1;">
+          <span>✕ Selesai Nonton</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/confetti.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/words-data.js"></script>
+  <script src="js/numbers-data.js"></script>
+  <script src="js/stickers-data.js"></script>
+  <script src="js/clowns-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

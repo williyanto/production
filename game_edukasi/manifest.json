@@ -1,0 +1,19 @@
+{
+  "name": "Dunia Ceria - Game Edukasi Anak",
+  "short_name": "Dunia Ceria",
+  "description": "Game edukasi interaktif anak usia 4 tahun untuk belajar mengeja dan berhitung ceria.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#FED6E3",
+  "theme_color": "#FF5E7E",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
+
