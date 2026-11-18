@@ -579,6 +579,8 @@ class EduGameApp {
       this.loadCountingQuestion();
     } else if (this.currentMode === 'balloons') {
       this.loadBalloonRound();
+    } else if (this.currentMode === 'shapes') {
+      this.loadShapesRound();
     }
   }
 
@@ -590,11 +592,13 @@ class EduGameApp {
     this.dom.screenSpelling.classList.remove('active');
     this.dom.screenCounting.classList.remove('active');
     this.dom.screenBalloons.classList.remove('active');
+    if (this.dom.screenShapes) this.dom.screenShapes.classList.remove('active');
     if (this.dom.screenSettings) this.dom.screenSettings.classList.remove('active');
 
     if (screenName === 'menu') {
       this.dom.screenMenu.classList.add('active');
       this.dom.screenTitle.textContent = '🌟 Belajar Ceria';
+      this.updateMenuProgress();
       this.renderMascot('happy', 'Pilih permainan yang kamu sukai ya teman! 🎈');
       soundEngine.speak('Pilih permainan yang kamu sukai ya!');
     } else if (screenName === 'spelling') {
@@ -606,6 +610,9 @@ class EduGameApp {
     } else if (screenName === 'balloons') {
       this.dom.screenBalloons.classList.add('active');
       this.dom.screenTitle.textContent = '🎈 Pecahkan Balon';
+    } else if (screenName === 'shapes') {
+      this.dom.screenShapes.classList.add('active');
+      this.dom.screenTitle.textContent = '🎨 Warna & Bentuk';
     } else if (screenName === 'settings') {
       this.dom.screenSettings.classList.add('active');
       this.dom.screenTitle.textContent = '⚙️ Pengaturan & Kustom';
@@ -617,7 +624,7 @@ class EduGameApp {
   addStar() {
     this.stars++;
     localStorage.setItem('edu_game_stars', this.stars.toString());
-    this.updateStarsDisplay();
+    this.recordProgress(this.currentMode);
     soundEngine.playStar();
 
     // Check if star reward milestone is reached
@@ -627,10 +634,273 @@ class EduGameApp {
       localStorage.setItem('edu_last_clown_milestone', this.lastClownMilestone.toString());
       this.pendingClownReward = true;
     }
+    this.updateStarsDisplay();
+
+    // Animasi badge bintang
+    const badge = document.querySelector('.stars-badge');
+    if (badge) {
+      badge.classList.remove('star-bump');
+      void badge.offsetWidth;
+      badge.classList.add('star-bump');
+    }
   }
 
   updateStarsDisplay() {
     this.dom.starsCount.textContent = this.stars;
+    this.updateMenuProgress();
+  }
+
+  updateMenuProgress() {
+    if (!this.dom.menuProgressLabel || !this.dom.menuProgressFill) return;
+    const target = Math.max(1, this.starTarget || 10);
+    const into = Math.max(0, Math.min(target, this.stars - this.lastClownMilestone));
+    const left = target - into;
+    this.dom.menuProgressFill.style.width = `${(into / target) * 100}%`;
+    this.dom.menuProgressLabel.textContent = this.pendingClownReward
+      ? '🎪 Badut siap berjoget! Selesaikan soal berikutnya!'
+      : `⭐ ${into}/${target} · ${left} bintang lagi menuju Badut Joget 🎪`;
+  }
+
+  // ==========================================
+  // RAPOR BELAJAR (STATISTIK UNTUK AYAH & BUNDA)
+  // ==========================================
+  defaultStats() {
+    return { modes: { spelling: 0, counting: 0, balloons: 0, shapes: 0 }, days: {} };
+  }
+
+  loadStats() {
+    try {
+      const raw = JSON.parse(localStorage.getItem('edu_stats') || 'null');
+      if (raw && raw.modes && raw.days) {
+        return { modes: Object.assign(this.defaultStats().modes, raw.modes), days: raw.days };
+      }
+    } catch (e) { /* abaikan data rusak */ }
+    return this.defaultStats();
+  }
+
+  saveStats() {
+    try { localStorage.setItem('edu_stats', JSON.stringify(this.stats)); } catch (e) { /* storage penuh */ }
+  }
+
+  dateKey(d = new Date()) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
+  recordProgress(mode) {
+    if (this.stats.modes[mode] === undefined) return;
+    this.stats.modes[mode]++;
+    const key = this.dateKey();
+    this.stats.days[key] = (this.stats.days[key] || 0) + 1;
+    // Simpan maksimal 60 hari terakhir
+    const keys = Object.keys(this.stats.days).sort();
+    while (keys.length > 60) delete this.stats.days[keys.shift()];
+    this.saveStats();
+  }
+
+  getStreak() {
+    let streak = 0;
+    const d = new Date();
+    if (!this.stats.days[this.dateKey(d)]) d.setDate(d.getDate() - 1);
+    while (this.stats.days[this.dateKey(d)]) {
+      streak++;
+      d.setDate(d.getDate() - 1);
+    }
+    return streak;
+  }
+
+  renderReport() {
+    const m = this.stats.modes;
+    const total = m.spelling + m.counting + m.balloons + m.shapes;
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('report-today', this.stats.days[this.dateKey()] || 0);
+    set('report-streak', this.getStreak());
+    set('report-total', total);
+
+    const maxMode = Math.max(1, m.spelling, m.counting, m.balloons, m.shapes);
+    ['spelling', 'counting', 'balloons', 'shapes'].forEach(k => {
+      set(`report-${k}`, m[k]);
+      const bar = document.getElementById(`report-bar-${k}`);
+      if (bar) bar.style.width = `${(m[k] / maxMode) * 100}%`;
+    });
+
+    const week = document.getElementById('report-week');
+    if (week) {
+      const names = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+      const days = [];
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        days.push({ label: i === 0 ? 'Hari ini' : names[d.getDay()], val: this.stats.days[this.dateKey(d)] || 0 });
+      }
+      const maxDay = Math.max(1, ...days.map(x => x.val));
+      week.innerHTML = days.map(x => `
+        <div class="report-day">
+          <span class="report-day-val">${x.val}</span>
+          <div class="report-day-bar"><i style="height:${Math.max(4, (x.val / maxDay) * 100)}%"></i></div>
+          <span class="report-day-label">${x.label}</span>
+        </div>`).join('');
+    }
+  }
+
+  // ==========================================
+  // PETUNJUK (HINT) — membantu tanpa memberi jawaban langsung
+  // ==========================================
+  glowHint(el) {
+    if (!el) return;
+    el.classList.remove('hint-glow');
+    void el.offsetWidth;
+    el.classList.add('hint-glow');
+    setTimeout(() => el.classList.remove('hint-glow'), 2600);
+  }
+
+  useHint() {
+    if (this.hintCooldown) return;
+    this.hintCooldown = true;
+    let cooldown = 1200;
+    soundEngine.playClick();
+
+    if (this.currentMode === 'spelling') {
+      const wordData = WORDS_DATABASE[this.spellingIndex];
+      const idx = this.spellingFilled.findIndex(v => v === null);
+      if (idx !== -1) {
+        const letter = wordData.letters[idx];
+        const item = this.availableLetters.find(l => l.letter === letter && !l.used);
+        if (item) this.glowHint(this.dom.spellingBankContainer.querySelector(`[data-id="${item.id}"]`));
+        this.renderMascot('happy', `Petunjuk: cari huruf ${letter} ya! 💡`);
+        soundEngine.speak(`Cari huruf ${letter}`);
+      }
+    } else if (this.currentMode === 'counting') {
+      cooldown = this.autoCountHint();
+    } else if (this.currentMode === 'balloons') {
+      const target = [...this.dom.balloonsSky.querySelectorAll('.floating-balloon')]
+        .find(b => (b.querySelector('.balloon-symbol') || {}).textContent?.trim() === this.currentBalloonTarget);
+      this.glowHint(target);
+      this.renderMascot('happy', `Balon ${this.currentBalloonTarget} sedang bersinar! 💡`);
+      soundEngine.speak(`Lihat balon yang bersinar, itu ${this.currentBalloonTarget}`);
+    } else if (this.currentMode === 'shapes') {
+      this.glowHint(this.dom.shapesOptions.querySelector('[data-correct="1"]'));
+      this.renderMascot('happy', 'Lihat yang bersinar ya! 💡');
+      soundEngine.speak(this.getShapesPromptText());
+    }
+
+    setTimeout(() => { this.hintCooldown = false; }, cooldown);
+  }
+
+  // Ciko menghitung bersama: menyentuh benda satu per satu otomatis
+  autoCountHint() {
+    const items = [...this.dom.countingPlayground.querySelectorAll('.counting-item')];
+    const total = NUMBERS_DATABASE[this.countingIndex].number;
+    this.tappedItemIndices.clear();
+    items.forEach(it => {
+      it.classList.remove('tapped');
+      const tag = it.querySelector('.counting-tag');
+      if (tag) tag.remove();
+    });
+    this.updateCountingBadge(0, total);
+    this.renderMascot('happy', 'Ayo hitung bersama Ciko! 👆');
+
+    const step = 800;
+    items.forEach((it, i) => {
+      setTimeout(() => {
+        if (this.currentMode !== 'counting' || !it.isConnected) return;
+        this.handleItemTap(it, i + 1);
+        if (i === items.length - 1) {
+          this.renderMascot('cheer', `Semuanya ada ${total}! Ayo pilih angkanya! 🔢`);
+        }
+      }, 300 + i * step);
+    });
+    return 300 + items.length * step;
+  }
+
+  // ==========================================
+  // MODE WARNA & BENTUK
+  // ==========================================
+  startShapesMode() {
+    this.switchScreen('shapes');
+    this.loadShapesRound();
+  }
+
+  getShapesPromptText() {
+    const t = this.shapesTarget;
+    return t ? `Sentuh ${t.shape.name} warna ${t.color.name}!` : '';
+  }
+
+  loadShapesRound() {
+    const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+    const target = { shape: pick(SHAPES_DATABASE), color: pick(COLORS_DATABASE) };
+    const options = [target];
+    let guard = 0;
+    while (options.length < 4 && guard++ < 200) {
+      const r = Math.random();
+      // Pengecoh: bentuk sama warna beda, warna sama bentuk beda, atau acak
+      const cand = r < 0.4
+        ? { shape: target.shape, color: pick(COLORS_DATABASE) }
+        : (r < 0.8 ? { shape: pick(SHAPES_DATABASE), color: target.color }
+                   : { shape: pick(SHAPES_DATABASE), color: pick(COLORS_DATABASE) });
+      if (!options.some(o => o.shape.id === cand.shape.id && o.color.id === cand.color.id)) options.push(cand);
+    }
+    options.sort(() => Math.random() - 0.5);
+    this.shapesTarget = target;
+
+    const prompt = this.getShapesPromptText();
+    this.dom.shapesPrompt.textContent = prompt;
+    this.dom.shapesTargetBadge.innerHTML =
+      `Cari: <span class="shape-color-dot" style="background:${target.color.hex}"></span> ` +
+      `<b>${target.color.name}</b> · <b>${target.shape.name}</b>`;
+
+    this.dom.shapesOptions.innerHTML = '';
+    options.forEach(opt => {
+      const isCorrect = opt === target;
+      const btn = document.createElement('button');
+      btn.className = 'shape-option';
+      btn.dataset.correct = isCorrect ? '1' : '0';
+      btn.setAttribute('aria-label', `${opt.shape.name} ${opt.color.name}`);
+      btn.innerHTML = renderShapeSVG(opt.shape, opt.color.hex);
+      btn.addEventListener('click', () => this.handleShapeChoice(btn, opt, isCorrect));
+      this.dom.shapesOptions.appendChild(btn);
+    });
+
+    this.renderMascot('happy', `${prompt} 🎨`);
+    soundEngine.speak(prompt);
+  }
+
+  handleShapeChoice(btn, opt, isCorrect) {
+    if (this.dom.celebrationOverlay.classList.contains('active')) return;
+    if (isCorrect) {
+      btn.classList.add('shape-correct');
+      const rect = btn.getBoundingClientRect();
+      confetti.burst({ count: 70, x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+      this.addStar();
+      soundEngine.playCorrect();
+      const t = this.shapesTarget;
+      this.renderMascot('cheer', `Betul! Itu ${t.shape.name} ${t.color.name}! 🎉`);
+      soundEngine.speak(`Hebat! Itu ${t.shape.name} warna ${t.color.name}!`);
+
+      if (this.pendingClownReward) {
+        this.showCelebrationModal(
+          '🎪 REWARD BINTANG TERCAPAI! 🎪',
+          `Horeee! Kamu berhasil mengumpulkan <b>${this.stars}</b> Bintang! Tekan Lanjut untuk menonton Badut Berjoget Ceria! 🎉`
+        );
+      } else {
+        this.showCelebrationModal(
+          'Pintar Sekali! 🎨',
+          `Kamu menemukan <b>${t.shape.name} ${t.color.name}</b> dengan tepat!`
+        );
+      }
+    } else {
+      // Edukatif: sebutkan apa yang disentuh, lalu semangati
+      soundEngine.playEncourage();
+      btn.classList.remove('gentle-wiggle');
+      void btn.offsetWidth;
+      btn.classList.add('gentle-wiggle');
+      const msg = `Itu ${opt.shape.name} ${opt.color.name}. Ayo cari lagi! 🌈`;
+      this.renderMascot('motivate', msg);
+      this.showMotivationBanner(msg);
+      soundEngine.speak(`Itu ${opt.shape.name} warna ${opt.color.name}. Ayo cari ${this.shapesTarget.shape.name} warna ${this.shapesTarget.color.name}!`);
+    }
   }
 
   // ==========================================
