@@ -1000,6 +1000,7 @@ class EduGameApp {
   }
 
   handleLetterChoice(letterObj) {
+    if (this.dom.celebrationOverlay.classList.contains('active')) return;
     const wordData = WORDS_DATABASE[this.spellingIndex];
     const nextSlotIndex = this.spellingFilled.findIndex(val => val === null);
     if (nextSlotIndex === -1) return;
@@ -1144,6 +1145,7 @@ class EduGameApp {
   }
 
   handleNumberChoice(selectedNumber, correctNumber) {
+    if (this.dom.celebrationOverlay.classList.contains('active')) return;
     if (selectedNumber === correctNumber) {
       this.addStar();
       soundEngine.playCorrect();
@@ -1242,6 +1244,7 @@ class EduGameApp {
   }
 
   handleBalloonTap(balloonEl, symbol, event) {
+    if (this.dom.celebrationOverlay.classList.contains('active')) return;
     if (symbol === this.currentBalloonTarget) {
       // Pop balloon!
       soundEngine.playBalloonPop();
