@@ -247,7 +247,7 @@ class EduGameApp {
     }
 
     // Close overlays when clicking outside modal dialog (backdrop click)
-    [this.dom.customOverlay, this.dom.albumOverlay, this.dom.infoOverlay].forEach(overlay => {
+    [this.dom.albumOverlay, this.dom.infoOverlay].forEach(overlay => {
       if (overlay) {
         overlay.addEventListener('click', (e) => {
           if (e.target === overlay) {
@@ -522,8 +522,17 @@ class EduGameApp {
 
     // Keyboard support for desktop
     window.addEventListener('keydown', (e) => {
+      if (this.dom.albumOverlay.classList.contains('active') ||
+          this.dom.infoOverlay.classList.contains('active') ||
+          this.dom.clownRewardOverlay.classList.contains('active')) {
+        return;
+      }
+
       if (this.dom.celebrationOverlay.classList.contains('active')) {
-        this.triggerNextQuestionImmediately();
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.triggerNextQuestionImmediately();
+        }
         return;
       }
 
@@ -805,7 +814,7 @@ class EduGameApp {
     const step = 800;
     items.forEach((it, i) => {
       setTimeout(() => {
-        if (this.currentMode !== 'counting' || !it.isConnected) return;
+        if (this.currentMode !== 'counting' || !it.isConnected || this.dom.celebrationOverlay.classList.contains('active')) return;
         this.handleItemTap(it, i + 1);
         if (i === items.length - 1) {
           this.renderMascot('cheer', `Semuanya ada ${total}! Ayo pilih angkanya! 🔢`);
