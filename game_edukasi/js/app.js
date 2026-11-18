@@ -39,6 +39,13 @@ class EduGameApp {
     // Transition timer reference for instant skipping
     this.autoAdvanceTimer = null;
 
+    // Warna & Bentuk state
+    this.shapesTarget = null;
+
+    // Petunjuk (hint) & rapor belajar
+    this.hintCooldown = false;
+    this.stats = this.loadStats();
+
     // Motivational phrases (Warm, uplifting, never punishing)
     this.encouragePhrases = [
       'Ayo coba lagi, kamu pasti bisa! 🌈',
@@ -157,7 +164,20 @@ class EduGameApp {
       clownCountdownTimer: document.getElementById('clown-countdown-timer'),
       clownSvgStage: document.getElementById('clown-svg-stage'),
       btnSwitchClownLive: document.getElementById('btn-switch-clown-live'),
-      btnCloseClownReward: document.getElementById('btn-close-clown-reward')
+      btnCloseClownReward: document.getElementById('btn-close-clown-reward'),
+
+      // Warna & Bentuk
+      screenShapes: document.getElementById('screen-shapes'),
+      cardShapes: document.getElementById('mode-card-shapes'),
+      shapesPrompt: document.getElementById('shapes-prompt'),
+      shapesTargetBadge: document.getElementById('shapes-target-badge'),
+      shapesOptions: document.getElementById('shapes-options'),
+      btnSpeakShapes: document.getElementById('btn-speak-shapes'),
+      btnRefreshShapes: document.getElementById('btn-refresh-shapes'),
+
+      // Progres menu
+      menuProgressLabel: document.getElementById('menu-progress-label'),
+      menuProgressFill: document.getElementById('menu-progress-fill')
     };
   }
 
@@ -194,6 +214,10 @@ class EduGameApp {
         document.exitFullscreen().catch(() => {});
       }
     });
+    // Sembunyikan tombol layar penuh di perangkat yang tidak mendukung (mis. iPhone Safari)
+    if (!document.fullscreenEnabled || !document.documentElement.requestFullscreen) {
+      this.dom.btnFullscreen.style.display = 'none';
+    }
 
     // Sticker Album
     this.dom.btnAlbum.addEventListener('click', () => {
@@ -210,6 +234,7 @@ class EduGameApp {
     if (this.dom.btnInfo) {
       this.dom.btnInfo.addEventListener('click', () => {
         soundEngine.playClick();
+        this.renderReport();
         this.dom.infoOverlay.classList.add('active');
       });
     }
@@ -234,17 +259,45 @@ class EduGameApp {
 
     if (this.dom.btnResetStars) {
       this.dom.btnResetStars.addEventListener('click', () => {
-        const confirmReset = confirm('Apakah Ayah/Bunda yakin ingin mereset koleksi bintang kembali ke 0?');
+        const confirmReset = confirm('Apakah Ayah/Bunda yakin ingin mereset koleksi bintang dan rapor belajar kembali ke 0?');
         if (confirmReset) {
           this.stars = 0;
           this.lastClownMilestone = 0;
           this.pendingClownReward = false;
           localStorage.setItem('edu_game_stars', '0');
           localStorage.setItem('edu_last_clown_milestone', '0');
+          this.stats = this.defaultStats();
+          this.saveStats();
           this.updateStarsDisplay();
+          this.renderReport();
           soundEngine.playPop();
-          alert('Bintang berhasil direset ke 0! ⭐');
+          alert('Bintang & rapor berhasil direset ke 0! ⭐');
         }
+      });
+    }
+
+    // Petunjuk (hint) di semua mode permainan
+    document.querySelectorAll('.btn-hint').forEach(btn => {
+      btn.addEventListener('click', () => this.useHint());
+    });
+
+    // Mode Warna & Bentuk
+    if (this.dom.cardShapes) {
+      this.dom.cardShapes.addEventListener('click', () => {
+        soundEngine.playPop();
+        this.startShapesMode();
+      });
+    }
+    if (this.dom.btnSpeakShapes) {
+      this.dom.btnSpeakShapes.addEventListener('click', () => {
+        soundEngine.playClick();
+        if (this.shapesTarget) soundEngine.speak(this.getShapesPromptText());
+      });
+    }
+    if (this.dom.btnRefreshShapes) {
+      this.dom.btnRefreshShapes.addEventListener('click', () => {
+        soundEngine.playClick();
+        this.loadShapesRound();
       });
     }
 
