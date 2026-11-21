@@ -2573,3 +2573,126 @@ html, body {
   .addition-plus-sign { width: 34px; height: 34px; font-size: 22px; }
   .addition-item { width: 42px; height: 42px; }
 }
+
+
+/* ==========================================================================
+   v4 — LANJUT OTOMATIS & 5 ANIMASI KARAKTER LUCU
+   ========================================================================== */
+.settings-box {
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.btn-auto-next-pill {
+  background: #FFFFFF;
+  border: 2px solid #CBD5E1;
+  border-bottom: 3.5px solid #94A3B8;
+  border-radius: var(--radius-pill);
+  padding: 6px 13px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.btn-auto-next-pill.active {
+  background: #8338EC;
+  border-color: #6D28D9;
+  border-bottom-color: #4C1D95;
+  color: #FFFFFF;
+  box-shadow: 0 3px 8px rgba(131, 56, 236, 0.25);
+}
+.btn-auto-next-pill:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+/* 1. Robot Riko: Gerak patah-patah disko + antena berkedip */
+.clown-animated-character.anim-robot {
+  animation: robotDance 0.9s steps(4, end) infinite;
+}
+@keyframes robotDance {
+  0%   { transform: translateY(0) rotate(-5deg) scale(1); }
+  25%  { transform: translateY(-16px) rotate(5deg) scale(1.04); }
+  50%  { transform: translateY(0) rotate(5deg) scale(0.98, 1.03); }
+  75%  { transform: translateY(-18px) rotate(-5deg) scale(1.04); }
+  100% { transform: translateY(0) rotate(-5deg) scale(1); }
+}
+.robot-antenna-bulb {
+  animation: bulbBlink 0.45s ease-in-out infinite alternate;
+}
+@keyframes bulbBlink {
+  from { fill: #FACC15; filter: drop-shadow(0 0 4px #FACC15); }
+  to   { fill: #EF4444; filter: drop-shadow(0 0 12px #EF4444); }
+}
+.robot-heart {
+  transform-origin: 100px 152px;
+  animation: heartBeat 0.7s ease-in-out infinite;
+}
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+}
+
+/* 2. Dino Dodo: Lompat kenyal gembira (squash & stretch) */
+.clown-animated-character.anim-dino {
+  animation: dinoHop 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+@keyframes dinoHop {
+  0%, 100% { transform: translateY(0) scale(1.08, 0.92); }
+  45%      { transform: translateY(-38px) scale(0.94, 1.08) rotate(4deg); }
+  75%      { transform: translateY(-10px) scale(1, 1) rotate(-3deg); }
+}
+
+/* 3. Panda Pipo: Bergoyang kanan-kiri seperti bola gemuk */
+.clown-animated-character.anim-panda {
+  animation: pandaWaddle 1.2s ease-in-out infinite;
+}
+@keyframes pandaWaddle {
+  0%   { transform: rotate(-12deg) translateX(-14px) scale(1.02, 0.98); }
+  25%  { transform: translateY(-16px) rotate(0deg) scale(0.98, 1.03); }
+  50%  { transform: rotate(12deg) translateX(14px) scale(1.02, 0.98); }
+  75%  { transform: translateY(-16px) rotate(0deg) scale(0.98, 1.03); }
+  100% { transform: rotate(-12deg) translateX(-14px) scale(1.02, 0.98); }
+}
+
+/* 4. Pinguin Pingo: Berputar ceria & baling-baling topi berputar */
+.clown-animated-character.anim-penguin {
+  animation: penguinSpinHop 1.4s ease-in-out infinite;
+}
+@keyframes penguinSpinHop {
+  0%   { transform: translateY(0) rotate(-8deg) scale(1); }
+  30%  { transform: translateY(-28px) rotate(8deg) scale(1.06); }
+  55%  { transform: translateY(-24px) rotate(368deg) scale(1.06); }
+  80%  { transform: translateY(0) rotate(352deg) scale(1.04, 0.95); }
+  100% { transform: translateY(0) rotate(352deg) scale(1); }
+}
+.penguin-propeller {
+  transform-origin: 100px 24px;
+  animation: propSpin 0.25s linear infinite;
+}
+@keyframes propSpin {
+  0%   { transform: scaleX(1); }
+  50%  { transform: scaleX(0.15); }
+  100% { transform: scaleX(1); }
+}
+
+/* 5. Astronot Ciko & Roket: Terbang melayang zig-zag & api menyala */
+.clown-animated-character.anim-rocket {
+  animation: rocketZoom 1.5s ease-in-out infinite;
+}
+@keyframes rocketZoom {
+  0%   { transform: translate(0, 0) rotate(-6deg); }
+  25%  { transform: translate(18px, -30px) rotate(8deg) scale(1.06); }
+  50%  { transform: translate(-14px, -42px) rotate(-10deg) scale(1.08); }
+  75%  { transform: translate(12px, -18px) rotate(6deg) scale(1.03); }
+  100% { transform: translate(0, 0) rotate(-6deg); }
+}
+.rocket-flame {
+  transform-origin: 100px 186px;
+  animation: flameFlicker 0.2s ease-in-out infinite alternate;
+}
+@keyframes flameFlicker {
+  from { transform: scaleY(0.85) scaleX(0.95); opacity: 0.9; }
+  to   { transform: scaleY(1.22) scaleX(1.08); opacity: 1; }
+}
