@@ -989,12 +989,16 @@
       // ---------- Events (1-tap buka, long-press / klik kanan untuk detail) ----------
       let lpTimer = null;
       let lpFired = false;
+      let lpStartX = 0;
+      let lpStartY = 0;
 
       document.addEventListener('pointerdown', (e) => {
         if (e.button === 2) return;
         const appEl = e.target.closest('[data-id]');
         if (!appEl || e.target.closest('[data-info]')) return;
         lpFired = false;
+        lpStartX = e.clientX;
+        lpStartY = e.clientY;
         clearTimeout(lpTimer);
         lpTimer = setTimeout(() => {
           lpFired = true;
@@ -1009,7 +1013,7 @@
 
       ['pointerup', 'pointercancel', 'pointermove'].forEach(evt => {
         document.addEventListener(evt, (e) => {
-          if (evt === 'pointermove' && Math.abs(e.movementX) + Math.abs(e.movementY) < 6) return;
+          if (evt === 'pointermove' && Math.abs(e.clientX - lpStartX) + Math.abs(e.clientY - lpStartY) < 10) return;
           clearTimeout(lpTimer);
         }, { passive: true });
       });
