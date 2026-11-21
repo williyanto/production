@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>WA Apps — Launcher Aplikasi Mobile Williyanto Adi</title>
+  <title>AppHub — Pusat Aplikasi &amp; Utilitas Terpadu</title>
   <meta name="description" content="Konsep launcher aplikasi: semua proyek mobile Williyanto Adi dalam satu layar seperti home screen ponsel.">
   <meta name="theme-color" content="#F3F5F9">
   <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
@@ -453,10 +453,12 @@
     <main class="phone" id="phone">
       <div class="hello">
         <div class="hello-left">
-          <div class="avatar">WA</div>
+          <div class="avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>
+          </div>
           <div>
-            <small id="greet">Selamat datang</small>
-            <strong>Williyanto Adi</strong>
+            <strong>AppHub</strong>
+            <small>Pusat Aplikasi &amp; Utilitas Terpadu</small>
           </div>
         </div>
         <div style="display:flex; gap:8px;">
@@ -564,10 +566,12 @@
       <div class="sheet" id="about-sheet" role="dialog" aria-modal="true" aria-labelledby="about-title">
         <div class="sheet-handle"></div>
         <div class="sheet-head">
-          <div class="avatar" style="width:54px;height:54px;border-radius:16px;font-size:18px;flex-shrink:0;">WA</div>
+          <div class="avatar" style="width:54px;height:54px;border-radius:16px;flex-shrink:0;" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>
+          </div>
           <div>
-            <h3 id="about-title">WA Apps Launcher</h3>
-            <small>Versi 20261121 · 33 Aplikasi Terpadu</small>
+            <h3 id="about-title">AppHub</h3>
+            <small>Versi 20261121 · Pusat Aplikasi Terpadu</small>
           </div>
         </div>
         <p>Launcher aplikasi web bergaya ponsel yang menghimpun seluruh proyek mobile, kalkulator teknik kabel, pengujian material, dan utilitas harian dalam satu layar cepat.</p>
@@ -1185,14 +1189,6 @@
         if ($('viewer').classList.contains('show')) closeApp();
         else { closeSheet(); closeDockSheet(); closeAboutSheet(); }
       });
-
-      // ---------- Sapaan ----------
-      function tick() {
-        const h = new Date().getHours();
-        $('greet').textContent = h < 11 ? 'Selamat pagi ☀️' : h < 15 ? 'Selamat siang 🌤️' : h < 18 ? 'Selamat sore 🌇' : 'Selamat malam 🌙';
-      }
-      tick();
-      setInterval(tick, 60000);
 
       renderAll();
     })();
