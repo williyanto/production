@@ -903,7 +903,8 @@
 
       document.addEventListener('keydown', (e) => {
         if (e.key !== 'Escape') return;
-        if ($('viewer').classList.contains('show')) closeApp();
+        if ($('switcher').classList.contains('show')) closeSwitcher();
+        else if ($('viewer').classList.contains('show')) closeApp();
         else closeSheet();
       });
 
