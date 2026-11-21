@@ -350,12 +350,32 @@
               </div>
             </div>
 
-            <!-- Pilihan Model Badut Beragam -->
+            <!-- Lanjut Main Otomatis Setting Card -->
             <div class="settings-subcard" style="margin-top: 10px;">
-              <div class="settings-subcard-title">🤡 Pilihan Model Badut (Bervariasi):</div>
-              <p class="settings-subcard-help">Pilih karakter badut favorit si kecil atau buat acak bergantian agar selalu bervariasi:</p>
+              <div class="settings-subcard-title">⏩ Lanjut Main Otomatis Setelah Menjawab Benar:</div>
+              <p class="settings-subcard-help">Atur jeda waktu sebelum otomatis lanjut ke soal berikutnya (atau pilih Manual):</p>
+              <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;">
+                <div class="settings-pill-options">
+                  <button class="btn-auto-next-pill" data-auto="0">Manual (Klik)</button>
+                  <button class="btn-auto-next-pill" data-auto="2">2 Detik</button>
+                  <button class="btn-auto-next-pill active" data-auto="3">3 Detik</button>
+                  <button class="btn-auto-next-pill" data-auto="4">4 Detik</button>
+                  <button class="btn-auto-next-pill" data-auto="5">5 Detik</button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 13px; font-weight: 700; color: #475569;">Custom (detik):</span>
+                  <input type="number" id="input-custom-auto-next" class="settings-num-input" min="1" max="30" value="3">
+                  <button id="btn-save-auto-next" class="btn-action-pill" style="padding: 6px 14px; font-size: 13px;">Simpan</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pilihan Model Badut & Karakter Animasi Lucu -->
+            <div class="settings-subcard" style="margin-top: 10px;">
+              <div class="settings-subcard-title">🎪 Pilihan Karakter Animasi Lucu (9 Karakter):</div>
+              <p class="settings-subcard-help">Pilih karakter favorit si kecil (Badut, Robot, Dino, Panda, Pinguin, atau Roket Ciko):</p>
               <div id="clown-models-selection-grid" class="clown-models-grid">
-                <!-- Dynamic Clown Cards -->
+                <!-- Dynamic Character Cards -->
               </div>
             </div>
           </div>
@@ -435,7 +455,7 @@
       
       <div style="display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 8px;">
         <button id="btn-celebration-next" class="btn-primary-action">
-          <span>Lanjut Main!</span>
+          <span id="btn-celebration-next-label">Lanjut Main!</span>
           <span>🚀</span>
         </button>
         <button id="btn-celebration-home" class="btn-action-pill btn-secondary" style="font-size: 16px; padding: 12px 24px;">
@@ -539,7 +559,7 @@
       <!-- Clown Action Bar -->
       <div class="clown-reward-controls">
         <button id="btn-switch-clown-live" class="btn-action-pill" style="background: #FEF08A; border-color: #F59E0B; color: #78350F;">
-          <span>🔄 Ganti Model Badut</span>
+          <span>🔄 Ganti Animasi</span>
         </button>
         <button id="btn-close-clown-reward" class="btn-action-pill btn-secondary" style="background: #FFFFFF; border-color: #CBD5E1;">
           <span>✕ Selesai Nonton</span>
