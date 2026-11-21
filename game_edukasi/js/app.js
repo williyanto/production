@@ -155,6 +155,8 @@ class EduGameApp {
       setTabContentBalloon: document.getElementById('set-tab-content-balloon'),
       inputCustomStarTarget: document.getElementById('input-custom-star-target'),
       btnSaveStarTarget: document.getElementById('btn-save-star-target'),
+      inputCustomAutoNext: document.getElementById('input-custom-auto-next'),
+      btnSaveAutoNext: document.getElementById('btn-save-auto-next'),
       btnPreviewClown: document.getElementById('btn-preview-clown'),
       clownModelsSelectionGrid: document.getElementById('clown-models-selection-grid'),
       inputSettingsWord: document.getElementById('input-settings-word'),
