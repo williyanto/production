@@ -1029,6 +1029,10 @@
       });
 
       document.addEventListener('click', (e) => {
+        if (!e.target.closest('.sort-wrap')) {
+          $('sort-menu').classList.remove('show');
+          $('sort-btn').setAttribute('aria-expanded', 'false');
+        }
         if (e.target.closest('#dock-add-btn')) { openDockSheet(null); return; }
         const dpick = e.target.closest('[data-dpick]');
         if (dpick) {
@@ -1062,6 +1066,8 @@
         if (sortBtn) {
           sortBy = sortBtn.dataset.sort;
           save(LS_SORT, sortBy);
+          $('sort-menu').classList.remove('show');
+          $('sort-btn').setAttribute('aria-expanded', 'false');
           renderSections();
           return;
         }
@@ -1074,7 +1080,15 @@
       $('chips-prev').addEventListener('click', () => { $('chips').scrollBy({ left: -160, behavior: 'smooth' }); });
       $('chips-next').addEventListener('click', () => { $('chips').scrollBy({ left: 160, behavior: 'smooth' }); });
 
-      $('scrim').addEventListener('click', () => { closeSheet(); closeDockSheet(); });
+      $('sort-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = $('sort-menu').classList.toggle('show');
+        $('sort-btn').setAttribute('aria-expanded', String(open));
+      });
+      $('btn-about').addEventListener('click', () => openAboutSheet());
+      $('about-close').addEventListener('click', closeAboutSheet);
+
+      $('scrim').addEventListener('click', () => { closeSheet(); closeDockSheet(); closeAboutSheet(); });
       $('ds-done').addEventListener('click', closeDockSheet);
       $('ds-open').addEventListener('click', () => { if (dockEditTarget) { closeDockSheet(); openApp(dockEditTarget); } });
       $('ds-remove').addEventListener('click', () => {
@@ -1122,6 +1136,7 @@
       // Tombol Back HP / Browser menutup layer aktif lebih dulu
       window.addEventListener('popstate', () => {
         if ($('viewer').classList.contains('show')) { closeApp(); return; }
+        if ($('about-sheet').classList.contains('show')) { closeAboutSheet(); return; }
         if ($('dock-sheet').classList.contains('show')) { closeDockSheet(); return; }
         if ($('sheet').classList.contains('show')) { closeSheet(); }
       });
