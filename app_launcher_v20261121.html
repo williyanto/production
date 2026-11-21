@@ -1030,14 +1030,13 @@
         if (e.key !== 'Escape') return;
         if ($('switcher').classList.contains('show')) closeSwitcher();
         else if ($('viewer').classList.contains('show')) closeApp();
-        else closeSheet();
+        else { closeSheet(); closeDockSheet(); }
       });
 
       // ---------- Jam & sapaan ----------
       function tick() {
         const now = new Date();
         const hm = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
-        $('sb-time').textContent = hm;
         $('w-time').textContent = hm;
         $('w-date').textContent = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
         const h = now.getHours();
@@ -1045,13 +1044,6 @@
       }
       tick();
       setInterval(tick, 15000);
-
-      if (navigator.getBattery) {
-        navigator.getBattery().then(b => {
-          const upd = () => { $('sb-batt').textContent = `🔋 ${Math.round(b.level * 100)}%`; };
-          upd(); b.addEventListener('levelchange', upd);
-        }).catch(() => {});
-      }
 
       renderAll();
     })();
