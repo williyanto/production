@@ -809,9 +809,9 @@
         const file = a.href.split('/').pop();
         const ver = a.ver || (file.match(/v(\d{8})/) || [])[1];
         $('sheet-meta').innerHTML = [
-          '📱 Resolusi Mobile',
+          a.full ? '🖥️ Layar Penuh' : '📱 Resolusi Mobile',
           ver ? `🗓️ v${ver}` : '🧩 Multi-halaman',
-          '✅ Aktif'
+          `🔥 Dibuka ${openCounts[a.id] || 0}×`
         ].map(t => `<span>${t}</span>`).join('');
         $('sheet-fav').textContent = favs.includes(a.id) ? '★ Hapus Favorit' : '☆ Favorit';
         $('sheet-tab').href = a.href;
@@ -824,17 +824,71 @@
         $('sheet').classList.remove('show');
       }
 
+      // ---------- Sinkronisasi Tema Terang / Malam ke Aplikasi ----------
+      function getLauncherTheme() {
+        return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      }
+
+      function syncThemeToApps() {
+        const mode = getLauncherTheme();
+        const isDark = mode === 'dark';
+        try {
+          localStorage.setItem('color-theme', mode);
+          localStorage.setItem('assetpro_theme', mode);
+          localStorage.setItem('theme', mode);
+          localStorage.setItem('berkas_in_web_theme_v1', mode);
+          localStorage.setItem('workfolio_web_theme_v1', mode);
+          // Sinkronkan juga ke state JSON Servis.In & Bersih.In bila sudah ada
+          ['servis_in_store_v4', 'bersih_in_state_v1'].forEach(key => {
+            const raw = localStorage.getItem(key);
+            if (!raw) return;
+            try {
+              const obj = JSON.parse(raw);
+              if (obj && typeof obj === 'object') {
+                obj.theme = mode;
+                localStorage.setItem(key, JSON.stringify(obj));
+              }
+            } catch (e) {}
+          });
+        } catch (e) {}
+        applyThemeToIframe($('viewer-frame'), isDark, mode);
+      }
+
+      function applyThemeToIframe(frame, isDark, mode) {
+        if (!frame || !frame.contentDocument) return;
+        try {
+          const doc = frame.contentDocument;
+          if (doc.documentElement) {
+            doc.documentElement.setAttribute('data-theme', mode);
+            doc.documentElement.classList.toggle('dark', isDark);
+          }
+          if (doc.body) {
+            doc.body.classList.toggle('dark-mode', isDark);
+          }
+        } catch (e) {}
+      }
+
       // ---------- Viewer (1-tap buka) ----------
       const isSmallScreen = () => window.matchMedia('(max-width: 499px)').matches;
+
+      function updateFullBtn() {
+        const full = $('viewer').classList.contains('is-full');
+        $('viewer-full-btn').textContent = full ? '◱ Normal' : '⛶ Penuh';
+      }
 
       function openApp(a, fromPop = false) {
         recent = [a.id, ...recent.filter(x => x !== a.id)].slice(0, 8);
         save(LS_RECENT, recent);
+        openCounts[a.id] = (openCounts[a.id] || 0) + 1;
+        save(LS_COUNTS, openCounts);
+        syncThemeToApps();
         closeSheet();
         if (isSmallScreen()) {
           window.location.href = a.href;
           return;
         }
+        $('viewer').classList.toggle('is-full', !!a.full);
+        updateFullBtn();
         $('viewer-title').textContent = a.name;
         $('viewer-tab').href = a.href;
         $('viewer-loading').classList.remove('done');
@@ -843,9 +897,10 @@
         $('viewer').classList.add('show');
         $('viewer').setAttribute('aria-hidden', 'false');
         renderRecent();
+        if (sortBy === 'frequent') renderSections();
       }
       function closeApp() {
-        $('viewer').classList.remove('show');
+        $('viewer').classList.remove('show', 'is-full');
         $('viewer').setAttribute('aria-hidden', 'true');
         setTimeout(() => { if (!$('viewer').classList.contains('show')) $('viewer-frame').src = 'about:blank'; }, 300);
       }
@@ -934,6 +989,13 @@
           if (a) openApp(a);
           return;
         }
+        const sortBtn = e.target.closest('[data-sort]');
+        if (sortBtn) {
+          sortBy = sortBtn.dataset.sort;
+          save(LS_SORT, sortBy);
+          renderSections();
+          return;
+        }
         const chip = e.target.closest('.chip');
         if (chip) { activeCat = chip.dataset.cat; renderAll(); }
       });
@@ -974,11 +1036,19 @@
 
       $('viewer-back').addEventListener('click', closeApp);
       $('viewer-home').addEventListener('click', closeApp);
+      $('viewer-full-btn').addEventListener('click', () => {
+        $('viewer').classList.toggle('is-full');
+        updateFullBtn();
+      });
       $('viewer-reload').addEventListener('click', () => {
         $('viewer-loading').classList.remove('done');
         $('viewer-frame').src = $('viewer-frame').src;
       });
-      $('viewer-frame').addEventListener('load', () => $('viewer-loading').classList.add('done'));
+      $('viewer-frame').addEventListener('load', () => {
+        $('viewer-loading').classList.add('done');
+        const mode = getLauncherTheme();
+        applyThemeToIframe($('viewer-frame'), mode === 'dark', mode);
+      });
 
       // Tombol Back HP / Browser menutup layer aktif lebih dulu
       window.addEventListener('popstate', () => {
@@ -1011,8 +1081,10 @@
         else document.documentElement.setAttribute('data-theme', 'dark');
         localStorage.setItem('wa_launcher_theme', dark ? 'light' : 'dark');
         $('btn-theme').textContent = dark ? '🌙' : '☀️';
+        syncThemeToApps();
       });
       $('btn-theme').textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+      syncThemeToApps();
 
       $('clear-recent').addEventListener('click', () => {
         recent = []; save(LS_RECENT, recent); renderRecent();
