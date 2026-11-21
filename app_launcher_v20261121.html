@@ -588,6 +588,7 @@
         { id: 'rewind', name: 'Waktu Rewind', icon: '🔄', color: ['#4ADE80', '#15803D'], cat: 'Kabel & Teknik', href: './hitung_waktu_rewind_v20261104.html', desc: 'Estimasi waktu proses rewind kabel berdasarkan panjang dan kecepatan mesin.' },
         { id: 'satuan', name: 'Konverter Satuan', icon: '🔁', color: ['#22D3EE', '#0369A1'], cat: 'Kabel & Teknik', href: './konverter_satuan_teknik_v20261115.html', desc: 'Konversi satuan teknik: panjang, luas, massa, tekanan, suhu, dan lainnya.' },
         { id: 'bending', name: 'Uji Bending', icon: '🌀', color: ['#F472B6', '#BE185D'], cat: 'Kabel & Teknik', href: './uji_bending_v20261031.html', desc: 'Kalkulator parameter uji bending (diameter mandrel & jumlah lilitan) untuk material kabel.' },
+        { id: 'dimensi', name: 'Kalkulasi Dimensi', icon: '📐', color: ['#60A5FA', '#0284C7'], cat: 'Kabel & Teknik', href: './kalkulasi_dimensi_v20261104.html', desc: 'Perhitungan dimensi konduktor, ketebalan isolasi, dan diameter keseluruhan kabel.' },
 
         // Utilitas
         { id: 'waktu', name: 'Kalkulator Waktu', icon: '⏱️', color: ['#818CF8', '#4338CA'], cat: 'Utilitas', href: './kalkulator_waktu_v20261031.html', desc: 'Penjumlahan dan pengurangan durasi waktu (jam, menit, detik) dengan cepat.' },
@@ -595,7 +596,19 @@
         { id: 'persen', name: 'Hitung Persen', icon: '％', color: ['#F9A8D4', '#DB2777'], cat: 'Utilitas', href: './hitung_persen_v20261031.html', desc: 'Kalkulator persentase: diskon, kenaikan, selisih, dan porsi nilai.' },
         { id: 'lembur', name: 'Hitung Lembur', icon: '🕒', color: ['#FCD34D', '#B45309'], cat: 'Utilitas', href: './hitung_lembur_v20261031.html', desc: 'Perhitungan upah lembur sesuai aturan jam kerja dan upah per jam.' },
         { id: 'generator', name: 'Generator Angka', icon: '🎲', color: ['#A5B4FC', '#6366F1'], cat: 'Utilitas', href: './generator_angka_v20261104.html', desc: 'Pembuat angka acak dengan rentang dan jumlah yang dapat diatur.' },
-        { id: 'trip', name: 'Trip Planner', icon: '🗺️', color: ['#5EEAD4', '#0D9488'], cat: 'Utilitas', href: './trip_planner_v20261117.html', desc: 'Perencana perjalanan: estimasi jarak, BBM, biaya, dan waktu tempuh.' }
+        { id: 'trip', name: 'Trip Planner', icon: '🗺️', color: ['#5EEAD4', '#0D9488'], cat: 'Utilitas', href: './trip_planner_v20261117.html', desc: 'Perencana perjalanan: estimasi jarak, BBM, biaya, dan waktu tempuh.' },
+        { id: 'rapihkan', name: 'Rapihkan Teks', icon: '✍️', color: ['#F472B6', '#9333EA'], cat: 'Utilitas', href: './rapihkan_teks_v20261117.html', desc: 'Format kalimat, pengetikan KBBI, koreksi typo otomatis, kapitalisasi, dan bagikan ke WhatsApp.' },
+
+        // Layar Penuh / Desktop (ditempatkan paling bawah)
+        { id: 'edukasi', name: 'Game Edukasi', full: true, icon: '🎈', color: ['#FF5E7E', '#F59E0B'], cat: 'Layar Penuh', href: './game_edukasi/index.html', desc: 'Game edukasi anak usia 4 tahun: belajar mengeja, berhitung, penjumlahan, balon, serta warna & bentuk.' },
+        { id: 'bbm', name: 'Monitoring BBM', full: true, icon: '⛽', color: ['#FB923C', '#DC2626'], cat: 'Layar Penuh', href: './monitoring_bbm_v20261001.html', desc: 'Pemantauan konsumsi bahan bakar, efisiensi jarak tempuh, dan riwayat pengisian BBM.' },
+        { id: 'aset', name: 'Manajemen Aset', full: true, icon: '🏢', color: ['#38BDF8', '#0284C7'], cat: 'Layar Penuh', href: './manajemen_aset_v20261115.html', desc: 'Pelacakan inventaris aset, kondisi perangkat, lokasi penyimpanan, dan riwayat pemeliharaan.' },
+        { id: 'gaji', name: 'Alokasi Gaji', full: true, icon: '💰', color: ['#34D399', '#059669'], cat: 'Layar Penuh', href: './kalkulator_alokasi_gaji_v20261007.html', desc: 'Perencanaan alokasi gaji bulanan otomatis untuk kebutuhan, tabungan, dan investasi.' },
+        { id: 'daya', name: 'Daya Listrik', full: true, icon: '💡', color: ['#FACC15', '#D97706'], cat: 'Layar Penuh', href: './kalkulator_daya_listrik_v20261007.html', desc: 'Kalkulator daya listrik (Watt, VA, Ampere, kWh) dan estimasi pemakaian energi.' },
+        { id: 'awg', name: 'mm² ke AWG', full: true, icon: '🧵', color: ['#818CF8', '#4F46E5'], cat: 'Layar Penuh', href: './konversi_mm2_to_awg_v20261001.html', desc: 'Tabel & kalkulator konversi luas penampang kabel metrik (mm²) ke standar AWG.' },
+        { id: 'coldbend', name: 'Cold Bending', full: true, icon: '❄️', color: ['#67E8F9', '#0284C7'], cat: 'Layar Penuh', href: './coldbending_heatshock/coldbending_v20261031.html', desc: 'Kalkulator & pencatatan uji kelenturan material kabel pada suhu dingin (Cold Bending).' },
+        { id: 'heatshock', name: 'Heat Shock', full: true, icon: '🔥', color: ['#FCA5A5', '#DC2626'], cat: 'Layar Penuh', href: './coldbending_heatshock/heatshock_v20261031.html', desc: 'Kalkulator & pencatatan uji ketahanan panas kejut (Heat Shock) material isolasi kabel.' },
+        { id: 'visualizer', name: 'Visualizer Kabel', full: true, icon: '🎨', color: ['#A78BFA', '#6D28D9'], cat: 'Layar Penuh', href: './visualizer_konstruksi_kabel_v20261109.html', desc: 'Visualisasi penampang konstruksi kabel multi-core, lapisan isolasi, armor, dan selubung.' }
       ];
 
       const $ = (id) => document.getElementById(id);
@@ -603,6 +616,8 @@
       const LS_DOCK = 'wa_launcher_dock';
       const DEFAULT_DOCK = ['servisin', 'berkasin', 'bersihin', 'workfolio', 'trip'];
       const LS_RECENT = 'wa_launcher_recent';
+      const LS_COUNTS = 'wa_launcher_counts';
+      const LS_SORT = 'wa_launcher_sort';
       const LS_VIEW = 'wa_launcher_view';
       const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } };
       const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
@@ -611,6 +626,8 @@
       let dockApps = load(LS_DOCK, DEFAULT_DOCK).filter(id => APPS.some(a => a.id === id)).slice(0, 5);
       let dockEditTarget = null;
       let recent = load(LS_RECENT, []);
+      let openCounts = load(LS_COUNTS, {});
+      let sortBy = load(LS_SORT, 'category');
       let view = load(LS_VIEW, 'grid');
       let activeCat = 'Semua';
       let query = '';
@@ -623,16 +640,18 @@
 
       function appTile(a, i) {
         return `<button class="app" data-id="${a.id}" style="animation-delay:${Math.min(i, 16) * 18}ms" aria-label="${esc(a.name)}">
-          <span class="app-icon" style="${iconStyle(a)}">${a.icon}${favs.includes(a.id) ? '<span class="fav-dot">⭐</span>' : ''}</span>
+          <span class="app-icon" style="${iconStyle(a)}">${a.icon}${favs.includes(a.id) ? '<span class="fav-dot">⭐</span>' : ''}${a.full ? '<span class="full-badge" title="Tampilan Layar Penuh">🖥️</span>' : ''}</span>
           <span class="app-name">${esc(a.name)}</span>
         </button>`;
       }
 
       function appRow(a) {
+        const cnt = openCounts[a.id] || 0;
+        const tag = sortBy === 'frequent' && cnt > 0 ? `${cnt}×` : (a.full ? 'Layar Penuh' : a.cat.split(' ')[0]);
         return `<div class="row" data-id="${a.id}" role="button" tabindex="0">
           <span class="app-icon" style="${iconStyle(a)}">${a.icon}</span>
           <span class="row-text"><b>${esc(a.name)}${favs.includes(a.id) ? ' ⭐' : ''}</b><small>${esc(a.desc)}</small></span>
-          <span class="row-tag">${esc(a.cat.split(' ')[0])}</span>
+          <span class="row-tag">${esc(tag)}</span>
           <button type="button" class="row-info-btn" data-info="${a.id}" title="Detail &amp; Favorit" aria-label="Detail ${esc(a.name)}">ⓘ</button>
         </div>`;
       }
@@ -668,10 +687,34 @@
         });
       }
 
+      function renderSortPills() {
+        document.querySelectorAll('[data-sort]').forEach(b => {
+          b.classList.toggle('active', b.dataset.sort === sortBy);
+        });
+      }
+
+      function sortList(arr) {
+        const copy = arr.slice();
+        if (sortBy === 'az') {
+          copy.sort((a, b) => a.name.localeCompare(b.name, 'id'));
+        } else if (sortBy === 'frequent') {
+          copy.sort((a, b) => (openCounts[b.id] || 0) - (openCounts[a.id] || 0) || a.name.localeCompare(b.name, 'id'));
+        }
+        return copy;
+      }
+
       function renderSections() {
         const list = filtered();
-        const groups = {};
-        list.forEach(a => { (groups[a.cat] = groups[a.cat] || []).push(a); });
+        let groups = {};
+        if (sortBy === 'category') {
+          list.forEach(a => { (groups[a.cat] = groups[a.cat] || []).push(a); });
+        } else {
+          const mobileApps = sortList(list.filter(a => !a.full));
+          const fullApps = sortList(list.filter(a => a.full));
+          const label = sortBy === 'az' ? 'Semua Aplikasi (A–Z)' : 'Sering Dibuka';
+          if (mobileApps.length) groups[label] = mobileApps;
+          if (fullApps.length) groups['Layar Penuh (Bawah)'] = fullApps;
+        }
         let i = 0;
         $('sections').innerHTML = Object.keys(groups).map(cat => `
           <div class="section-title"><span>${esc(cat)}</span><span>${groups[cat].length}</span></div>
@@ -680,6 +723,7 @@
           </div>`).join('');
         $('empty').style.display = list.length ? 'none' : 'block';
         $('btn-view').textContent = view === 'grid' ? '☰' : '▦';
+        renderSortPills();
       }
 
       function renderRecent() {
