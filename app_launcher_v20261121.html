@@ -91,7 +91,7 @@
     .phone {
       position: relative;
       width: 100%;
-      max-width: 440px;
+      max-width: 100%;
       height: 100dvh;
       background: var(--bg-app);
       display: flex;
@@ -101,7 +101,16 @@
       transition: background .25s;
     }
     @media (min-width: 500px) {
-      .phone { height: min(calc(100dvh - 32px), 880px); border-radius: 30px; border: 1px solid var(--border); }
+      .stage { padding: 16px; }
+      .phone { max-width: 440px; height: min(calc(100dvh - 32px), 880px); border-radius: 30px; border: 1px solid var(--border); }
+    }
+    @media (max-width: 499px) {
+      .hello { padding: max(10px, env(safe-area-inset-top)) 10px 8px; }
+      .home { padding: 10px 10px 106px; }
+      .chips { margin: 0 -10px 12px; padding: 0 10px; }
+      .grid { gap: 12px 4px; }
+      .dock-wrap { padding: 0 8px max(10px, env(safe-area-inset-bottom)); }
+      .dock { padding: 8px 6px; border-radius: 22px; min-height: 70px; }
     }
     @media (min-width: 1000px) {
       .intro { display: block; }
@@ -273,12 +282,34 @@
     }
     .viewer.show { transform: none; opacity: 1; pointer-events: auto; }
     .viewer-bar {
-      display: flex; align-items: center; justify-content: space-between; gap: 6px;
-      padding: 8px 12px max(10px, env(safe-area-inset-bottom));
-      border-top: 1px solid var(--border); background: var(--surface); flex-shrink: 0;
+      display: flex; flex-direction: column; gap: 4px;
+      padding: 6px 8px max(8px, env(safe-area-inset-bottom));
+      border-top: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 92%, transparent);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      flex-shrink: 0;
     }
-    .viewer-bar .icon-btn { width: 38px; height: 38px; border-radius: 12px; font-size: 16px; box-shadow: none; background: var(--alt); }
-    .viewer-title { flex: 1; min-width: 0; font-weight: 700; font-size: 13px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 4px; }
+    .viewer-app-strip {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      font-size: 11px; font-weight: 700; color: var(--text-3);
+      padding: 0 12px;
+    }
+    .viewer-app-strip .dot { width: 6px; height: 6px; border-radius: 50%; background: #10B981; flex-shrink: 0; }
+    .viewer-title { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .viewer-nav {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; align-items: center;
+    }
+    .vnav-btn {
+      position: relative;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+      padding: 6px 2px; border-radius: 12px; color: var(--text-2); text-decoration: none;
+      transition: background .15s, color .15s, transform .1s;
+    }
+    .vnav-btn svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .vnav-btn span { font-size: 10px; font-weight: 600; line-height: 1.1; }
+    .vnav-btn:hover { background: var(--primary-soft); color: var(--primary); }
+    .vnav-btn:active { transform: scale(.93); }
+    .vnav-btn .sw-badge { top: 2px; right: calc(50% - 18px); min-width: 16px; height: 16px; font-size: 9.5px; }
     .viewer-frames { position: relative; flex: 1; width: 100%; background: #fff; }
     .viewer-frames iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; background: #fff; display: none; }
     .viewer-frames iframe.active { display: block; }
@@ -496,18 +527,39 @@
         <button type="button" class="btn-full primary" id="ds-done">Selesai</button>
       </div>
 
-      <!-- Viewer aplikasi di dalam ponsel (Navigasi Bar di Bawah) -->
+      <!-- Viewer aplikasi di dalam ponsel (Navigasi Bar Modern di Bawah) -->
       <div class="viewer" id="viewer" aria-hidden="true">
         <div class="viewer-loading" id="viewer-loading"></div>
         <div class="viewer-frames" id="viewer-frames"></div>
-        <div class="viewer-bar">
-          <button class="icon-btn" id="viewer-back" title="Kembali" aria-label="Kembali">←</button>
-          <button class="icon-btn" id="viewer-home" title="Beranda" aria-label="Beranda">🏠</button>
-          <div class="viewer-title" id="viewer-title">Aplikasi</div>
-          <button class="icon-btn has-badge" id="viewer-switcher" title="Aplikasi berjalan" aria-label="Aplikasi berjalan">▢<span class="sw-badge" id="sw-badge-v">0</span></button>
-          <button class="icon-btn" id="viewer-reload" title="Muat ulang" aria-label="Muat ulang">⟳</button>
-          <a class="icon-btn" id="viewer-tab" href="#" target="_blank" rel="noopener" title="Tab baru" aria-label="Buka di tab baru" style="text-decoration:none">↗</a>
-        </div>
+        <nav class="viewer-bar" aria-label="Navigasi aplikasi">
+          <div class="viewer-app-strip">
+            <span class="dot" aria-hidden="true"></span>
+            <span class="viewer-title" id="viewer-title">Aplikasi</span>
+          </div>
+          <div class="viewer-nav">
+            <button type="button" class="vnav-btn" id="viewer-back" aria-label="Kembali">
+              <svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+              <span>Kembali</span>
+            </button>
+            <button type="button" class="vnav-btn" id="viewer-home" aria-label="Beranda">
+              <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"/></svg>
+              <span>Beranda</span>
+            </button>
+            <button type="button" class="vnav-btn" id="viewer-switcher" aria-label="Aplikasi berjalan">
+              <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/></svg>
+              <span class="sw-badge" id="sw-badge-v">0</span>
+              <span>Aktif</span>
+            </button>
+            <button type="button" class="vnav-btn" id="viewer-reload" aria-label="Muat ulang">
+              <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg>
+              <span>Muat Ulang</span>
+            </button>
+            <a class="vnav-btn" id="viewer-tab" href="#" target="_blank" rel="noopener" aria-label="Buka di tab baru">
+              <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <span>Tab Baru</span>
+            </a>
+          </div>
+        </nav>
       </div>
 
       <!-- App Switcher (Multitasking) -->
