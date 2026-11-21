@@ -2406,3 +2406,170 @@ html, body {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   .cloud { display: none; }
 }
+
+
+/* ==========================================================================
+   v3 — MODE PENJUMLAHAN (ADDITION)
+   ========================================================================== */
+.mode-card.addition {
+  border-color: #FED7AA;
+  border-bottom: 8px solid #F97316;
+  box-shadow: 0 10px 24px rgba(249, 115, 22, 0.18);
+}
+.mode-card.addition:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 30px rgba(249, 115, 22, 0.28);
+}
+.mode-card.addition .mode-icon-wrapper { background: #FFF7ED; }
+
+.addition-box {
+  background: #FFFFFF;
+  border-radius: 36px;
+  padding: clamp(16px, 2.5vh, 26px) clamp(20px, 3.2vw, 36px);
+  width: 100%;
+  max-width: 920px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.09), 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 5px solid #FED7AA;
+  border-bottom: 10px solid #FB923C;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  position: relative;
+  min-height: min(clamp(420px, 66vh, 560px), 100%);
+}
+
+.addition-equation-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #FFF7ED;
+  border: 2.5px solid #FDBA74;
+  border-radius: var(--radius-pill);
+  padding: 5px 20px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #C2410C;
+}
+.addition-equation-badge .add-op { color: #F97316; }
+.addition-equation-badge .add-q {
+  background: #F97316;
+  color: #FFFFFF;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.addition-playground {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2vw, 20px);
+  width: 100%;
+  padding: 14px;
+  background: #FFFBF5;
+  border: 2.5px dashed #FDBA74;
+  border-radius: 22px;
+  margin: 10px 0;
+  min-height: 165px;
+}
+
+.addition-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  background: #FFFFFF;
+  border: 2px solid #FFEDD5;
+  border-radius: 18px;
+  padding: 10px;
+}
+
+.addition-plus-sign {
+  font-size: clamp(32px, 4.5vw, 44px);
+  font-weight: 800;
+  color: #F97316;
+  background: #FFEDD5;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 2.5px solid #FDBA74;
+}
+
+.btn-number-choice.addition-choice {
+  border-color: #FB923C;
+  border-bottom-color: #EA580C;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.18);
+}
+.btn-number-choice.addition-choice:hover { background: #FFF7ED; }
+.btn-number-choice.addition-choice .choice-num { color: #9A3412; }
+.btn-number-choice.addition-choice .choice-dots { color: #F97316; }
+
+@media (max-width: 960px) and (min-width: 681px) {
+  .mode-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .addition-box {
+    padding: 12px;
+    border-radius: 24px;
+    border-width: 4px;
+    border-bottom-width: 8px;
+    min-height: 0;
+  }
+  .addition-equation-badge { font-size: 17px; padding: 4px 14px; }
+  .addition-equation-badge .add-q { width: 25px; height: 25px; font-size: 15px; }
+  .addition-playground {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    min-height: 0;
+  }
+  .addition-group { width: 100%; gap: 6px; padding: 8px; }
+  .addition-plus-sign { width: 36px; height: 36px; font-size: 24px; }
+  .addition-item { width: clamp(44px, 13vw, 60px); height: clamp(44px, 13vw, 60px); }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .mode-cards-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  .mode-card { padding: 6px 6px 8px; }
+  .mode-card .mode-tag-pill { font-size: 9px; padding: 2px 6px; }
+  .mode-title, .mode-card .mode-title { font-size: 13.5px; }
+  .mode-badge-btn { padding: 4px 10px; font-size: 11px; }
+
+  .addition-box {
+    min-height: 0;
+    padding: 8px 14px;
+    border-radius: 22px;
+    border-width: 3px;
+    border-bottom-width: 6px;
+  }
+  .addition-equation-badge { font-size: 14px; padding: 2px 12px; border-width: 2px; }
+  .addition-equation-badge .add-q { width: 22px; height: 22px; font-size: 13px; }
+  .addition-playground {
+    flex-direction: row;
+    padding: 6px 10px;
+    margin: 4px 0;
+    min-height: 0;
+    gap: 8px;
+  }
+  .addition-group { padding: 6px; gap: 6px; }
+  .addition-plus-sign { width: 34px; height: 34px; font-size: 22px; }
+  .addition-item { width: 42px; height: 42px; }
+}
