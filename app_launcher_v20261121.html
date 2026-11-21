@@ -992,6 +992,7 @@
       window.addEventListener('popstate', () => {
         if ($('switcher').classList.contains('show')) { closeSwitcher(); return; }
         if ($('viewer').classList.contains('show')) { closeApp(); return; }
+        if ($('dock-sheet').classList.contains('show')) { closeDockSheet(); return; }
         if ($('sheet').classList.contains('show')) { closeSheet(); }
       });
 
