@@ -840,6 +840,8 @@ class EduGameApp {
       this.glowHint(this.dom.shapesOptions.querySelector('[data-correct="1"]'));
       this.renderMascot('happy', 'Lihat yang bersinar ya! 💡');
       soundEngine.speak(this.getShapesPromptText());
+    } else if (this.currentMode === 'addition') {
+      cooldown = this.autoCountAdditionHint();
     }
 
     setTimeout(() => { this.hintCooldown = false; }, cooldown);
