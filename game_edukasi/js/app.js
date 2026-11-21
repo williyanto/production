@@ -36,8 +36,11 @@ class EduGameApp {
     this.clownTimer = null;
     this.currentLiveClownId = null;
 
-    // Transition timer reference for instant skipping
+    // Transition timer reference for auto-advance
     this.autoAdvanceTimer = null;
+    this.autoAdvanceInterval = null;
+    const savedAutoNext = localStorage.getItem('edu_auto_next_sec');
+    this.autoNextSeconds = savedAutoNext !== null ? parseInt(savedAutoNext, 10) : 3;
 
     // Warna & Bentuk state
     this.shapesTarget = null;
