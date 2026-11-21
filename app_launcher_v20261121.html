@@ -1019,6 +1019,11 @@
         if (chip) { activeCat = chip.dataset.cat; renderAll(); }
       });
 
+      $('chips').addEventListener('scroll', updateChipsNav, { passive: true });
+      window.addEventListener('resize', updateChipsNav);
+      $('chips-prev').addEventListener('click', () => { $('chips').scrollBy({ left: -160, behavior: 'smooth' }); });
+      $('chips-next').addEventListener('click', () => { $('chips').scrollBy({ left: 160, behavior: 'smooth' }); });
+
       $('scrim').addEventListener('click', () => { closeSheet(); closeDockSheet(); });
       $('ds-done').addEventListener('click', closeDockSheet);
       $('ds-open').addEventListener('click', () => { if (dockEditTarget) { closeDockSheet(); openApp(dockEditTarget); } });
