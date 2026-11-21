@@ -1520,9 +1520,26 @@ class EduGameApp {
   // CELEBRATION & ENCOURAGEMENT SYSTEM
   // ==========================================
   showCelebrationModal(title, message) {
+    this.clearAutoAdvance();
     this.dom.celebrationTitle.innerHTML = title;
     this.dom.celebrationMessage.innerHTML = message;
     this.dom.celebrationOverlay.classList.add('active');
+
+    const labelEl = this.dom.btnCelebrationNextLabel;
+    if (this.autoNextSeconds > 0) {
+      let rem = this.autoNextSeconds;
+      if (labelEl) labelEl.textContent = `Lanjut Main! (${rem}d)`;
+      this.autoAdvanceInterval = setInterval(() => {
+        rem--;
+        if (rem > 0) {
+          if (labelEl) labelEl.textContent = `Lanjut Main! (${rem}d)`;
+        } else {
+          this.triggerNextQuestionImmediately();
+        }
+      }, 1000);
+    } else {
+      if (labelEl) labelEl.textContent = 'Lanjut Main!';
+    }
   }
 
   showQuickCelebration(title, message) {
@@ -1530,7 +1547,11 @@ class EduGameApp {
   }
 
   closeCelebration() {
+    this.clearAutoAdvance();
     this.dom.celebrationOverlay.classList.remove('active');
+    if (this.dom.btnCelebrationNextLabel) {
+      this.dom.btnCelebrationNextLabel.textContent = 'Lanjut Main!';
+    }
   }
 
   triggerGentleEncouragement() {
@@ -1643,6 +1664,15 @@ class EduGameApp {
     durPills.forEach(p => {
       const val = parseInt(p.getAttribute('data-duration'), 10);
       p.classList.toggle('active', val === this.clownDuration);
+    });
+
+    if (this.dom.inputCustomAutoNext) {
+      this.dom.inputCustomAutoNext.value = this.autoNextSeconds;
+    }
+    const autoPills = document.querySelectorAll('.btn-auto-next-pill');
+    autoPills.forEach(p => {
+      const val = parseInt(p.getAttribute('data-auto'), 10);
+      p.classList.toggle('active', val === this.autoNextSeconds);
     });
 
     // 2. Render Clown Models Selection Grid
