@@ -14,6 +14,13 @@
 (function () {
   'use strict';
 
+  // Bersihkan Service Worker & cache lama agar browser mobile langsung memuat versi terbaru
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((regs) => {
+      regs.forEach((r) => r.unregister());
+    }).catch(() => {});
+  }
+
   const STORE_KEY = 'servis_in_store_v4';
   const V3_KEY = 'servis_in_store_v3';
   const OLD_KEY = 'servis_in_app_state_v2026';
