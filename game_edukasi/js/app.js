@@ -436,6 +436,33 @@ class EduGameApp {
       });
     });
 
+    // Auto-Next Setting
+    const autoNextPills = document.querySelectorAll('.btn-auto-next-pill');
+    autoNextPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        soundEngine.playClick();
+        autoNextPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        const secVal = parseInt(pill.getAttribute('data-auto'), 10);
+        this.setAutoNextSeconds(secVal);
+        if (this.dom.inputCustomAutoNext) this.dom.inputCustomAutoNext.value = secVal;
+      });
+    });
+
+    if (this.dom.btnSaveAutoNext && this.dom.inputCustomAutoNext) {
+      this.dom.btnSaveAutoNext.addEventListener('click', () => {
+        soundEngine.playClick();
+        const customVal = parseInt(this.dom.inputCustomAutoNext.value, 10);
+        if (!isNaN(customVal) && customVal >= 0 && customVal <= 30) {
+          autoNextPills.forEach(p => {
+            p.classList.toggle('active', parseInt(p.getAttribute('data-auto'), 10) === customVal);
+          });
+          this.setAutoNextSeconds(customVal);
+          alert(customVal === 0 ? 'Lanjut main diatur ke Manual (Klik)!' : `Lanjut main otomatis diatur ke ${customVal} detik! ⏩`);
+        }
+      });
+    }
+
     // Preview Clown Reward Button
     if (this.dom.btnPreviewClown) {
       this.dom.btnPreviewClown.addEventListener('click', () => {
