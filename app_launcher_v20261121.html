@@ -1,1201 +1,2631 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>AppHub — Pusat Aplikasi &amp; Utilitas Terpadu</title>
-  <meta name="description" content="Konsep launcher aplikasi: semua proyek mobile Williyanto Adi dalam satu layar seperti home screen ponsel.">
-  <meta name="theme-color" content="#F3F5F9">
-  <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-outer: #E5E9F2;
-      --bg-app: #F3F5F9;
-      --surface: #FFFFFF;
-      --alt: #EBF0F7;
-      --text: #111827;
-      --text-2: #374151;
-      --text-3: #5B667A;
-      --border: #E2E8F0;
-      --primary: #4F6EF7;
-      --primary-soft: #E8EEFF;
-      --danger: #D63D32;
-      --shadow: 0 1px 2px rgba(15,23,42,.04), 0 3px 10px rgba(15,23,42,.05);
-      --shadow-shell: 0 24px 60px rgba(15,23,42,.18);
-      --scrim: rgba(15,23,42,.42);
-    }
-    [data-theme="dark"] {
-      --bg-outer: #090B10;
-      --bg-app: #11141B;
-      --surface: #191E28;
-      --alt: #232A36;
-      --text: #F1F5F9;
-      --text-2: #CBD5E1;
-      --text-3: #94A3B8;
-      --border: #28303F;
-      --primary: #839DFF;
-      --primary-soft: rgba(131,157,255,.15);
-      --shadow: 0 1px 3px rgba(0,0,0,.35);
-      --shadow-shell: 0 24px 60px rgba(0,0,0,.65);
-      --scrim: rgba(0,0,0,.6);
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    html, body { height: 100%; }
-    body {
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-      background: var(--bg-outer);
-      color: var(--text);
-      font-size: 13.5px;
-      line-height: 1.42;
-      overflow: hidden;
-      transition: background .25s;
-    }
-    button, input { font: inherit; color: inherit; }
-    button { border: none; background: none; cursor: pointer; }
-
-    /* ---------- Desktop stage ---------- */
-    .stage {
-      height: 100dvh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 56px;
-      padding: 0;
-    }
-    .intro { display: none; max-width: 400px; }
-    .intro .eyebrow {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 12px; font-weight: 700; color: var(--primary);
-      background: var(--primary-soft); padding: 4px 12px; border-radius: 99px;
-    }
-    .intro h1 { font-size: 34px; line-height: 1.15; font-weight: 800; letter-spacing: -.02em; margin: 14px 0 10px; }
-    .intro p { color: var(--text-3); font-size: 15px; line-height: 1.6; }
-    .intro-stats { display: flex; gap: 12px; margin: 22px 0; }
-    .intro-stat { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 12px 16px; flex: 1; box-shadow: var(--shadow); }
-    .intro-stat b { display: block; font-size: 22px; color: var(--primary); }
-    .intro-stat span { font-size: 12px; color: var(--text-3); font-weight: 600; }
-    .intro-links { display: flex; gap: 10px; flex-wrap: wrap; }
-    .btn-soft {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 16px; border-radius: 12px; font-weight: 600; font-size: 13.5px;
-      background: var(--surface); border: 1px solid var(--border); color: var(--text); text-decoration: none;
-      box-shadow: var(--shadow); transition: transform .15s, border-color .15s;
-    }
-    .btn-soft:hover { transform: translateY(-1px); border-color: var(--primary); }
-    .btn-soft.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
-
-    /* ---------- Phone shell ---------- */
-    .phone {
-      position: relative;
-      width: 100%;
-      max-width: 100%;
-      height: 100dvh;
-      background: var(--bg-app);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: var(--shadow-shell);
-      transition: background .25s;
-    }
-    @media (min-width: 500px) {
-      .stage { padding: 16px; }
-      .phone { max-width: 440px; height: min(calc(100dvh - 32px), 880px); border-radius: 30px; border: 1px solid var(--border); }
-    }
-    @media (max-width: 499px) {
-      .hello { padding: max(10px, env(safe-area-inset-top)) 10px 8px; }
-      .home { padding: 10px 10px 106px; }
-      .chips-bar { margin-bottom: 12px; }
-      .grid { gap: 12px 4px; }
-      .dock-wrap { padding: 0 8px max(10px, env(safe-area-inset-bottom)); }
-      .dock { padding: 8px 6px; border-radius: 22px; min-height: 70px; }
-    }
-    @media (min-width: 1000px) {
-      .intro { display: block; }
-    }
-
-    .home {
-      flex: 1;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 12px 16px 110px;
-      scrollbar-width: none;
-    }
-    .home::-webkit-scrollbar { display: none; }
-
-    .hello {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: max(12px, env(safe-area-inset-top)) 16px 10px;
-      background: var(--bg-app); border-bottom: 1px solid var(--border);
-      flex-shrink: 0; z-index: 5;
-    }
-    .hello-left { display: flex; align-items: center; gap: 10px; }
-    .avatar {
-      width: 42px; height: 42px; border-radius: 13px;
-      background: linear-gradient(135deg, #4F6EF7, #8B5CF6);
-      color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 15px;
-      box-shadow: 0 6px 14px rgba(79,110,247,.3);
-    }
-    .hello small { display: block; color: var(--text-3); font-size: 11.5px; font-weight: 500; }
-    .hello strong { font-size: 16px; font-weight: 800; letter-spacing: -.01em; }
-    .icon-btn {
-      width: 38px; height: 38px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center; font-size: 17px; box-shadow: var(--shadow);
-      color: var(--text-2); transition: border-color .15s, color .15s, background .15s;
-    }
-    .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
-    .icon-btn svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-
-    .search-row {
-      display: flex; align-items: center; gap: 8px; margin-bottom: 12px; position: relative;
-    }
-    .search {
-      flex: 1; min-width: 0;
-      display: flex; align-items: center; gap: 8px;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
-      padding: 10px 14px; box-shadow: var(--shadow);
-    }
-    .search input { flex: 1; min-width: 0; border: none; outline: none; background: transparent; font-size: 13.5px; }
-    .search input::placeholder { color: var(--text-3); }
-    .search-clear { color: var(--text-3); font-size: 15px; display: none; }
-
-    .sort-wrap { position: relative; flex-shrink: 0; }
-    .sort-btn { width: 42px; height: 42px; border-radius: 14px; }
-    .sort-btn.filtered { border-color: var(--primary); color: var(--primary); background: var(--primary-soft); }
-    .sort-menu {
-      position: absolute; top: calc(100% + 6px); right: 0; min-width: 176px; z-index: 15;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-      padding: 6px; box-shadow: 0 12px 30px rgba(15,23,42,.16);
-      display: none; flex-direction: column; gap: 2px;
-    }
-    .sort-menu.show { display: flex; }
-    .sort-menu-head { font-size: 10.5px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: .05em; padding: 4px 10px; }
-    .sort-opt {
-      display: flex; align-items: center; justify-content: space-between; gap: 8px;
-      width: 100%; text-align: left; padding: 8px 10px; border-radius: 10px;
-      font-size: 12.5px; font-weight: 600; color: var(--text-2);
-    }
-    .sort-opt:hover { background: var(--alt); }
-    .sort-opt.active { background: var(--primary-soft); color: var(--primary); font-weight: 700; }
-    .sort-opt .chk { opacity: 0; font-size: 12px; }
-    .sort-opt.active .chk { opacity: 1; }
-
-    .about-card {
-      background: var(--alt); border: 1px solid var(--border); border-radius: 16px;
-      padding: 12px 14px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 6px;
-    }
-    .about-card a { color: var(--primary); font-weight: 600; text-decoration: none; font-size: 13px; }
-    .about-card a:hover { text-decoration: underline; }
-
-    .chips-bar {
-      display: flex; align-items: center; gap: 6px; margin-bottom: 14px;
-    }
-    .chips {
-      flex: 1; min-width: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
-      scroll-behavior: smooth; padding: 2px 0;
-    }
-    .chips::-webkit-scrollbar { display: none; }
-    .chips-nav {
-      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--surface); border: 1px solid var(--border); color: var(--text-2);
-      font-size: 13px; font-weight: 800; box-shadow: var(--shadow);
-      transition: opacity .15s, background .15s, color .15s;
-    }
-    .chips-nav:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); background: var(--primary-soft); }
-    .chips-nav:disabled { opacity: .28; cursor: default; box-shadow: none; }
-    .chips-nav[hidden] { display: none; }
-    .chip {
-      flex-shrink: 0; padding: 6px 12px; border-radius: 99px; font-size: 12px; font-weight: 600;
-      background: var(--surface); border: 1px solid var(--border); color: var(--text-2);
-      transition: all .15s;
-    }
-    .chip.active { background: var(--primary); border-color: var(--primary); color: #fff; }
-
-    .full-badge {
-      position: absolute; bottom: -3px; right: -4px; font-size: 10px;
-      background: var(--surface); border-radius: 6px; padding: 1px 3px;
-      box-shadow: var(--shadow); border: 1px solid var(--border); line-height: 1;
-    }
-    .viewer.is-full { position: fixed; inset: 0; z-index: 99; border-radius: 0; }
-    .viewer-full-btn {
-      font-size: 11px; font-weight: 700; color: var(--primary); background: var(--primary-soft);
-      padding: 2px 8px; border-radius: 99px; margin-left: 6px; flex-shrink: 0;
-    }
-
-    .widget {
-      background: linear-gradient(135deg, #4F6EF7 0%, #7C5CF6 100%);
-      color: #fff; border-radius: 20px; padding: 14px 16px; margin-bottom: 16px;
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      box-shadow: 0 10px 24px rgba(79,110,247,.28);
-    }
-    .widget .w-time { font-size: 30px; font-weight: 800; letter-spacing: -.02em; line-height: 1; }
-    .widget .w-date { font-size: 12px; opacity: .9; margin-top: 4px; font-weight: 500; }
-    .widget .w-right { text-align: right; }
-    .widget .w-right b { font-size: 22px; display: block; line-height: 1; }
-    .widget .w-right span { font-size: 11px; opacity: .9; font-weight: 600; }
-
-    .section-title {
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 12px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em;
-      margin: 4px 2px 10px;
-    }
-    .section-title button { font-size: 11.5px; font-weight: 600; color: var(--primary); text-transform: none; letter-spacing: 0; }
-
-    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 8px; margin-bottom: 18px; }
-    .app {
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
-      text-align: center; padding: 2px; border-radius: 14px; position: relative;
-      animation: pop .25s ease both;
-    }
-    @keyframes pop { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
-    .app:active .app-icon { transform: scale(.9); }
-    .app-icon {
-      width: 58px; height: 58px; border-radius: 18px;
-      display: flex; align-items: center; justify-content: center; font-size: 27px;
-      box-shadow: 0 6px 14px rgba(15,23,42,.12), inset 0 -3px 0 rgba(0,0,0,.08);
-      transition: transform .15s;
-      position: relative;
-    }
-    .app-name {
-      font-size: 11px; font-weight: 600; color: var(--text-2); line-height: 1.2;
-      max-width: 76px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box;
-      -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    }
-    .fav-dot {
-      position: absolute; top: -4px; right: -4px; font-size: 12px;
-      background: var(--surface); border-radius: 50%; width: 20px; height: 20px;
-      display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow);
-    }
-
-    .list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
-    .row {
-      display: flex; align-items: center; gap: 12px; text-align: left; width: 100%;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 10px 12px;
-      box-shadow: var(--shadow); transition: border-color .15s, transform .15s;
-    }
-    .row:hover { border-color: var(--primary); }
-    .row .app-icon { width: 44px; height: 44px; border-radius: 13px; font-size: 21px; flex-shrink: 0; }
-    .row-text { flex: 1; min-width: 0; }
-    .row-text b { display: block; font-size: 13.5px; font-weight: 700; }
-    .row-text small { display: block; font-size: 11.5px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .row-tag { font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 99px; background: var(--primary-soft); color: var(--primary); flex-shrink: 0; }
-
-    .empty { text-align: center; color: var(--text-3); padding: 30px 10px; display: none; }
-    .empty b { display: block; font-size: 15px; color: var(--text); margin: 6px 0 2px; }
-
-    /* ---------- Dock ---------- */
-    .dock-wrap {
-      position: absolute; left: 0; right: 0; bottom: 0;
-      padding: 0 14px max(12px, env(safe-area-inset-bottom));
-      background: linear-gradient(180deg, transparent, var(--bg-app) 35%);
-      pointer-events: none;
-    }
-    .dock {
-      pointer-events: auto;
-      display: flex; justify-content: space-around; align-items: center;
-      background: color-mix(in srgb, var(--surface) 85%, transparent);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--border); border-radius: 26px; padding: 10px 8px;
-      box-shadow: 0 10px 30px rgba(15,23,42,.12);
-      min-height: 76px;
-    }
-    .dock .app-icon { width: 52px; height: 52px; border-radius: 16px; font-size: 24px; }
-    .dock-empty { font-size: 11.5px; color: var(--text-3); text-align: center; padding: 0 10px; }
-    .home-indicator { width: 120px; height: 4px; border-radius: 99px; background: var(--text); opacity: .25; margin: 8px auto 0; }
-
-    /* ---------- Bottom sheet ---------- */
-    .scrim {
-      position: absolute; inset: 0; background: var(--scrim); opacity: 0; pointer-events: none;
-      transition: opacity .2s; z-index: 20;
-    }
-    .scrim.show { opacity: 1; pointer-events: auto; }
-    .sheet {
-      position: absolute; left: 0; right: 0; bottom: 0; z-index: 21;
-      background: var(--surface); border-radius: 24px 24px 0 0;
-      padding: 10px 18px max(18px, env(safe-area-inset-bottom));
-      transform: translateY(105%); transition: transform .28s cubic-bezier(.2,.9,.3,1);
-    }
-    .sheet.show { transform: none; }
-    .sheet-handle { width: 40px; height: 4px; border-radius: 99px; background: var(--border); margin: 0 auto 14px; }
-    .sheet-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
-    .sheet-head .app-icon { width: 64px; height: 64px; border-radius: 20px; font-size: 30px; flex-shrink: 0; }
-    .sheet-head h3 { font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
-    .sheet-head small { color: var(--text-3); font-size: 12px; font-weight: 600; }
-    .sheet p { color: var(--text-2); font-size: 13.5px; line-height: 1.55; margin-bottom: 12px; }
-    .sheet-meta { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
-    .sheet-meta span { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: var(--alt); color: var(--text-2); }
-    .sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .btn-full {
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-      padding: 12px; border-radius: 14px; font-weight: 700; font-size: 13.5px;
-      border: 1px solid var(--border); background: var(--surface); text-decoration: none; color: var(--text);
-    }
-    .btn-full.primary { grid-column: 1 / -1; background: var(--primary); border-color: var(--primary); color: #fff; }
-
-    /* ---------- In-phone app viewer ---------- */
-    .viewer {
-      position: absolute; inset: 0; z-index: 30; background: var(--bg-app);
-      display: flex; flex-direction: column;
-      transform: scale(.85); opacity: 0; pointer-events: none;
-      transition: transform .25s ease, opacity .2s ease;
-    }
-    .viewer.show { transform: none; opacity: 1; pointer-events: auto; }
-    .viewer-bar {
-      display: flex; flex-direction: column; gap: 4px;
-      padding: 6px 8px max(8px, env(safe-area-inset-bottom));
-      border-top: 1px solid var(--border);
-      background: color-mix(in srgb, var(--surface) 92%, transparent);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      flex-shrink: 0;
-    }
-    .viewer-app-strip {
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-      font-size: 11px; font-weight: 700; color: var(--text-3);
-      padding: 0 12px;
-    }
-    .viewer-app-strip .dot { width: 6px; height: 6px; border-radius: 50%; background: #10B981; flex-shrink: 0; }
-    .viewer-title { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .viewer-nav {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; align-items: center;
-    }
-    .vnav-btn {
-      position: relative;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-      padding: 6px 2px; border-radius: 12px; color: var(--text-2); text-decoration: none;
-      transition: background .15s, color .15s, transform .1s;
-    }
-    .vnav-btn svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .vnav-btn span { font-size: 10px; font-weight: 600; line-height: 1.1; }
-    .vnav-btn:hover { background: var(--primary-soft); color: var(--primary); }
-    .vnav-btn:active { transform: scale(.93); }
-    .viewer iframe { flex: 1; width: 100%; border: none; background: #fff; }
-    .viewer-loading {
-      position: absolute; top: 0; left: 0; right: 0; height: 3px; overflow: hidden; z-index: 2;
-    }
-    .viewer-loading::after {
-      content: ''; display: block; height: 100%; width: 40%; background: var(--primary);
-      animation: load 1s ease-in-out infinite;
-    }
-    .viewer-loading.done { display: none; }
-    @keyframes load { from { transform: translateX(-100%); } to { transform: translateX(260%); } }
-
-    /* ---------- Long-press ---------- */
-    .app, .row { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
-    .row-info-btn {
-      width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--alt); color: var(--text-2); font-size: 13px; font-weight: 700;
-    }
-
-    /* ---------- Custom Dock Sheet ---------- */
-    .dock .app-icon { width: 48px; height: 48px; border-radius: 15px; font-size: 22px; }
-    .dock-add-btn {
-      width: 48px; height: 48px; border-radius: 15px;
-      border: 1.5px dashed var(--border); background: var(--alt); color: var(--text-3);
-      display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700;
-    }
-    .dock-picker-head { display: flex; justify-content: space-between; align-items: center; margin: 10px 0 8px; font-size: 12px; font-weight: 700; color: var(--text-3); }
-    .dock-picker {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
-      max-height: 240px; overflow-y: auto; padding: 4px 2px; margin-bottom: 12px; scrollbar-width: thin;
-    }
-    .dock-pick-item {
-      display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 4px;
-      border-radius: 14px; border: 1.5px solid var(--border); background: var(--bg-app);
-      font-size: 10.5px; font-weight: 600; color: var(--text-2); text-align: center;
-    }
-    .dock-pick-item .app-icon { width: 38px; height: 38px; border-radius: 11px; font-size: 18px; }
-    .dock-pick-item.selected { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
-
-    .toast {
-      position: absolute; left: 50%; bottom: 112px; transform: translateX(-50%) translateY(20px);
-      background: var(--text); color: var(--bg-app); padding: 8px 14px; border-radius: 12px;
-      font-size: 12.5px; font-weight: 600; opacity: 0; transition: all .2s; z-index: 40; pointer-events: none; white-space: nowrap;
-    }
-    .toast.show { opacity: 1; transform: translateX(-50%); }
-
-    @media (prefers-reduced-motion: reduce) {
-      * { animation: none !important; transition: none !important; }
-    }
-  </style>
-</head>
-<body>
-  <script>
-    (function () {
-      var t = localStorage.getItem('wa_launcher_theme');
-      if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.setAttribute('data-theme', 'dark');
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>AppHub — Pusat Aplikasi &amp; Utilitas Terpadu</title>
+    <meta
+      name="description"
+      content="Konsep launcher aplikasi: semua proyek mobile Williyanto Adi dalam satu layar seperti home screen ponsel."
+    />
+    <meta name="theme-color" content="#F3F5F9" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="./icons/williyanto_logo_rounded.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-outer: #e5e9f2;
+        --bg-app: #f3f5f9;
+        --surface: #ffffff;
+        --alt: #ebf0f7;
+        --text: #111827;
+        --text-2: #374151;
+        --text-3: #5b667a;
+        --border: #e2e8f0;
+        --primary: #4f6ef7;
+        --primary-soft: #e8eeff;
+        --danger: #d63d32;
+        --shadow:
+          0 1px 2px rgba(15, 23, 42, 0.04), 0 3px 10px rgba(15, 23, 42, 0.05);
+        --shadow-shell: 0 24px 60px rgba(15, 23, 42, 0.18);
+        --scrim: rgba(15, 23, 42, 0.42);
       }
-    })();
-  </script>
+      [data-theme="dark"] {
+        --bg-outer: #090b10;
+        --bg-app: #11141b;
+        --surface: #191e28;
+        --alt: #232a36;
+        --text: #f1f5f9;
+        --text-2: #cbd5e1;
+        --text-3: #94a3b8;
+        --border: #28303f;
+        --primary: #839dff;
+        --primary-soft: rgba(131, 157, 255, 0.15);
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+        --shadow-shell: 0 24px 60px rgba(0, 0, 0, 0.65);
+        --scrim: rgba(0, 0, 0, 0.6);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        background: var(--bg-outer);
+        color: var(--text);
+        font-size: 13.5px;
+        line-height: 1.42;
+        overflow: hidden;
+        transition: background 0.25s;
+      }
+      button,
+      input {
+        font: inherit;
+        color: inherit;
+      }
+      button {
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
 
-  <div class="stage">
-    <!-- Panel penjelasan (khusus desktop) -->
-    <section class="intro" aria-label="Tentang launcher">
-      <span class="eyebrow">📱 Konsep Aplikasi</span>
-      <h1>Semua aplikasi mobile saya, dalam satu layar.</h1>
-      <p>WA Apps adalah konsep <i>launcher</i> bergaya home screen ponsel yang mengumpulkan seluruh proyek berukuran mobile: aplikasi harian, kalkulator teknik kabel, dan utilitas. Ketuk 1x untuk langsung membuka aplikasi, atau tahan (<i>long-press</i>) untuk detail &amp; favorit.</p>
-      <div class="intro-stats">
-        <div class="intro-stat"><b id="stat-total">0</b><span>Aplikasi</span></div>
-        <div class="intro-stat"><b id="stat-cats">0</b><span>Kategori</span></div>
-        <div class="intro-stat"><b id="stat-fav">0</b><span>Favorit</span></div>
-      </div>
-      <div class="intro-links">
-        <a class="btn-soft primary" href="./index.html">← Daftar Proyek</a>
-        <a class="btn-soft" href="https://github.com/williyanto/production" target="_blank" rel="noopener noreferrer">GitHub</a>
-      </div>
-    </section>
+      /* ---------- Desktop stage ---------- */
+      .stage {
+        height: 100dvh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 56px;
+        padding: 0;
+      }
+      .intro {
+        display: none;
+        max-width: 400px;
+      }
+      .intro .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--primary);
+        background: var(--primary-soft);
+        padding: 4px 12px;
+        border-radius: 99px;
+      }
+      .intro h1 {
+        font-size: 34px;
+        line-height: 1.15;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin: 14px 0 10px;
+      }
+      .intro p {
+        color: var(--text-3);
+        font-size: 15px;
+        line-height: 1.6;
+      }
+      .intro-stats {
+        display: flex;
+        gap: 12px;
+        margin: 22px 0;
+      }
+      .intro-stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 12px 16px;
+        flex: 1;
+        box-shadow: var(--shadow);
+      }
+      .intro-stat b {
+        display: block;
+        font-size: 22px;
+        color: var(--primary);
+      }
+      .intro-stat span {
+        font-size: 12px;
+        color: var(--text-3);
+        font-weight: 600;
+      }
+      .intro-links {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .btn-soft {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 13.5px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text);
+        text-decoration: none;
+        box-shadow: var(--shadow);
+        transition:
+          transform 0.15s,
+          border-color 0.15s;
+      }
+      .btn-soft:hover {
+        transform: translateY(-1px);
+        border-color: var(--primary);
+      }
+      .btn-soft.primary {
+        background: var(--primary);
+        color: #fff;
+        border-color: var(--primary);
+      }
 
-    <!-- Ponsel -->
-    <main class="phone" id="phone">
-      <div class="hello">
-        <div class="hello-left">
-          <div class="avatar" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>
+      /* ---------- Phone shell ---------- */
+      .phone {
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        height: 100dvh;
+        background: var(--bg-app);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: var(--shadow-shell);
+        transition: background 0.25s;
+      }
+      @media (min-width: 500px) {
+        .stage {
+          padding: 16px;
+        }
+        .phone {
+          max-width: 440px;
+          height: min(calc(100dvh - 32px), 880px);
+          border-radius: 30px;
+          border: 1px solid var(--border);
+        }
+      }
+      @media (max-width: 499px) {
+        .hello {
+          padding: max(10px, env(safe-area-inset-top)) 10px 8px;
+        }
+        .home {
+          padding: 10px 10px 106px;
+        }
+        .chips-bar {
+          margin-bottom: 12px;
+        }
+        .grid {
+          gap: 12px 4px;
+        }
+        .dock-wrap {
+          padding: 0 8px max(10px, env(safe-area-inset-bottom));
+        }
+        .dock {
+          padding: 8px 6px;
+          border-radius: 22px;
+          min-height: 70px;
+        }
+      }
+      @media (min-width: 1000px) {
+        .intro {
+          display: block;
+        }
+      }
+
+      .home {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 12px 16px 110px;
+        scrollbar-width: none;
+      }
+      .home::-webkit-scrollbar {
+        display: none;
+      }
+
+      .hello {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: max(12px, env(safe-area-inset-top)) 16px 10px;
+        background: var(--bg-app);
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+        z-index: 5;
+      }
+      .hello-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 13px;
+        background: linear-gradient(135deg, #4f6ef7, #8b5cf6);
+        color: #fff;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        box-shadow: 0 6px 14px rgba(79, 110, 247, 0.3);
+      }
+      .hello small {
+        display: block;
+        color: var(--text-3);
+        font-size: 11.5px;
+        font-weight: 500;
+      }
+      .hello strong {
+        font-size: 16px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+      }
+      .icon-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        box-shadow: var(--shadow);
+        color: var(--text-2);
+        transition:
+          border-color 0.15s,
+          color 0.15s,
+          background 0.15s;
+      }
+      .icon-btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+      .icon-btn svg {
+        width: 18px;
+        height: 18px;
+        stroke: currentColor;
+        stroke-width: 1.9;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .search-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+        position: relative;
+      }
+      .search {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 10px 14px;
+        box-shadow: var(--shadow);
+      }
+      .search input {
+        flex: 1;
+        min-width: 0;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 13.5px;
+      }
+      .search input::placeholder {
+        color: var(--text-3);
+      }
+      .search-clear {
+        color: var(--text-3);
+        font-size: 15px;
+        display: none;
+      }
+
+      .sort-wrap {
+        position: relative;
+        flex-shrink: 0;
+      }
+      .sort-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+      }
+      .sort-btn.filtered {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-soft);
+      }
+      .sort-menu {
+        position: absolute;
+        top: calc(100% + 6px);
+        right: 0;
+        min-width: 176px;
+        z-index: 15;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 6px;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.16);
+        display: none;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .sort-menu.show {
+        display: flex;
+      }
+      .sort-menu-head {
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--text-3);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 4px 10px;
+      }
+      .sort-opt {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        width: 100%;
+        text-align: left;
+        padding: 8px 10px;
+        border-radius: 10px;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--text-2);
+      }
+      .sort-opt:hover {
+        background: var(--alt);
+      }
+      .sort-opt.active {
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-weight: 700;
+      }
+      .sort-opt .chk {
+        opacity: 0;
+        font-size: 12px;
+      }
+      .sort-opt.active .chk {
+        opacity: 1;
+      }
+
+      .about-card {
+        background: var(--alt);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 12px 14px;
+        margin-bottom: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .about-card a {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 13px;
+      }
+      .about-card a:hover {
+        text-decoration: underline;
+      }
+
+      .chips-bar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+      .chips {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        scroll-behavior: smooth;
+        padding: 2px 0;
+      }
+      .chips::-webkit-scrollbar {
+        display: none;
+      }
+      .chips-nav {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-2);
+        font-size: 13px;
+        font-weight: 800;
+        box-shadow: var(--shadow);
+        transition:
+          opacity 0.15s,
+          background 0.15s,
+          color 0.15s;
+      }
+      .chips-nav:hover:not(:disabled) {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-soft);
+      }
+      .chips-nav:disabled {
+        opacity: 0.28;
+        cursor: default;
+        box-shadow: none;
+      }
+      .chips-nav[hidden] {
+        display: none;
+      }
+      .chip {
+        flex-shrink: 0;
+        padding: 6px 12px;
+        border-radius: 99px;
+        font-size: 12px;
+        font-weight: 600;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-2);
+        transition: all 0.15s;
+      }
+      .chip.active {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+      }
+
+      .full-badge {
+        position: absolute;
+        bottom: -3px;
+        right: -4px;
+        font-size: 10px;
+        background: var(--surface);
+        border-radius: 6px;
+        padding: 1px 3px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+        line-height: 1;
+      }
+      .viewer.is-full {
+        position: fixed;
+        inset: 0;
+        z-index: 99;
+        border-radius: 0;
+      }
+      .viewer-full-btn {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--primary);
+        background: var(--primary-soft);
+        padding: 2px 8px;
+        border-radius: 99px;
+        margin-left: 6px;
+        flex-shrink: 0;
+      }
+
+      .widget {
+        background: linear-gradient(135deg, #4f6ef7 0%, #7c5cf6 100%);
+        color: #fff;
+        border-radius: 20px;
+        padding: 14px 16px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        box-shadow: 0 10px 24px rgba(79, 110, 247, 0.28);
+      }
+      .widget .w-time {
+        font-size: 30px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1;
+      }
+      .widget .w-date {
+        font-size: 12px;
+        opacity: 0.9;
+        margin-top: 4px;
+        font-weight: 500;
+      }
+      .widget .w-right {
+        text-align: right;
+      }
+      .widget .w-right b {
+        font-size: 22px;
+        display: block;
+        line-height: 1;
+      }
+      .widget .w-right span {
+        font-size: 11px;
+        opacity: 0.9;
+        font-weight: 600;
+      }
+
+      .section-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-3);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin: 4px 2px 10px;
+      }
+      .section-title button {
+        font-size: 11.5px;
+        font-weight: 600;
+        color: var(--primary);
+        text-transform: none;
+        letter-spacing: 0;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px 8px;
+        margin-bottom: 18px;
+      }
+      .app {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        text-align: center;
+        padding: 2px;
+        border-radius: 14px;
+        position: relative;
+        animation: pop 0.25s ease both;
+      }
+      @keyframes pop {
+        from {
+          opacity: 0;
+          transform: scale(0.92);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .app:active .app-icon {
+        transform: scale(0.9);
+      }
+      .app-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 27px;
+        box-shadow:
+          0 6px 14px rgba(15, 23, 42, 0.12),
+          inset 0 -3px 0 rgba(0, 0, 0, 0.08);
+        transition: transform 0.15s;
+        position: relative;
+      }
+      .app-name {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-2);
+        line-height: 1.2;
+        max-width: 76px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+      .fav-dot {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        font-size: 12px;
+        background: var(--surface);
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow);
+      }
+
+      .list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-align: left;
+        width: 100%;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 10px 12px;
+        box-shadow: var(--shadow);
+        transition:
+          border-color 0.15s,
+          transform 0.15s;
+      }
+      .row:hover {
+        border-color: var(--primary);
+      }
+      .row .app-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 13px;
+        font-size: 21px;
+        flex-shrink: 0;
+      }
+      .row-text {
+        flex: 1;
+        min-width: 0;
+      }
+      .row-text b {
+        display: block;
+        font-size: 13.5px;
+        font-weight: 700;
+      }
+      .row-text small {
+        display: block;
+        font-size: 11.5px;
+        color: var(--text-3);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .row-tag {
+        font-size: 10.5px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 99px;
+        background: var(--primary-soft);
+        color: var(--primary);
+        flex-shrink: 0;
+      }
+
+      .empty {
+        text-align: center;
+        color: var(--text-3);
+        padding: 30px 10px;
+        display: none;
+      }
+      .empty b {
+        display: block;
+        font-size: 15px;
+        color: var(--text);
+        margin: 6px 0 2px;
+      }
+
+      /* ---------- Dock ---------- */
+      .dock-wrap {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 0 14px max(12px, env(safe-area-inset-bottom));
+        background: linear-gradient(180deg, transparent, var(--bg-app) 35%);
+        pointer-events: none;
+      }
+      .dock {
+        pointer-events: auto;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background: color-mix(in srgb, var(--surface) 85%, transparent);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--border);
+        border-radius: 26px;
+        padding: 10px 8px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+        min-height: 76px;
+      }
+      .dock .app-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        font-size: 24px;
+      }
+      .dock-empty {
+        font-size: 11.5px;
+        color: var(--text-3);
+        text-align: center;
+        padding: 0 10px;
+      }
+      .home-indicator {
+        width: 120px;
+        height: 4px;
+        border-radius: 99px;
+        background: var(--text);
+        opacity: 0.25;
+        margin: 8px auto 0;
+      }
+
+      /* ---------- Bottom sheet ---------- */
+      .scrim {
+        position: absolute;
+        inset: 0;
+        background: var(--scrim);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+        z-index: 20;
+      }
+      .scrim.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .sheet {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 21;
+        background: var(--surface);
+        border-radius: 24px 24px 0 0;
+        padding: 10px 18px max(18px, env(safe-area-inset-bottom));
+        transform: translateY(105%);
+        transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
+      }
+      .sheet.show {
+        transform: none;
+      }
+      .sheet-handle {
+        width: 40px;
+        height: 4px;
+        border-radius: 99px;
+        background: var(--border);
+        margin: 0 auto 14px;
+      }
+      .sheet-head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 12px;
+      }
+      .sheet-head .app-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
+        font-size: 30px;
+        flex-shrink: 0;
+      }
+      .sheet-head h3 {
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+      }
+      .sheet-head small {
+        color: var(--text-3);
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .sheet p {
+        color: var(--text-2);
+        font-size: 13.5px;
+        line-height: 1.55;
+        margin-bottom: 12px;
+      }
+      .sheet-meta {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+      .sheet-meta span {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 99px;
+        background: var(--alt);
+        color: var(--text-2);
+      }
+      .sheet-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .btn-full {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 12px;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 13.5px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        text-decoration: none;
+        color: var(--text);
+      }
+      .btn-full.primary {
+        grid-column: 1 / -1;
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+      }
+
+      /* ---------- In-phone app viewer ---------- */
+      .viewer {
+        position: absolute;
+        inset: 0;
+        z-index: 30;
+        background: var(--bg-app);
+        display: flex;
+        flex-direction: column;
+        transform: scale(0.85);
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          transform 0.25s ease,
+          opacity 0.2s ease;
+      }
+      .viewer.show {
+        transform: none;
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .viewer-bar {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 6px 8px max(8px, env(safe-area-inset-bottom));
+        border-top: 1px solid var(--border);
+        background: color-mix(in srgb, var(--surface) 92%, transparent);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        flex-shrink: 0;
+      }
+      .viewer-app-strip {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-3);
+        padding: 0 12px;
+      }
+      .viewer-app-strip .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #10b981;
+        flex-shrink: 0;
+      }
+      .viewer-title {
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .viewer-nav {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2px;
+        align-items: center;
+      }
+      .vnav-btn {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        padding: 6px 2px;
+        border-radius: 12px;
+        color: var(--text-2);
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          color 0.15s,
+          transform 0.1s;
+      }
+      .vnav-btn svg {
+        width: 20px;
+        height: 20px;
+        stroke: currentColor;
+        stroke-width: 1.9;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .vnav-btn span {
+        font-size: 10px;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+      .vnav-btn:hover {
+        background: var(--primary-soft);
+        color: var(--primary);
+      }
+      .vnav-btn:active {
+        transform: scale(0.93);
+      }
+      .viewer iframe {
+        flex: 1;
+        width: 100%;
+        border: none;
+        background: #fff;
+      }
+      .viewer-loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        overflow: hidden;
+        z-index: 2;
+      }
+      .viewer-loading::after {
+        content: "";
+        display: block;
+        height: 100%;
+        width: 40%;
+        background: var(--primary);
+        animation: load 1s ease-in-out infinite;
+      }
+      .viewer-loading.done {
+        display: none;
+      }
+      @keyframes load {
+        from {
+          transform: translateX(-100%);
+        }
+        to {
+          transform: translateX(260%);
+        }
+      }
+
+      /* ---------- Long-press ---------- */
+      .app,
+      .row {
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        touch-action: manipulation;
+      }
+      .row-info-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--alt);
+        color: var(--text-2);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      /* ---------- Custom Dock Sheet ---------- */
+      .dock .app-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 15px;
+        font-size: 22px;
+      }
+      .dock-add-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 15px;
+        border: 1.5px dashed var(--border);
+        background: var(--alt);
+        color: var(--text-3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 700;
+      }
+      .dock-picker-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0 8px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-3);
+      }
+      .dock-picker {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        max-height: 240px;
+        overflow-y: auto;
+        padding: 4px 2px;
+        margin-bottom: 12px;
+        scrollbar-width: thin;
+      }
+      .dock-pick-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 4px;
+        border-radius: 14px;
+        border: 1.5px solid var(--border);
+        background: var(--bg-app);
+        font-size: 10.5px;
+        font-weight: 600;
+        color: var(--text-2);
+        text-align: center;
+      }
+      .dock-pick-item .app-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+        font-size: 18px;
+      }
+      .dock-pick-item.selected {
+        border-color: var(--primary);
+        background: var(--primary-soft);
+        color: var(--primary);
+      }
+
+      .toast {
+        position: absolute;
+        left: 50%;
+        bottom: 112px;
+        transform: translateX(-50%) translateY(20px);
+        background: var(--text);
+        color: var(--bg-app);
+        padding: 8px 14px;
+        border-radius: 12px;
+        font-size: 12.5px;
+        font-weight: 600;
+        opacity: 0;
+        transition: all 0.2s;
+        z-index: 40;
+        pointer-events: none;
+        white-space: nowrap;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      (function () {
+        var t = localStorage.getItem("wa_launcher_theme");
+        if (
+          t === "dark" ||
+          (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
+
+    <div class="stage">
+      <!-- Panel penjelasan (khusus desktop) -->
+      <section class="intro" aria-label="Tentang launcher">
+        <span class="eyebrow">📱 Konsep Aplikasi</span>
+        <h1>Semua aplikasi mobile saya, dalam satu layar.</h1>
+        <p>
+          WA Apps adalah konsep <i>launcher</i> bergaya home screen ponsel yang
+          mengumpulkan seluruh proyek berukuran mobile: aplikasi harian,
+          kalkulator teknik kabel, dan utilitas. Ketuk 1x untuk langsung membuka
+          aplikasi, atau tahan (<i>long-press</i>) untuk detail &amp; favorit.
+        </p>
+        <div class="intro-stats">
+          <div class="intro-stat">
+            <b id="stat-total">0</b><span>Aplikasi</span>
           </div>
-          <div>
-            <strong>AppHub</strong>
-            <small>Pusat Aplikasi &amp; Utilitas Terpadu</small>
+          <div class="intro-stat">
+            <b id="stat-cats">0</b><span>Kategori</span>
+          </div>
+          <div class="intro-stat">
+            <b id="stat-fav">0</b><span>Favorit</span>
           </div>
         </div>
-        <div style="display:flex; gap:8px;">
-          <button class="icon-btn" id="btn-about" title="Tentang Aplikasi &amp; Pengembang" aria-label="Tentang Aplikasi">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-          </button>
-          <button class="icon-btn" id="btn-view" title="Ubah tampilan grid / daftar" aria-label="Ubah tampilan">☰</button>
-          <button class="icon-btn" id="btn-theme" title="Ganti tema Terang / Malam" aria-label="Ganti tema">
-            <svg id="theme-svg-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-            <svg id="theme-svg-sun" viewBox="0 0 24 24" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-          </button>
+        <div class="intro-links">
+          <a class="btn-soft primary" href="./index.html">← Daftar Proyek</a>
+          <a
+            class="btn-soft"
+            href="https://github.com/williyanto/production"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub</a
+          >
         </div>
-      </div>
+      </section>
 
-      <div class="home" id="home">
-
-        <div class="search-row">
-          <label class="search">
-            <span aria-hidden="true">🔍</span>
-            <input type="search" id="search" placeholder="Cari aplikasi (servis, kabel, lembur)..." autocomplete="off">
-            <button class="search-clear" id="search-clear" aria-label="Hapus pencarian">✕</button>
-          </label>
-          <div class="sort-wrap">
-            <button type="button" class="icon-btn sort-btn" id="sort-btn" title="Urutkan aplikasi" aria-label="Urutkan aplikasi" aria-expanded="false">
-              <svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M4 12h12"/><path d="M4 17h8"/></svg>
-            </button>
-            <div class="sort-menu" id="sort-menu" role="menu">
-              <div class="sort-menu-head">Urutkan</div>
-              <button type="button" class="sort-opt active" data-sort="category"><span>Kategori (Default)</span><span class="chk">✓</span></button>
-              <button type="button" class="sort-opt" data-sort="az"><span>Alfabet (A–Z)</span><span class="chk">✓</span></button>
-              <button type="button" class="sort-opt" data-sort="frequent"><span>Sering Dibuka</span><span class="chk">✓</span></button>
+      <!-- Ponsel -->
+      <main class="phone" id="phone">
+        <div class="hello">
+          <div class="hello-left">
+            <div class="avatar" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                width="21"
+                height="21"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="3" width="7" height="7" rx="2" />
+                <rect x="14" y="3" width="7" height="7" rx="2" />
+                <rect x="3" y="14" width="7" height="7" rx="2" />
+                <rect x="14" y="14" width="7" height="7" rx="2" />
+              </svg>
+            </div>
+            <div>
+              <strong>AppHub</strong>
+              <small>Pusat Aplikasi &amp; Utilitas Terpadu</small>
             </div>
           </div>
-        </div>
-
-        <div class="chips-bar">
-          <button type="button" class="chips-nav" id="chips-prev" aria-label="Kategori sebelumnya">‹</button>
-          <div class="chips" id="chips"></div>
-          <button type="button" class="chips-nav" id="chips-next" aria-label="Kategori berikutnya">›</button>
-        </div>
-
-        <div id="recent-wrap" hidden>
-          <div class="section-title"><span>Terakhir dibuka</span><button id="clear-recent">Hapus</button></div>
-          <div class="grid" id="recent-grid"></div>
-        </div>
-
-        <div id="sections"></div>
-
-        <div class="empty" id="empty">
-          <div style="font-size:30px">🔎</div>
-          <b>Aplikasi tidak ditemukan</b>
-          Coba kata kunci lain atau pilih kategori "Semua".
-        </div>
-      </div>
-
-      <!-- Dock favorit -->
-      <div class="dock-wrap">
-        <div class="dock" id="dock"></div>
-        <div class="home-indicator"></div>
-      </div>
-
-      <!-- Bottom sheet detail -->
-      <div class="scrim" id="scrim"></div>
-      <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
-        <div class="sheet-handle"></div>
-        <div class="sheet-head">
-          <div class="app-icon" id="sheet-icon"></div>
-          <div>
-            <h3 id="sheet-title">Nama</h3>
-            <small id="sheet-cat">Kategori</small>
-          </div>
-        </div>
-        <p id="sheet-desc"></p>
-        <div class="sheet-meta" id="sheet-meta"></div>
-        <div class="sheet-actions">
-          <button class="btn-full primary" id="sheet-open">Buka Aplikasi</button>
-          <button class="btn-full" id="sheet-fav">☆ Favorit</button>
-          <a class="btn-full" id="sheet-tab" href="#" target="_blank" rel="noopener">↗ Tab Baru</a>
-        </div>
-      </div>
-
-      <!-- Bottom sheet Custom Akses Cepat (Dock 5 Aplikasi) -->
-      <div class="sheet" id="dock-sheet" role="dialog" aria-modal="true" aria-labelledby="dock-sheet-title">
-        <div class="sheet-handle"></div>
-        <div class="sheet-head" id="dock-sheet-head" style="margin-bottom:8px">
-          <div class="app-icon" id="ds-icon" style="width:46px;height:46px;border-radius:14px;font-size:22px">⚡</div>
-          <div>
-            <h3 id="dock-sheet-title" style="font-size:16px">Atur Akses Cepat (Maks. 5)</h3>
-            <small id="ds-sub">Pilih hingga 5 aplikasi di bar bawah</small>
-          </div>
-        </div>
-        <div id="ds-quick-actions" style="display:none;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
-          <button type="button" class="btn-full primary" id="ds-open" style="grid-column:auto;padding:9px;">Buka</button>
-          <button type="button" class="btn-full" id="ds-remove" style="padding:9px;">Hapus dari Dock</button>
-        </div>
-        <div class="dock-picker-head">
-          <span>Pilih Aplikasi (<b id="ds-count">0</b>/5)</span>
-          <button type="button" id="ds-reset" style="color:var(--primary);font-weight:700;font-size:12px;">Reset Default</button>
-        </div>
-        <div class="dock-picker" id="dock-picker"></div>
-        <button type="button" class="btn-full primary" id="ds-done">Selesai</button>
-      </div>
-
-      <!-- Bottom sheet About -->
-      <div class="sheet" id="about-sheet" role="dialog" aria-modal="true" aria-labelledby="about-title">
-        <div class="sheet-handle"></div>
-        <div class="sheet-head">
-          <div class="avatar" style="width:54px;height:54px;border-radius:16px;flex-shrink:0;" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>
-          </div>
-          <div>
-            <h3 id="about-title">AppHub</h3>
-            <small>Versi 20261121 · Pusat Aplikasi Terpadu</small>
-          </div>
-        </div>
-        <p>Launcher aplikasi web bergaya ponsel yang menghimpun seluruh proyek mobile, kalkulator teknik kabel, pengujian material, dan utilitas harian dalam satu layar cepat.</p>
-        <div class="about-card">
-          <div style="font-size:11.5px;color:var(--text-3);font-weight:700;text-transform:uppercase;letter-spacing:.04em;">Pengembang</div>
-          <strong style="font-size:14.5px;">Williyanto Adi</strong>
-          <a href="mailto:williyanto_adi@yahoo.co.id">✉️ williyanto_adi@yahoo.co.id</a>
-        </div>
-        <div class="sheet-actions">
-          <a class="btn-full" href="./index.html">📋 Daftar Proyek</a>
-          <a class="btn-full" href="https://github.com/williyanto/production" target="_blank" rel="noopener noreferrer">🌐 GitHub</a>
-          <button type="button" class="btn-full primary" id="about-close">Tutup</button>
-        </div>
-      </div>
-
-      <!-- Viewer aplikasi di dalam ponsel (Navigasi Bar Modern di Bawah) -->
-      <div class="viewer" id="viewer" aria-hidden="true">
-        <div class="viewer-loading" id="viewer-loading"></div>
-        <iframe id="viewer-frame" title="Aplikasi" loading="lazy"></iframe>
-        <nav class="viewer-bar" aria-label="Navigasi aplikasi">
-          <div class="viewer-app-strip">
-            <span class="dot" aria-hidden="true"></span>
-            <span class="viewer-title" id="viewer-title">Aplikasi</span>
-            <button type="button" class="viewer-full-btn" id="viewer-full-btn" title="Mode Layar Penuh">⛶ Penuh</button>
-          </div>
-          <div class="viewer-nav">
-            <button type="button" class="vnav-btn" id="viewer-back" aria-label="Kembali">
-              <svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
-              <span>Kembali</span>
+          <div style="display: flex; gap: 8px">
+            <button
+              class="icon-btn"
+              id="btn-about"
+              title="Tentang Aplikasi &amp; Pengembang"
+              aria-label="Tentang Aplikasi"
+            >
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 16v-4" />
+                <path d="M12 8h.01" />
+              </svg>
             </button>
-            <button type="button" class="vnav-btn" id="viewer-home" aria-label="Beranda">
-              <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"/></svg>
-              <span>Beranda</span>
+            <button
+              class="icon-btn"
+              id="btn-view"
+              title="Ubah tampilan grid / daftar"
+              aria-label="Ubah tampilan"
+            >
+              ☰
             </button>
-            <button type="button" class="vnav-btn" id="viewer-reload" aria-label="Muat ulang">
-              <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg>
-              <span>Muat Ulang</span>
+            <button
+              class="icon-btn"
+              id="btn-theme"
+              title="Ganti tema Terang / Malam"
+              aria-label="Ganti tema"
+            >
+              <svg id="theme-svg-moon" viewBox="0 0 24 24">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+              </svg>
+              <svg id="theme-svg-sun" viewBox="0 0 24 24" style="display: none">
+                <circle cx="12" cy="12" r="4" />
+                <path
+                  d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+                />
+              </svg>
             </button>
-            <a class="vnav-btn" id="viewer-tab" href="#" target="_blank" rel="noopener" aria-label="Buka di tab baru">
-              <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              <span>Tab Baru</span>
-            </a>
           </div>
-        </nav>
-      </div>
+        </div>
 
-      <div class="toast" id="toast"></div>
-    </main>
-  </div>
+        <div class="home" id="home">
+          <div class="search-row">
+            <label class="search">
+              <span aria-hidden="true">🔍</span>
+              <input
+                type="search"
+                id="search"
+                placeholder="Cari aplikasi (servis, kabel, lembur)..."
+                autocomplete="off"
+              />
+              <button
+                class="search-clear"
+                id="search-clear"
+                aria-label="Hapus pencarian"
+              >
+                ✕
+              </button>
+            </label>
+            <div class="sort-wrap">
+              <button
+                type="button"
+                class="icon-btn sort-btn"
+                id="sort-btn"
+                title="Urutkan aplikasi"
+                aria-label="Urutkan aplikasi"
+                aria-expanded="false"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 7h16" />
+                  <path d="M4 12h12" />
+                  <path d="M4 17h8" />
+                </svg>
+              </button>
+              <div class="sort-menu" id="sort-menu" role="menu">
+                <div class="sort-menu-head">Urutkan</div>
+                <button
+                  type="button"
+                  class="sort-opt active"
+                  data-sort="category"
+                >
+                  <span>Kategori (Default)</span><span class="chk">✓</span>
+                </button>
+                <button type="button" class="sort-opt" data-sort="az">
+                  <span>Alfabet (A–Z)</span><span class="chk">✓</span>
+                </button>
+                <button type="button" class="sort-opt" data-sort="frequent">
+                  <span>Sering Dibuka</span><span class="chk">✓</span>
+                </button>
+              </div>
+            </div>
+          </div>
 
-  <script>
-    (function () {
-      'use strict';
+          <div class="chips-bar">
+            <button
+              type="button"
+              class="chips-nav"
+              id="chips-prev"
+              aria-label="Kategori sebelumnya"
+            >
+              ‹
+            </button>
+            <div class="chips" id="chips"></div>
+            <button
+              type="button"
+              class="chips-nav"
+              id="chips-next"
+              aria-label="Kategori berikutnya"
+            >
+              ›
+            </button>
+          </div>
 
-      // Hanya proyek dengan tata letak resolusi mobile (mobile shell / kontainer max-w-md)
-      const APPS = [
-        // Aplikasi Harian (mobile shell)
-        { id: 'servisin', name: 'Servis.In', ver: '20261121', icon: '🏍️', color: ['#8B5CF6', '#6D28D9'], cat: 'Aplikasi Harian', href: './Servis.In/index.html', desc: 'Manajemen perawatan kendaraan: pengingat oli, servis & sparepart berbasis odometer atau waktu, dokumen STNK, statistik biaya, dan multi-akun.' },
-        { id: 'berkasin', name: 'Berkas.In', ver: '20261121', icon: '🗄️', color: ['#38BDF8', '#2563EB'], cat: 'Aplikasi Harian', href: './Berkas.In/index.html', desc: 'Manajemen arsip & berkas fisik terstruktur per lemari dan lokasi penyimpanan, lengkap dengan status berkas aktif.' },
-        { id: 'bersihin', name: 'Bersih.In', ver: '20261121', icon: '🧹', color: ['#34D399', '#059669'], cat: 'Aplikasi Harian', href: './Bersih.In/index.html', desc: 'Pengingat aktivitas kebersihan rumah terjadwal, streak harian, notifikasi, dan multi-profil rumah.' },
-        { id: 'workfolio', name: 'WorkFolio', ver: '20261121', icon: '💼', color: ['#F59E0B', '#D97706'], cat: 'Aplikasi Harian', href: './WorkFolio/index.html', desc: 'Timeline rekam jejak kerja, kalender aktivitas, ekspor laporan bulanan, dan pemantauan lembur mingguan.' },
+          <div id="recent-wrap" hidden>
+            <div class="section-title">
+              <span>Terakhir dibuka</span
+              ><button id="clear-recent">Hapus</button>
+            </div>
+            <div class="grid" id="recent-grid"></div>
+          </div>
 
-        // Kabel & Teknik
-        { id: 'hambatan', name: 'Hambatan Konduktor', icon: '⚡', color: ['#60A5FA', '#1D4ED8'], cat: 'Kabel & Teknik', href: './kalkulator_hambatan_kabel/iec_final_v20261104.html', desc: 'Perhitungan hambatan konduktor kabel multi-standar (IEC 60228, ICEA, AS/NZS, SPLN, BS EN).' },
-        { id: 'drum', name: 'Drum Kabel', icon: '🛢️', color: ['#FB923C', '#C2410C'], cat: 'Kabel & Teknik', href: './kalkulator_drum_kabel_v20261104.html', desc: 'Estimasi kapasitas panjang kabel pada drum berdasarkan dimensi drum dan diameter kabel.' },
-        { id: 'ircapscr', name: 'IR · Cap · SCR', icon: '🧮', color: ['#A78BFA', '#7C3AED'], cat: 'Kabel & Teknik', href: './kalkulator_ircapscr_v20261109.html', desc: 'Kalkulator resistansi isolasi, kapasitansi, dan parameter SCR untuk pengujian kabel.' },
-        { id: 'withstand', name: 'Withstand Test', icon: '🔌', color: ['#F87171', '#B91C1C'], cat: 'Kabel & Teknik', href: './kalkulator_withstand_v20261115.html', desc: 'Kalkulator tegangan uji withstand (AC/DC) sesuai standar pengujian kabel.' },
-        { id: 'spekir', name: 'Spek IR', icon: '📏', color: ['#2DD4BF', '#0F766E'], cat: 'Kabel & Teknik', href: './spek_ir_v20261115.html', desc: 'Referensi dan perhitungan spesifikasi insulation resistance minimum kabel.' },
-        { id: 'suhu', name: 'Koreksi Suhu', icon: '🌡️', color: ['#FDA4AF', '#E11D48'], cat: 'Kabel & Teknik', href: './faktor_koreksi_suhu_v20261115.html', desc: 'Faktor koreksi suhu untuk normalisasi hasil pengukuran resistansi konduktor.' },
-        { id: 'flame', name: 'Flame Retardant', icon: '🔥', color: ['#FBBF24', '#EA580C'], cat: 'Kabel & Teknik', href: './flame_retardant_v20261104.html', desc: 'Kalkulator kebutuhan material untuk pengujian sifat tahan api (flame retardant) kabel.' },
-        { id: 'wireweight', name: 'Berat Kawat', icon: '⚖️', color: ['#94A3B8', '#475569'], cat: 'Kabel & Teknik', href: './wire_weight_calculation_v20261104.html', desc: 'Perhitungan berat kawat / konduktor berdasarkan material, diameter, dan panjang.' },
-        { id: 'slice', name: 'Slice Calc', icon: '🔪', color: ['#C084FC', '#9333EA'], cat: 'Kabel & Teknik', href: './slice_calculation_v20261104.html', desc: 'Perhitungan sampel irisan (slice) untuk pengukuran ketebalan isolasi dan selubung.' },
-        { id: 'rewind', name: 'Waktu Rewind', icon: '🔄', color: ['#4ADE80', '#15803D'], cat: 'Kabel & Teknik', href: './hitung_waktu_rewind_v20261104.html', desc: 'Estimasi waktu proses rewind kabel berdasarkan panjang dan kecepatan mesin.' },
-        { id: 'satuan', name: 'Konverter Satuan', icon: '🔁', color: ['#22D3EE', '#0369A1'], cat: 'Kabel & Teknik', href: './konverter_satuan_teknik_v20261115.html', desc: 'Konversi satuan teknik: panjang, luas, massa, tekanan, suhu, dan lainnya.' },
-        { id: 'bending', name: 'Uji Bending', icon: '🌀', color: ['#F472B6', '#BE185D'], cat: 'Kabel & Teknik', href: './uji_bending_v20261031.html', desc: 'Kalkulator parameter uji bending (diameter mandrel & jumlah lilitan) untuk material kabel.' },
-        { id: 'dimensi', name: 'Kalkulasi Dimensi', icon: '📐', color: ['#60A5FA', '#0284C7'], cat: 'Kabel & Teknik', href: './kalkulasi_dimensi_v20261104.html', desc: 'Perhitungan dimensi konduktor, ketebalan isolasi, dan diameter keseluruhan kabel.' },
+          <div id="sections"></div>
 
-        // Utilitas
-        { id: 'waktu', name: 'Kalkulator Waktu', icon: '⏱️', color: ['#818CF8', '#4338CA'], cat: 'Utilitas', href: './kalkulator_waktu_v20261031.html', desc: 'Penjumlahan dan pengurangan durasi waktu (jam, menit, detik) dengan cepat.' },
-        { id: 'rata', name: 'Rata-rata', icon: '📊', color: ['#34D399', '#047857'], cat: 'Utilitas', href: './pencari_rata_rata_v20261116.html', desc: 'Pencari nilai rata-rata, minimum, maksimum dari sekumpulan data.' },
-        { id: 'persen', name: 'Hitung Persen', icon: '％', color: ['#F9A8D4', '#DB2777'], cat: 'Utilitas', href: './hitung_persen_v20261031.html', desc: 'Kalkulator persentase: diskon, kenaikan, selisih, dan porsi nilai.' },
-        { id: 'lembur', name: 'Hitung Lembur', icon: '🕒', color: ['#FCD34D', '#B45309'], cat: 'Utilitas', href: './hitung_lembur_v20261031.html', desc: 'Perhitungan upah lembur sesuai aturan jam kerja dan upah per jam.' },
-        { id: 'generator', name: 'Generator Angka', icon: '🎲', color: ['#A5B4FC', '#6366F1'], cat: 'Utilitas', href: './generator_angka_v20261104.html', desc: 'Pembuat angka acak dengan rentang dan jumlah yang dapat diatur.' },
-        { id: 'trip', name: 'Trip Planner', icon: '🗺️', color: ['#5EEAD4', '#0D9488'], cat: 'Utilitas', href: './trip_planner_v20261117.html', desc: 'Perencana perjalanan: estimasi jarak, BBM, biaya, dan waktu tempuh.' },
-        { id: 'rapihkan', name: 'Rapihkan Teks', icon: '✍️', color: ['#F472B6', '#9333EA'], cat: 'Utilitas', href: './rapihkan_teks_v20261117.html', desc: 'Format kalimat, pengetikan KBBI, koreksi typo otomatis, kapitalisasi, dan bagikan ke WhatsApp.' },
+          <div class="empty" id="empty">
+            <div style="font-size: 30px">🔎</div>
+            <b>Aplikasi tidak ditemukan</b>
+            Coba kata kunci lain atau pilih kategori "Semua".
+          </div>
+        </div>
 
-        // Layar Penuh / Desktop (ditempatkan paling bawah)
-        { id: 'edukasi', name: 'Game Edukasi', full: true, icon: '🎈', color: ['#FF5E7E', '#F59E0B'], cat: 'Layar Penuh', href: './game_edukasi/index.html', desc: 'Game edukasi anak usia 4 tahun: belajar mengeja, berhitung, penjumlahan, balon, serta warna & bentuk.' },
-        { id: 'bbm', name: 'Monitoring BBM', full: true, icon: '⛽', color: ['#FB923C', '#DC2626'], cat: 'Layar Penuh', href: './monitoring_bbm_v20261001.html', desc: 'Pemantauan konsumsi bahan bakar, efisiensi jarak tempuh, dan riwayat pengisian BBM.' },
-        { id: 'aset', name: 'Manajemen Aset', full: true, icon: '🏢', color: ['#38BDF8', '#0284C7'], cat: 'Layar Penuh', href: './manajemen_aset_v20261115.html', desc: 'Pelacakan inventaris aset, kondisi perangkat, lokasi penyimpanan, dan riwayat pemeliharaan.' },
-        { id: 'gaji', name: 'Alokasi Gaji', full: true, icon: '💰', color: ['#34D399', '#059669'], cat: 'Layar Penuh', href: './kalkulator_alokasi_gaji_v20261007.html', desc: 'Perencanaan alokasi gaji bulanan otomatis untuk kebutuhan, tabungan, dan investasi.' },
-        { id: 'daya', name: 'Daya Listrik', full: true, icon: '💡', color: ['#FACC15', '#D97706'], cat: 'Layar Penuh', href: './kalkulator_daya_listrik_v20261007.html', desc: 'Kalkulator daya listrik (Watt, VA, Ampere, kWh) dan estimasi pemakaian energi.' },
-        { id: 'awg', name: 'mm² ke AWG', full: true, icon: '🧵', color: ['#818CF8', '#4F46E5'], cat: 'Layar Penuh', href: './konversi_mm2_to_awg_v20261001.html', desc: 'Tabel & kalkulator konversi luas penampang kabel metrik (mm²) ke standar AWG.' },
-        { id: 'coldbend', name: 'Cold Bending', full: true, icon: '❄️', color: ['#67E8F9', '#0284C7'], cat: 'Layar Penuh', href: './coldbending_heatshock/coldbending_v20261031.html', desc: 'Kalkulator & pencatatan uji kelenturan material kabel pada suhu dingin (Cold Bending).' },
-        { id: 'heatshock', name: 'Heat Shock', full: true, icon: '🔥', color: ['#FCA5A5', '#DC2626'], cat: 'Layar Penuh', href: './coldbending_heatshock/heatshock_v20261031.html', desc: 'Kalkulator & pencatatan uji ketahanan panas kejut (Heat Shock) material isolasi kabel.' },
-        { id: 'visualizer', name: 'Visualizer Kabel', full: true, icon: '🎨', color: ['#A78BFA', '#6D28D9'], cat: 'Layar Penuh', href: './visualizer_konstruksi_kabel_v20261109.html', desc: 'Visualisasi penampang konstruksi kabel multi-core, lapisan isolasi, armor, dan selubung.' }
-      ];
+        <!-- Dock favorit -->
+        <div class="dock-wrap">
+          <div class="dock" id="dock"></div>
+          <div class="home-indicator"></div>
+        </div>
 
-      const $ = (id) => document.getElementById(id);
-      const LS_FAV = 'wa_launcher_fav';
-      const LS_DOCK = 'wa_launcher_dock';
-      const DEFAULT_DOCK = ['servisin', 'berkasin', 'bersihin', 'workfolio', 'trip'];
-      const LS_RECENT = 'wa_launcher_recent';
-      const LS_COUNTS = 'wa_launcher_counts';
-      const LS_SORT = 'wa_launcher_sort';
-      const LS_VIEW = 'wa_launcher_view';
-      const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } };
-      const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+        <!-- Bottom sheet detail -->
+        <div class="scrim" id="scrim"></div>
+        <div
+          class="sheet"
+          id="sheet"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="sheet-title"
+        >
+          <div class="sheet-handle"></div>
+          <div class="sheet-head">
+            <div class="app-icon" id="sheet-icon"></div>
+            <div>
+              <h3 id="sheet-title">Nama</h3>
+              <small id="sheet-cat">Kategori</small>
+            </div>
+          </div>
+          <p id="sheet-desc"></p>
+          <div class="sheet-meta" id="sheet-meta"></div>
+          <div class="sheet-actions">
+            <button class="btn-full primary" id="sheet-open">
+              Buka Aplikasi
+            </button>
+            <button class="btn-full" id="sheet-fav">☆ Favorit</button>
+            <a
+              class="btn-full"
+              id="sheet-tab"
+              href="#"
+              target="_blank"
+              rel="noopener"
+              >↗ Tab Baru</a
+            >
+          </div>
+        </div>
 
-      let favs = load(LS_FAV, ['servisin', 'berkasin', 'bersihin', 'workfolio']);
-      let dockApps = load(LS_DOCK, DEFAULT_DOCK).filter(id => APPS.some(a => a.id === id)).slice(0, 5);
-      let dockEditTarget = null;
-      let recent = load(LS_RECENT, []);
-      let openCounts = load(LS_COUNTS, {});
-      let sortBy = load(LS_SORT, 'category');
-      let view = load(LS_VIEW, 'grid');
-      let activeCat = 'Semua';
-      let query = '';
-      let current = null;
+        <!-- Bottom sheet Custom Akses Cepat (Dock 5 Aplikasi) -->
+        <div
+          class="sheet"
+          id="dock-sheet"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="dock-sheet-title"
+        >
+          <div class="sheet-handle"></div>
+          <div
+            class="sheet-head"
+            id="dock-sheet-head"
+            style="margin-bottom: 8px"
+          >
+            <div
+              class="app-icon"
+              id="ds-icon"
+              style="
+                width: 46px;
+                height: 46px;
+                border-radius: 14px;
+                font-size: 22px;
+              "
+            >
+              ⚡
+            </div>
+            <div>
+              <h3 id="dock-sheet-title" style="font-size: 16px">
+                Atur Akses Cepat (Maks. 5)
+              </h3>
+              <small id="ds-sub">Pilih hingga 5 aplikasi di bar bawah</small>
+            </div>
+          </div>
+          <div
+            id="ds-quick-actions"
+            style="
+              display: none;
+              grid-template-columns: 1fr 1fr;
+              gap: 8px;
+              margin-bottom: 8px;
+            "
+          >
+            <button
+              type="button"
+              class="btn-full primary"
+              id="ds-open"
+              style="grid-column: auto; padding: 9px"
+            >
+              Buka
+            </button>
+            <button
+              type="button"
+              class="btn-full"
+              id="ds-remove"
+              style="padding: 9px"
+            >
+              Hapus dari Dock
+            </button>
+          </div>
+          <div class="dock-picker-head">
+            <span>Pilih Aplikasi (<b id="ds-count">0</b>/5)</span>
+            <button
+              type="button"
+              id="ds-reset"
+              style="color: var(--primary); font-weight: 700; font-size: 12px"
+            >
+              Reset Default
+            </button>
+          </div>
+          <div class="dock-picker" id="dock-picker"></div>
+          <button type="button" class="btn-full primary" id="ds-done">
+            Selesai
+          </button>
+        </div>
 
-      const CATS = ['Semua', 'Favorit', ...new Set(APPS.map(a => a.cat))];
-      const byId = (id) => APPS.find(a => a.id === id);
-      const iconStyle = (a) => `background: linear-gradient(135deg, ${a.color[0]}, ${a.color[1]});`;
-      const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        <!-- Bottom sheet About -->
+        <div
+          class="sheet"
+          id="about-sheet"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="about-title"
+        >
+          <div class="sheet-handle"></div>
+          <div class="sheet-head">
+            <div
+              class="avatar"
+              style="
+                width: 54px;
+                height: 54px;
+                border-radius: 16px;
+                flex-shrink: 0;
+              "
+              aria-hidden="true"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="26"
+                height="26"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="3" width="7" height="7" rx="2" />
+                <rect x="14" y="3" width="7" height="7" rx="2" />
+                <rect x="3" y="14" width="7" height="7" rx="2" />
+                <rect x="14" y="14" width="7" height="7" rx="2" />
+              </svg>
+            </div>
+            <div>
+              <h3 id="about-title">AppHub</h3>
+              <small>Versi 20261121 · Pusat Aplikasi Terpadu</small>
+            </div>
+          </div>
+          <p>
+            Launcher aplikasi web bergaya ponsel yang menghimpun seluruh proyek
+            mobile, kalkulator teknik kabel, pengujian material, dan utilitas
+            harian dalam satu layar cepat.
+          </p>
+          <div class="about-card">
+            <div
+              style="
+                font-size: 11.5px;
+                color: var(--text-3);
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+              "
+            >
+              Pengembang
+            </div>
+            <strong style="font-size: 14.5px">Williyanto Adi</strong>
+            <a href="mailto:williyanto_adi@yahoo.co.id"
+              >✉️ williyanto_adi@yahoo.co.id</a
+            >
+          </div>
+          <div class="sheet-actions">
+            <a class="btn-full" href="./index.html">📋 Daftar Proyek</a>
+            <a
+              class="btn-full"
+              href="https://github.com/williyanto/production"
+              target="_blank"
+              rel="noopener noreferrer"
+              >🌐 GitHub</a
+            >
+            <button type="button" class="btn-full primary" id="about-close">
+              Tutup
+            </button>
+          </div>
+        </div>
 
-      function appTile(a, i) {
-        return `<button class="app" data-id="${a.id}" style="animation-delay:${Math.min(i, 16) * 18}ms" aria-label="${esc(a.name)}">
-          <span class="app-icon" style="${iconStyle(a)}">${a.icon}${favs.includes(a.id) ? '<span class="fav-dot">⭐</span>' : ''}${a.full ? '<span class="full-badge" title="Tampilan Layar Penuh">🖥️</span>' : ''}</span>
+        <!-- Viewer aplikasi di dalam ponsel (Navigasi Bar Modern di Bawah) -->
+        <div class="viewer" id="viewer" aria-hidden="true">
+          <div class="viewer-loading" id="viewer-loading"></div>
+          <iframe id="viewer-frame" title="Aplikasi" loading="lazy"></iframe>
+          <nav class="viewer-bar" aria-label="Navigasi aplikasi">
+            <div class="viewer-app-strip">
+              <span class="dot" aria-hidden="true"></span>
+              <span class="viewer-title" id="viewer-title">Aplikasi</span>
+              <button
+                type="button"
+                class="viewer-full-btn"
+                id="viewer-full-btn"
+                title="Mode Layar Penuh"
+              >
+                ⛶ Penuh
+              </button>
+            </div>
+            <div class="viewer-nav">
+              <button
+                type="button"
+                class="vnav-btn"
+                id="viewer-back"
+                aria-label="Kembali"
+              >
+                <svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></svg>
+                <span>Kembali</span>
+              </button>
+              <button
+                type="button"
+                class="vnav-btn"
+                id="viewer-home"
+                aria-label="Beranda"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path d="M3 10.5 12 3l9 7.5" />
+                  <path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5" />
+                </svg>
+                <span>Beranda</span>
+              </button>
+              <button
+                type="button"
+                class="vnav-btn"
+                id="viewer-reload"
+                aria-label="Muat ulang"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path d="M21 12a9 9 0 1 1-2.64-6.36" />
+                  <polyline points="21 3 21 9 15 9" />
+                </svg>
+                <span>Muat Ulang</span>
+              </button>
+              <a
+                class="vnav-btn"
+                id="viewer-tab"
+                href="#"
+                target="_blank"
+                rel="noopener"
+                aria-label="Buka di tab baru"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                  />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                <span>Tab Baru</span>
+              </a>
+            </div>
+          </nav>
+        </div>
+
+        <div class="toast" id="toast"></div>
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        // Hanya proyek dengan tata letak resolusi mobile (mobile shell / kontainer max-w-md)
+        const APPS = [
+          // Aplikasi Harian (mobile shell)
+          {
+            id: "servisin",
+            name: "Servis.In",
+            ver: "20261121",
+            icon: "🏍️",
+            color: ["#8B5CF6", "#6D28D9"],
+            cat: "Aplikasi Harian",
+            href: "./Servis.In/index.html",
+            desc: "Manajemen perawatan kendaraan: pengingat oli, servis & sparepart berbasis odometer atau waktu, dokumen STNK, statistik biaya, dan multi-akun.",
+          },
+          {
+            id: "berkasin",
+            name: "Berkas.In",
+            ver: "20261121",
+            icon: "🗄️",
+            color: ["#38BDF8", "#2563EB"],
+            cat: "Aplikasi Harian",
+            href: "./Berkas.In/index.html",
+            desc: "Manajemen arsip & berkas fisik terstruktur per lemari dan lokasi penyimpanan, lengkap dengan status berkas aktif.",
+          },
+          {
+            id: "bersihin",
+            name: "Bersih.In",
+            ver: "20261121",
+            icon: "🧹",
+            color: ["#34D399", "#059669"],
+            cat: "Aplikasi Harian",
+            href: "./Bersih.In/index.html",
+            desc: "Pengingat aktivitas kebersihan rumah terjadwal, streak harian, notifikasi, dan multi-profil rumah.",
+          },
+          {
+            id: "workfolio",
+            name: "WorkFolio",
+            ver: "20261121",
+            icon: "💼",
+            color: ["#F59E0B", "#D97706"],
+            cat: "Aplikasi Harian",
+            href: "./WorkFolio/index.html",
+            desc: "Timeline rekam jejak kerja, kalender aktivitas, ekspor laporan bulanan, dan pemantauan lembur mingguan.",
+          },
+
+          // Kabel & Teknik
+          {
+            id: "hambatan",
+            name: "Hambatan Konduktor",
+            icon: "⚡",
+            color: ["#60A5FA", "#1D4ED8"],
+            cat: "Kabel & Teknik",
+            href: "./kalkulator_hambatan_kabel/iec_final_v20261104.html",
+            desc: "Perhitungan hambatan konduktor kabel multi-standar (IEC 60228, ICEA, AS/NZS, SPLN, BS EN).",
+          },
+          {
+            id: "drum",
+            name: "Drum Kabel",
+            icon: "🛢️",
+            color: ["#FB923C", "#C2410C"],
+            cat: "Kabel & Teknik",
+            href: "./kalkulator_drum_kabel_v20261104.html",
+            desc: "Estimasi kapasitas panjang kabel pada drum berdasarkan dimensi drum dan diameter kabel.",
+          },
+          {
+            id: "ircapscr",
+            name: "IR · Cap · SCR",
+            icon: "🧮",
+            color: ["#A78BFA", "#7C3AED"],
+            cat: "Kabel & Teknik",
+            href: "./kalkulator_ircapscr_v20261109.html",
+            desc: "Kalkulator resistansi isolasi, kapasitansi, dan parameter SCR untuk pengujian kabel.",
+          },
+          {
+            id: "withstand",
+            name: "Withstand Test",
+            icon: "🔌",
+            color: ["#F87171", "#B91C1C"],
+            cat: "Kabel & Teknik",
+            href: "./kalkulator_withstand_v20261115.html",
+            desc: "Kalkulator tegangan uji withstand (AC/DC) sesuai standar pengujian kabel.",
+          },
+          {
+            id: "spekir",
+            name: "Spek IR",
+            icon: "📏",
+            color: ["#2DD4BF", "#0F766E"],
+            cat: "Kabel & Teknik",
+            href: "./spek_ir_v20261115.html",
+            desc: "Referensi dan perhitungan spesifikasi insulation resistance minimum kabel.",
+          },
+          {
+            id: "suhu",
+            name: "Koreksi Suhu",
+            icon: "🌡️",
+            color: ["#FDA4AF", "#E11D48"],
+            cat: "Kabel & Teknik",
+            href: "./faktor_koreksi_suhu_v20261115.html",
+            desc: "Faktor koreksi suhu untuk normalisasi hasil pengukuran resistansi konduktor.",
+          },
+          {
+            id: "flame",
+            name: "Flame Retardant",
+            icon: "🔥",
+            color: ["#FBBF24", "#EA580C"],
+            cat: "Kabel & Teknik",
+            href: "./flame_retardant_v20261104.html",
+            desc: "Kalkulator kebutuhan material untuk pengujian sifat tahan api (flame retardant) kabel.",
+          },
+          {
+            id: "wireweight",
+            name: "Berat Kawat",
+            icon: "⚖️",
+            color: ["#94A3B8", "#475569"],
+            cat: "Kabel & Teknik",
+            href: "./wire_weight_calculation_v20261104.html",
+            desc: "Perhitungan berat kawat / konduktor berdasarkan material, diameter, dan panjang.",
+          },
+          {
+            id: "slice",
+            name: "Slice Calc",
+            icon: "🔪",
+            color: ["#C084FC", "#9333EA"],
+            cat: "Kabel & Teknik",
+            href: "./slice_calculation_v20261104.html",
+            desc: "Perhitungan sampel irisan (slice) untuk pengukuran ketebalan isolasi dan selubung.",
+          },
+          {
+            id: "rewind",
+            name: "Waktu Rewind",
+            icon: "🔄",
+            color: ["#4ADE80", "#15803D"],
+            cat: "Kabel & Teknik",
+            href: "./hitung_waktu_rewind_v20261104.html",
+            desc: "Estimasi waktu proses rewind kabel berdasarkan panjang dan kecepatan mesin.",
+          },
+          {
+            id: "satuan",
+            name: "Konverter Satuan",
+            icon: "🔁",
+            color: ["#22D3EE", "#0369A1"],
+            cat: "Kabel & Teknik",
+            href: "./konverter_satuan_teknik_v20261115.html",
+            desc: "Konversi satuan teknik: panjang, luas, massa, tekanan, suhu, dan lainnya.",
+          },
+          {
+            id: "bending",
+            name: "Uji Bending",
+            icon: "🌀",
+            color: ["#F472B6", "#BE185D"],
+            cat: "Kabel & Teknik",
+            href: "./uji_bending_v20261031.html",
+            desc: "Kalkulator parameter uji bending (diameter mandrel & jumlah lilitan) untuk material kabel.",
+          },
+          {
+            id: "dimensi",
+            name: "Kalkulasi Dimensi",
+            icon: "📐",
+            color: ["#60A5FA", "#0284C7"],
+            cat: "Kabel & Teknik",
+            href: "./kalkulasi_dimensi_v20261104.html",
+            desc: "Perhitungan dimensi konduktor, ketebalan isolasi, dan diameter keseluruhan kabel.",
+          },
+
+          // Utilitas
+          {
+            id: "waktu",
+            name: "Kalkulator Waktu",
+            icon: "⏱️",
+            color: ["#818CF8", "#4338CA"],
+            cat: "Utilitas",
+            href: "./kalkulator_waktu_v20261031.html",
+            desc: "Penjumlahan dan pengurangan durasi waktu (jam, menit, detik) dengan cepat.",
+          },
+          {
+            id: "rata",
+            name: "Rata-rata",
+            icon: "📊",
+            color: ["#34D399", "#047857"],
+            cat: "Utilitas",
+            href: "./pencari_rata_rata_v20261116.html",
+            desc: "Pencari nilai rata-rata, minimum, maksimum dari sekumpulan data.",
+          },
+          {
+            id: "persen",
+            name: "Hitung Persen",
+            icon: "％",
+            color: ["#F9A8D4", "#DB2777"],
+            cat: "Utilitas",
+            href: "./hitung_persen_v20261031.html",
+            desc: "Kalkulator persentase: diskon, kenaikan, selisih, dan porsi nilai.",
+          },
+          {
+            id: "lembur",
+            name: "Hitung Lembur",
+            icon: "🕒",
+            color: ["#FCD34D", "#B45309"],
+            cat: "Utilitas",
+            href: "./hitung_lembur_v20261031.html",
+            desc: "Perhitungan upah lembur sesuai aturan jam kerja dan upah per jam.",
+          },
+          {
+            id: "generator",
+            name: "Generator Angka",
+            icon: "🎲",
+            color: ["#A5B4FC", "#6366F1"],
+            cat: "Utilitas",
+            href: "./generator_angka_v20261104.html",
+            desc: "Pembuat angka acak dengan rentang dan jumlah yang dapat diatur.",
+          },
+          {
+            id: "trip",
+            name: "Trip Planner",
+            icon: "🗺️",
+            color: ["#5EEAD4", "#0D9488"],
+            cat: "Utilitas",
+            href: "./trip_planner_v20261117.html",
+            desc: "Perencana perjalanan: estimasi jarak, BBM, biaya, dan waktu tempuh.",
+          },
+          {
+            id: "rapihkan",
+            name: "Rapihkan Teks",
+            icon: "✍️",
+            color: ["#F472B6", "#9333EA"],
+            cat: "Utilitas",
+            href: "./rapihkan_teks_v20261117.html",
+            desc: "Format kalimat, pengetikan KBBI, koreksi typo otomatis, kapitalisasi, dan bagikan ke WhatsApp.",
+          },
+
+          // Layar Penuh / Desktop (ditempatkan paling bawah)
+          {
+            id: "edukasi",
+            name: "Game Edukasi",
+            full: true,
+            icon: "🎈",
+            color: ["#FF5E7E", "#F59E0B"],
+            cat: "Layar Penuh",
+            href: "./game_edukasi/index.html",
+            desc: "Game edukasi anak usia 4 tahun: belajar mengeja, berhitung, penjumlahan, balon, serta warna & bentuk.",
+          },
+          {
+            id: "bbm",
+            name: "Monitoring BBM",
+            full: true,
+            icon: "⛽",
+            color: ["#FB923C", "#DC2626"],
+            cat: "Layar Penuh",
+            href: "./monitoring_bbm_v20261001.html",
+            desc: "Pemantauan konsumsi bahan bakar, efisiensi jarak tempuh, dan riwayat pengisian BBM.",
+          },
+          {
+            id: "aset",
+            name: "Manajemen Aset",
+            full: true,
+            icon: "🏢",
+            color: ["#38BDF8", "#0284C7"],
+            cat: "Layar Penuh",
+            href: "./manajemen_aset_v20261115.html",
+            desc: "Pelacakan inventaris aset, kondisi perangkat, lokasi penyimpanan, dan riwayat pemeliharaan.",
+          },
+          {
+            id: "gaji",
+            name: "Alokasi Gaji",
+            full: true,
+            icon: "💰",
+            color: ["#34D399", "#059669"],
+            cat: "Layar Penuh",
+            href: "./kalkulator_alokasi_gaji_v20261007.html",
+            desc: "Perencanaan alokasi gaji bulanan otomatis untuk kebutuhan, tabungan, dan investasi.",
+          },
+          {
+            id: "daya",
+            name: "Daya Listrik",
+            full: true,
+            icon: "💡",
+            color: ["#FACC15", "#D97706"],
+            cat: "Layar Penuh",
+            href: "./kalkulator_daya_listrik_v20261007.html",
+            desc: "Kalkulator daya listrik (Watt, VA, Ampere, kWh) dan estimasi pemakaian energi.",
+          },
+          {
+            id: "awg",
+            name: "mm² ke AWG",
+            full: true,
+            icon: "🧵",
+            color: ["#818CF8", "#4F46E5"],
+            cat: "Layar Penuh",
+            href: "./konversi_mm2_to_awg_v20261001.html",
+            desc: "Tabel & kalkulator konversi luas penampang kabel metrik (mm²) ke standar AWG.",
+          },
+          {
+            id: "coldbend",
+            name: "Cold Bending",
+            full: true,
+            icon: "❄️",
+            color: ["#67E8F9", "#0284C7"],
+            cat: "Layar Penuh",
+            href: "./coldbending_heatshock/coldbending_v20261031.html",
+            desc: "Kalkulator & pencatatan uji kelenturan material kabel pada suhu dingin (Cold Bending).",
+          },
+          {
+            id: "heatshock",
+            name: "Heat Shock",
+            full: true,
+            icon: "🔥",
+            color: ["#FCA5A5", "#DC2626"],
+            cat: "Layar Penuh",
+            href: "./coldbending_heatshock/heatshock_v20261031.html",
+            desc: "Kalkulator & pencatatan uji ketahanan panas kejut (Heat Shock) material isolasi kabel.",
+          },
+          {
+            id: "visualizer",
+            name: "Visualizer Kabel",
+            full: true,
+            icon: "🎨",
+            color: ["#A78BFA", "#6D28D9"],
+            cat: "Layar Penuh",
+            href: "./visualizer_konstruksi_kabel_v20261109.html",
+            desc: "Visualisasi penampang konstruksi kabel multi-core, lapisan isolasi, armor, dan selubung.",
+          },
+        ];
+
+        const $ = (id) => document.getElementById(id);
+        const LS_FAV = "wa_launcher_fav";
+        const LS_DOCK = "wa_launcher_dock";
+        const DEFAULT_DOCK = [
+          "servisin",
+          "berkasin",
+          "bersihin",
+          "workfolio",
+          "trip",
+        ];
+        const LS_RECENT = "wa_launcher_recent";
+        const LS_COUNTS = "wa_launcher_counts";
+        const LS_SORT = "wa_launcher_sort";
+        const LS_VIEW = "wa_launcher_view";
+        const load = (k, d) => {
+          try {
+            return JSON.parse(localStorage.getItem(k)) || d;
+          } catch (e) {
+            return d;
+          }
+        };
+        const save = (k, v) => {
+          try {
+            localStorage.setItem(k, JSON.stringify(v));
+          } catch (e) {}
+        };
+
+        let favs = load(LS_FAV, [
+          "servisin",
+          "berkasin",
+          "bersihin",
+          "workfolio",
+        ]);
+        let dockApps = load(LS_DOCK, DEFAULT_DOCK)
+          .filter((id) => APPS.some((a) => a.id === id))
+          .slice(0, 5);
+        let dockEditTarget = null;
+        let recent = load(LS_RECENT, []);
+        let openCounts = load(LS_COUNTS, {});
+        let sortBy = load(LS_SORT, "category");
+        let view = load(LS_VIEW, "grid");
+        let activeCat = "Semua";
+        let query = "";
+        let current = null;
+
+        const CATS = ["Semua", "Favorit", ...new Set(APPS.map((a) => a.cat))];
+        const byId = (id) => APPS.find((a) => a.id === id);
+        const iconStyle = (a) =>
+          `background: linear-gradient(135deg, ${a.color[0]}, ${a.color[1]});`;
+        const esc = (s) =>
+          String(s).replace(
+            /[&<>"']/g,
+            (c) =>
+              ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+              })[c],
+          );
+
+        function appTile(a, i) {
+          return `<button class="app" data-id="${a.id}" style="animation-delay:${Math.min(i, 16) * 18}ms" aria-label="${esc(a.name)}">
+          <span class="app-icon" style="${iconStyle(a)}">${a.icon}${favs.includes(a.id) ? '<span class="fav-dot">⭐</span>' : ""}${a.full ? '<span class="full-badge" title="Tampilan Layar Penuh">🖥️</span>' : ""}</span>
           <span class="app-name">${esc(a.name)}</span>
         </button>`;
-      }
+        }
 
-      function appRow(a) {
-        const cnt = openCounts[a.id] || 0;
-        const tag = sortBy === 'frequent' && cnt > 0 ? `${cnt}×` : (a.full ? 'Layar Penuh' : a.cat.split(' ')[0]);
-        return `<div class="row" data-id="${a.id}" role="button" tabindex="0">
+        function appRow(a) {
+          const cnt = openCounts[a.id] || 0;
+          const tag =
+            sortBy === "frequent" && cnt > 0
+              ? `${cnt}×`
+              : a.full
+                ? "Layar Penuh"
+                : a.cat.split(" ")[0];
+          return `<div class="row" data-id="${a.id}" role="button" tabindex="0">
           <span class="app-icon" style="${iconStyle(a)}">${a.icon}</span>
-          <span class="row-text"><b>${esc(a.name)}${favs.includes(a.id) ? ' ⭐' : ''}</b><small>${esc(a.desc)}</small></span>
+          <span class="row-text"><b>${esc(a.name)}${favs.includes(a.id) ? " ⭐" : ""}</b><small>${esc(a.desc)}</small></span>
           <span class="row-tag">${esc(tag)}</span>
           <button type="button" class="row-info-btn" data-info="${a.id}" title="Detail &amp; Favorit" aria-label="Detail ${esc(a.name)}">ⓘ</button>
         </div>`;
-      }
-
-      function updateChipsNav() {
-        const el = $('chips');
-        const prev = $('chips-prev');
-        const next = $('chips-next');
-        if (!el || !prev || !next) return;
-        const canScroll = el.scrollWidth - el.clientWidth > 4;
-        prev.hidden = !canScroll;
-        next.hidden = !canScroll;
-        if (canScroll) {
-          prev.disabled = el.scrollLeft <= 2;
-          next.disabled = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2;
         }
-      }
 
-      function renderChips() {
-        $('chips').innerHTML = CATS.map(c =>
-          `<button class="chip ${c === activeCat ? 'active' : ''}" data-cat="${esc(c)}">${c === 'Favorit' ? '⭐ ' : ''}${esc(c)}</button>`
-        ).join('');
-        requestAnimationFrame(updateChipsNav);
-      }
-
-      function filtered() {
-        const q = query.trim().toLowerCase();
-        return APPS.filter(a => {
-          if (activeCat === 'Favorit' && !favs.includes(a.id)) return false;
-          if (activeCat !== 'Semua' && activeCat !== 'Favorit' && a.cat !== activeCat) return false;
-          if (q && !(a.name + ' ' + a.desc + ' ' + a.cat).toLowerCase().includes(q)) return false;
-          return true;
-        });
-      }
-
-      function renderSortPills() {
-        document.querySelectorAll('[data-sort]').forEach(b => {
-          b.classList.toggle('active', b.dataset.sort === sortBy);
-        });
-        if ($('sort-btn')) $('sort-btn').classList.toggle('filtered', sortBy !== 'category');
-      }
-
-      function openAboutSheet(fromPop = false) {
-        if (!fromPop && !$('about-sheet').classList.contains('show')) pushLayer('about');
-        $('scrim').classList.add('show');
-        $('about-sheet').classList.add('show');
-      }
-
-      function closeAboutSheet() {
-        $('about-sheet').classList.remove('show');
-        if (!$('sheet').classList.contains('show') && !$('dock-sheet').classList.contains('show')) {
-          $('scrim').classList.remove('show');
+        function updateChipsNav() {
+          const el = $("chips");
+          const prev = $("chips-prev");
+          const next = $("chips-next");
+          if (!el || !prev || !next) return;
+          const canScroll = el.scrollWidth - el.clientWidth > 4;
+          prev.hidden = !canScroll;
+          next.hidden = !canScroll;
+          if (canScroll) {
+            prev.disabled = el.scrollLeft <= 2;
+            next.disabled =
+              el.scrollLeft + el.clientWidth >= el.scrollWidth - 2;
+          }
         }
-      }
 
-      function sortList(arr) {
-        const copy = arr.slice();
-        if (sortBy === 'az') {
-          copy.sort((a, b) => a.name.localeCompare(b.name, 'id'));
-        } else if (sortBy === 'frequent') {
-          copy.sort((a, b) => (openCounts[b.id] || 0) - (openCounts[a.id] || 0) || a.name.localeCompare(b.name, 'id'));
+        function renderChips() {
+          $("chips").innerHTML = CATS.map(
+            (c) =>
+              `<button class="chip ${c === activeCat ? "active" : ""}" data-cat="${esc(c)}">${c === "Favorit" ? "⭐ " : ""}${esc(c)}</button>`,
+          ).join("");
+          requestAnimationFrame(updateChipsNav);
         }
-        return copy;
-      }
 
-      function renderSections() {
-        const list = filtered();
-        let groups = {};
-        if (sortBy === 'category') {
-          list.forEach(a => { (groups[a.cat] = groups[a.cat] || []).push(a); });
-        } else {
-          const mobileApps = sortList(list.filter(a => !a.full));
-          const fullApps = sortList(list.filter(a => a.full));
-          const label = sortBy === 'az' ? 'Semua Aplikasi (A–Z)' : 'Sering Dibuka';
-          if (mobileApps.length) groups[label] = mobileApps;
-          if (fullApps.length) groups['Layar Penuh (Bawah)'] = fullApps;
+        function filtered() {
+          const q = query.trim().toLowerCase();
+          return APPS.filter((a) => {
+            if (activeCat === "Favorit" && !favs.includes(a.id)) return false;
+            if (
+              activeCat !== "Semua" &&
+              activeCat !== "Favorit" &&
+              a.cat !== activeCat
+            )
+              return false;
+            if (
+              q &&
+              !(a.name + " " + a.desc + " " + a.cat).toLowerCase().includes(q)
+            )
+              return false;
+            return true;
+          });
         }
-        let i = 0;
-        $('sections').innerHTML = Object.keys(groups).map(cat => `
+
+        function renderSortPills() {
+          document.querySelectorAll("[data-sort]").forEach((b) => {
+            b.classList.toggle("active", b.dataset.sort === sortBy);
+          });
+          if ($("sort-btn"))
+            $("sort-btn").classList.toggle("filtered", sortBy !== "category");
+        }
+
+        function openAboutSheet(fromPop = false) {
+          if (!fromPop && !$("about-sheet").classList.contains("show"))
+            pushLayer("about");
+          $("scrim").classList.add("show");
+          $("about-sheet").classList.add("show");
+        }
+
+        function closeAboutSheet() {
+          $("about-sheet").classList.remove("show");
+          if (
+            !$("sheet").classList.contains("show") &&
+            !$("dock-sheet").classList.contains("show")
+          ) {
+            $("scrim").classList.remove("show");
+          }
+        }
+
+        function sortList(arr) {
+          const copy = arr.slice();
+          if (sortBy === "az") {
+            copy.sort((a, b) => a.name.localeCompare(b.name, "id"));
+          } else if (sortBy === "frequent") {
+            copy.sort(
+              (a, b) =>
+                (openCounts[b.id] || 0) - (openCounts[a.id] || 0) ||
+                a.name.localeCompare(b.name, "id"),
+            );
+          }
+          return copy;
+        }
+
+        function renderSections() {
+          const list = filtered();
+          let groups = {};
+          if (sortBy === "category") {
+            list.forEach((a) => {
+              (groups[a.cat] = groups[a.cat] || []).push(a);
+            });
+          } else {
+            const mobileApps = sortList(list.filter((a) => !a.full));
+            const fullApps = sortList(list.filter((a) => a.full));
+            const label =
+              sortBy === "az" ? "Semua Aplikasi (A–Z)" : "Sering Dibuka";
+            if (mobileApps.length) groups[label] = mobileApps;
+            if (fullApps.length) groups["Layar Penuh (Bawah)"] = fullApps;
+          }
+          let i = 0;
+          $("sections").innerHTML = Object.keys(groups)
+            .map(
+              (cat) => `
           <div class="section-title"><span>${esc(cat)}</span><span>${groups[cat].length}</span></div>
-          <div class="${view === 'grid' ? 'grid' : 'list'}">
-            ${groups[cat].map(a => view === 'grid' ? appTile(a, i++) : appRow(a)).join('')}
-          </div>`).join('');
-        $('empty').style.display = list.length ? 'none' : 'block';
-        $('btn-view').textContent = view === 'grid' ? '☰' : '▦';
-        renderSortPills();
-      }
+          <div class="${view === "grid" ? "grid" : "list"}">
+            ${groups[cat].map((a) => (view === "grid" ? appTile(a, i++) : appRow(a))).join("")}
+          </div>`,
+            )
+            .join("");
+          $("empty").style.display = list.length ? "none" : "block";
+          $("btn-view").textContent = view === "grid" ? "☰" : "▦";
+          renderSortPills();
+        }
 
-      function renderRecent() {
-        const items = recent.map(byId).filter(Boolean).slice(0, 4);
-        const show = items.length && !query && activeCat === 'Semua';
-        $('recent-wrap').hidden = !show;
-        $('recent-grid').innerHTML = items.map(appTile).join('');
-      }
+        function renderRecent() {
+          const items = recent.map(byId).filter(Boolean).slice(0, 4);
+          const show = items.length && !query && activeCat === "Semua";
+          $("recent-wrap").hidden = !show;
+          $("recent-grid").innerHTML = items.map(appTile).join("");
+        }
 
-      function renderDock() {
-        const items = dockApps.map(byId).filter(Boolean).slice(0, 5);
-        const tiles = items.map(a =>
-          `<button class="app" data-id="${a.id}" data-dock="1" title="${esc(a.name)} (tahan untuk atur)" aria-label="${esc(a.name)}"><span class="app-icon" style="${iconStyle(a)}">${a.icon}</span></button>`
-        ).join('');
-        const addBtn = items.length < 5
-          ? `<button type="button" class="dock-add-btn" id="dock-add-btn" title="Tambah ke Akses Cepat" aria-label="Tambah ke Akses Cepat">＋</button>`
-          : '';
-        $('dock').innerHTML = tiles + addBtn;
-      }
+        function renderDock() {
+          const items = dockApps.map(byId).filter(Boolean).slice(0, 5);
+          const tiles = items
+            .map(
+              (a) =>
+                `<button class="app" data-id="${a.id}" data-dock="1" title="${esc(a.name)} (tahan untuk atur)" aria-label="${esc(a.name)}"><span class="app-icon" style="${iconStyle(a)}">${a.icon}</span></button>`,
+            )
+            .join("");
+          const addBtn =
+            items.length < 5
+              ? `<button type="button" class="dock-add-btn" id="dock-add-btn" title="Tambah ke Akses Cepat" aria-label="Tambah ke Akses Cepat">＋</button>`
+              : "";
+          $("dock").innerHTML = tiles + addBtn;
+        }
 
-      function renderDockPicker() {
-        $('ds-count').textContent = dockApps.length;
-        $('dock-picker').innerHTML = APPS.map(a => {
-          const sel = dockApps.includes(a.id);
-          return `<button type="button" class="dock-pick-item ${sel ? 'selected' : ''}" data-dpick="${a.id}">
+        function renderDockPicker() {
+          $("ds-count").textContent = dockApps.length;
+          $("dock-picker").innerHTML = APPS.map((a) => {
+            const sel = dockApps.includes(a.id);
+            return `<button type="button" class="dock-pick-item ${sel ? "selected" : ""}" data-dpick="${a.id}">
             <span class="app-icon" style="${iconStyle(a)}">${a.icon}</span>
             <span>${esc(a.name)}</span>
           </button>`;
-        }).join('');
-      }
-
-      function openDockSheet(appId = null, fromPop = false) {
-        dockEditTarget = appId ? byId(appId) : null;
-        if (dockEditTarget) {
-          $('ds-icon').style.cssText = 'width:46px;height:46px;border-radius:14px;font-size:22px;' + iconStyle(dockEditTarget);
-          $('ds-icon').textContent = dockEditTarget.icon;
-          $('dock-sheet-title').textContent = dockEditTarget.name;
-          $('ds-sub').textContent = 'Akses Cepat · Tahan ikon untuk menu ini';
-          $('ds-quick-actions').style.display = 'grid';
-        } else {
-          $('ds-icon').style.cssText = 'width:46px;height:46px;border-radius:14px;font-size:22px;background:var(--primary-soft);color:var(--primary);';
-          $('ds-icon').textContent = '⚡';
-          $('dock-sheet-title').textContent = 'Atur Akses Cepat (Maks. 5)';
-          $('ds-sub').textContent = 'Pilih hingga 5 aplikasi di bar bawah';
-          $('ds-quick-actions').style.display = 'none';
+          }).join("");
         }
-        renderDockPicker();
-        if (!fromPop && !$('dock-sheet').classList.contains('show')) pushLayer('dock');
-        $('scrim').classList.add('show');
-        $('dock-sheet').classList.add('show');
-      }
 
-      function closeDockSheet() {
-        $('dock-sheet').classList.remove('show');
-        if (!$('sheet').classList.contains('show')) $('scrim').classList.remove('show');
-      }
-
-      function renderStats() {
-        $('stat-total').textContent = APPS.length;
-        $('stat-cats').textContent = CATS.length - 2;
-        $('stat-fav').textContent = favs.length;
-      }
-
-      function renderAll() {
-        renderChips(); renderRecent(); renderSections(); renderDock(); renderStats();
-      }
-
-      // ---------- History Back Helper ----------
-      function pushLayer(name) {
-        if (window.history && history.pushState) {
-          try { history.pushState({ waLayer: name }, ''); } catch (e) {}
-        }
-      }
-
-      // ---------- Sheet (Long-press / Info) ----------
-      function openSheet(a, fromPop = false) {
-        current = a;
-        $('sheet-icon').style.cssText = iconStyle(a);
-        $('sheet-icon').textContent = a.icon;
-        $('sheet-title').textContent = a.name;
-        $('sheet-cat').textContent = a.cat;
-        $('sheet-desc').textContent = a.desc;
-        const file = a.href.split('/').pop();
-        const ver = a.ver || (file.match(/v(\d{8})/) || [])[1];
-        $('sheet-meta').innerHTML = [
-          a.full ? '🖥️ Layar Penuh' : '📱 Resolusi Mobile',
-          ver ? `🗓️ v${ver}` : '🧩 Multi-halaman',
-          `🔥 Dibuka ${openCounts[a.id] || 0}×`
-        ].map(t => `<span>${t}</span>`).join('');
-        $('sheet-fav').textContent = favs.includes(a.id) ? '★ Hapus Favorit' : '☆ Favorit';
-        $('sheet-tab').href = a.href;
-        if (!fromPop && !$('sheet').classList.contains('show')) pushLayer('sheet');
-        $('scrim').classList.add('show');
-        $('sheet').classList.add('show');
-      }
-      function closeSheet() {
-        $('scrim').classList.remove('show');
-        $('sheet').classList.remove('show');
-      }
-
-      // ---------- Sinkronisasi Tema Terang / Malam ke Aplikasi ----------
-      function getLauncherTheme() {
-        return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-      }
-
-      function syncThemeToApps() {
-        const mode = getLauncherTheme();
-        const isDark = mode === 'dark';
-        try {
-          localStorage.setItem('color-theme', mode);
-          localStorage.setItem('assetpro_theme', mode);
-          localStorage.setItem('theme', mode);
-          localStorage.setItem('berkas_in_web_theme_v1', mode);
-          localStorage.setItem('workfolio_web_theme_v1', mode);
-          // Sinkronkan juga ke state JSON Servis.In & Bersih.In bila sudah ada
-          ['servis_in_store_v4', 'bersih_in_state_v1'].forEach(key => {
-            const raw = localStorage.getItem(key);
-            if (!raw) return;
-            try {
-              const obj = JSON.parse(raw);
-              if (obj && typeof obj === 'object') {
-                obj.theme = mode;
-                localStorage.setItem(key, JSON.stringify(obj));
-              }
-            } catch (e) {}
-          });
-        } catch (e) {}
-        applyThemeToIframe($('viewer-frame'), isDark, mode);
-      }
-
-      function applyThemeToIframe(frame, isDark, mode) {
-        if (!frame || !frame.contentDocument) return;
-        try {
-          const doc = frame.contentDocument;
-          if (doc.documentElement) {
-            doc.documentElement.setAttribute('data-theme', mode);
-            doc.documentElement.classList.toggle('dark', isDark);
-          }
-          if (doc.body) {
-            doc.body.classList.toggle('dark-mode', isDark);
-          }
-        } catch (e) {}
-      }
-
-      // ---------- Viewer (1-tap buka) ----------
-      const isSmallScreen = () => window.matchMedia('(max-width: 499px)').matches;
-
-      function updateFullBtn() {
-        const full = $('viewer').classList.contains('is-full');
-        $('viewer-full-btn').textContent = full ? '◱ Normal' : '⛶ Penuh';
-      }
-
-      function openApp(a, fromPop = false) {
-        recent = [a.id, ...recent.filter(x => x !== a.id)].slice(0, 8);
-        save(LS_RECENT, recent);
-        openCounts[a.id] = (openCounts[a.id] || 0) + 1;
-        save(LS_COUNTS, openCounts);
-        syncThemeToApps();
-        closeSheet();
-        if (isSmallScreen()) {
-          window.location.href = a.href;
-          return;
-        }
-        $('viewer').classList.toggle('is-full', !!a.full);
-        updateFullBtn();
-        $('viewer-title').textContent = a.name;
-        $('viewer-tab').href = a.href;
-        $('viewer-loading').classList.remove('done');
-        $('viewer-frame').src = a.href;
-        if (!fromPop && !$('viewer').classList.contains('show')) pushLayer('viewer');
-        $('viewer').classList.add('show');
-        $('viewer').setAttribute('aria-hidden', 'false');
-        renderRecent();
-        if (sortBy === 'frequent') renderSections();
-      }
-      function closeApp() {
-        $('viewer').classList.remove('show', 'is-full');
-        $('viewer').setAttribute('aria-hidden', 'true');
-        setTimeout(() => { if (!$('viewer').classList.contains('show')) $('viewer-frame').src = 'about:blank'; }, 300);
-      }
-
-      function toast(msg) {
-        const t = $('toast');
-        t.textContent = msg;
-        t.classList.add('show');
-        clearTimeout(toast._t);
-        toast._t = setTimeout(() => t.classList.remove('show'), 1800);
-      }
-
-      // ---------- Events (1-tap buka, long-press / klik kanan untuk detail) ----------
-      let lpTimer = null;
-      let lpFired = false;
-      let lpStartX = 0;
-      let lpStartY = 0;
-
-      document.addEventListener('pointerdown', (e) => {
-        if (e.button === 2) return;
-        const appEl = e.target.closest('[data-id]');
-        if (!appEl || e.target.closest('[data-info]')) return;
-        lpFired = false;
-        lpStartX = e.clientX;
-        lpStartY = e.clientY;
-        clearTimeout(lpTimer);
-        lpTimer = setTimeout(() => {
-          lpFired = true;
-          const a = byId(appEl.dataset.id);
-          if (a) {
-            if (navigator.vibrate) try { navigator.vibrate(15); } catch (err) {}
-            if (appEl.dataset.dock) openDockSheet(a.id);
-            else openSheet(a);
-          }
-        }, 420);
-      });
-
-      ['pointerup', 'pointercancel', 'pointermove'].forEach(evt => {
-        document.addEventListener(evt, (e) => {
-          if (evt === 'pointermove' && Math.abs(e.clientX - lpStartX) + Math.abs(e.clientY - lpStartY) < 10) return;
-          clearTimeout(lpTimer);
-        }, { passive: true });
-      });
-
-      document.addEventListener('contextmenu', (e) => {
-        const appEl = e.target.closest('[data-id]');
-        if (appEl) {
-          e.preventDefault();
-          clearTimeout(lpTimer);
-          const a = byId(appEl.dataset.id);
-          if (a) {
-            if (appEl.dataset.dock) openDockSheet(a.id);
-            else openSheet(a);
-          }
-          return;
-        }
-        if (e.target.closest('#dock')) {
-          e.preventDefault();
-          openDockSheet(null);
-        }
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('.sort-wrap')) {
-          $('sort-menu').classList.remove('show');
-          $('sort-btn').setAttribute('aria-expanded', 'false');
-        }
-        if (e.target.closest('#dock-add-btn')) { openDockSheet(null); return; }
-        const dpick = e.target.closest('[data-dpick]');
-        if (dpick) {
-          const id = dpick.dataset.dpick;
-          if (dockApps.includes(id)) {
-            dockApps = dockApps.filter(x => x !== id);
+        function openDockSheet(appId = null, fromPop = false) {
+          dockEditTarget = appId ? byId(appId) : null;
+          if (dockEditTarget) {
+            $("ds-icon").style.cssText =
+              "width:46px;height:46px;border-radius:14px;font-size:22px;" +
+              iconStyle(dockEditTarget);
+            $("ds-icon").textContent = dockEditTarget.icon;
+            $("dock-sheet-title").textContent = dockEditTarget.name;
+            $("ds-sub").textContent = "Akses Cepat · Tahan ikon untuk menu ini";
+            $("ds-quick-actions").style.display = "grid";
           } else {
-            if (dockApps.length >= 5) { toast('Maksimal 5 aplikasi di Akses Cepat'); return; }
-            dockApps.push(id);
+            $("ds-icon").style.cssText =
+              "width:46px;height:46px;border-radius:14px;font-size:22px;background:var(--primary-soft);color:var(--primary);";
+            $("ds-icon").textContent = "⚡";
+            $("dock-sheet-title").textContent = "Atur Akses Cepat (Maks. 5)";
+            $("ds-sub").textContent = "Pilih hingga 5 aplikasi di bar bawah";
+            $("ds-quick-actions").style.display = "none";
           }
+          renderDockPicker();
+          if (!fromPop && !$("dock-sheet").classList.contains("show"))
+            pushLayer("dock");
+          $("scrim").classList.add("show");
+          $("dock-sheet").classList.add("show");
+        }
+
+        function closeDockSheet() {
+          $("dock-sheet").classList.remove("show");
+          if (!$("sheet").classList.contains("show"))
+            $("scrim").classList.remove("show");
+        }
+
+        function renderStats() {
+          $("stat-total").textContent = APPS.length;
+          $("stat-cats").textContent = CATS.length - 2;
+          $("stat-fav").textContent = favs.length;
+        }
+
+        function renderAll() {
+          renderChips();
+          renderRecent();
+          renderSections();
+          renderDock();
+          renderStats();
+        }
+
+        // ---------- History Back Helper ----------
+        function pushLayer(name) {
+          if (window.history && history.pushState) {
+            try {
+              history.pushState({ waLayer: name }, "");
+            } catch (e) {}
+          }
+        }
+
+        // ---------- Sheet (Long-press / Info) ----------
+        function openSheet(a, fromPop = false) {
+          current = a;
+          $("sheet-icon").style.cssText = iconStyle(a);
+          $("sheet-icon").textContent = a.icon;
+          $("sheet-title").textContent = a.name;
+          $("sheet-cat").textContent = a.cat;
+          $("sheet-desc").textContent = a.desc;
+          const file = a.href.split("/").pop();
+          const ver = a.ver || (file.match(/v(\d{8})/) || [])[1];
+          $("sheet-meta").innerHTML = [
+            a.full ? "🖥️ Layar Penuh" : "📱 Resolusi Mobile",
+            ver ? `🗓️ v${ver}` : "🧩 Multi-halaman",
+            `🔥 Dibuka ${openCounts[a.id] || 0}×`,
+          ]
+            .map((t) => `<span>${t}</span>`)
+            .join("");
+          $("sheet-fav").textContent = favs.includes(a.id)
+            ? "★ Hapus Favorit"
+            : "☆ Favorit";
+          $("sheet-tab").href = a.href;
+          if (!fromPop && !$("sheet").classList.contains("show"))
+            pushLayer("sheet");
+          $("scrim").classList.add("show");
+          $("sheet").classList.add("show");
+        }
+        function closeSheet() {
+          $("scrim").classList.remove("show");
+          $("sheet").classList.remove("show");
+        }
+
+        // ---------- Sinkronisasi Tema Terang / Malam ke Aplikasi ----------
+        function getLauncherTheme() {
+          return document.documentElement.getAttribute("data-theme") === "dark"
+            ? "dark"
+            : "light";
+        }
+
+        function syncThemeToApps() {
+          const mode = getLauncherTheme();
+          const isDark = mode === "dark";
+          try {
+            localStorage.setItem("color-theme", mode);
+            localStorage.setItem("assetpro_theme", mode);
+            localStorage.setItem("theme", mode);
+            localStorage.setItem("berkas_in_web_theme_v1", mode);
+            localStorage.setItem("workfolio_web_theme_v1", mode);
+            // Sinkronkan juga ke state JSON Servis.In & Bersih.In bila sudah ada
+            ["servis_in_store_v4", "bersih_in_state_v1"].forEach((key) => {
+              const raw = localStorage.getItem(key);
+              if (!raw) return;
+              try {
+                const obj = JSON.parse(raw);
+                if (obj && typeof obj === "object") {
+                  obj.theme = mode;
+                  localStorage.setItem(key, JSON.stringify(obj));
+                }
+              } catch (e) {}
+            });
+          } catch (e) {}
+          applyThemeToIframe($("viewer-frame"), isDark, mode);
+        }
+
+        function applyThemeToIframe(frame, isDark, mode) {
+          if (!frame || !frame.contentDocument) return;
+          try {
+            const doc = frame.contentDocument;
+            if (doc.documentElement) {
+              doc.documentElement.setAttribute("data-theme", mode);
+              doc.documentElement.classList.toggle("dark", isDark);
+            }
+            if (doc.body) {
+              doc.body.classList.toggle("dark-mode", isDark);
+            }
+          } catch (e) {}
+        }
+
+        // ---------- Viewer (1-tap buka) ----------
+        const isSmallScreen = () =>
+          window.matchMedia("(max-width: 499px)").matches;
+
+        function updateFullBtn() {
+          const full = $("viewer").classList.contains("is-full");
+          $("viewer-full-btn").textContent = full ? "◱ Normal" : "⛶ Penuh";
+        }
+
+        function openApp(a, fromPop = false) {
+          recent = [a.id, ...recent.filter((x) => x !== a.id)].slice(0, 8);
+          save(LS_RECENT, recent);
+          openCounts[a.id] = (openCounts[a.id] || 0) + 1;
+          save(LS_COUNTS, openCounts);
+          syncThemeToApps();
+          closeSheet();
+          if (isSmallScreen()) {
+            window.location.href = a.href;
+            return;
+          }
+          $("viewer").classList.toggle("is-full", !!a.full);
+          updateFullBtn();
+          $("viewer-title").textContent = a.name;
+          $("viewer-tab").href = a.href;
+          $("viewer-loading").classList.remove("done");
+          $("viewer-frame").src = a.href;
+          if (!fromPop && !$("viewer").classList.contains("show"))
+            pushLayer("viewer");
+          $("viewer").classList.add("show");
+          $("viewer").setAttribute("aria-hidden", "false");
+          renderRecent();
+          if (sortBy === "frequent") renderSections();
+        }
+        function closeApp() {
+          $("viewer").classList.remove("show", "is-full");
+          $("viewer").setAttribute("aria-hidden", "true");
+          setTimeout(() => {
+            if (!$("viewer").classList.contains("show"))
+              $("viewer-frame").src = "about:blank";
+          }, 300);
+        }
+
+        function toast(msg) {
+          const t = $("toast");
+          t.textContent = msg;
+          t.classList.add("show");
+          clearTimeout(toast._t);
+          toast._t = setTimeout(() => t.classList.remove("show"), 1800);
+        }
+
+        // ---------- Events (1-tap buka, long-press / klik kanan untuk detail) ----------
+        let lpTimer = null;
+        let lpFired = false;
+        let lpStartX = 0;
+        let lpStartY = 0;
+
+        document.addEventListener("pointerdown", (e) => {
+          if (e.button === 2) return;
+          const appEl = e.target.closest("[data-id]");
+          if (!appEl || e.target.closest("[data-info]")) return;
+          lpFired = false;
+          lpStartX = e.clientX;
+          lpStartY = e.clientY;
+          clearTimeout(lpTimer);
+          lpTimer = setTimeout(() => {
+            lpFired = true;
+            const a = byId(appEl.dataset.id);
+            if (a) {
+              if (navigator.vibrate)
+                try {
+                  navigator.vibrate(15);
+                } catch (err) {}
+              if (appEl.dataset.dock) openDockSheet(a.id);
+              else openSheet(a);
+            }
+          }, 420);
+        });
+
+        ["pointerup", "pointercancel", "pointermove"].forEach((evt) => {
+          document.addEventListener(
+            evt,
+            (e) => {
+              if (
+                evt === "pointermove" &&
+                Math.abs(e.clientX - lpStartX) +
+                  Math.abs(e.clientY - lpStartY) <
+                  10
+              )
+                return;
+              clearTimeout(lpTimer);
+            },
+            { passive: true },
+          );
+        });
+
+        document.addEventListener("contextmenu", (e) => {
+          const appEl = e.target.closest("[data-id]");
+          if (appEl) {
+            e.preventDefault();
+            clearTimeout(lpTimer);
+            const a = byId(appEl.dataset.id);
+            if (a) {
+              if (appEl.dataset.dock) openDockSheet(a.id);
+              else openSheet(a);
+            }
+            return;
+          }
+          if (e.target.closest("#dock")) {
+            e.preventDefault();
+            openDockSheet(null);
+          }
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!e.target.closest(".sort-wrap")) {
+            $("sort-menu").classList.remove("show");
+            $("sort-btn").setAttribute("aria-expanded", "false");
+          }
+          if (e.target.closest("#dock-add-btn")) {
+            openDockSheet(null);
+            return;
+          }
+          const dpick = e.target.closest("[data-dpick]");
+          if (dpick) {
+            const id = dpick.dataset.dpick;
+            if (dockApps.includes(id)) {
+              dockApps = dockApps.filter((x) => x !== id);
+            } else {
+              if (dockApps.length >= 5) {
+                toast("Maksimal 5 aplikasi di Akses Cepat");
+                return;
+              }
+              dockApps.push(id);
+            }
+            save(LS_DOCK, dockApps);
+            renderDock();
+            renderDockPicker();
+            return;
+          }
+          const infoBtn = e.target.closest("[data-info]");
+          if (infoBtn) {
+            e.stopPropagation();
+            const a = byId(infoBtn.dataset.info);
+            if (a) openSheet(a);
+            return;
+          }
+          const app = e.target.closest("[data-id]");
+          if (app) {
+            if (lpFired) {
+              lpFired = false;
+              return;
+            }
+            const a = byId(app.dataset.id);
+            if (a) openApp(a);
+            return;
+          }
+          const sortBtn = e.target.closest("[data-sort]");
+          if (sortBtn) {
+            sortBy = sortBtn.dataset.sort;
+            save(LS_SORT, sortBy);
+            $("sort-menu").classList.remove("show");
+            $("sort-btn").setAttribute("aria-expanded", "false");
+            renderSections();
+            return;
+          }
+          const chip = e.target.closest(".chip");
+          if (chip) {
+            activeCat = chip.dataset.cat;
+            renderAll();
+          }
+        });
+
+        $("chips").addEventListener("scroll", updateChipsNav, {
+          passive: true,
+        });
+        window.addEventListener("resize", updateChipsNav);
+        $("chips-prev").addEventListener("click", () => {
+          $("chips").scrollBy({ left: -160, behavior: "smooth" });
+        });
+        $("chips-next").addEventListener("click", () => {
+          $("chips").scrollBy({ left: 160, behavior: "smooth" });
+        });
+
+        $("sort-btn").addEventListener("click", (e) => {
+          e.stopPropagation();
+          const open = $("sort-menu").classList.toggle("show");
+          $("sort-btn").setAttribute("aria-expanded", String(open));
+        });
+        $("btn-about").addEventListener("click", () => openAboutSheet());
+        $("about-close").addEventListener("click", closeAboutSheet);
+
+        $("scrim").addEventListener("click", () => {
+          closeSheet();
+          closeDockSheet();
+          closeAboutSheet();
+        });
+        $("ds-done").addEventListener("click", closeDockSheet);
+        $("ds-open").addEventListener("click", () => {
+          if (dockEditTarget) {
+            closeDockSheet();
+            openApp(dockEditTarget);
+          }
+        });
+        $("ds-remove").addEventListener("click", () => {
+          if (!dockEditTarget) return;
+          dockApps = dockApps.filter((x) => x !== dockEditTarget.id);
+          save(LS_DOCK, dockApps);
+          renderDock();
+          closeDockSheet();
+          toast(`${dockEditTarget.name} dihapus dari Akses Cepat`);
+        });
+        $("ds-reset").addEventListener("click", () => {
+          dockApps = [...DEFAULT_DOCK];
           save(LS_DOCK, dockApps);
           renderDock();
           renderDockPicker();
-          return;
-        }
-        const infoBtn = e.target.closest('[data-info]');
-        if (infoBtn) {
-          e.stopPropagation();
-          const a = byId(infoBtn.dataset.info);
-          if (a) openSheet(a);
-          return;
-        }
-        const app = e.target.closest('[data-id]');
-        if (app) {
-          if (lpFired) { lpFired = false; return; }
-          const a = byId(app.dataset.id);
-          if (a) openApp(a);
-          return;
-        }
-        const sortBtn = e.target.closest('[data-sort]');
-        if (sortBtn) {
-          sortBy = sortBtn.dataset.sort;
-          save(LS_SORT, sortBy);
-          $('sort-menu').classList.remove('show');
-          $('sort-btn').setAttribute('aria-expanded', 'false');
+          toast("Akses Cepat direset (5 aplikasi)");
+        });
+        $("sheet-open").addEventListener(
+          "click",
+          () => current && openApp(current),
+        );
+        $("sheet-fav").addEventListener("click", () => {
+          if (!current) return;
+          const on = favs.includes(current.id);
+          favs = on
+            ? favs.filter((x) => x !== current.id)
+            : [...favs, current.id];
+          save(LS_FAV, favs);
+          $("sheet-fav").textContent = on ? "☆ Favorit" : "★ Hapus Favorit";
+          toast(
+            on
+              ? `${current.name} dihapus dari favorit`
+              : `${current.name} ditambahkan ke dock ⭐`,
+          );
+          renderAll();
+        });
+
+        $("viewer-back").addEventListener("click", closeApp);
+        $("viewer-home").addEventListener("click", closeApp);
+        $("viewer-full-btn").addEventListener("click", () => {
+          $("viewer").classList.toggle("is-full");
+          updateFullBtn();
+        });
+        $("viewer-reload").addEventListener("click", () => {
+          $("viewer-loading").classList.remove("done");
+          $("viewer-frame").src = $("viewer-frame").src;
+        });
+        $("viewer-frame").addEventListener("load", () => {
+          $("viewer-loading").classList.add("done");
+          const mode = getLauncherTheme();
+          applyThemeToIframe($("viewer-frame"), mode === "dark", mode);
+        });
+
+        // Tombol Back HP / Browser menutup layer aktif lebih dulu
+        window.addEventListener("popstate", () => {
+          if ($("viewer").classList.contains("show")) {
+            closeApp();
+            return;
+          }
+          if ($("about-sheet").classList.contains("show")) {
+            closeAboutSheet();
+            return;
+          }
+          if ($("dock-sheet").classList.contains("show")) {
+            closeDockSheet();
+            return;
+          }
+          if ($("sheet").classList.contains("show")) {
+            closeSheet();
+          }
+        });
+
+        $("search").addEventListener("input", (e) => {
+          query = e.target.value;
+          $("search-clear").style.display = query ? "block" : "none";
+          renderRecent();
           renderSections();
-          return;
+        });
+        $("search-clear").addEventListener("click", (e) => {
+          e.preventDefault();
+          query = "";
+          $("search").value = "";
+          $("search-clear").style.display = "none";
+          renderRecent();
+          renderSections();
+        });
+
+        $("btn-view").addEventListener("click", () => {
+          view = view === "grid" ? "list" : "grid";
+          save(LS_VIEW, view);
+          renderSections();
+        });
+
+        function updateThemeIcon() {
+          const dark =
+            document.documentElement.getAttribute("data-theme") === "dark";
+          $("theme-svg-moon").style.display = dark ? "none" : "block";
+          $("theme-svg-sun").style.display = dark ? "block" : "none";
         }
-        const chip = e.target.closest('.chip');
-        if (chip) { activeCat = chip.dataset.cat; renderAll(); }
-      });
 
-      $('chips').addEventListener('scroll', updateChipsNav, { passive: true });
-      window.addEventListener('resize', updateChipsNav);
-      $('chips-prev').addEventListener('click', () => { $('chips').scrollBy({ left: -160, behavior: 'smooth' }); });
-      $('chips-next').addEventListener('click', () => { $('chips').scrollBy({ left: 160, behavior: 'smooth' }); });
-
-      $('sort-btn').addEventListener('click', (e) => {
-        e.stopPropagation();
-        const open = $('sort-menu').classList.toggle('show');
-        $('sort-btn').setAttribute('aria-expanded', String(open));
-      });
-      $('btn-about').addEventListener('click', () => openAboutSheet());
-      $('about-close').addEventListener('click', closeAboutSheet);
-
-      $('scrim').addEventListener('click', () => { closeSheet(); closeDockSheet(); closeAboutSheet(); });
-      $('ds-done').addEventListener('click', closeDockSheet);
-      $('ds-open').addEventListener('click', () => { if (dockEditTarget) { closeDockSheet(); openApp(dockEditTarget); } });
-      $('ds-remove').addEventListener('click', () => {
-        if (!dockEditTarget) return;
-        dockApps = dockApps.filter(x => x !== dockEditTarget.id);
-        save(LS_DOCK, dockApps);
-        renderDock();
-        closeDockSheet();
-        toast(`${dockEditTarget.name} dihapus dari Akses Cepat`);
-      });
-      $('ds-reset').addEventListener('click', () => {
-        dockApps = [...DEFAULT_DOCK];
-        save(LS_DOCK, dockApps);
-        renderDock();
-        renderDockPicker();
-        toast('Akses Cepat direset (5 aplikasi)');
-      });
-      $('sheet-open').addEventListener('click', () => current && openApp(current));
-      $('sheet-fav').addEventListener('click', () => {
-        if (!current) return;
-        const on = favs.includes(current.id);
-        favs = on ? favs.filter(x => x !== current.id) : [...favs, current.id];
-        save(LS_FAV, favs);
-        $('sheet-fav').textContent = on ? '☆ Favorit' : '★ Hapus Favorit';
-        toast(on ? `${current.name} dihapus dari favorit` : `${current.name} ditambahkan ke dock ⭐`);
-        renderAll();
-      });
-
-      $('viewer-back').addEventListener('click', closeApp);
-      $('viewer-home').addEventListener('click', closeApp);
-      $('viewer-full-btn').addEventListener('click', () => {
-        $('viewer').classList.toggle('is-full');
-        updateFullBtn();
-      });
-      $('viewer-reload').addEventListener('click', () => {
-        $('viewer-loading').classList.remove('done');
-        $('viewer-frame').src = $('viewer-frame').src;
-      });
-      $('viewer-frame').addEventListener('load', () => {
-        $('viewer-loading').classList.add('done');
-        const mode = getLauncherTheme();
-        applyThemeToIframe($('viewer-frame'), mode === 'dark', mode);
-      });
-
-      // Tombol Back HP / Browser menutup layer aktif lebih dulu
-      window.addEventListener('popstate', () => {
-        if ($('viewer').classList.contains('show')) { closeApp(); return; }
-        if ($('about-sheet').classList.contains('show')) { closeAboutSheet(); return; }
-        if ($('dock-sheet').classList.contains('show')) { closeDockSheet(); return; }
-        if ($('sheet').classList.contains('show')) { closeSheet(); }
-      });
-
-      $('search').addEventListener('input', (e) => {
-        query = e.target.value;
-        $('search-clear').style.display = query ? 'block' : 'none';
-        renderRecent(); renderSections();
-      });
-      $('search-clear').addEventListener('click', (e) => {
-        e.preventDefault();
-        query = ''; $('search').value = '';
-        $('search-clear').style.display = 'none';
-        renderRecent(); renderSections();
-      });
-
-      $('btn-view').addEventListener('click', () => {
-        view = view === 'grid' ? 'list' : 'grid';
-        save(LS_VIEW, view);
-        renderSections();
-      });
-
-      function updateThemeIcon() {
-        const dark = document.documentElement.getAttribute('data-theme') === 'dark';
-        $('theme-svg-moon').style.display = dark ? 'none' : 'block';
-        $('theme-svg-sun').style.display = dark ? 'block' : 'none';
-      }
-
-      $('btn-theme').addEventListener('click', () => {
-        const dark = document.documentElement.getAttribute('data-theme') === 'dark';
-        if (dark) document.documentElement.removeAttribute('data-theme');
-        else document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('wa_launcher_theme', dark ? 'light' : 'dark');
+        $("btn-theme").addEventListener("click", () => {
+          const dark =
+            document.documentElement.getAttribute("data-theme") === "dark";
+          if (dark) document.documentElement.removeAttribute("data-theme");
+          else document.documentElement.setAttribute("data-theme", "dark");
+          localStorage.setItem("wa_launcher_theme", dark ? "light" : "dark");
+          updateThemeIcon();
+          syncThemeToApps();
+        });
         updateThemeIcon();
         syncThemeToApps();
-      });
-      updateThemeIcon();
-      syncThemeToApps();
 
-      $('clear-recent').addEventListener('click', () => {
-        recent = []; save(LS_RECENT, recent); renderRecent();
-      });
+        $("clear-recent").addEventListener("click", () => {
+          recent = [];
+          save(LS_RECENT, recent);
+          renderRecent();
+        });
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key !== 'Escape') return;
-        if ($('viewer').classList.contains('show')) closeApp();
-        else { closeSheet(); closeDockSheet(); closeAboutSheet(); }
-      });
+        document.addEventListener("keydown", (e) => {
+          if (e.key !== "Escape") return;
+          if ($("viewer").classList.contains("show")) closeApp();
+          else {
+            closeSheet();
+            closeDockSheet();
+            closeAboutSheet();
+          }
+        });
 
-      renderAll();
-    })();
-  </script>
-</body>
+        renderAll();
+      })();
+    </script>
+  </body>
 </html>
