@@ -630,6 +630,8 @@ class EduGameApp {
       this.loadBalloonRound();
     } else if (this.currentMode === 'shapes') {
       this.loadShapesRound();
+    } else if (this.currentMode === 'addition') {
+      this.loadAdditionRound();
     }
   }
 
@@ -642,6 +644,7 @@ class EduGameApp {
     this.dom.screenCounting.classList.remove('active');
     this.dom.screenBalloons.classList.remove('active');
     if (this.dom.screenShapes) this.dom.screenShapes.classList.remove('active');
+    if (this.dom.screenAddition) this.dom.screenAddition.classList.remove('active');
     if (this.dom.screenSettings) this.dom.screenSettings.classList.remove('active');
 
     if (screenName === 'menu') {
@@ -662,6 +665,9 @@ class EduGameApp {
     } else if (screenName === 'shapes') {
       this.dom.screenShapes.classList.add('active');
       this.dom.screenTitle.textContent = '🎨 Warna & Bentuk';
+    } else if (screenName === 'addition') {
+      this.dom.screenAddition.classList.add('active');
+      this.dom.screenTitle.textContent = '➕ Penjumlahan';
     } else if (screenName === 'settings') {
       this.dom.screenSettings.classList.add('active');
       this.dom.screenTitle.textContent = '⚙️ Pengaturan & Kustom';
@@ -714,7 +720,7 @@ class EduGameApp {
   // RAPOR BELAJAR (STATISTIK UNTUK AYAH & BUNDA)
   // ==========================================
   defaultStats() {
-    return { modes: { spelling: 0, counting: 0, balloons: 0, shapes: 0 }, days: {} };
+    return { modes: { spelling: 0, counting: 0, balloons: 0, shapes: 0, addition: 0 }, days: {} };
   }
 
   loadStats() {
@@ -762,17 +768,18 @@ class EduGameApp {
 
   renderReport() {
     const m = this.stats.modes;
-    const total = m.spelling + m.counting + m.balloons + m.shapes;
+    const total = m.spelling + m.counting + m.balloons + m.shapes + (m.addition || 0);
     const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
     set('report-today', this.stats.days[this.dateKey()] || 0);
     set('report-streak', this.getStreak());
     set('report-total', total);
 
-    const maxMode = Math.max(1, m.spelling, m.counting, m.balloons, m.shapes);
-    ['spelling', 'counting', 'balloons', 'shapes'].forEach(k => {
-      set(`report-${k}`, m[k]);
+    const maxMode = Math.max(1, m.spelling, m.counting, m.balloons, m.shapes, m.addition || 0);
+    ['spelling', 'counting', 'balloons', 'shapes', 'addition'].forEach(k => {
+      const val = m[k] || 0;
+      set(`report-${k}`, val);
       const bar = document.getElementById(`report-bar-${k}`);
-      if (bar) bar.style.width = `${(m[k] / maxMode) * 100}%`;
+      if (bar) bar.style.width = `${(val / maxMode) * 100}%`;
     });
 
     const week = document.getElementById('report-week');
