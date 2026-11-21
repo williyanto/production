@@ -564,12 +564,16 @@
 
       const $ = (id) => document.getElementById(id);
       const LS_FAV = 'wa_launcher_fav';
+      const LS_DOCK = 'wa_launcher_dock';
+      const DEFAULT_DOCK = ['servisin', 'berkasin', 'bersihin', 'workfolio', 'trip'];
       const LS_RECENT = 'wa_launcher_recent';
       const LS_VIEW = 'wa_launcher_view';
       const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } };
       const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
 
       let favs = load(LS_FAV, ['servisin', 'berkasin', 'bersihin', 'workfolio']);
+      let dockApps = load(LS_DOCK, DEFAULT_DOCK).filter(id => APPS.some(a => a.id === id)).slice(0, 5);
+      let dockEditTarget = null;
       let recent = load(LS_RECENT, []);
       let view = load(LS_VIEW, 'grid');
       let activeCat = 'Semua';
@@ -636,10 +640,51 @@
       }
 
       function renderDock() {
-        const items = favs.map(byId).filter(Boolean).slice(0, 5);
-        $('dock').innerHTML = items.length
-          ? items.map(a => `<button class="app" data-id="${a.id}" aria-label="${esc(a.name)}"><span class="app-icon" style="${iconStyle(a)}">${a.icon}</span></button>`).join('')
-          : '<span class="dock-empty">Tandai aplikasi sebagai ⭐ Favorit agar muncul di dock.</span>';
+        const items = dockApps.map(byId).filter(Boolean).slice(0, 5);
+        const tiles = items.map(a =>
+          `<button class="app" data-id="${a.id}" data-dock="1" title="${esc(a.name)} (tahan untuk atur)" aria-label="${esc(a.name)}"><span class="app-icon" style="${iconStyle(a)}">${a.icon}</span></button>`
+        ).join('');
+        const addBtn = items.length < 5
+          ? `<button type="button" class="dock-add-btn" id="dock-add-btn" title="Tambah ke Akses Cepat" aria-label="Tambah ke Akses Cepat">＋</button>`
+          : '';
+        $('dock').innerHTML = tiles + addBtn;
+      }
+
+      function renderDockPicker() {
+        $('ds-count').textContent = dockApps.length;
+        $('dock-picker').innerHTML = APPS.map(a => {
+          const sel = dockApps.includes(a.id);
+          return `<button type="button" class="dock-pick-item ${sel ? 'selected' : ''}" data-dpick="${a.id}">
+            <span class="app-icon" style="${iconStyle(a)}">${a.icon}</span>
+            <span>${esc(a.name)}</span>
+          </button>`;
+        }).join('');
+      }
+
+      function openDockSheet(appId = null, fromPop = false) {
+        dockEditTarget = appId ? byId(appId) : null;
+        if (dockEditTarget) {
+          $('ds-icon').style.cssText = 'width:46px;height:46px;border-radius:14px;font-size:22px;' + iconStyle(dockEditTarget);
+          $('ds-icon').textContent = dockEditTarget.icon;
+          $('dock-sheet-title').textContent = dockEditTarget.name;
+          $('ds-sub').textContent = 'Akses Cepat · Tahan ikon untuk menu ini';
+          $('ds-quick-actions').style.display = 'grid';
+        } else {
+          $('ds-icon').style.cssText = 'width:46px;height:46px;border-radius:14px;font-size:22px;background:var(--primary-soft);color:var(--primary);';
+          $('ds-icon').textContent = '⚡';
+          $('dock-sheet-title').textContent = 'Atur Akses Cepat (Maks. 5)';
+          $('ds-sub').textContent = 'Pilih hingga 5 aplikasi di bar bawah';
+          $('ds-quick-actions').style.display = 'none';
+        }
+        renderDockPicker();
+        if (!fromPop && !$('dock-sheet').classList.contains('show')) pushLayer('dock');
+        $('scrim').classList.add('show');
+        $('dock-sheet').classList.add('show');
+      }
+
+      function closeDockSheet() {
+        $('dock-sheet').classList.remove('show');
+        if (!$('sheet').classList.contains('show')) $('scrim').classList.remove('show');
       }
 
       function renderStats() {
@@ -830,7 +875,8 @@
           const a = byId(appEl.dataset.id);
           if (a) {
             if (navigator.vibrate) try { navigator.vibrate(15); } catch (err) {}
-            openSheet(a);
+            if (appEl.dataset.dock) openDockSheet(a.id);
+            else openSheet(a);
           }
         }, 420);
       });
@@ -844,14 +890,38 @@
 
       document.addEventListener('contextmenu', (e) => {
         const appEl = e.target.closest('[data-id]');
-        if (!appEl) return;
-        e.preventDefault();
-        clearTimeout(lpTimer);
-        const a = byId(appEl.dataset.id);
-        if (a) openSheet(a);
+        if (appEl) {
+          e.preventDefault();
+          clearTimeout(lpTimer);
+          const a = byId(appEl.dataset.id);
+          if (a) {
+            if (appEl.dataset.dock) openDockSheet(a.id);
+            else openSheet(a);
+          }
+          return;
+        }
+        if (e.target.closest('#dock')) {
+          e.preventDefault();
+          openDockSheet(null);
+        }
       });
 
       document.addEventListener('click', (e) => {
+        if (e.target.closest('#dock-add-btn')) { openDockSheet(null); return; }
+        const dpick = e.target.closest('[data-dpick]');
+        if (dpick) {
+          const id = dpick.dataset.dpick;
+          if (dockApps.includes(id)) {
+            dockApps = dockApps.filter(x => x !== id);
+          } else {
+            if (dockApps.length >= 5) { toast('Maksimal 5 aplikasi di Akses Cepat'); return; }
+            dockApps.push(id);
+          }
+          save(LS_DOCK, dockApps);
+          renderDock();
+          renderDockPicker();
+          return;
+        }
         const infoBtn = e.target.closest('[data-info]');
         if (infoBtn) {
           e.stopPropagation();
@@ -875,7 +945,24 @@
         if (chip) { activeCat = chip.dataset.cat; renderAll(); }
       });
 
-      $('scrim').addEventListener('click', closeSheet);
+      $('scrim').addEventListener('click', () => { closeSheet(); closeDockSheet(); });
+      $('ds-done').addEventListener('click', closeDockSheet);
+      $('ds-open').addEventListener('click', () => { if (dockEditTarget) { closeDockSheet(); openApp(dockEditTarget); } });
+      $('ds-remove').addEventListener('click', () => {
+        if (!dockEditTarget) return;
+        dockApps = dockApps.filter(x => x !== dockEditTarget.id);
+        save(LS_DOCK, dockApps);
+        renderDock();
+        closeDockSheet();
+        toast(`${dockEditTarget.name} dihapus dari Akses Cepat`);
+      });
+      $('ds-reset').addEventListener('click', () => {
+        dockApps = [...DEFAULT_DOCK];
+        save(LS_DOCK, dockApps);
+        renderDock();
+        renderDockPicker();
+        toast('Akses Cepat direset (5 aplikasi)');
+      });
       $('sheet-open').addEventListener('click', () => current && openApp(current));
       $('sheet-fav').addEventListener('click', () => {
         if (!current) return;
@@ -888,6 +975,7 @@
       });
 
       $('viewer-back').addEventListener('click', closeApp);
+      $('viewer-home').addEventListener('click', closeApp);
       $('viewer-reload').addEventListener('click', () => {
         const entry = runningApps.find(x => x.id === activeAppId);
         if (!entry) return;
