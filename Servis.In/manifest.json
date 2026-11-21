@@ -1,18 +1,11 @@
 {
-  "name": "Servis.In - Aplikasi Perawatan Kendaraan",
+  "name": "Servis.In — Pengingat & Riwayat Servis Motor",
   "short_name": "Servis.In",
-  "description": "Aplikasi pintar pengingat ganti oli, servis, sparepart berdasarkan odometer dan waktu, daftar periksa komponen, serta riwayat & proyeksi biaya bulanan.",
+  "description": "Aplikasi pengingat jadwal servis berkala dan buku riwayat perawatan sepeda motor.",
   "start_url": "./index.html",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#0F172A",
-  "theme_color": "#2563EB",
-  "icons": [
-    {
-      "src": "assets/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
+  "background_color": "#f6f6fb",
+  "theme_color": "#7c3aed",
+  "orientation": "portrait"
 }
+
