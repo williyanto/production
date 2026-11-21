@@ -1351,7 +1351,8 @@ class EduGameApp {
       spelling: '#screen-spelling .spelling-box',
       counting: '#screen-counting .counting-box',
       balloons: '#screen-balloons .balloons-box',
-      shapes: '#screen-shapes .shapes-box'
+      shapes: '#screen-shapes .shapes-box',
+      addition: '#screen-addition .addition-box'
     };
     const activeBox = boxSelectors[this.currentMode] ? document.querySelector(boxSelectors[this.currentMode]) : null;
     
