@@ -418,6 +418,8 @@
           </div>
         </div>
 
+        <div class="ux-hint">💡 Ketuk 1x untuk buka · Tahan ikon untuk detail &amp; favorit</div>
+
         <div id="recent-wrap" hidden>
           <div class="section-title"><span>Terakhir dibuka</span><button id="clear-recent">Hapus</button></div>
           <div class="grid" id="recent-grid"></div>
@@ -463,11 +465,25 @@
         <div class="viewer-bar">
           <button class="icon-btn" id="viewer-back" aria-label="Kembali ke beranda">←</button>
           <div class="viewer-title" id="viewer-title">Aplikasi</div>
+          <button class="icon-btn has-badge" id="viewer-switcher" title="Pindah aplikasi berjalan" aria-label="Pindah aplikasi">▢<span class="sw-badge" id="sw-badge-v">0</span></button>
           <button class="icon-btn" id="viewer-reload" aria-label="Muat ulang">⟳</button>
           <a class="icon-btn" id="viewer-tab" href="#" target="_blank" rel="noopener" aria-label="Buka di tab baru" style="text-decoration:none">↗</a>
         </div>
         <div class="viewer-loading" id="viewer-loading"></div>
-        <iframe id="viewer-frame" title="Aplikasi" loading="lazy"></iframe>
+        <div class="viewer-frames" id="viewer-frames"></div>
+      </div>
+
+      <!-- App Switcher (Multitasking) -->
+      <div class="switcher" id="switcher" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Aplikasi berjalan">
+        <div class="switcher-head">
+          <h3>📱 Aplikasi Berjalan</h3>
+          <button class="icon-btn" id="switcher-close" aria-label="Tutup">✕</button>
+        </div>
+        <div class="switcher-list" id="switcher-list"></div>
+        <div class="switcher-foot">
+          <button class="btn-full" id="switcher-clear">Tutup Semua</button>
+          <button class="btn-full primary" id="switcher-home">Ke Beranda</button>
+        </div>
       </div>
 
       <div class="toast" id="toast"></div>
