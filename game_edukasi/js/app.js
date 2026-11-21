@@ -302,13 +302,39 @@ class EduGameApp {
       btn.addEventListener('click', () => this.useHint());
     });
 
-    // Tombol Kembali ke Menu Utama di setiap halaman permainan
-    document.querySelectorAll('.btn-back-menu').forEach(btn => {
-      btn.addEventListener('click', () => {
-        soundEngine.playClick();
+    // Tombol Kembali ke Menu Utama di setiap halaman permainan (delegasi + aman di mobile)
+    document.addEventListener('click', (e) => {
+      const backBtn = e.target.closest('.btn-back-menu');
+      if (!backBtn) return;
+      e.preventDefault();
+      e.stopPropagation();
+      this.clearAutoAdvance();
+      this.switchScreen('menu');
+      try { soundEngine.playClick(); } catch (err) {}
+    });
+
+    // Dukung tombol Back HP / Browser (Android/iOS swipe back)
+    window.addEventListener('popstate', () => {
+      if (this.dom.clownRewardOverlay && this.dom.clownRewardOverlay.classList.contains('active')) {
+        this.stopClownReward();
+        return;
+      }
+      if (this.dom.celebrationOverlay && this.dom.celebrationOverlay.classList.contains('active')) {
+        this.closeCelebration();
+        return;
+      }
+      if (this.dom.albumOverlay && this.dom.albumOverlay.classList.contains('active')) {
+        this.dom.albumOverlay.classList.remove('active');
+        return;
+      }
+      if (this.dom.infoOverlay && this.dom.infoOverlay.classList.contains('active')) {
+        this.dom.infoOverlay.classList.remove('active');
+        return;
+      }
+      if (this.currentMode !== 'menu') {
         this.clearAutoAdvance();
-        this.switchScreen('menu');
-      });
+        this.switchScreen('menu', true);
+      }
     });
 
     // Mode Warna & Bentuk
@@ -681,9 +707,14 @@ class EduGameApp {
     }
   }
 
-  switchScreen(screenName) {
+  switchScreen(screenName, fromPopState = false) {
+    const prevMode = this.currentMode;
     this.currentMode = screenName;
     this.clearAutoAdvance();
+
+    if (!fromPopState && screenName !== 'menu' && prevMode === 'menu' && window.history && history.pushState) {
+      try { history.pushState({ screen: screenName }, ''); } catch (e) {}
+    }
 
     this.dom.screenMenu.classList.remove('active');
     this.dom.screenSpelling.classList.remove('active');

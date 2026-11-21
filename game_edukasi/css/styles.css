@@ -2701,6 +2701,18 @@ html, body {
 /* ==========================================================================
    v5 — TOMBOL KEMBALI & PERBAIKAN KARTU PENJUMLAHAN DI MOBILE
    ========================================================================== */
+.btn-action-pill {
+  touch-action: manipulation;
+  position: relative;
+  z-index: 2;
+}
+.btn-action-pill > * {
+  pointer-events: none;
+}
+.game-controls {
+  position: relative;
+  z-index: 5;
+}
 .btn-action-pill.btn-back-menu {
   border-color: #CBD5E1;
   border-bottom-color: #94A3B8;
