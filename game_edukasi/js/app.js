@@ -962,6 +962,156 @@ class EduGameApp {
   }
 
   // ==========================================
+  // MODE PENJUMLAHAN (1–10)
+  // ==========================================
+  startAdditionMode() {
+    this.switchScreen('addition');
+    this.loadAdditionRound();
+  }
+
+  getAdditionPromptText() {
+    if (!this.additionState) return '';
+    const { a, b } = this.additionState;
+    return `${a} ditambah ${b} sama dengan berapa?`;
+  }
+
+  loadAdditionRound() {
+    const a = Math.floor(Math.random() * 5) + 1;
+    const b = Math.floor(Math.random() * 5) + 1;
+    const sum = a + b;
+    const item = NUMBERS_DATABASE[Math.floor(Math.random() * NUMBERS_DATABASE.length)];
+
+    // Buat 3 pilihan angka unik di sekitar jawaban benar
+    const opts = new Set([sum]);
+    let guard = 0;
+    while (opts.size < 3 && guard++ < 50) {
+      const delta = Math.floor(Math.random() * 5) - 2;
+      const cand = sum + delta;
+      if (cand >= 2 && cand <= 10) opts.add(cand);
+    }
+    while (opts.size < 3) {
+      opts.add(Math.floor(Math.random() * 9) + 2);
+    }
+    const options = [...opts].sort((x, y) => x - y);
+
+    this.additionState = { a, b, sum, item, options, tappedSet: new Set() };
+
+    if (this.dom.additionPrompt) this.dom.additionPrompt.textContent = `Berapa ${a} + ${b}?`;
+    if (this.dom.addNumA) this.dom.addNumA.textContent = a;
+    if (this.dom.addNumB) this.dom.addNumB.textContent = b;
+
+    const renderGroup = (container, count, offset) => {
+      if (!container) return;
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const idx = offset + i + 1;
+        const el = document.createElement('div');
+        el.className = 'counting-item addition-item';
+        el.innerHTML = item.svg;
+        el.addEventListener('click', () => this.handleAdditionItemTap(el, idx));
+        container.appendChild(el);
+      }
+    };
+
+    renderGroup(this.dom.additionGroupA, a, 0);
+    renderGroup(this.dom.additionGroupB, b, a);
+
+    if (this.dom.additionOptions) {
+      this.dom.additionOptions.innerHTML = '';
+      options.forEach(num => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-number-choice addition-choice';
+        const dots = '●'.repeat(num);
+        btn.innerHTML = `
+          <span class="choice-num">${num}</span>
+          <span class="choice-dots">${dots}</span>
+        `;
+        btn.addEventListener('click', () => this.handleAdditionChoice(num, sum));
+        this.dom.additionOptions.appendChild(btn);
+      });
+    }
+
+    const speakText = this.getAdditionPromptText();
+    this.renderMascot('happy', `Ayo hitung ${a} + ${b}! Sentuh gambarnya ya! ➕`);
+    soundEngine.speak(speakText);
+  }
+
+  handleAdditionItemTap(itemEl, index) {
+    if (!this.additionState) return;
+    const { tappedSet } = this.additionState;
+    if (!tappedSet.has(index)) {
+      tappedSet.add(index);
+      itemEl.classList.add('tapped');
+      const tag = document.createElement('span');
+      tag.className = 'counting-tag';
+      tag.textContent = tappedSet.size;
+      itemEl.appendChild(tag);
+
+      soundEngine.playCountNote(tappedSet.size);
+      const indonesianNumbers = ['Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh'];
+      const spokenNum = indonesianNumbers[tappedSet.size - 1] || `${tappedSet.size}`;
+      soundEngine.speak(spokenNum);
+    } else {
+      soundEngine.playPop();
+    }
+  }
+
+  autoCountAdditionHint() {
+    if (!this.additionState) return 1000;
+    const items = [
+      ...this.dom.additionGroupA.querySelectorAll('.addition-item'),
+      ...this.dom.additionGroupB.querySelectorAll('.addition-item')
+    ];
+    this.additionState.tappedSet.clear();
+    items.forEach(it => {
+      it.classList.remove('tapped');
+      const tag = it.querySelector('.counting-tag');
+      if (tag) tag.remove();
+    });
+
+    const { a, b, sum } = this.additionState;
+    this.renderMascot('happy', 'Ayo hitung bersama Ciko! 👆');
+    const step = 750;
+    items.forEach((it, i) => {
+      setTimeout(() => {
+        if (this.currentMode !== 'addition' || !it.isConnected || this.dom.celebrationOverlay.classList.contains('active')) return;
+        this.handleAdditionItemTap(it, i + 1);
+        if (i === items.length - 1) {
+          this.renderMascot('cheer', `${a} + ${b} = ${sum}! Ayo pilih angka ${sum}! ➕`);
+        }
+      }, 300 + i * step);
+    });
+    return 300 + items.length * step;
+  }
+
+  handleAdditionChoice(selectedNum, correctNum) {
+    if (this.dom.celebrationOverlay.classList.contains('active')) return;
+    if (selectedNum === correctNum) {
+      const { a, b } = this.additionState;
+      this.addStar();
+      soundEngine.playCorrect();
+      confetti.burst({ count: 90 });
+
+      this.renderMascot('cheer', `Hebat sekali! ${a} + ${b} = ${correctNum}! 🥳`);
+      soundEngine.speak(`Pintar! ${a} ditambah ${b} sama dengan ${correctNum}!`);
+
+      if (this.pendingClownReward) {
+        this.showCelebrationModal(
+          '🎪 REWARD BINTANG TERCAPAI! 🎪',
+          `Horeee! Kamu berhasil mengumpulkan <b>${this.stars}</b> Bintang! Tekan Lanjut untuk menonton Badut Berjoget Ceria! 🎉`
+        );
+      } else {
+        this.showCelebrationModal(
+          'Hebat Penjumlahannya! ➕',
+          `Benar! <b>${a} + ${b} = ${correctNum}</b>!`
+        );
+      }
+    } else {
+      this.triggerGentleEncouragement();
+    }
+  }
+
+  // ==========================================
   // SPELLING MODE LOGIC
   // ==========================================
   startSpellingMode() {
