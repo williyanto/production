@@ -552,11 +552,12 @@
       }
 
       function appRow(a) {
-        return `<button class="row" data-id="${a.id}">
+        return `<div class="row" data-id="${a.id}" role="button" tabindex="0">
           <span class="app-icon" style="${iconStyle(a)}">${a.icon}</span>
           <span class="row-text"><b>${esc(a.name)}${favs.includes(a.id) ? ' ⭐' : ''}</b><small>${esc(a.desc)}</small></span>
           <span class="row-tag">${esc(a.cat.split(' ')[0])}</span>
-        </button>`;
+          <button type="button" class="row-info-btn" data-info="${a.id}" title="Detail &amp; Favorit" aria-label="Detail ${esc(a.name)}">ⓘ</button>
+        </div>`;
       }
 
       function renderChips() {
