@@ -1159,15 +1159,21 @@
         renderSections();
       });
 
+      function updateThemeIcon() {
+        const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+        $('theme-svg-moon').style.display = dark ? 'none' : 'block';
+        $('theme-svg-sun').style.display = dark ? 'block' : 'none';
+      }
+
       $('btn-theme').addEventListener('click', () => {
         const dark = document.documentElement.getAttribute('data-theme') === 'dark';
         if (dark) document.documentElement.removeAttribute('data-theme');
         else document.documentElement.setAttribute('data-theme', 'dark');
         localStorage.setItem('wa_launcher_theme', dark ? 'light' : 'dark');
-        $('btn-theme').textContent = dark ? '🌙' : '☀️';
+        updateThemeIcon();
         syncThemeToApps();
       });
-      $('btn-theme').textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+      updateThemeIcon();
       syncThemeToApps();
 
       $('clear-recent').addEventListener('click', () => {
@@ -1177,7 +1183,7 @@
       document.addEventListener('keydown', (e) => {
         if (e.key !== 'Escape') return;
         if ($('viewer').classList.contains('show')) closeApp();
-        else { closeSheet(); closeDockSheet(); }
+        else { closeSheet(); closeDockSheet(); closeAboutSheet(); }
       });
 
       // ---------- Sapaan ----------
