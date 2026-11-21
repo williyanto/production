@@ -641,6 +641,10 @@ class EduGameApp {
       clearTimeout(this.autoAdvanceTimer);
       this.autoAdvanceTimer = null;
     }
+    if (this.autoAdvanceInterval) {
+      clearInterval(this.autoAdvanceInterval);
+      this.autoAdvanceInterval = null;
+    }
   }
 
   triggerNextQuestionImmediately() {
