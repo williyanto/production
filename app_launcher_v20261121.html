@@ -731,7 +731,6 @@
         $('stat-total').textContent = APPS.length;
         $('stat-cats').textContent = CATS.length - 2;
         $('stat-fav').textContent = favs.length;
-        $('w-count').textContent = APPS.length;
       }
 
       function renderAll() {
@@ -754,7 +753,7 @@
         $('sheet-cat').textContent = a.cat;
         $('sheet-desc').textContent = a.desc;
         const file = a.href.split('/').pop();
-        const ver = (file.match(/v(\d{8})/) || [])[1];
+        const ver = a.ver || (file.match(/v(\d{8})/) || [])[1];
         $('sheet-meta').innerHTML = [
           '📱 Resolusi Mobile',
           ver ? `🗓️ v${ver}` : '🧩 Multi-halaman',
@@ -1074,17 +1073,13 @@
         else { closeSheet(); closeDockSheet(); }
       });
 
-      // ---------- Jam & sapaan ----------
+      // ---------- Sapaan ----------
       function tick() {
-        const now = new Date();
-        const hm = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
-        $('w-time').textContent = hm;
-        $('w-date').textContent = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-        const h = now.getHours();
+        const h = new Date().getHours();
         $('greet').textContent = h < 11 ? 'Selamat pagi ☀️' : h < 15 ? 'Selamat siang 🌤️' : h < 18 ? 'Selamat sore 🌇' : 'Selamat malam 🌙';
       }
       tick();
-      setInterval(tick, 15000);
+      setInterval(tick, 60000);
 
       renderAll();
     })();
