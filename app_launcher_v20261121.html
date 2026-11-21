@@ -452,17 +452,6 @@
 
         <div class="chips" id="chips"></div>
 
-        <div class="widget" id="widget">
-          <div>
-            <div class="w-time" id="w-time">09:41</div>
-            <div class="w-date" id="w-date">Sabtu, 21 November 2026</div>
-          </div>
-          <div class="w-right">
-            <b id="w-count">0</b>
-            <span>aplikasi mobile</span>
-          </div>
-        </div>
-
         <div class="ux-hint">💡 Ketuk 1x untuk buka · Tahan ikon untuk detail &amp; favorit</div>
 
         <div id="recent-wrap" hidden>
@@ -586,10 +575,10 @@
       // Hanya proyek dengan tata letak resolusi mobile (mobile shell / kontainer max-w-md)
       const APPS = [
         // Aplikasi Harian (mobile shell)
-        { id: 'servisin', name: 'Servis.In', icon: '🏍️', color: ['#8B5CF6', '#6D28D9'], cat: 'Aplikasi Harian', href: './Servis.In/index.html', desc: 'Manajemen perawatan kendaraan: pengingat oli, servis & sparepart berbasis odometer atau waktu, dokumen STNK, statistik biaya, dan multi-akun.' },
-        { id: 'berkasin', name: 'Berkas.In', icon: '🗄️', color: ['#38BDF8', '#2563EB'], cat: 'Aplikasi Harian', href: './Berkas.In/index.html', desc: 'Manajemen arsip & berkas fisik terstruktur per lemari dan lokasi penyimpanan, lengkap dengan status berkas aktif.' },
-        { id: 'bersihin', name: 'Bersih.In', icon: '🧹', color: ['#34D399', '#059669'], cat: 'Aplikasi Harian', href: './Bersih.In/index.html', desc: 'Pengingat aktivitas kebersihan rumah terjadwal, streak harian, notifikasi, dan multi-profil rumah.' },
-        { id: 'workfolio', name: 'WorkFolio', icon: '💼', color: ['#F59E0B', '#D97706'], cat: 'Aplikasi Harian', href: './WorkFolio/index.html', desc: 'Timeline rekam jejak kerja, kalender aktivitas, ekspor laporan bulanan, dan pemantauan lembur mingguan.' },
+        { id: 'servisin', name: 'Servis.In', ver: '20261121', icon: '🏍️', color: ['#8B5CF6', '#6D28D9'], cat: 'Aplikasi Harian', href: './Servis.In/index.html', desc: 'Manajemen perawatan kendaraan: pengingat oli, servis & sparepart berbasis odometer atau waktu, dokumen STNK, statistik biaya, dan multi-akun.' },
+        { id: 'berkasin', name: 'Berkas.In', ver: '20261121', icon: '🗄️', color: ['#38BDF8', '#2563EB'], cat: 'Aplikasi Harian', href: './Berkas.In/index.html', desc: 'Manajemen arsip & berkas fisik terstruktur per lemari dan lokasi penyimpanan, lengkap dengan status berkas aktif.' },
+        { id: 'bersihin', name: 'Bersih.In', ver: '20261121', icon: '🧹', color: ['#34D399', '#059669'], cat: 'Aplikasi Harian', href: './Bersih.In/index.html', desc: 'Pengingat aktivitas kebersihan rumah terjadwal, streak harian, notifikasi, dan multi-profil rumah.' },
+        { id: 'workfolio', name: 'WorkFolio', ver: '20261121', icon: '💼', color: ['#F59E0B', '#D97706'], cat: 'Aplikasi Harian', href: './WorkFolio/index.html', desc: 'Timeline rekam jejak kerja, kalender aktivitas, ekspor laporan bulanan, dan pemantauan lembur mingguan.' },
 
         // Kabel & Teknik
         { id: 'hambatan', name: 'Hambatan Konduktor', icon: '⚡', color: ['#60A5FA', '#1D4ED8'], cat: 'Kabel & Teknik', href: './kalkulator_hambatan_kabel/iec_final_v20261104.html', desc: 'Perhitungan hambatan konduktor kabel multi-standar (IEC 60228, ICEA, AS/NZS, SPLN, BS EN).' },
@@ -681,7 +670,6 @@
           </div>`).join('');
         $('empty').style.display = list.length ? 'none' : 'block';
         $('btn-view').textContent = view === 'grid' ? '☰' : '▦';
-        $('widget').style.display = query || activeCat !== 'Semua' ? 'none' : '';
       }
 
       function renderRecent() {
