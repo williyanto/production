@@ -616,8 +616,15 @@
         renderChips(); renderRecent(); renderSections(); renderDock(); renderStats();
       }
 
-      // ---------- Sheet ----------
-      function openSheet(a) {
+      // ---------- History Back Helper ----------
+      function pushLayer(name) {
+        if (window.history && history.pushState) {
+          try { history.pushState({ waLayer: name }, ''); } catch (e) {}
+        }
+      }
+
+      // ---------- Sheet (Long-press / Info) ----------
+      function openSheet(a, fromPop = false) {
         current = a;
         $('sheet-icon').style.cssText = iconStyle(a);
         $('sheet-icon').textContent = a.icon;
@@ -633,6 +640,7 @@
         ].map(t => `<span>${t}</span>`).join('');
         $('sheet-fav').textContent = favs.includes(a.id) ? '★ Hapus Favorit' : '☆ Favorit';
         $('sheet-tab').href = a.href;
+        if (!fromPop && !$('sheet').classList.contains('show')) pushLayer('sheet');
         $('scrim').classList.add('show');
         $('sheet').classList.add('show');
       }
@@ -641,30 +649,125 @@
         $('sheet').classList.remove('show');
       }
 
-      // ---------- Viewer ----------
+      // ---------- Multitasking / App Switcher ----------
+      const MAX_RUNNING = 4;
+      let runningApps = []; // [{ id, frame }]
+      let activeAppId = null;
+
+      function updateSwitcherBadges() {
+        const n = runningApps.length;
+        ['sw-badge', 'sw-badge-v'].forEach(id => {
+          const el = $(id);
+          if (!el) return;
+          el.textContent = n;
+          el.classList.toggle('show', n > 0);
+        });
+      }
+
+      function renderSwitcher() {
+        const list = $('switcher-list');
+        if (!runningApps.length) {
+          list.innerHTML = '<div class="empty" style="display:block;padding:48px 16px"><div style="font-size:32px">📱</div><b>Belum ada aplikasi berjalan</b>Ketuk aplikasi apa saja di beranda untuk membukanya.</div>';
+          return;
+        }
+        list.innerHTML = runningApps.slice().reverse().map(entry => {
+          const a = byId(entry.id);
+          if (!a) return '';
+          const isAct = entry.id === activeAppId;
+          return `<div class="sw-card ${isAct ? 'active' : ''}">
+            <span class="app-icon" style="${iconStyle(a)}">${a.icon}</span>
+            <div class="sw-card-info">
+              <b>${esc(a.name)}</b>
+              <small>${isAct ? '● Sedang aktif' : esc(a.cat)}</small>
+            </div>
+            <div class="sw-card-actions">
+              <button type="button" class="sw-btn" data-sw-open="${a.id}">Buka</button>
+              <button type="button" class="sw-btn close" data-sw-close="${a.id}" aria-label="Tutup ${esc(a.name)}">✕</button>
+            </div>
+          </div>`;
+        }).join('');
+      }
+
+      function openSwitcher(fromPop = false) {
+        renderSwitcher();
+        if (!fromPop && !$('switcher').classList.contains('show')) pushLayer('switcher');
+        $('switcher').classList.add('show');
+        $('switcher').setAttribute('aria-hidden', 'false');
+      }
+      function closeSwitcher() {
+        $('switcher').classList.remove('show');
+        $('switcher').setAttribute('aria-hidden', 'true');
+      }
+      function closeRunningApp(id) {
+        const idx = runningApps.findIndex(x => x.id === id);
+        if (idx === -1) return;
+        const [removed] = runningApps.splice(idx, 1);
+        if (removed.frame && removed.frame.parentNode) removed.frame.remove();
+        if (activeAppId === id) {
+          activeAppId = runningApps.length ? runningApps[runningApps.length - 1].id : null;
+          if (!activeAppId && $('viewer').classList.contains('show')) closeApp();
+        }
+        updateSwitcherBadges();
+        renderSwitcher();
+      }
+      function closeAllRunningApps() {
+        runningApps.forEach(x => { if (x.frame && x.frame.parentNode) x.frame.remove(); });
+        runningApps = [];
+        activeAppId = null;
+        updateSwitcherBadges();
+        closeApp();
+        closeSwitcher();
+        toast('Semua aplikasi ditutup');
+      }
+
+      // ---------- Viewer (1-tap buka + multitasking iframe) ----------
       const isSmallScreen = () => window.matchMedia('(max-width: 499px)').matches;
 
-      function openApp(a) {
+      function openApp(a, fromPop = false) {
         recent = [a.id, ...recent.filter(x => x !== a.id)].slice(0, 8);
         save(LS_RECENT, recent);
         closeSheet();
-        // Di ponsel asli: buka langsung (layar penuh). Di desktop: buka di dalam bingkai ponsel.
+        closeSwitcher();
         if (isSmallScreen()) {
           window.location.href = a.href;
           return;
         }
+
+        let entry = runningApps.find(x => x.id === a.id);
+        if (!entry) {
+          if (runningApps.length >= MAX_RUNNING) {
+            const oldest = runningApps.shift();
+            if (oldest && oldest.frame) oldest.frame.remove();
+          }
+          const frame = document.createElement('iframe');
+          frame.title = a.name;
+          frame.src = a.href;
+          frame.addEventListener('load', () => {
+            if (activeAppId === a.id) $('viewer-loading').classList.add('done');
+          });
+          $('viewer-frames').appendChild(frame);
+          entry = { id: a.id, frame };
+          runningApps.push(entry);
+          $('viewer-loading').classList.remove('done');
+        } else {
+          // Pindahkan ke paling baru & langsung tampil tanpa reload!
+          runningApps = [...runningApps.filter(x => x.id !== a.id), entry];
+          $('viewer-loading').classList.add('done');
+        }
+
+        activeAppId = a.id;
+        runningApps.forEach(x => x.frame.classList.toggle('active', x.id === a.id));
         $('viewer-title').textContent = a.name;
         $('viewer-tab').href = a.href;
-        $('viewer-loading').classList.remove('done');
-        $('viewer-frame').src = a.href;
+        if (!fromPop && !$('viewer').classList.contains('show')) pushLayer('viewer');
         $('viewer').classList.add('show');
         $('viewer').setAttribute('aria-hidden', 'false');
+        updateSwitcherBadges();
         renderRecent();
       }
       function closeApp() {
         $('viewer').classList.remove('show');
         $('viewer').setAttribute('aria-hidden', 'true');
-        setTimeout(() => { if (!$('viewer').classList.contains('show')) $('viewer-frame').src = 'about:blank'; }, 300);
       }
 
       function toast(msg) {
@@ -675,10 +778,62 @@
         toast._t = setTimeout(() => t.classList.remove('show'), 1800);
       }
 
-      // ---------- Events ----------
+      // ---------- Events (1-tap buka, long-press / klik kanan untuk detail) ----------
+      let lpTimer = null;
+      let lpFired = false;
+
+      document.addEventListener('pointerdown', (e) => {
+        if (e.button === 2) return;
+        const appEl = e.target.closest('[data-id]');
+        if (!appEl || e.target.closest('[data-info]')) return;
+        lpFired = false;
+        clearTimeout(lpTimer);
+        lpTimer = setTimeout(() => {
+          lpFired = true;
+          const a = byId(appEl.dataset.id);
+          if (a) {
+            if (navigator.vibrate) try { navigator.vibrate(15); } catch (err) {}
+            openSheet(a);
+          }
+        }, 420);
+      });
+
+      ['pointerup', 'pointercancel', 'pointermove'].forEach(evt => {
+        document.addEventListener(evt, (e) => {
+          if (evt === 'pointermove' && Math.abs(e.movementX) + Math.abs(e.movementY) < 6) return;
+          clearTimeout(lpTimer);
+        }, { passive: true });
+      });
+
+      document.addEventListener('contextmenu', (e) => {
+        const appEl = e.target.closest('[data-id]');
+        if (!appEl) return;
+        e.preventDefault();
+        clearTimeout(lpTimer);
+        const a = byId(appEl.dataset.id);
+        if (a) openSheet(a);
+      });
+
       document.addEventListener('click', (e) => {
+        const infoBtn = e.target.closest('[data-info]');
+        if (infoBtn) {
+          e.stopPropagation();
+          const a = byId(infoBtn.dataset.info);
+          if (a) openSheet(a);
+          return;
+        }
+        const swOpen = e.target.closest('[data-sw-open]');
+        if (swOpen) { const a = byId(swOpen.dataset.swOpen); if (a) openApp(a); return; }
+        const swClose = e.target.closest('[data-sw-close]');
+        if (swClose) { closeRunningApp(swClose.dataset.swClose); return; }
+
         const app = e.target.closest('[data-id]');
-        if (app) { const a = byId(app.dataset.id); if (a) openSheet(a); return; }
+        if (app) {
+          if (lpFired) { lpFired = false; return; }
+          const a = byId(app.dataset.id);
+          if (a) openApp(a);
+          return;
+        }
         const chip = e.target.closest('.chip');
         if (chip) { activeCat = chip.dataset.cat; renderAll(); }
       });
@@ -697,10 +852,23 @@
 
       $('viewer-back').addEventListener('click', closeApp);
       $('viewer-reload').addEventListener('click', () => {
+        const entry = runningApps.find(x => x.id === activeAppId);
+        if (!entry) return;
         $('viewer-loading').classList.remove('done');
-        $('viewer-frame').src = $('viewer-frame').src;
+        entry.frame.src = entry.frame.src;
       });
-      $('viewer-frame').addEventListener('load', () => $('viewer-loading').classList.add('done'));
+      $('btn-switcher').addEventListener('click', () => openSwitcher());
+      $('viewer-switcher').addEventListener('click', () => openSwitcher());
+      $('switcher-close').addEventListener('click', closeSwitcher);
+      $('switcher-clear').addEventListener('click', closeAllRunningApps);
+      $('switcher-home').addEventListener('click', () => { closeSwitcher(); closeApp(); });
+
+      // Tombol Back HP / Browser menutup layer aktif lebih dulu
+      window.addEventListener('popstate', () => {
+        if ($('switcher').classList.contains('show')) { closeSwitcher(); return; }
+        if ($('viewer').classList.contains('show')) { closeApp(); return; }
+        if ($('sheet').classList.contains('show')) { closeSheet(); }
+      });
 
       $('search').addEventListener('input', (e) => {
         query = e.target.value;
