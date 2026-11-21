@@ -399,6 +399,186 @@ const CLOWNS_DATABASE = [
         <circle cx="100" cy="138" r="7" fill="#FBBF24"/>
       </g>
     </svg>`
+  },
+  {
+    id: 'robot',
+    name: 'Robot Riko si Joget 🤖',
+    role: 'Robot Disko & Lampu Kelap-Kelip',
+    icon: '🤖',
+    animClass: 'anim-robot',
+    themeColor: '#06B6D4',
+    bgColor: '#ECFEFF',
+    svg: `<svg viewBox="0 0 200 240" class="clown-svg char-robot" width="100%" height="100%">
+      <!-- Antena Berkedip -->
+      <line x1="100" y1="42" x2="100" y2="20" stroke="#64748B" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="100" cy="16" r="10" fill="#FACC15" class="robot-antenna-bulb"/>
+      <!-- Telinga Sinyal -->
+      <rect x="44" y="64" width="12" height="28" rx="6" fill="#F97316"/>
+      <rect x="144" y="64" width="12" height="28" rx="6" fill="#F97316"/>
+      <!-- Kepala -->
+      <rect x="54" y="42" width="92" height="72" rx="22" fill="#38BDF8" stroke="#0284C7" stroke-width="4"/>
+      <rect x="64" y="54" width="72" height="34" rx="12" fill="#0F172A"/>
+      <!-- Mata LED -->
+      <circle cx="84" cy="71" r="8" fill="#4ADE80"/>
+      <circle cx="116" cy="71" r="8" fill="#4ADE80"/>
+      <circle cx="86" cy="68" r="2.5" fill="#FFFFFF"/>
+      <circle cx="118" cy="68" r="2.5" fill="#FFFFFF"/>
+      <!-- Mulut Speaker -->
+      <rect x="78" y="96" width="44" height="10" rx="5" fill="#FEF08A"/>
+      <!-- Badan -->
+      <rect x="60" y="120" width="80" height="72" rx="18" fill="#0EA5E9" stroke="#0369A1" stroke-width="4"/>
+      <rect x="74" y="134" width="52" height="36" rx="10" fill="#E0F2FE"/>
+      <circle cx="100" cy="152" r="11" fill="#F43F5E" class="robot-heart"/>
+      <!-- Tangan -->
+      <path d="M60,138 L34,116" stroke="#94A3B8" stroke-width="11" stroke-linecap="round"/>
+      <circle cx="32" cy="114" r="10" fill="#FACC15" stroke="#CA8A04" stroke-width="2.5"/>
+      <path d="M140,138 L166,116" stroke="#94A3B8" stroke-width="11" stroke-linecap="round"/>
+      <circle cx="168" cy="114" r="10" fill="#FACC15" stroke="#CA8A04" stroke-width="2.5"/>
+      <!-- Kaki & Sepatu Roda -->
+      <rect x="72" y="192" width="16" height="24" rx="6" fill="#64748B"/>
+      <rect x="112" y="192" width="16" height="24" rx="6" fill="#64748B"/>
+      <rect x="62" y="212" width="34" height="16" rx="8" fill="#F97316"/>
+      <rect x="104" y="212" width="34" height="16" rx="8" fill="#F97316"/>
+    </svg>`
+  },
+  {
+    id: 'dino',
+    name: 'Dino Dodo si Gemas 🦕',
+    role: 'Dino Lucu & Lompat Riang',
+    icon: '🦕',
+    animClass: 'anim-dino',
+    themeColor: '#22C55E',
+    bgColor: '#F0FDF4',
+    svg: `<svg viewBox="0 0 200 240" class="clown-svg char-dino" width="100%" height="100%">
+      <!-- Ekor Goyang -->
+      <path d="M56,178 Q20,175 18,144 Q38,162 62,162 Z" fill="#22C55E" stroke="#15803D" stroke-width="3"/>
+      <!-- Duri Punggung -->
+      <polygon points="72,56 58,64 70,74" fill="#FACC15" stroke="#CA8A04" stroke-width="2"/>
+      <polygon points="68,84 52,92 66,102" fill="#F97316" stroke="#C2410C" stroke-width="2"/>
+      <polygon points="64,114 48,122 62,132" fill="#FACC15" stroke="#CA8A04" stroke-width="2"/>
+      <!-- Badan Gemuk -->
+      <ellipse cx="104" cy="158" rx="46" ry="54" fill="#4ADE80" stroke="#16A34A" stroke-width="4"/>
+      <ellipse cx="112" cy="164" rx="28" ry="38" fill="#DCFCE7"/>
+      <!-- Kepala Dino -->
+      <ellipse cx="104" cy="78" rx="42" ry="36" fill="#4ADE80" stroke="#16A34A" stroke-width="4"/>
+      <!-- Pipi & Mata -->
+      <circle cx="88" cy="70" r="7" fill="#0F172A"/>
+      <circle cx="90" cy="68" r="2.5" fill="#FFFFFF"/>
+      <circle cx="122" cy="70" r="7" fill="#0F172A"/>
+      <circle cx="124" cy="68" r="2.5" fill="#FFFFFF"/>
+      <circle cx="78" cy="84" r="7" fill="#FDA4AF" opacity="0.8"/>
+      <circle cx="132" cy="84" r="7" fill="#FDA4AF" opacity="0.8"/>
+      <path d="M90,88 Q105,102 120,88" stroke="#14532D" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <!-- Tangan Mungil -->
+      <path d="M68,142 Q46,136 52,154" stroke="#16A34A" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <path d="M140,142 Q162,136 156,154" stroke="#16A34A" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <!-- Kaki -->
+      <ellipse cx="80" cy="214" rx="18" ry="12" fill="#22C55E" stroke="#15803D" stroke-width="3"/>
+      <ellipse cx="128" cy="214" rx="18" ry="12" fill="#22C55E" stroke="#15803D" stroke-width="3"/>
+    </svg>`
+  },
+  {
+    id: 'panda',
+    name: 'Panda Pipo si Gendut 🐼',
+    role: 'Panda Goyang & Bambu Segar',
+    icon: '🐼',
+    animClass: 'anim-panda',
+    themeColor: '#10B981',
+    bgColor: '#ECFDF5',
+    svg: `<svg viewBox="0 0 200 240" class="clown-svg char-panda" width="100%" height="100%">
+      <!-- Telinga Hitam -->
+      <circle cx="62" cy="52" r="18" fill="#1E293B"/>
+      <circle cx="138" cy="52" r="18" fill="#1E293B"/>
+      <!-- Badan -->
+      <ellipse cx="100" cy="166" rx="48" ry="48" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
+      <path d="M56,144 Q100,160 144,144 L148,164 Q100,178 52,164 Z" fill="#1E293B"/>
+      <!-- Kepala -->
+      <ellipse cx="100" cy="90" rx="46" ry="40" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
+      <!-- Lingkar Mata -->
+      <ellipse cx="80" cy="88" rx="14" ry="17" transform="rotate(-15 80 88)" fill="#1E293B"/>
+      <ellipse cx="120" cy="88" rx="14" ry="17" transform="rotate(15 120 88)" fill="#1E293B"/>
+      <circle cx="82" cy="86" r="4.5" fill="#FFFFFF"/>
+      <circle cx="118" cy="86" r="4.5" fill="#FFFFFF"/>
+      <circle cx="64" cy="102" r="7" fill="#FDA4AF" opacity="0.85"/>
+      <circle cx="136" cy="102" r="7" fill="#FDA4AF" opacity="0.85"/>
+      <!-- Hidung & Senyum -->
+      <ellipse cx="100" cy="98" rx="7" ry="5" fill="#1E293B"/>
+      <path d="M90,108 Q100,118 110,108" stroke="#1E293B" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <!-- Tangan & Bambu -->
+      <ellipse cx="52" cy="152" rx="15" ry="22" transform="rotate(25 52 152)" fill="#1E293B"/>
+      <ellipse cx="148" cy="152" rx="15" ry="22" transform="rotate(-25 148 152)" fill="#1E293B"/>
+      <rect x="152" y="96" width="10" height="72" rx="4" fill="#22C55E" transform="rotate(14 157 132)"/>
+      <ellipse cx="166" cy="104" rx="11" ry="5" fill="#4ADE80" transform="rotate(-20 166 104)"/>
+      <!-- Kaki -->
+      <ellipse cx="74" cy="212" rx="20" ry="13" fill="#1E293B"/>
+      <ellipse cx="126" cy="212" rx="20" ry="13" fill="#1E293B"/>
+    </svg>`
+  },
+  {
+    id: 'penguin',
+    name: 'Pinguin Pingo si Lincah 🐧',
+    role: 'Pinguin Topi Baling-Baling',
+    icon: '🐧',
+    animClass: 'anim-penguin',
+    themeColor: '#3B82F6',
+    bgColor: '#EFF6FF',
+    svg: `<svg viewBox="0 0 200 240" class="clown-svg char-penguin" width="100%" height="100%">
+      <!-- Topi Baling-Baling -->
+      <path d="M74,48 Q100,24 126,48 Z" fill="#EF4444" stroke="#B91C1C" stroke-width="2.5"/>
+      <rect x="97" y="24" width="6" height="10" fill="#FACC15"/>
+      <ellipse cx="100" cy="24" rx="24" ry="5" fill="#38BDF8" stroke="#0284C7" stroke-width="2" class="penguin-propeller"/>
+      <!-- Badan Pinguin -->
+      <ellipse cx="100" cy="136" rx="52" ry="74" fill="#1E293B"/>
+      <ellipse cx="100" cy="146" rx="38" ry="56" fill="#FFFFFF"/>
+      <!-- Sayap Mengepak -->
+      <ellipse cx="44" cy="136" rx="14" ry="34" transform="rotate(24 44 136)" fill="#1E293B"/>
+      <ellipse cx="156" cy="136" rx="14" ry="34" transform="rotate(-24 156 136)" fill="#1E293B"/>
+      <!-- Wajah -->
+      <circle cx="82" cy="84" r="7" fill="#0F172A"/>
+      <circle cx="84" cy="82" r="2.5" fill="#FFFFFF"/>
+      <circle cx="118" cy="84" r="7" fill="#0F172A"/>
+      <circle cx="120" cy="82" r="2.5" fill="#FFFFFF"/>
+      <circle cx="72" cy="96" r="7" fill="#FDA4AF" opacity="0.8"/>
+      <circle cx="128" cy="96" r="7" fill="#FDA4AF" opacity="0.8"/>
+      <!-- Paruh & Syal -->
+      <polygon points="90,94 110,94 100,108" fill="#F59E0B" stroke="#D97706" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M62,114 Q100,126 138,114 L142,126 Q100,138 58,126 Z" fill="#EC4899"/>
+      <!-- Kaki Oranye -->
+      <ellipse cx="76" cy="214" rx="20" ry="10" fill="#F97316"/>
+      <ellipse cx="124" cy="214" rx="20" ry="10" fill="#F97316"/>
+    </svg>`
+  },
+  {
+    id: 'rocket',
+    name: 'Astronot Ciko & Roket 🚀',
+    role: 'Kucing Ciko Terbang ke Bulan',
+    icon: '🚀',
+    animClass: 'anim-rocket',
+    themeColor: '#8B5CF6',
+    bgColor: '#F5F3FF',
+    svg: `<svg viewBox="0 0 200 240" class="clown-svg char-rocket" width="100%" height="100%">
+      <!-- Api Roket -->
+      <path d="M84,186 Q100,236 116,186 Z" fill="#F97316" class="rocket-flame"/>
+      <path d="M90,186 Q100,220 110,186 Z" fill="#FDE047" class="rocket-flame"/>
+      <!-- Sirip Roket -->
+      <polygon points="62,150 38,186 68,180" fill="#EF4444" stroke="#B91C1C" stroke-width="2.5"/>
+      <polygon points="138,150 162,186 132,180" fill="#EF4444" stroke="#B91C1C" stroke-width="2.5"/>
+      <!-- Badan Roket -->
+      <path d="M62,180 C62,90 78,42 100,22 C122,42 138,90 138,180 Z" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="3"/>
+      <path d="M80,44 Q100,32 120,44 L100,22 Z" fill="#EF4444"/>
+      <!-- Jendela Kaca + Ciko -->
+      <circle cx="100" cy="108" r="30" fill="#BAE6FD" stroke="#38BDF8" stroke-width="5"/>
+      <!-- Telinga & Kepala Ciko -->
+      <polygon points="84,96 78,80 94,88" fill="#F8B400"/>
+      <polygon points="116,96 122,80 106,88" fill="#F8B400"/>
+      <circle cx="100" cy="110" r="20" fill="#FFDE7D"/>
+      <circle cx="93" cy="107" r="3" fill="#1E293B"/>
+      <circle cx="107" cy="107" r="3" fill="#1E293B"/>
+      <path d="M95,115 Q100,120 105,115" stroke="#1E293B" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Bintang Sekitar -->
+      <polygon points="34,70 37,78 45,78 39,83 41,91 34,86 27,91 29,83 23,78 31,78" fill="#FACC15"/>
+      <polygon points="166,56 168,62 174,62 169,66 171,72 166,68 161,72 163,66 158,62 164,62" fill="#FACC15"/>
+    </svg>`
   }
 ];
 
