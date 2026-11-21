@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>WA Apps — Launcher Aplikasi Mobile Williyanto Adi</title>
+  <meta name="description" content="Konsep launcher aplikasi: semua proyek mobile Williyanto Adi dalam satu layar seperti home screen ponsel.">
+  <meta name="theme-color" content="#F3F5F9">
+  <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-outer: #E5E9F2;
+      --bg-app: #F3F5F9;
+      --surface: #FFFFFF;
+      --alt: #EBF0F7;
+      --text: #111827;
+      --text-2: #374151;
+      --text-3: #5B667A;
+      --border: #E2E8F0;
+      --primary: #4F6EF7;
+      --primary-soft: #E8EEFF;
+      --danger: #D63D32;
+      --shadow: 0 1px 2px rgba(15,23,42,.04), 0 3px 10px rgba(15,23,42,.05);
+      --shadow-shell: 0 24px 60px rgba(15,23,42,.18);
+      --scrim: rgba(15,23,42,.42);
+    }
+    [data-theme="dark"] {
+      --bg-outer: #090B10;
+      --bg-app: #11141B;
+      --surface: #191E28;
+      --alt: #232A36;
+      --text: #F1F5F9;
+      --text-2: #CBD5E1;
+      --text-3: #94A3B8;
+      --border: #28303F;
+      --primary: #839DFF;
+      --primary-soft: rgba(131,157,255,.15);
+      --shadow: 0 1px 3px rgba(0,0,0,.35);
+      --shadow-shell: 0 24px 60px rgba(0,0,0,.65);
+      --scrim: rgba(0,0,0,.6);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-outer);
+      color: var(--text);
+      font-size: 13.5px;
+      line-height: 1.42;
+      overflow: hidden;
+      transition: background .25s;
+    }
+    button, input { font: inherit; color: inherit; }
+    button { border: none; background: none; cursor: pointer; }
+
+    /* ---------- Desktop stage ---------- */
+    .stage {
+      height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 56px;
+      padding: 16px;
+    }
+    .intro { display: none; max-width: 400px; }
+    .intro .eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 700; color: var(--primary);
+      background: var(--primary-soft); padding: 4px 12px; border-radius: 99px;
+    }
+    .intro h1 { font-size: 34px; line-height: 1.15; font-weight: 800; letter-spacing: -.02em; margin: 14px 0 10px; }
+    .intro p { color: var(--text-3); font-size: 15px; line-height: 1.6; }
+    .intro-stats { display: flex; gap: 12px; margin: 22px 0; }
+    .intro-stat { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 12px 16px; flex: 1; box-shadow: var(--shadow); }
+    .intro-stat b { display: block; font-size: 22px; color: var(--primary); }
+    .intro-stat span { font-size: 12px; color: var(--text-3); font-weight: 600; }
+    .intro-links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-soft {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 16px; border-radius: 12px; font-weight: 600; font-size: 13.5px;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text); text-decoration: none;
+      box-shadow: var(--shadow); transition: transform .15s, border-color .15s;
+    }
+    .btn-soft:hover { transform: translateY(-1px); border-color: var(--primary); }
+    .btn-soft.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    /* ---------- Phone shell ---------- */
+    .phone {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      height: 100dvh;
+      background: var(--bg-app);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: var(--shadow-shell);
+      transition: background .25s;
+    }
+    @media (min-width: 500px) {
+      .phone { height: min(calc(100dvh - 32px), 880px); border-radius: 30px; border: 1px solid var(--border); }
+    }
+    @media (min-width: 1000px) {
+      .intro { display: block; }
+    }
+
+    .statusbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: max(10px, env(safe-area-inset-top)) 22px 4px;
+      font-size: 12.5px; font-weight: 700; color: var(--text);
+      flex-shrink: 0;
+    }
+    .statusbar .sb-icons { display: flex; gap: 6px; align-items: center; color: var(--text-2); }
+
+    .home {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 6px 16px 110px;
+      scrollbar-width: none;
+    }
+    .home::-webkit-scrollbar { display: none; }
+
+    .hello { display: flex; align-items: center; justify-content: space-between; margin: 6px 0 12px; }
+    .hello-left { display: flex; align-items: center; gap: 10px; }
+    .avatar {
+      width: 42px; height: 42px; border-radius: 13px;
+      background: linear-gradient(135deg, #4F6EF7, #8B5CF6);
+      color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 15px;
+      box-shadow: 0 6px 14px rgba(79,110,247,.3);
+    }
+    .hello small { display: block; color: var(--text-3); font-size: 11.5px; font-weight: 500; }
+    .hello strong { font-size: 16px; font-weight: 800; letter-spacing: -.01em; }
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; font-size: 17px; box-shadow: var(--shadow);
+    }
+
+    .search {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      padding: 10px 14px; box-shadow: var(--shadow); margin-bottom: 12px;
+    }
+    .search input { flex: 1; border: none; outline: none; background: transparent; font-size: 13.5px; }
+    .search input::placeholder { color: var(--text-3); }
+    .search-clear { color: var(--text-3); font-size: 15px; display: none; }
+
+    .chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px 14px; padding: 0 16px; }
+    .chips::-webkit-scrollbar { display: none; }
+    .chip {
+      flex-shrink: 0; padding: 6px 12px; border-radius: 99px; font-size: 12px; font-weight: 600;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text-2);
+      transition: all .15s;
+    }
+    .chip.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+    .widget {
+      background: linear-gradient(135deg, #4F6EF7 0%, #7C5CF6 100%);
+      color: #fff; border-radius: 20px; padding: 14px 16px; margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      box-shadow: 0 10px 24px rgba(79,110,247,.28);
+    }
+    .widget .w-time { font-size: 30px; font-weight: 800; letter-spacing: -.02em; line-height: 1; }
+    .widget .w-date { font-size: 12px; opacity: .9; margin-top: 4px; font-weight: 500; }
+    .widget .w-right { text-align: right; }
+    .widget .w-right b { font-size: 22px; display: block; line-height: 1; }
+    .widget .w-right span { font-size: 11px; opacity: .9; font-weight: 600; }
+
+    .section-title {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em;
+      margin: 4px 2px 10px;
+    }
+    .section-title button { font-size: 11.5px; font-weight: 600; color: var(--primary); text-transform: none; letter-spacing: 0; }
+
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 8px; margin-bottom: 18px; }
+    .app {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      text-align: center; padding: 2px; border-radius: 14px; position: relative;
+      animation: pop .25s ease both;
+    }
+    @keyframes pop { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
+    .app:active .app-icon { transform: scale(.9); }
+    .app-icon {
+      width: 58px; height: 58px; border-radius: 18px;
+      display: flex; align-items: center; justify-content: center; font-size: 27px;
+      box-shadow: 0 6px 14px rgba(15,23,42,.12), inset 0 -3px 0 rgba(0,0,0,.08);
+      transition: transform .15s;
+      position: relative;
+    }
+    .app-name {
+      font-size: 11px; font-weight: 600; color: var(--text-2); line-height: 1.2;
+      max-width: 76px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box;
+      -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    }
+    .fav-dot {
+      position: absolute; top: -4px; right: -4px; font-size: 12px;
+      background: var(--surface); border-radius: 50%; width: 20px; height: 20px;
+      display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow);
+    }
+
+    .list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .row {
+      display: flex; align-items: center; gap: 12px; text-align: left; width: 100%;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 10px 12px;
+      box-shadow: var(--shadow); transition: border-color .15s, transform .15s;
+    }
+    .row:hover { border-color: var(--primary); }
+    .row .app-icon { width: 44px; height: 44px; border-radius: 13px; font-size: 21px; flex-shrink: 0; }
+    .row-text { flex: 1; min-width: 0; }
+    .row-text b { display: block; font-size: 13.5px; font-weight: 700; }
+    .row-text small { display: block; font-size: 11.5px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .row-tag { font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 99px; background: var(--primary-soft); color: var(--primary); flex-shrink: 0; }
+
+    .empty { text-align: center; color: var(--text-3); padding: 30px 10px; display: none; }
+    .empty b { display: block; font-size: 15px; color: var(--text); margin: 6px 0 2px; }
+
+    /* ---------- Dock ---------- */
+    .dock-wrap {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 0 14px max(12px, env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, transparent, var(--bg-app) 35%);
+      pointer-events: none;
+    }
+    .dock {
+      pointer-events: auto;
+      display: flex; justify-content: space-around; align-items: center;
+      background: color-mix(in srgb, var(--surface) 85%, transparent);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border); border-radius: 26px; padding: 10px 8px;
+      box-shadow: 0 10px 30px rgba(15,23,42,.12);
+      min-height: 76px;
+    }
+    .dock .app-icon { width: 52px; height: 52px; border-radius: 16px; font-size: 24px; }
+    .dock-empty { font-size: 11.5px; color: var(--text-3); text-align: center; padding: 0 10px; }
+    .home-indicator { width: 120px; height: 4px; border-radius: 99px; background: var(--text); opacity: .25; margin: 8px auto 0; }
+
+    /* ---------- Bottom sheet ---------- */
+    .scrim {
+      position: absolute; inset: 0; background: var(--scrim); opacity: 0; pointer-events: none;
+      transition: opacity .2s; z-index: 20;
+    }
+    .scrim.show { opacity: 1; pointer-events: auto; }
+    .sheet {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 21;
+      background: var(--surface); border-radius: 24px 24px 0 0;
+      padding: 10px 18px max(18px, env(safe-area-inset-bottom));
+      transform: translateY(105%); transition: transform .28s cubic-bezier(.2,.9,.3,1);
+    }
+    .sheet.show { transform: none; }
+    .sheet-handle { width: 40px; height: 4px; border-radius: 99px; background: var(--border); margin: 0 auto 14px; }
+    .sheet-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+    .sheet-head .app-icon { width: 64px; height: 64px; border-radius: 20px; font-size: 30px; flex-shrink: 0; }
+    .sheet-head h3 { font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
+    .sheet-head small { color: var(--text-3); font-size: 12px; font-weight: 600; }
+    .sheet p { color: var(--text-2); font-size: 13.5px; line-height: 1.55; margin-bottom: 12px; }
+    .sheet-meta { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+    .sheet-meta span { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: var(--alt); color: var(--text-2); }
+    .sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .btn-full {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 12px; border-radius: 14px; font-weight: 700; font-size: 13.5px;
+      border: 1px solid var(--border); background: var(--surface); text-decoration: none; color: var(--text);
+    }
+    .btn-full.primary { grid-column: 1 / -1; background: var(--primary); border-color: var(--primary); color: #fff; }
+
+    /* ---------- In-phone app viewer ---------- */
+    .viewer {
+      position: absolute; inset: 0; z-index: 30; background: var(--bg-app);
+      display: flex; flex-direction: column;
+      transform: scale(.85); opacity: 0; pointer-events: none;
+      transition: transform .25s ease, opacity .2s ease;
+    }
+    .viewer.show { transform: none; opacity: 1; pointer-events: auto; }
+    .viewer-bar {
+      display: flex; align-items: center; gap: 8px; padding: max(10px, env(safe-area-inset-top)) 12px 8px;
+      border-bottom: 1px solid var(--border); background: var(--surface); flex-shrink: 0;
+    }
+    .viewer-bar .icon-btn { width: 34px; height: 34px; border-radius: 10px; font-size: 15px; box-shadow: none; }
+    .viewer-title { flex: 1; min-width: 0; font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .viewer iframe { flex: 1; width: 100%; border: none; background: #fff; }
+    .viewer-loading {
+      position: absolute; top: 56px; left: 0; right: 0; height: 3px; overflow: hidden;
+    }
+    .viewer-loading::after {
+      content: ''; display: block; height: 100%; width: 40%; background: var(--primary);
+      animation: load 1s ease-in-out infinite;
+    }
+    .viewer-loading.done { display: none; }
+    @keyframes load { from { transform: translateX(-100%); } to { transform: translateX(260%); } }
+
+    .toast {
+      position: absolute; left: 50%; bottom: 112px; transform: translateX(-50%) translateY(20px);
+      background: var(--text); color: var(--bg-app); padding: 8px 14px; border-radius: 12px;
+      font-size: 12.5px; font-weight: 600; opacity: 0; transition: all .2s; z-index: 40; pointer-events: none; white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%); }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    (function () {
+      var t = localStorage.getItem('wa_launcher_theme');
+      if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+
+  <div class="stage">
+    <!-- Panel penjelasan (khusus desktop) -->
+    <section class="intro" aria-label="Tentang launcher">
+      <span class="eyebrow">📱 Konsep Aplikasi</span>
+      <h1>Semua aplikasi mobile saya, dalam satu layar.</h1>
+      <p>WA Apps adalah konsep <i>launcher</i> bergaya home screen ponsel yang mengumpulkan seluruh proyek berukuran mobile: aplikasi harian, kalkulator teknik kabel, dan utilitas. Ketuk ikon untuk melihat detail, lalu buka langsung di dalam ponsel.</p>
+      <div class="intro-stats">
+        <div class="intro-stat"><b id="stat-total">0</b><span>Aplikasi</span></div>
+        <div class="intro-stat"><b id="stat-cats">0</b><span>Kategori</span></div>
+        <div class="intro-stat"><b id="stat-fav">0</b><span>Favorit</span></div>
+      </div>
+      <div class="intro-links">
+        <a class="btn-soft primary" href="./index.html">← Daftar Proyek</a>
+        <a class="btn-soft" href="https://github.com/williyanto/production" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </section>
+
+    <!-- Ponsel -->
+    <main class="phone" id="phone">
+      <div class="statusbar">
+        <span id="sb-time">09:41</span>
+        <span class="sb-icons">📶 <span id="sb-batt">🔋</span></span>
+      </div>
+
+      <div class="home" id="home">
+        <div class="hello">
+          <div class="hello-left">
+            <div class="avatar">WA</div>
+            <div>
+              <small id="greet">Selamat datang</small>
+              <strong>Williyanto Adi</strong>
+            </div>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="icon-btn" id="btn-view" title="Ubah tampilan grid / daftar" aria-label="Ubah tampilan">☰</button>
+            <button class="icon-btn" id="btn-theme" title="Ganti tema" aria-label="Ganti tema">🌙</button>
+          </div>
+        </div>
+
+        <label class="search">
+          <span aria-hidden="true">🔍</span>
+          <input type="search" id="search" placeholder="Cari aplikasi (servis, kabel, lembur)..." autocomplete="off">
+          <button class="search-clear" id="search-clear" aria-label="Hapus pencarian">✕</button>
+        </label>
+
+        <div class="chips" id="chips"></div>
+
+        <div class="widget" id="widget">
+          <div>
+            <div class="w-time" id="w-time">09:41</div>
+            <div class="w-date" id="w-date">Sabtu, 21 November 2026</div>
+          </div>
+          <div class="w-right">
+            <b id="w-count">0</b>
+            <span>aplikasi mobile</span>
+          </div>
+        </div>
+
+        <div id="recent-wrap" hidden>
+          <div class="section-title"><span>Terakhir dibuka</span><button id="clear-recent">Hapus</button></div>
+          <div class="grid" id="recent-grid"></div>
+        </div>
+
+        <div id="sections"></div>
+
+        <div class="empty" id="empty">
+          <div style="font-size:30px">🔎</div>
+          <b>Aplikasi tidak ditemukan</b>
+          Coba kata kunci lain atau pilih kategori "Semua".
+        </div>
+      </div>
+
+      <!-- Dock favorit -->
+      <div class="dock-wrap">
+        <div class="dock" id="dock"></div>
+        <div class="home-indicator"></div>
+      </div>
+
+      <!-- Bottom sheet detail -->
+      <div class="scrim" id="scrim"></div>
+      <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+        <div class="sheet-handle"></div>
+        <div class="sheet-head">
+          <div class="app-icon" id="sheet-icon"></div>
+          <div>
+            <h3 id="sheet-title">Nama</h3>
+            <small id="sheet-cat">Kategori</small>
+          </div>
+        </div>
+        <p id="sheet-desc"></p>
+        <div class="sheet-meta" id="sheet-meta"></div>
+        <div class="sheet-actions">
+          <button class="btn-full primary" id="sheet-open">Buka Aplikasi</button>
+          <button class="btn-full" id="sheet-fav">☆ Favorit</button>
+          <a class="btn-full" id="sheet-tab" href="#" target="_blank" rel="noopener">↗ Tab Baru</a>
+        </div>
+      </div>
+
+      <!-- Viewer aplikasi di dalam ponsel -->
+      <div class="viewer" id="viewer" aria-hidden="true">
+        <div class="viewer-bar">
+          <button class="icon-btn" id="viewer-back" aria-label="Kembali ke beranda">←</button>
+          <div class="viewer-title" id="viewer-title">Aplikasi</div>
+          <button class="icon-btn" id="viewer-reload" aria-label="Muat ulang">⟳</button>
+          <a class="icon-btn" id="viewer-tab" href="#" target="_blank" rel="noopener" aria-label="Buka di tab baru" style="text-decoration:none">↗</a>
+        </div>
+        <div class="viewer-loading" id="viewer-loading"></div>
+        <iframe id="viewer-frame" title="Aplikasi" loading="lazy"></iframe>
+      </div>
+
+      <div class="toast" id="toast"></div>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // Hanya proyek dengan tata letak resolusi mobile (mobile shell / kontainer max-w-md)
+      const APPS = [
+        // Aplikasi Harian (mobile shell)
+        { id: 'servisin', name: 'Servis.In', icon: '🏍️', color: ['#8B5CF6', '#6D28D9'], cat: 'Aplikasi Harian', href: './Servis.In/index.html', desc: 'Manajemen perawatan kendaraan: pengingat oli, servis & sparepart berbasis odometer atau waktu, dokumen STNK, statistik biaya, dan multi-akun.' },
+        { id: 'berkasin', name: 'Berkas.In', icon: '🗄️', color: ['#38BDF8', '#2563EB'], cat: 'Aplikasi Harian', href: './Berkas.In/index.html', desc: 'Manajemen arsip & berkas fisik terstruktur per lemari dan lokasi penyimpanan, lengkap dengan status berkas aktif.' },
+        { id: 'bersihin', name: 'Bersih.In', icon: '🧹', color: ['#34D399', '#059669'], cat: 'Aplikasi Harian', href: './Bersih.In/index.html', desc: 'Pengingat aktivitas kebersihan rumah terjadwal, streak harian, notifikasi, dan multi-profil rumah.' },
+        { id: 'workfolio', name: 'WorkFolio', icon: '💼', color: ['#F59E0B', '#D97706'], cat: 'Aplikasi Harian', href: './WorkFolio/index.html', desc: 'Timeline rekam jejak kerja, kalender aktivitas, ekspor laporan bulanan, dan pemantauan lembur mingguan.' },
+
+        // Kabel & Teknik
+        { id: 'hambatan', name: 'Hambatan Konduktor', icon: '⚡', color: ['#60A5FA', '#1D4ED8'], cat: 'Kabel & Teknik', href: './kalkulator_hambatan_kabel/iec_final_v20261104.html', desc: 'Perhitungan hambatan konduktor kabel multi-standar (IEC 60228, ICEA, AS/NZS, SPLN, BS EN).' },
+        { id: 'drum', name: 'Drum Kabel', icon: '🛢️', color: ['#FB923C', '#C2410C'], cat: 'Kabel & Teknik', href: './kalkulator_drum_kabel_v20261104.html', desc: 'Estimasi kapasitas panjang kabel pada drum berdasarkan dimensi drum dan diameter kabel.' },
+        { id: 'ircapscr', name: 'IR · Cap · SCR', icon: '🧮', color: ['#A78BFA', '#7C3AED'], cat: 'Kabel & Teknik', href: './kalkulator_ircapscr_v20261109.html', desc: 'Kalkulator resistansi isolasi, kapasitansi, dan parameter SCR untuk pengujian kabel.' },
+        { id: 'withstand', name: 'Withstand Test', icon: '🔌', color: ['#F87171', '#B91C1C'], cat: 'Kabel & Teknik', href: './kalkulator_withstand_v20261115.html', desc: 'Kalkulator tegangan uji withstand (AC/DC) sesuai standar pengujian kabel.' },
+        { id: 'spekir', name: 'Spek IR', icon: '📏', color: ['#2DD4BF', '#0F766E'], cat: 'Kabel & Teknik', href: './spek_ir_v20261115.html', desc: 'Referensi dan perhitungan spesifikasi insulation resistance minimum kabel.' },
+        { id: 'suhu', name: 'Koreksi Suhu', icon: '🌡️', color: ['#FDA4AF', '#E11D48'], cat: 'Kabel & Teknik', href: './faktor_koreksi_suhu_v20261115.html', desc: 'Faktor koreksi suhu untuk normalisasi hasil pengukuran resistansi konduktor.' },
+        { id: 'flame', name: 'Flame Retardant', icon: '🔥', color: ['#FBBF24', '#EA580C'], cat: 'Kabel & Teknik', href: './flame_retardant_v20261104.html', desc: 'Kalkulator kebutuhan material untuk pengujian sifat tahan api (flame retardant) kabel.' },
+        { id: 'wireweight', name: 'Berat Kawat', icon: '⚖️', color: ['#94A3B8', '#475569'], cat: 'Kabel & Teknik', href: './wire_weight_calculation_v20261104.html', desc: 'Perhitungan berat kawat / konduktor berdasarkan material, diameter, dan panjang.' },
+        { id: 'slice', name: 'Slice Calc', icon: '🔪', color: ['#C084FC', '#9333EA'], cat: 'Kabel & Teknik', href: './slice_calculation_v20261104.html', desc: 'Perhitungan sampel irisan (slice) untuk pengukuran ketebalan isolasi dan selubung.' },
+        { id: 'rewind', name: 'Waktu Rewind', icon: '🔄', color: ['#4ADE80', '#15803D'], cat: 'Kabel & Teknik', href: './hitung_waktu_rewind_v20261104.html', desc: 'Estimasi waktu proses rewind kabel berdasarkan panjang dan kecepatan mesin.' },
+        { id: 'satuan', name: 'Konverter Satuan', icon: '🔁', color: ['#22D3EE', '#0369A1'], cat: 'Kabel & Teknik', href: './konverter_satuan_teknik_v20261115.html', desc: 'Konversi satuan teknik: panjang, luas, massa, tekanan, suhu, dan lainnya.' },
+        { id: 'bending', name: 'Uji Bending', icon: '🌀', color: ['#F472B6', '#BE185D'], cat: 'Kabel & Teknik', href: './uji_bending_v20261031.html', desc: 'Kalkulator parameter uji bending (diameter mandrel & jumlah lilitan) untuk material kabel.' },
+
+        // Utilitas
+        { id: 'waktu', name: 'Kalkulator Waktu', icon: '⏱️', color: ['#818CF8', '#4338CA'], cat: 'Utilitas', href: './kalkulator_waktu_v20261031.html', desc: 'Penjumlahan dan pengurangan durasi waktu (jam, menit, detik) dengan cepat.' },
+        { id: 'rata', name: 'Rata-rata', icon: '📊', color: ['#34D399', '#047857'], cat: 'Utilitas', href: './pencari_rata_rata_v20261116.html', desc: 'Pencari nilai rata-rata, minimum, maksimum dari sekumpulan data.' },
+        { id: 'persen', name: 'Hitung Persen', icon: '％', color: ['#F9A8D4', '#DB2777'], cat: 'Utilitas', href: './hitung_persen_v20261031.html', desc: 'Kalkulator persentase: diskon, kenaikan, selisih, dan porsi nilai.' },
+        { id: 'lembur', name: 'Hitung Lembur', icon: '🕒', color: ['#FCD34D', '#B45309'], cat: 'Utilitas', href: './hitung_lembur_v20261031.html', desc: 'Perhitungan upah lembur sesuai aturan jam kerja dan upah per jam.' },
+        { id: 'generator', name: 'Generator Angka', icon: '🎲', color: ['#A5B4FC', '#6366F1'], cat: 'Utilitas', href: './generator_angka_v20261104.html', desc: 'Pembuat angka acak dengan rentang dan jumlah yang dapat diatur.' },
+        { id: 'trip', name: 'Trip Planner', icon: '🗺️', color: ['#5EEAD4', '#0D9488'], cat: 'Utilitas', href: './trip_planner_v20261117.html', desc: 'Perencana perjalanan: estimasi jarak, BBM, biaya, dan waktu tempuh.' }
+      ];
+
+      const $ = (id) => document.getElementById(id);
+      const LS_FAV = 'wa_launcher_fav';
+      const LS_RECENT = 'wa_launcher_recent';
+      const LS_VIEW = 'wa_launcher_view';
+      const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } };
+      const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+
+      let favs = load(LS_FAV, ['servisin', 'berkasin', 'bersihin', 'workfolio']);
+      let recent = load(LS_RECENT, []);
+      let view = load(LS_VIEW, 'grid');
+      let activeCat = 'Semua';
+      let query = '';
+      let current = null;
+
+      const CATS = ['Semua', 'Favorit', ...new Set(APPS.map(a => a.cat))];
+      const byId = (id) => APPS.find(a => a.id === id);
+      const iconStyle = (a) => `background: linear-gradient(135deg, ${a.color[0]}, ${a.color[1]});`;
+      const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+      function appTile(a, i) {
+        return `<button class="app" data-id="${a.id}" style="animation-delay:${Math.min(i, 16) * 18}ms" aria-label="${esc(a.name)}">
+          <span class="app-icon" style="${iconStyle(a)}">${a.icon}${favs.includes(a.id) ? '<span class="fav-dot">⭐</span>' : ''}</span>
+          <span class="app-name">${esc(a.name)}</span>
+        </button>`;
+      }
+
+      function appRow(a) {
+        return `<button class="row" data-id="${a.id}">
+          <span class="app-icon" style="${iconStyle(a)}">${a.icon}</span>
+          <span class="row-text"><b>${esc(a.name)}${favs.includes(a.id) ? ' ⭐' : ''}</b><small>${esc(a.desc)}</small></span>
+          <span class="row-tag">${esc(a.cat.split(' ')[0])}</span>
+        </button>`;
+      }
+
+      function renderChips() {
+        $('chips').innerHTML = CATS.map(c =>
+          `<button class="chip ${c === activeCat ? 'active' : ''}" data-cat="${esc(c)}">${c === 'Favorit' ? '⭐ ' : ''}${esc(c)}</button>`
+        ).join('');
+      }
+
+      function filtered() {
+        const q = query.trim().toLowerCase();
+        return APPS.filter(a => {
+          if (activeCat === 'Favorit' && !favs.includes(a.id)) return false;
+          if (activeCat !== 'Semua' && activeCat !== 'Favorit' && a.cat !== activeCat) return false;
+          if (q && !(a.name + ' ' + a.desc + ' ' + a.cat).toLowerCase().includes(q)) return false;
+          return true;
+        });
+      }
+
+      function renderSections() {
+        const list = filtered();
+        const groups = {};
+        list.forEach(a => { (groups[a.cat] = groups[a.cat] || []).push(a); });
+        let i = 0;
+        $('sections').innerHTML = Object.keys(groups).map(cat => `
+          <div class="section-title"><span>${esc(cat)}</span><span>${groups[cat].length}</span></div>
+          <div class="${view === 'grid' ? 'grid' : 'list'}">
+            ${groups[cat].map(a => view === 'grid' ? appTile(a, i++) : appRow(a)).join('')}
+          </div>`).join('');
+        $('empty').style.display = list.length ? 'none' : 'block';
+        $('btn-view').textContent = view === 'grid' ? '☰' : '▦';
+        $('widget').style.display = query || activeCat !== 'Semua' ? 'none' : '';
+      }
+
+      function renderRecent() {
+        const items = recent.map(byId).filter(Boolean).slice(0, 4);
+        const show = items.length && !query && activeCat === 'Semua';
+        $('recent-wrap').hidden = !show;
+        $('recent-grid').innerHTML = items.map(appTile).join('');
+      }
+
+      function renderDock() {
+        const items = favs.map(byId).filter(Boolean).slice(0, 5);
+        $('dock').innerHTML = items.length
+          ? items.map(a => `<button class="app" data-id="${a.id}" aria-label="${esc(a.name)}"><span class="app-icon" style="${iconStyle(a)}">${a.icon}</span></button>`).join('')
+          : '<span class="dock-empty">Tandai aplikasi sebagai ⭐ Favorit agar muncul di dock.</span>';
+      }
+
+      function renderStats() {
+        $('stat-total').textContent = APPS.length;
+        $('stat-cats').textContent = CATS.length - 2;
+        $('stat-fav').textContent = favs.length;
+        $('w-count').textContent = APPS.length;
+      }
+
+      function renderAll() {
+        renderChips(); renderRecent(); renderSections(); renderDock(); renderStats();
+      }
+
+      // ---------- Sheet ----------
+      function openSheet(a) {
+        current = a;
+        $('sheet-icon').style.cssText = iconStyle(a);
+        $('sheet-icon').textContent = a.icon;
+        $('sheet-title').textContent = a.name;
+        $('sheet-cat').textContent = a.cat;
+        $('sheet-desc').textContent = a.desc;
+        const file = a.href.split('/').pop();
+        const ver = (file.match(/v(\d{8})/) || [])[1];
+        $('sheet-meta').innerHTML = [
+          '📱 Resolusi Mobile',
+          ver ? `🗓️ v${ver}` : '🧩 Multi-halaman',
+          '✅ Aktif'
+        ].map(t => `<span>${t}</span>`).join('');
+        $('sheet-fav').textContent = favs.includes(a.id) ? '★ Hapus Favorit' : '☆ Favorit';
+        $('sheet-tab').href = a.href;
+        $('scrim').classList.add('show');
+        $('sheet').classList.add('show');
+      }
+      function closeSheet() {
+        $('scrim').classList.remove('show');
+        $('sheet').classList.remove('show');
+      }
+
+      // ---------- Viewer ----------
+      const isSmallScreen = () => window.matchMedia('(max-width: 499px)').matches;
+
+      function openApp(a) {
+        recent = [a.id, ...recent.filter(x => x !== a.id)].slice(0, 8);
+        save(LS_RECENT, recent);
+        closeSheet();
+        // Di ponsel asli: buka langsung (layar penuh). Di desktop: buka di dalam bingkai ponsel.
+        if (isSmallScreen()) {
+          window.location.href = a.href;
+          return;
+        }
+        $('viewer-title').textContent = a.name;
+        $('viewer-tab').href = a.href;
+        $('viewer-loading').classList.remove('done');
+        $('viewer-frame').src = a.href;
+        $('viewer').classList.add('show');
+        $('viewer').setAttribute('aria-hidden', 'false');
+        renderRecent();
+      }
+      function closeApp() {
+        $('viewer').classList.remove('show');
+        $('viewer').setAttribute('aria-hidden', 'true');
+        setTimeout(() => { if (!$('viewer').classList.contains('show')) $('viewer-frame').src = 'about:blank'; }, 300);
+      }
+
+      function toast(msg) {
+        const t = $('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => t.classList.remove('show'), 1800);
+      }
+
+      // ---------- Events ----------
+      document.addEventListener('click', (e) => {
+        const app = e.target.closest('[data-id]');
+        if (app) { const a = byId(app.dataset.id); if (a) openSheet(a); return; }
+        const chip = e.target.closest('.chip');
+        if (chip) { activeCat = chip.dataset.cat; renderAll(); }
+      });
+
+      $('scrim').addEventListener('click', closeSheet);
+      $('sheet-open').addEventListener('click', () => current && openApp(current));
+      $('sheet-fav').addEventListener('click', () => {
+        if (!current) return;
+        const on = favs.includes(current.id);
+        favs = on ? favs.filter(x => x !== current.id) : [...favs, current.id];
+        save(LS_FAV, favs);
+        $('sheet-fav').textContent = on ? '☆ Favorit' : '★ Hapus Favorit';
+        toast(on ? `${current.name} dihapus dari favorit` : `${current.name} ditambahkan ke dock ⭐`);
+        renderAll();
+      });
+
+      $('viewer-back').addEventListener('click', closeApp);
+      $('viewer-reload').addEventListener('click', () => {
+        $('viewer-loading').classList.remove('done');
+        $('viewer-frame').src = $('viewer-frame').src;
+      });
+      $('viewer-frame').addEventListener('load', () => $('viewer-loading').classList.add('done'));
+
+      $('search').addEventListener('input', (e) => {
+        query = e.target.value;
+        $('search-clear').style.display = query ? 'block' : 'none';
+        renderRecent(); renderSections();
+      });
+      $('search-clear').addEventListener('click', (e) => {
+        e.preventDefault();
+        query = ''; $('search').value = '';
+        $('search-clear').style.display = 'none';
+        renderRecent(); renderSections();
+      });
+
+      $('btn-view').addEventListener('click', () => {
+        view = view === 'grid' ? 'list' : 'grid';
+        save(LS_VIEW, view);
+        renderSections();
+      });
+
+      $('btn-theme').addEventListener('click', () => {
+        const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (dark) document.documentElement.removeAttribute('data-theme');
+        else document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('wa_launcher_theme', dark ? 'light' : 'dark');
+        $('btn-theme').textContent = dark ? '🌙' : '☀️';
+      });
+      $('btn-theme').textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+
+      $('clear-recent').addEventListener('click', () => {
+        recent = []; save(LS_RECENT, recent); renderRecent();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        if ($('viewer').classList.contains('show')) closeApp();
+        else closeSheet();
+      });
+
+      // ---------- Jam & sapaan ----------
+      function tick() {
+        const now = new Date();
+        const hm = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
+        $('sb-time').textContent = hm;
+        $('w-time').textContent = hm;
+        $('w-date').textContent = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        const h = now.getHours();
+        $('greet').textContent = h < 11 ? 'Selamat pagi ☀️' : h < 15 ? 'Selamat siang 🌤️' : h < 18 ? 'Selamat sore 🌇' : 'Selamat malam 🌙';
+      }
+      tick();
+      setInterval(tick, 15000);
+
+      if (navigator.getBattery) {
+        navigator.getBattery().then(b => {
+          const upd = () => { $('sb-batt').textContent = `🔋 ${Math.round(b.level * 100)}%`; };
+          upd(); b.addEventListener('levelchange', upd);
+        }).catch(() => {});
+      }
+
+      renderAll();
+    })();
+  </script>
+</body>
+</html>
