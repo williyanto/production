@@ -1699,6 +1699,11 @@ class EduGameApp {
     localStorage.setItem('edu_clown_duration', sec.toString());
   }
 
+  setAutoNextSeconds(sec) {
+    this.autoNextSeconds = Math.max(0, Math.min(30, parseInt(sec, 10) || 0));
+    localStorage.setItem('edu_auto_next_sec', this.autoNextSeconds.toString());
+  }
+
   setClownModel(modelId) {
     this.clownModel = modelId;
     localStorage.setItem('edu_clown_model', modelId);
@@ -1728,8 +1733,8 @@ class EduGameApp {
       const card = document.createElement('div');
       card.className = `clown-model-card ${this.clownModel === clown.id ? 'active' : ''}`;
       card.innerHTML = `
-        <div class="clown-card-avatar" style="background: ${clown.bgColor};">🤡</div>
-        <div class="clown-card-name">${clown.name.split(' ')[1] || clown.name}</div>
+        <div class="clown-card-avatar" style="background: ${clown.bgColor};">${clown.icon || '🤡'}</div>
+        <div class="clown-card-name">${clown.name.split(' ')[0]} ${clown.name.split(' ')[1] || ''}</div>
         <div class="clown-card-badge">${clown.role.split('&')[0]}</div>
       `;
       card.addEventListener('click', () => {
@@ -2007,6 +2012,7 @@ class EduGameApp {
   }
 
   renderClownOnStage(clownObj) {
+    this.dom.clownSvgStage.className = 'clown-animated-character ' + (clownObj.animClass || '');
     this.dom.clownSvgStage.innerHTML = clownObj.svg;
   }
 
