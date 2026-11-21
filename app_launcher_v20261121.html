@@ -457,6 +457,15 @@
           <button type="button" class="chips-nav" id="chips-next" aria-label="Kategori berikutnya">›</button>
         </div>
 
+        <div class="sort-bar" id="sort-bar">
+          <span class="sort-label">Urutkan:</span>
+          <div class="sort-pills">
+            <button type="button" class="sort-pill active" data-sort="category">Kategori</button>
+            <button type="button" class="sort-pill" data-sort="az">Alfabet (A–Z)</button>
+            <button type="button" class="sort-pill" data-sort="frequent">Sering Dibuka</button>
+          </div>
+        </div>
+
         <div id="recent-wrap" hidden>
           <div class="section-title"><span>Terakhir dibuka</span><button id="clear-recent">Hapus</button></div>
           <div class="grid" id="recent-grid"></div>
@@ -527,6 +536,7 @@
           <div class="viewer-app-strip">
             <span class="dot" aria-hidden="true"></span>
             <span class="viewer-title" id="viewer-title">Aplikasi</span>
+            <button type="button" class="viewer-full-btn" id="viewer-full-btn" title="Mode Layar Penuh">⛶ Penuh</button>
           </div>
           <div class="viewer-nav">
             <button type="button" class="vnav-btn" id="viewer-back" aria-label="Kembali">
