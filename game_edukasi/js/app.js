@@ -302,6 +302,15 @@ class EduGameApp {
       btn.addEventListener('click', () => this.useHint());
     });
 
+    // Tombol Kembali ke Menu Utama di setiap halaman permainan
+    document.querySelectorAll('.btn-back-menu').forEach(btn => {
+      btn.addEventListener('click', () => {
+        soundEngine.playClick();
+        this.clearAutoAdvance();
+        this.switchScreen('menu');
+      });
+    });
+
     // Mode Warna & Bentuk
     if (this.dom.cardShapes) {
       this.dom.cardShapes.addEventListener('click', () => {
