@@ -42,6 +42,9 @@ class EduGameApp {
     // Warna & Bentuk state
     this.shapesTarget = null;
 
+    // Penjumlahan state
+    this.additionState = null;
+
     // Petunjuk (hint) & rapor belajar
     this.hintCooldown = false;
     this.stats = this.loadStats();
@@ -175,6 +178,18 @@ class EduGameApp {
       btnSpeakShapes: document.getElementById('btn-speak-shapes'),
       btnRefreshShapes: document.getElementById('btn-refresh-shapes'),
 
+      // Penjumlahan
+      screenAddition: document.getElementById('screen-addition'),
+      cardAddition: document.getElementById('mode-card-addition'),
+      additionPrompt: document.getElementById('addition-prompt'),
+      addNumA: document.getElementById('add-num-a'),
+      addNumB: document.getElementById('add-num-b'),
+      additionGroupA: document.getElementById('addition-group-a'),
+      additionGroupB: document.getElementById('addition-group-b'),
+      additionOptions: document.getElementById('addition-options'),
+      btnSpeakAddition: document.getElementById('btn-speak-addition'),
+      btnRefreshAddition: document.getElementById('btn-refresh-addition'),
+
       // Progres menu
       menuProgressLabel: document.getElementById('menu-progress-label'),
       menuProgressFill: document.getElementById('menu-progress-fill')
@@ -298,6 +313,26 @@ class EduGameApp {
       this.dom.btnRefreshShapes.addEventListener('click', () => {
         soundEngine.playClick();
         this.loadShapesRound();
+      });
+    }
+
+    // Mode Penjumlahan
+    if (this.dom.cardAddition) {
+      this.dom.cardAddition.addEventListener('click', () => {
+        soundEngine.playPop();
+        this.startAdditionMode();
+      });
+    }
+    if (this.dom.btnSpeakAddition) {
+      this.dom.btnSpeakAddition.addEventListener('click', () => {
+        soundEngine.playClick();
+        if (this.additionState) soundEngine.speak(this.getAdditionPromptText());
+      });
+    }
+    if (this.dom.btnRefreshAddition) {
+      this.dom.btnRefreshAddition.addEventListener('click', () => {
+        soundEngine.playClick();
+        this.loadAdditionRound();
       });
     }
 
@@ -558,6 +593,11 @@ class EduGameApp {
           if (numberData.options.includes(digit)) {
             this.handleNumberChoice(digit, numberData.number);
           }
+        }
+      } else if (this.currentMode === 'addition' && this.additionState) {
+        const digit = e.key === '0' ? 10 : parseInt(e.key, 10);
+        if (!isNaN(digit) && this.additionState.options.includes(digit)) {
+          this.handleAdditionChoice(digit, this.additionState.sum);
         }
       }
     });
