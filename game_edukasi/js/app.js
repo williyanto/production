@@ -138,6 +138,7 @@ class EduGameApp {
       celebrationTitle: document.getElementById('celebration-title'),
       celebrationMessage: document.getElementById('celebration-message'),
       btnCelebrationNext: document.getElementById('btn-celebration-next'),
+      btnCelebrationNextLabel: document.getElementById('btn-celebration-next-label'),
       btnCelebrationHome: document.getElementById('btn-celebration-home'),
 
       // Settings Screen Elements
