@@ -746,6 +746,20 @@
         document.querySelectorAll('[data-sort]').forEach(b => {
           b.classList.toggle('active', b.dataset.sort === sortBy);
         });
+        if ($('sort-btn')) $('sort-btn').classList.toggle('filtered', sortBy !== 'category');
+      }
+
+      function openAboutSheet(fromPop = false) {
+        if (!fromPop && !$('about-sheet').classList.contains('show')) pushLayer('about');
+        $('scrim').classList.add('show');
+        $('about-sheet').classList.add('show');
+      }
+
+      function closeAboutSheet() {
+        $('about-sheet').classList.remove('show');
+        if (!$('sheet').classList.contains('show') && !$('dock-sheet').classList.contains('show')) {
+          $('scrim').classList.remove('show');
+        }
       }
 
       function sortList(arr) {
