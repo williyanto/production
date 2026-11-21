@@ -290,10 +290,10 @@ html, body {
 
 .mode-cards-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(12px, 1.6vw, 20px);
+  grid-template-columns: repeat(5, 1fr);
+  gap: clamp(10px, 1.3vw, 16px);
   width: 100%;
-  max-width: 1040px;
+  max-width: 1080px;
   margin: 4px 0;
 }
 
