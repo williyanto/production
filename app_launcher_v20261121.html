@@ -107,7 +107,7 @@
     @media (max-width: 499px) {
       .hello { padding: max(10px, env(safe-area-inset-top)) 10px 8px; }
       .home { padding: 10px 10px 106px; }
-      .chips { margin: 0 -10px 12px; padding: 0 10px; }
+      .chips-bar { margin-bottom: 12px; }
       .grid { gap: 12px 4px; }
       .dock-wrap { padding: 0 8px max(10px, env(safe-area-inset-bottom)); }
       .dock { padding: 8px 6px; border-radius: 22px; min-height: 70px; }
@@ -154,8 +154,24 @@
     .search input::placeholder { color: var(--text-3); }
     .search-clear { color: var(--text-3); font-size: 15px; display: none; }
 
-    .chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px 14px; padding: 0 16px; }
+    .chips-bar {
+      display: flex; align-items: center; gap: 6px; margin-bottom: 14px;
+    }
+    .chips {
+      flex: 1; min-width: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+      scroll-behavior: smooth; padding: 2px 0;
+    }
     .chips::-webkit-scrollbar { display: none; }
+    .chips-nav {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text-2);
+      font-size: 13px; font-weight: 800; box-shadow: var(--shadow);
+      transition: opacity .15s, background .15s, color .15s;
+    }
+    .chips-nav:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); background: var(--primary-soft); }
+    .chips-nav:disabled { opacity: .28; cursor: default; box-shadow: none; }
+    .chips-nav[hidden] { display: none; }
     .chip {
       flex-shrink: 0; padding: 6px 12px; border-radius: 99px; font-size: 12px; font-weight: 600;
       background: var(--surface); border: 1px solid var(--border); color: var(--text-2);
@@ -450,7 +466,11 @@
           <button class="search-clear" id="search-clear" aria-label="Hapus pencarian">✕</button>
         </label>
 
-        <div class="chips" id="chips"></div>
+        <div class="chips-bar">
+          <button type="button" class="chips-nav" id="chips-prev" aria-label="Kategori sebelumnya">‹</button>
+          <div class="chips" id="chips"></div>
+          <button type="button" class="chips-nav" id="chips-next" aria-label="Kategori berikutnya">›</button>
+        </div>
 
         <div class="ux-hint">💡 Ketuk 1x untuk buka · Tahan ikon untuk detail &amp; favorit</div>
 
@@ -642,10 +662,25 @@
         </div>`;
       }
 
+      function updateChipsNav() {
+        const el = $('chips');
+        const prev = $('chips-prev');
+        const next = $('chips-next');
+        if (!el || !prev || !next) return;
+        const canScroll = el.scrollWidth - el.clientWidth > 4;
+        prev.hidden = !canScroll;
+        next.hidden = !canScroll;
+        if (canScroll) {
+          prev.disabled = el.scrollLeft <= 2;
+          next.disabled = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2;
+        }
+      }
+
       function renderChips() {
         $('chips').innerHTML = CATS.map(c =>
           `<button class="chip ${c === activeCat ? 'active' : ''}" data-cat="${esc(c)}">${c === 'Favorit' ? '⭐ ' : ''}${esc(c)}</button>`
         ).join('');
+        requestAnimationFrame(updateChipsNav);
       }
 
       function filtered() {
