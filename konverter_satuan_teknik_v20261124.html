@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konverter Satuan Teknik v20261115</title>
+    <title>Konverter Satuan Teknik v20261124</title>
     <link rel="icon" type="image/png" href="./icons/williyanto_logo_rounded.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -146,30 +146,54 @@
         </div>
 
         <!-- Category Tabs -->
-        <div class="mt-2.5 p-1 bg-slate-100/90 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 rounded-2xl grid grid-cols-4 gap-1 text-center" role="tablist" aria-label="Kategori Konversi">
-            <button type="button" data-cat="length" class="cat-tab-btn active py-1.5 px-1.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight">
+        <div class="mt-2.5 p-1 bg-slate-100/90 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 rounded-2xl flex flex-wrap gap-1 text-center" role="tablist" aria-label="Kategori Konversi">
+            <button type="button" data-cat="length" class="cat-tab-btn active flex-auto py-1.5 px-2.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight whitespace-nowrap">
                 <svg class="w-3.5 h-3.5 shrink-0 hidden sm:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                 </svg>
                 <span>Panjang</span>
             </button>
-            <button type="button" data-cat="pressure" class="cat-tab-btn py-1.5 px-1.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight">
+            <button type="button" data-cat="pressure" class="cat-tab-btn flex-auto py-1.5 px-2.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight whitespace-nowrap">
                 <svg class="w-3.5 h-3.5 shrink-0 hidden sm:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
                 <span>Tekanan</span>
             </button>
-            <button type="button" data-cat="force" class="cat-tab-btn py-1.5 px-1.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight">
+            <button type="button" data-cat="force" class="cat-tab-btn flex-auto py-1.5 px-2.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight whitespace-nowrap">
                 <svg class="w-3.5 h-3.5 shrink-0 hidden sm:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                 </svg>
                 <span>Massa/Gaya</span>
             </button>
-            <button type="button" data-cat="temperature" class="cat-tab-btn py-1.5 px-1.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight">
+            <button type="button" data-cat="temperature" class="cat-tab-btn flex-auto py-1.5 px-2.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight whitespace-nowrap">
                 <svg class="w-3.5 h-3.5 shrink-0 hidden sm:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z" />
                 </svg>
                 <span>Suhu</span>
+            </button>
+            <button type="button" data-cat="capacitance" class="cat-tab-btn flex-auto py-1.5 px-2.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight whitespace-nowrap">
+                <svg class="w-3.5 h-3.5 shrink-0 hidden sm:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 12h6m4 0h6M10 6v12m4-12v12" />
+                </svg>
+                <span>Kapasitansi</span>
+            </button>
+            <button type="button" data-cat="resistance" class="cat-tab-btn flex-auto py-1.5 px-2.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight whitespace-nowrap">
+                <svg class="w-3.5 h-3.5 shrink-0 hidden sm:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h3l2-5 3 10 3-10 2 5h5" />
+                </svg>
+                <span>Tahanan</span>
+            </button>
+            <button type="button" data-cat="voltage" class="cat-tab-btn flex-auto py-1.5 px-2.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight whitespace-nowrap">
+                <span>Tegangan</span>
+            </button>
+            <button type="button" data-cat="dielectric" class="cat-tab-btn flex-auto py-1.5 px-2.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight whitespace-nowrap">
+                <span>Kuat Medan</span>
+            </button>
+            <button type="button" data-cat="inductance" class="cat-tab-btn flex-auto py-1.5 px-2.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight whitespace-nowrap">
+                <span>Induktansi</span>
+            </button>
+            <button type="button" data-cat="current" class="cat-tab-btn flex-auto py-1.5 px-2.5 text-[11px] font-bold flex items-center justify-center gap-1 leading-tight whitespace-nowrap">
+                <span>Arus Listrik</span>
             </button>
         </div>
 
@@ -403,6 +427,101 @@
                         { value: 'K', name: 'Kelvin', text: 'Kelvin (K)' },
                         { value: 'Re', name: 'Reamur', text: 'Reamur (°Ré)' },
                         { value: 'R', name: 'Rankine', text: 'Rankine (°R)' }
+                    ]
+                },
+                capacitance: {
+                    label: 'Kapasitansi',
+                    inputLabel: 'Nilai Kapasitansi Listrik',
+                    placeholder: 'Masukkan nilai kapasitansi (µF, nF, pF, F)...',
+                    emptyHint: 'Silahkan masukkan nilai kapasitansi dan pilih satuan.',
+                    defaultFrom: 'uF',
+                    defaultTo: 'nF',
+                    allowNegative: false,
+                    units: [
+                        { value: 'F', name: 'Farad', text: 'Farad (F)', factor: 1 },
+                        { value: 'mF', name: 'Milifarad', text: 'Milifarad (mF)', factor: 1e-3 },
+                        { value: 'uF', name: 'Mikrofarad', text: 'Mikrofarad (µF)', factor: 1e-6 },
+                        { value: 'nF', name: 'Nanofarad', text: 'Nanofarad (nF)', factor: 1e-9 },
+                        { value: 'pF', name: 'Pikofarad', text: 'Pikofarad (pF)', factor: 1e-12 }
+                    ]
+                },
+                resistance: {
+                    label: 'Tahanan Listrik',
+                    inputLabel: 'Nilai Tahanan (Hambatan) Listrik',
+                    placeholder: 'Masukkan nilai tahanan (Ω, kΩ, MΩ, mΩ)...',
+                    emptyHint: 'Silahkan masukkan nilai tahanan listrik dan pilih satuan.',
+                    defaultFrom: 'kOhm',
+                    defaultTo: 'Ohm',
+                    allowNegative: false,
+                    units: [
+                        { value: 'GOhm', name: 'Gigaohm', text: 'Gigaohm (GΩ)', factor: 1e9 },
+                        { value: 'MOhm', name: 'Megaohm', text: 'Megaohm (MΩ)', factor: 1e6 },
+                        { value: 'kOhm', name: 'Kiloohm', text: 'Kiloohm (kΩ)', factor: 1000 },
+                        { value: 'Ohm', name: 'Ohm', text: 'Ohm (Ω)', factor: 1 },
+                        { value: 'mOhm', name: 'Miliohm', text: 'Miliohm (mΩ)', factor: 1e-3 },
+                        { value: 'uOhm', name: 'Mikroohm', text: 'Mikroohm (µΩ)', factor: 1e-6 }
+                    ]
+                },
+                voltage: {
+                    label: 'Tegangan Listrik',
+                    inputLabel: 'Nilai Tegangan Listrik',
+                    placeholder: 'Masukkan nilai tegangan (V, kV, mV)...',
+                    emptyHint: 'Silahkan masukkan nilai tegangan listrik dan pilih satuan.',
+                    defaultFrom: 'kV',
+                    defaultTo: 'V',
+                    allowNegative: false,
+                    units: [
+                        { value: 'MV', name: 'Megavolt', text: 'Megavolt (MV)', factor: 1e6 },
+                        { value: 'kV', name: 'Kilovolt', text: 'Kilovolt (kV)', factor: 1000 },
+                        { value: 'V', name: 'Volt', text: 'Volt (V)', factor: 1 },
+                        { value: 'mV', name: 'Milivolt', text: 'Milivolt (mV)', factor: 1e-3 },
+                        { value: 'uV', name: 'Mikrovolt', text: 'Mikrovolt (µV)', factor: 1e-6 }
+                    ]
+                },
+                dielectric: {
+                    label: 'Kuat Medan / Dielectric Strength',
+                    inputLabel: 'Nilai Kuat Medan Dielektrik',
+                    placeholder: 'Masukkan nilai kuat medan (kV/mm, V/mil)...',
+                    emptyHint: 'Silahkan masukkan nilai kuat medan dielektrik dan pilih satuan.',
+                    defaultFrom: 'kV/mm',
+                    defaultTo: 'V/mil',
+                    allowNegative: false,
+                    units: [
+                        { value: 'MV/m', name: 'Megavolt/meter', text: 'Megavolt/meter (MV/m)', factor: 1e6 },
+                        { value: 'kV/mm', name: 'Kilovolt/mm', text: 'Kilovolt/mm (kV/mm)', factor: 1e6 },
+                        { value: 'kV/cm', name: 'Kilovolt/cm', text: 'Kilovolt/cm (kV/cm)', factor: 1e5 },
+                        { value: 'V/mil', name: 'Volt/mil', text: 'Volt/mil (V/mil)', factor: 39370.07874015748 },
+                        { value: 'V/mm', name: 'Volt/mm', text: 'Volt/mm (V/mm)', factor: 1000 }
+                    ]
+                },
+                inductance: {
+                    label: 'Induktansi',
+                    inputLabel: 'Nilai Induktansi Listrik',
+                    placeholder: 'Masukkan nilai induktansi (H, mH, µH, nH)...',
+                    emptyHint: 'Silahkan masukkan nilai induktansi dan pilih satuan.',
+                    defaultFrom: 'mH',
+                    defaultTo: 'uH',
+                    allowNegative: false,
+                    units: [
+                        { value: 'H', name: 'Henry', text: 'Henry (H)', factor: 1 },
+                        { value: 'mH', name: 'Milihenry', text: 'Milihenry (mH)', factor: 1e-3 },
+                        { value: 'uH', name: 'Mikrohenry', text: 'Mikrohenry (µH)', factor: 1e-6 },
+                        { value: 'nH', name: 'Nanohenry', text: 'Nanohenry (nH)', factor: 1e-9 }
+                    ]
+                },
+                current: {
+                    label: 'Arus Listrik',
+                    inputLabel: 'Nilai Arus Listrik',
+                    placeholder: 'Masukkan nilai arus (A, mA, µA, kA)...',
+                    emptyHint: 'Silahkan masukkan nilai arus listrik dan pilih satuan.',
+                    defaultFrom: 'A',
+                    defaultTo: 'mA',
+                    allowNegative: false,
+                    units: [
+                        { value: 'kA', name: 'Kiloampere', text: 'Kiloampere (kA)', factor: 1000 },
+                        { value: 'A', name: 'Ampere', text: 'Ampere (A)', factor: 1 },
+                        { value: 'mA', name: 'Miliampere', text: 'Miliampere (mA)', factor: 1e-3 },
+                        { value: 'uA', name: 'Mikroampere', text: 'Mikroampere (µA)', factor: 1e-6 }
                     ]
                 }
             };
